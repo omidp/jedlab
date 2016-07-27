@@ -1,0 +1,30 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:m="http://jboss.com/products/seam/mail"       
+    xmlns:h="http://java.sun.com/jsf/html"
+    charset="UTF-8">
+
+    <m:from name="Modern Proj Team" address="vata2999@yahoo.com" />
+
+    <m:to name="Omid P">#{registerAction.instance.email}</m:to>
+
+    <m:subject>مدرن پراج را امتحان کنید !</m:subject>
+
+    
+
+    <m:body>
+
+        <p><h:outputText value="Dear #{registerAction.instance.username}" />,</p>
+
+        <p>You can try out Seam by visiting 
+
+        </p>
+
+        <p>Regards,</p>
+
+        <p>Modern Proj Team</p>
+
+    </m:body>
+
+    
+
+</m:message>

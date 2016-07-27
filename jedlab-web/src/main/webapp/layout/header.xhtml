@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+	<div class="sixteen wide column">
+		<div class="ui menu">
+			<div id="preferencesDrp" class="left floated ui inline dropdown item">
+				<div class="text">
+					<h:graphicImage value="/images/no_photo.jpg" rendered="#{!userHome.currentUser.hasImage}"/>
+					<s:graphicImage styleClass="ui avatar image" alt="#{userHome.currentUser.userName} Profile Image" 
+						rendered="#{userHome.currentUser.hasImage}" value="#{userHome.userThumbnailImage}"></s:graphicImage>
+					<s:span><h:outputText value="#{userHome.currentUser.userName}" /></s:span>
+				</div>
+				<i class="dropdown icon"></i>
+				<div class="menu">					
+						<s:link propagation="none" includePageParams="false" styleClass="item" 
+							value="#{messages['User_Page']}"
+							view="/member/userEdit.xhtml">
+							<i class="icon-user-tie"></i>	
+						</s:link>
+				</div>
+			</div>
+			<div class="ui labeled icon menu" id="nav">
+				<a class="item"> <i class="icon-file-text"></i> 
+					<span>#{messages['Reports']}</span>
+				</a> 
+				<a class="item"> <i class="icon-bullhorn"></i> 
+				<span>#{messages['Notifications']}</span></a>
+				<a class="item"> <i class="icon-clock"></i> 
+				<span>#{messages['Timesheet']}</span></a>
+				
+				<s:link view="/member/team.xhtml"
+					styleClass="item" 
+					includePageParams="false" propagation="none">
+					<i class="icon-users"></i>
+					<span>#{messages['Team']}</span> 
+				</s:link>
+				
+				<s:link view="/member/dashboard.xhtml"
+					styleClass="item" 
+					includePageParams="false" propagation="none">
+					<i class="icon-home"></i>
+					<span>#{messages['Home']}</span> 
+				</s:link>
+			</div>
+			<div class="right menu">
+				<div id="settingsDrp" class="right floated ui inline dropdown item">
+					<div class="text">
+						#{messages['Settings']} 
+					</div>
+					<i class="icon-cogs"></i>
+					<div class="menu locale-text-align">
+						<s:link value="#{messages['Logout']}" 
+								includePageParams="false" 
+								action="#{identity.logout()}" propagation="none" styleClass="item">
+							<i class="icon-switch"></i> 		
+						</s:link>
+							 
+					</div>
+				</div>
+				<div class="item">
+					<s:link view="/member/dashboard.xhtml" includePageParams="false" propagation="none">
+						<h:graphicImage value="/images/logo_header.jpg" alt="#{messages['Tasktops']}}"/>
+					</s:link>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery("#preferencesDrp").dropdown();
+			jQuery("#settingsDrp").dropdown();
+		});
+	</script>
+
+</ui:composition>

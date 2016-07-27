@@ -1,0 +1,193 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:o="http://openfaces.org/"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+
+
+
+		<div class="eight wide column locale-dir" style="min-height: 550px;" id="profilePanel">
+
+			<h3 class="ui block header">#{messages['Profile_Information']}</h3>
+			<div class="ui borderless segment">
+				<div class="ui top right attached label">
+					<h:outputText value="#{userHome.currentUser.userName}" />
+				</div>
+				<div class="avatar-wrapper">
+					<div class="avatar">
+						<h:form enctype="multipart/form-data" id="profileImageForm">
+							<div class="ui top left attached red label" id="delImage"
+								style="cursor: pointer;"
+								data-content="#{messages['Delete_Image']}">
+								<i class="icon-cancel-circle" />
+							</div>
+							<a id="imgLink" class="ui centered medium image"
+								style="cursor: pointer;"> <s:fragment
+									rendered="#{!userHome.currentUser.hasImage}">
+									<h:graphicImage value="/images/image-text.png" />
+
+								</s:fragment> <s:graphicImage value="#{userHome.currentUser.image}"
+									rendered="#{userHome.currentUser.hasImage}">
+									<s:transformImageSize height="164" width="164"></s:transformImageSize>
+								</s:graphicImage>
+
+							</a>
+							<a id="change-picture">#{messages['Change_Picture']}</a>
+							<div style="display: none;">
+								<s:fileUpload id="file" data="#{userHome.user.image}"
+									onchange="onUploaderChange();" accept="images/*"
+									fileSize="#{userHome.fileSize}" />
+								<o:commandButton action="#{userHome.update()}"
+									value="#{messages['Update']}" id="btnImageUpdate"
+									styleClass="ui primary button"></o:commandButton>
+							</div>
+						</h:form>
+					</div>
+				</div>
+
+				<h:form id="profileForm" styleClass="ui fluid form"
+					style="margin-top:12px;">
+
+					<s:decorate id="emailField" template="/layout/edit.xhtml">
+						<h:inputText value="#{userHome.user.email}" required="true" />
+						<ui:define name="label">
+							<s:label>#{messages['Email']}</s:label>
+						</ui:define>
+					</s:decorate>
+
+
+					<div class="actionButtons">
+						<o:commandButton action="#{userHome.update()}"
+							value="#{messages['Update']}" id="btnUpdate"
+							styleClass="ui primary button">
+							</o:commandButton>
+					</div>
+				</h:form>
+
+			</div>
+		</div>
+
+
+		<div class="eight wide column locale-dir" style="min-height: 550px;" id="changePasswordPanel">
+
+			<h3 class="ui block header">#{messages['Change_Password']}</h3>
+			<div class="ui borderless segment">
+
+
+				<s:decorate id="currentPassField" template="/layout/edit.xhtml">
+					<h:inputSecret id="currentPassInp"
+						required="true" />
+					<ui:define name="label">
+						<s:label>#{messages['Current_Password']}</s:label>
+					</ui:define>
+				</s:decorate>
+
+				<s:decorate id="NewPassField" template="/layout/edit.xhtml">
+					<h:inputSecret id="passInp"
+						required="true" />
+					<ui:define name="label">
+						<s:label>#{messages['New_Password']}</s:label>
+					</ui:define>
+				</s:decorate>
+
+				<s:decorate id="RptNewPassField" template="/layout/edit.xhtml">
+					<h:inputSecret id="confirmPassInp"
+						required="true" />
+					<ui:define name="label">
+						<s:label>#{messages['Repeat']} #{' '} #{messages['New_Password']}</s:label>
+					</ui:define>
+				</s:decorate>
+
+				<h:form id="changePasswdForm">
+					<h:inputHidden value="#{changePasswordAction.currentPassword}" id="currentPass" required="true"/>
+					<h:inputHidden value="#{changePasswordAction.password}" id="pass" required="true"/>
+					<h:inputHidden value="#{changePasswordAction.confirmPassword}" id="confirmPass" required="true"/>
+					<div class="actionButtons">
+						<o:commandButton action="#{changePasswordAction.changePassword()}"
+							value="#{messages['Change_Password']}" id="btnChangePass"
+							styleClass="ui primary button">
+							</o:commandButton>
+					</div>
+				</h:form>
+
+			</div>
+
+		</div>
+		
+		<script>
+		//<![CDATA[
+			jQuery(document).ready(function(){
+				
+				jQuery("#changePasswordPanel").find(":input[type='password']").on('focus', function(){					
+					jQuery(this).on('keypress', function(e){									
+						if (e.keyCode == 13) { 
+								jQuery("#changePasswdForm\\:btnChangePass").click();	
+						 } else return true;
+
+						});
+				});
+				jQuery("#profilePanel").find(":input[type='text']").on('focus', function(){					
+					document.forms['profileForm'].onkeypress = new Function("event", "{var keycode;if (window.event) keycode = window.event.keyCode;else if (event) keycode = event.which;else return true;if (keycode == 13) { document.getElementById('profileForm:btnUpdate').click();return false; } else return true; }");
+				});
+				jQuery("#changePasswdForm\\:btnChangePass").click(function(e){					
+					var v = isChangePassValid();
+					if(!v)
+					{
+						e.preventDefault();
+					}
+					else
+					{
+						jQuery("#changePasswdForm\\:currentPass").val(btoa(jQuery("#currentPassField\\:currentPassInp").val()));
+						jQuery("#changePasswdForm\\:pass").val(btoa(jQuery("#NewPassField\\:passInp").val()));
+						jQuery("#changePasswdForm\\:confirmPass").val(btoa(jQuery("#RptNewPassField\\:confirmPassInp").val()));
+						
+					}
+				});
+			});
+			function isChangePassValid()
+			{
+				var valid = true;
+				jQuery("#changePasswordPanel").find(":input[type='password']").each(function(){
+					var _self = jQuery(this);
+					if(_self.val() == '')
+					{
+						_self.addClass("required");
+						setTimeout(function(){_self.removeClass("required");}, 500);
+						valid = false;						
+					}
+				});
+				return valid;
+				
+			}
+			//]]>
+		</script>
+
+		<script>
+		jQuery(document).ready(function(){
+			jedlab.updateTextFields();
+			jQuery('#delImage').popup();
+			jQuery("#imgLink").click(function(){
+				jQuery("#profileImageForm\\:file").click();
+			});
+			var txt = jedlab.initUploader(document.getElementById("profileImageForm:file"));
+			jQuery("#change-picture").html("#{messages['Select_Image']}");
+		});
+		function onUploaderChange()
+		{
+			var txt = jedlab.initUploader(document.getElementById("profileImageForm:file"));
+			//jQuery("#imgDesc").html(txt);
+			jQuery("#profileImageForm\\:btnImageUpdate").click();
+		}
+		jQuery("#delImage").click(function(){
+			jQuery("#profileImageForm\\:btnImageUpdate").click();
+		});
+	</script>
+
+
+	</ui:define>
+</ui:composition>

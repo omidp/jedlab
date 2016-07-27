@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+	<div class="input-field col s6">
+		<s:fragment rendered="#{required}"> <i class="red prefix">*</i></s:fragment>
+		<s:validateAll>
+			<ui:insert />
+		</s:validateAll>
+		<s:div styleClass="ui pointing red basic label" rendered="#{invalid}"><s:message /></s:div>
+		<ui:insert name="label"></ui:insert>
+		 
+	</div>
+	<div style="clear: both;padding: 10px;margin:10px"/>
+
+</ui:composition>
