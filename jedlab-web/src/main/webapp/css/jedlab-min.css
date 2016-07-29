@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+
+@font-face {
+  font-family: 'FugazOne';
+  src: url("fonts/FugazOne.eot");
+  src: url("fonts/FugazOne.eot?#iefix") format('embedded-opentype'), url("fonts/FugazOne.woff") format('woff'), url("fonts/FugazOne.ttf") format('truetype');
+}
+
 p {
   line-height: 2rem;
 }
@@ -177,7 +184,7 @@ h4 {
     -ms-font-smoothing: subpixel-antialiased;
     font-smoothing: subpixel-antialiased
 }
-html,
+
 body,
 .main {
     height: 100%;
@@ -185,11 +192,13 @@ body,
     position: absolute;
     top: 0;
     width: 100%;
-    overflow: hidden
+    overflow: hidden;
 }
 body {
     /*overflow-y: hidden;
     visibility: hidden*/
+    /*overflow-y:hidden;*/
+     
 }
 .scroller {
     height: 100%;
@@ -653,6 +662,7 @@ section#what-is-classroom .delayelement {
 #maia-header .logo a {
     color: #63666a;
     text-decoration: none;
+    font-family: 'FugazOne' !important;
 }
 
 
