@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:s="http://jboss.com/products/seam/taglib"
-	xmlns:c="http://java.sun.com/jstl/core" xmlns:o="http://openfaces.org/"
+	xmlns:c="http://java.sun.com/jstl/core" 
 	contentType="text/html">
 	<c:set var="_ctx" value="#{request.contextPath}" />
 	<html>
@@ -13,16 +13,11 @@
 <title><h:outputText value="#{messages['Page_Title']}" /></title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" href="#{_ctx}/favicon.ico" type="image/x-icon" />
-<link href="#{_ctx}/#{theme.semanticCss}" rel="stylesheet" />
-<link href="#{_ctx}/#{theme.css}" rel="stylesheet" />
-<link href="#{_ctx}/css/icon.css" rel="stylesheet" />
-
-
+<link href="#{_ctx}/#{theme.css}" rel="stylesheet" media="screen,projection"/>
+<link href="#{_ctx}/css/semantic.rtl.min.css" rel="stylesheet" />
 <script type="text/javascript" src="#{_ctx}/js/jquery.js"> </script>
-<script type="text/javascript" src="#{_ctx}/js/semantic.min.js"> </script>
-<script type="text/javascript" src="#{_ctx}/js/prototype.js"> </script>
-<script type="text/javascript" src="#{_ctx}/js/handlebars.js"> </script>
-<script type="text/javascript" src="#{_ctx}/js/atmosphere.js"> </script>
+<script type="text/javascript" src="#{_ctx}/js/parallax.js"> </script>
+<script type="text/javascript" src="#{_ctx}/js/jquery.mousewheel.min.js"> </script>
 
 <style type="text/css">
 

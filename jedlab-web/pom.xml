@@ -157,24 +157,7 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Openfaces -->
-		<dependency>
-			<groupId>net.sourceforge.cssparser</groupId>
-			<artifactId>cssparser</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.w3c.css</groupId>
-			<artifactId>sac</artifactId>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom</artifactId>
-		</dependency>
-
-
+		
 
 		<dependency>
 			<groupId>javax.faces</groupId>
@@ -201,11 +184,7 @@
 			<artifactId>atmosphere-seam</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.openfaces</groupId>
-			<artifactId>openfaces</artifactId>
-		</dependency>
-
+		
 
 
 
