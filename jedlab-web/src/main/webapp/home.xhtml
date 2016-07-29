@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:o="http://openfaces.org/"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="body">
+
+		<script type="text/javascript">
+		//<![CDATA[
+	jQuery(document).ready(function(){
+
+		jQuery("#featureContent, .classroom-maximum, #newsletter").mousewheel(function(event) {
+			console.log(event.deltaX, event.deltaY, event.deltaFactor);
+			    if(event.deltaY < 0)
+				{
+					jQuery(this).stop();
+					jedlab.down();
+				}
+			    if(event.deltaY > 0)
+				{
+			    	jQuery(this).stop();
+			    	jedlab.up();
+				}
+			});
+
+
+		jQuery(document).keydown(function(e) {
+		    switch(e.which) {		
+
+		    case 40: //down
+		    	jedlab.down();   
+	        break;
+
+		    case 38: // up
+		    	jedlab.up();
+		        break;
+
+	        default: return; // exit this handler for other keys
+	    }
+	    e.preventDefault(); // prevent the default action (scroll / move caret)
+	});
+
+		});
+		
+	var jedlab ={
+		scrollerObj : function(){
+			return ["top-scroll", "featureContent", "newsletter"];
+		},	
+		down: function(){
+			var index = parseInt(localStorage.getItem("scrollIndex"));
+			var size = parseInt(jedlab.scrollerObj().length);
+			console.log(index);
+			if(index == null || index < 0)
+				index = 0;
+			if(index >= size)
+				index =size-2;			
+			var idx = index+1; 
+			console.log(idx);
+			localStorage.setItem("scrollIndex", idx);
+			if(idx >= size)
+				idx=idx-1;
+			var jqId = "#"+jedlab.scrollerObj()[idx];
+			var obj = jQuery(jqId);			
+			console.log(obj.offset().top);
+			jQuery('html, body').stop().animate({scrollTop:obj.offset().top}, 'slow');
+		},
+		up: function(){
+			var index = parseInt(localStorage.getItem("scrollIndex"));
+			var size = parseInt(jedlab.scrollerObj().length);			  
+			console.log(index);
+			if(index == null || index <= 0)
+				index = 1;
+			if(index >= size)
+				index = 1;			
+	        var idx = index-1;
+			console.log(idx);
+	        localStorage.setItem("scrollIndex", idx);
+	        var jqId = "#"+jedlab.scrollerObj()[idx];
+	        var obj = jQuery(jqId);			
+	        jQuery('html, body').stop().animate({scrollTop:obj.offset().top}, 'slow');
+		}
+	}
+		
+		//]]>
+	</script>  
+	
+		<div id="top-scroll"></div>
+			<div id="maia-header" class="maia-header">
+				<div class="maia-aux">
+					<div class="logo">
+						<a>Java Education &amp; Development Lab</a>
+					</div>
+				</div>
+
+			</div>
+
+			<div id="maia-nav-x" class="maia-nav maia-complex">
+				<div class="maia-aux"></div>
+			</div>
+
+			<div id="maia-main">
+				<div class="classroom-maximum">
+
+					<div class="main">
+
+						<div class="container">
+
+							<div class="scroller">
+
+								<div class="scroller-inner"
+									style="transform: translate3d(0px, 0px, 0px);">
+									<section id="education-hero-new">
+										<div class="centered-container">
+											<img class="logo" src="#{_ctx}/images/hero_logo.png" alt="" />
+											<h1 class="title white-text">کلاس های جدلب</h1>
+											<p class="subtitle white-text border-top">
+											اگر میخواهید مهارت کافی برای راه اندازی کسب و کار نرم افزاری خود را داشته باشید و یا تبدیل به کسی شوید تا هر شرکت نرم افزاری 
+											آرزوی داشتن شما را داشته باشد با ما همراه شوید  
+											</p>
+											<a class="classroom-button subtext-button hero-button"> <span
+												class="hero-text">#{messages['Sign_In']}</span>
+											</a>
+										</div>
+									</section>
+
+
+
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		<div class="ui equal width center aligned padded grid" style="height: 100%;"
+			id="featureContent" >
+			
+			<div class="row">
+				<div class="column">
+				<h2 class="ui center aligned icon header">چرا جدلب</h2>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="two wide column"></div>
+
+				<div class="four wide column">
+				   
+				    <img class="ui center aligned medium circular image" src="#{_ctx}/images/java_var.png" style="margin-left: 40px;"/>
+					<h2 class="ui center aligned icon header">
+					  تنوع
+					</h2>
+					
+					<p>
+					جدلب آموزش های مختلفی برای شما فراهم می کند ، آموزش هایی که در ساخت هر نرم افزاری لازم و حتی 
+					 <b>کافی</b> 
+					  است.
+					مانند فریم ورک های مختلف ، آموزش ساخت گزارش با جاوا ، کار با موتورهای گردش کار ، کار با پایگاه داده و ...
+					<br />
+					اینها فقط بخشی از آموزش هاست . ما فقط به 
+					<b>مقدمات</b> 
+					بسنده نمی کنیم و جزیی ترین مسایل هم آموزش می دهیم  
+					</p>
+				
+				</div>
+
+				<div class="four wide column">
+					
+					 <img class="ui center aligned medium circular image" src="#{_ctx}/images/cash-payment-icon-ft.png" style="margin-left: 40px;"/>
+					<h2 class="ui center aligned icon header">
+					  وقت و هزینه کم
+					</h2>
+					
+					<p>
+						بسیاری از آموزشگاه ها مبالغ هنگفتی برای آموزش حتی در مقطع مقدماتی دریافت می کنند که گاهی این مبالغ با کیفیت آموزش  هم مطابقت ندارد
+						<b>
+						ما برای آموزش مقدماتی هیچ هزینه ای دریافت نمی کنیم
+						</b> 
+						<br />
+						بعلاوه آموزش در جدلب هیچ رفت و آمدی برای شما ندارد و می توانید آموزش ها در خانه خود ببینید
+					</p>
+					
+				</div>
+
+				<div class="four wide column">
+				
+					 <img class="ui center aligned medium circular image" src="#{_ctx}/images/use_post_meeting.png" style="margin-left: 90px;height: 232px;width: 176px"/>
+					<h2 class="ui center aligned icon header">
+					  تبدیل حرف به عمل
+					</h2>
+					
+					<p>
+					
+						علاوه بر یادگیری جاوا بصورت آکادمیک برخی از پروزه های متن باز هم آموزش داده می شود و شما می توانید وارد بازار متن باز شوید
+						 و در این پروژه ها مشارکت کنید 
+						
+					
+					</p>	
+				
+				</div>
+
+
+				<div class="two wide column"></div>
+
+			</div>
+
+		</div>
+		
+		
+		<div class="ui equal width center aligned padded grid" style="height: 500px;"
+			id="newsletter" >
+			
+			<div class="row">
+				<div class="column">
+					news letter
+				</div>
+			</div>
+			
+		</div>	
+
+
+
+
+
+	</ui:define>
+</ui:composition>
