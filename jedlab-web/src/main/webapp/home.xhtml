@@ -10,7 +10,7 @@
 		<script type="text/javascript">
 		//<![CDATA[
 	jQuery(document).ready(function(){
-
+		localStorage.setItem("scrollIndex", 0);
 		jQuery("#featureContent, .classroom-maximum, #newsletter").mousewheel(function(event) {
 			    if(event.deltaY < 0)
 				{
@@ -65,10 +65,10 @@
 			localStorage.setItem("scrollIndex", idx);			
 		},
 		up: function(){
-			var index = localStorage.getItem("scrollIndex") == null ? 0 : parseInt(localStorage.getItem("scrollIndex"));
+			var index = localStorage.getItem("scrollIndex") == null ? 1 : parseInt(localStorage.getItem("scrollIndex"));
 			var size = parseInt(jedlab.scrollerObj().length);
 			console.log('index before : ' + index);			  
-			if(index < 0)
+			if(index < 1)
 				index = 1;
 			if(index >= size)
 				index = jedlab.scrollerObj().length;
@@ -83,124 +83,136 @@
 	}
 		
 		//]]>
-	</script>  
-	
+	</script>
+
 		<div id="top-scroll"></div>
-			<div id="maia-header" class="maia-header">
-				<div class="maia-aux">
-					<div class="logo">
-						<a>Java Education &amp; Development Lab</a>
+		<div id="maia-header" class="maia-header">
+			<div class="maia-aux">
+				<div class="logo">
+					<a>Java Education &amp; Development Lab</a>
+				</div>
+			</div>
+
+		</div>
+
+		<div id="maia-nav-x" class="maia-nav maia-complex">
+			<div class="maia-aux">
+				<div class="ui secondary pointing menu">
+					<s:link propagation="none" includePageParams="false" 
+							view="/home.xhtml" styleClass="ui item" value="#{messages['Home']}">
+						 </s:link>
+					<div class="right menu">
+						<s:link propagation="none" includePageParams="false" 
+							view="/courseList.xhtml" styleClass="ui item" value="#{messages['Course_List']}">
+						 </s:link>
 					</div>
 				</div>
-
 			</div>
 
-			<div id="maia-nav-x" class="maia-nav maia-complex">
-				<div class="maia-aux"></div>
-			</div>
+		</div>
 
-			<div id="maia-main">
-				<div class="classroom-maximum">
+		<div id="maia-main">
+			<div class="classroom-maximum">
 
-					<div class="main">
+				<div class="main">
 
-						<div class="container">
+					<div class="container">
 
-							<div class="scroller">
+						<div class="scroller">
 
-								<div class="scroller-inner"
-									style="transform: translate3d(0px, 0px, 0px);">
-									<section id="education-hero-new">
-										<div class="centered-container">
-											<img class="logo" src="#{_ctx}/images/hero_logo.png" alt="" />
-											<h1 class="title white-text">کلاس های جدلب</h1>
-											<p class="subtitle white-text border-top">
-											اگر میخواهید مهارت کافی برای راه اندازی کسب و کار نرم افزاری خود را داشته باشید و یا تبدیل به کسی شوید تا هر شرکت نرم افزاری 
-											آرزوی داشتن شما را داشته باشد با ما همراه شوید  
-											</p>
-											<a class="classroom-button subtext-button hero-button"> <span
-												class="hero-text">#{messages['Sign_In']}</span>
-											</a>
-										</div>
-									</section>
+							<div class="scroller-inner"
+								style="transform: translate3d(0px, 0px, 0px);">
+								<section id="education-hero-new">
+									<div class="centered-container">
+										<img class="logo" src="#{_ctx}/images/hero_logo.png" alt="" />
+										<h1 class="title white-text local-direction">کلاس های
+											JEDLAB</h1>
+										<p class="subtitle white-text border-top">اگر میخواهید
+											مهارت کافی برای راه اندازی کسب و کار نرم افزاری خود داشته
+											باشید و یابه کسی تبدیل شوید ،تا هر شرکت نرم افزاری آرزوی
+											داشتن شما را داشته باشد با ما همراه شوید</p>
+										<s:link propagation="none" view="/login.xhtml"
+											includePageParams="false"
+											styleClass="classroom-button subtext-button hero-button">
+											<span class="hero-text">#{messages['Sign_In']}</span>
+										</s:link>
+									</div>
+								</section>
 
 
-
-								</div>
 
 							</div>
 
 						</div>
 
 					</div>
+
 				</div>
 			</div>
+		</div>
 
-		<div class="ui equal width center aligned padded grid" style="height: 100%;"
-			id="featureContent" >
-			
-			<div class="row" style="margin: 0;padding: 0;margin-top: 150px;">
-				<h2 class="ui center aligned icon header">چرا جدلب</h2>
+		<div class="ui equal width center aligned padded grid"
+			style="height: 100%;" id="featureContent">
+
+			<div class="row" style="margin: 0; padding: 0; margin-top: 150px;">
+				<h2 class="ui center aligned icon header local-direction">چرا
+					JEDLAB</h2>
 			</div>
 			<div class="row">
-				
+
 
 				<div class="two wide column"></div>
 
 				<div class="four wide column">
-				   
-				    <img class="ui center aligned medium circular image" src="#{_ctx}/images/java_var.png" style="margin-left: 40px;"/>
-					<h2 class="ui center aligned icon header">
-					  تنوع
-					</h2>
-					
-					<p>
-					جدلب آموزش های مختلفی برای شما فراهم می کند ، آموزش هایی که در ساخت هر نرم افزاری لازم و حتی 
-					 <b>کافی</b> 
-					  است.
-					مانند فریم ورک های مختلف ، آموزش ساخت گزارش با جاوا ، کار با موتورهای گردش کار ، کار با پایگاه داده و ...
-					<br />
-					اینها فقط بخشی از آموزش هاست . ما فقط به 
-					<b>مقدمات</b> 
-					بسنده نمی کنیم و جزیی ترین مسایل هم آموزش می دهیم  
-					</p>
-				
+
+					<img class="ui center aligned medium circular image"
+						src="#{_ctx}/images/use_post_meeting.png"
+						style="margin-left: 90px; height: 232px; width: 176px" />
+					<h2 class="ui center aligned icon header">تبدیل حرف به عمل</h2>
+
+					<p>علاوه بر یادگیری جاوا بصورت آکادمیک برخی از پروزه های متن
+						باز هم آموزش داده می شود و شما می توانید وارد بازار متن باز شوید و
+						در این پروژه ها مشارکت کنید. بعلاوه شما بصورت انفرادی در کلاس ها
+						شرکت می کنید اما پرسش و پاسخ عمومی است .</p>
+
 				</div>
 
 				<div class="four wide column">
-					
-					 <img class="ui center aligned medium circular image" src="#{_ctx}/images/cash-payment-icon-ft.png" style="margin-left: 40px;"/>
-					<h2 class="ui center aligned icon header">
-					  وقت و هزینه کم
-					</h2>
-					
+
+					<img class="ui center aligned medium circular image"
+						src="#{_ctx}/images/java_var.png" style="margin-left: 40px;" />
+					<h2 class="ui center aligned icon header">تنوع</h2>
+
 					<p>
-						بسیاری از آموزشگاه ها مبالغ هنگفتی برای آموزش حتی در مقطع مقدماتی دریافت می کنند که گاهی این مبالغ با کیفیت آموزش  هم مطابقت ندارد
-						<b>
-						ما برای آموزش مقدماتی هیچ هزینه ای دریافت نمی کنیم
-						</b> 
-						<br />
-						بعلاوه آموزش در جدلب هیچ رفت و آمدی برای شما ندارد و می توانید آموزش ها در خانه خود ببینید
+						JEDLAB آموزش های مختلفی برای شما فراهم می کند ، آموزش هایی که در
+						ساخت هر نرم افزاری لازم و حتی <b>کافی</b> است. مانند فریم ورک های
+						مختلف ، آموزش ساخت گزارش با جاوا ، کار با موتورهای گردش کار ، کار
+						با پایگاه داده و غیره <br /> اینها فقط بخشی از آموزش هاست . ما
+						فقط به <b>مقدمات</b> بسنده نمی کنیم و جزیی ترین مسایل هم آموزش می
+						دهیم
 					</p>
-					
+
 				</div>
 
 				<div class="four wide column">
-				
-					 <img class="ui center aligned medium circular image" src="#{_ctx}/images/use_post_meeting.png" style="margin-left: 90px;height: 232px;width: 176px"/>
-					<h2 class="ui center aligned icon header">
-					  تبدیل حرف به عمل
-					</h2>
-					
-					<p>
-					
-						علاوه بر یادگیری جاوا بصورت آکادمیک برخی از پروزه های متن باز هم آموزش داده می شود و شما می توانید وارد بازار متن باز شوید
-						 و در این پروژه ها مشارکت کنید 
-						
-					
-					</p>	
-				
+
+					<img class="ui center aligned medium circular image"
+						src="#{_ctx}/images/cash-payment-icon-ft.png"
+						style="margin-left: 40px;" />
+					<h2 class="ui center aligned icon header">صرفه جویی در زمان و
+						هزینه</h2>
+
+					<p class="local-direction">
+						بسیاری از آموزشگاه ها مبالغ هنگفتی برای آموزش حتی در مقطع مقدماتی
+						دریافت می کنند که حتی این مبالغ با کیفیت آموزش هم مطابقت ندارد <br />
+						<b> ما برای آموزش مقدماتی هیچ هزینه ای دریافت نمی کنیم </b> <br />
+						آموزش در JEDLAB هیچ هزینه ی رفت و آمدی برای شما ندارد و می توانید
+						آموزش ها را در خانه ببینید
+					</p>
+
 				</div>
+
+
 
 
 				<div class="two wide column"></div>
@@ -208,18 +220,16 @@
 			</div>
 
 		</div>
-		
-		
-		<div class="ui equal width center aligned padded grid" style="height: 100%;"
-			id="newsletter" >
-			
-			<div class="row" style="margin: 0;padding: 0;margin-top: 150px;">
-				<div class="column">
-					news letter
-				</div>
+
+
+		<div class="ui equal width center aligned padded grid"
+			style="height: 100%;" id="newsletter">
+
+			<div class="row" style="margin: 0; padding: 0; margin-top: 150px;">
+				<div class="column">news letter</div>
 			</div>
-			
-		</div>	
+
+		</div>
 
 
 
