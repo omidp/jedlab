@@ -7,8 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Table(name = "course")
 @Entity
+@Table(name = "chapter", schema="public")
 public class Chapter extends BasePO
 {
 

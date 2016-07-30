@@ -11,29 +11,63 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "ER_Member", uniqueConstraints = { @UniqueConstraint(columnNames = "username"),
-        @UniqueConstraint(columnNames = "emailAddress") })
+@Table(name = "member", uniqueConstraints = { @UniqueConstraint(columnNames = "user_name"),
+        @UniqueConstraint(columnNames = "email_address") })
+@Name("user")
+@Scope(ScopeType.CONVERSATION)
+@AutoCreate
 public class Member extends BasePO
 {
 
     @Column(name = "user_name")
     private String username;
-    
+
     @Column(name = "user_pass")
     private String password;
-    
+
     @Column(name = "email_address")
-    private String emailAddress;
-    
-    @Column(name="join_date", updatable = false, insertable = false, columnDefinition=" timestamp without time zone DEFAULT now()")
+    private String email;
+
+    @Column(name = "join_date", updatable = false, insertable = false, columnDefinition = " timestamp without time zone DEFAULT now()")
     @Temporal(TemporalType.TIMESTAMP)
     @org.hibernate.annotations.Generated(org.hibernate.annotations.GenerationTime.INSERT)
     private Date joinDate;
-    
-    @Column(name = "is_active", columnDefinition=" boolean DEFAULT true")
+
+    @Column(name = "is_active", columnDefinition = " boolean DEFAULT true")
     private boolean active;
+
+    @Column(name = "activation_code")
+    private String activationCode;
+
+    @Column(name = "recover_passwd_code")
+    private String recoverPasswordCode;
+
+    public String getActivationCode()
+    {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode)
+    {
+        this.activationCode = activationCode;
+    }
+
+    public String getRecoverPasswordCode()
+    {
+        return recoverPasswordCode;
+    }
+
+    public void setRecoverPasswordCode(String recoverPasswordCode)
+    {
+        this.recoverPasswordCode = recoverPasswordCode;
+    }
 
     public String getUsername()
     {
@@ -55,14 +89,14 @@ public class Member extends BasePO
         this.password = password;
     }
 
-    public String getEmailAddress()
+    public String getEmail()
     {
-        return emailAddress;
+        return email;
     }
 
-    public void setEmailAddress(String emailAddress)
+    public void setEmail(String email)
     {
-        this.emailAddress = emailAddress;
+        this.email = email;
     }
 
     public Date getJoinDate()

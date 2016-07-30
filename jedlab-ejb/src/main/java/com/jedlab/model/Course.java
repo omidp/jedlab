@@ -1,6 +1,7 @@
 package com.jedlab.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,13 +11,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.jboss.seam.international.StatusMessage;
 
-@Table(name = "course")
 @Entity
+@Table(name = "course", schema="public")
 @Where(clause = " active = true ")
 public class Course extends BasePO
 {
@@ -47,8 +50,23 @@ public class Course extends BasePO
     @Enumerated(EnumType.STRING)
     private Level level;
 
-    @Column(name = "is_active", columnDefinition="boolean DEFUALT true")
+    @Column(name = "is_active", columnDefinition="boolean DEFAULT true")
     private boolean active;
+    
+    @Column(name="created_date", updatable = false, insertable = false, columnDefinition=" timestamp without time zone DEFAULT now()")
+    @Temporal(TemporalType.TIMESTAMP)
+    @org.hibernate.annotations.Generated(org.hibernate.annotations.GenerationTime.INSERT)
+    private Date createdDate;
+
+    public Date getCreatedDate()
+    {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate)
+    {
+        this.createdDate = createdDate;
+    }
 
     public enum Language
     {
