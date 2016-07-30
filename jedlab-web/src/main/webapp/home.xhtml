@@ -6,111 +6,8 @@
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="body">
-
-		<script type="text/javascript">
-		//<![CDATA[
-	jQuery(document).ready(function(){
-		localStorage.setItem("scrollIndex", 0);
-		jQuery("#featureContent, .classroom-maximum, #newsletter").mousewheel(function(event) {
-			    if(event.deltaY < 0)
-				{
-					jQuery(this).stop();
-					jedlab.down();
-				}
-			    if(event.deltaY > 0)
-				{
-			    	jQuery(this).stop();
-			    	jedlab.up();
-				}
-			});
-
-
-		jQuery(document).keydown(function(e) {
-		    switch(e.which) {		
-
-		    case 40: //down
-		    	jedlab.down();   
-	        break;
-
-		    case 38: // up
-		    	jedlab.up();
-		        break;
-
-	        default: return; // exit this handler for other keys
-	    }
-	    e.preventDefault(); // prevent the default action (scroll / move caret)
-	});
-
-		});
+	
 		
-	var jedlab ={
-		scrollerObj : function(){
-			return ["top-scroll", "featureContent", "newsletter"];
-		},	
-		down: function(){
-			var index = localStorage.getItem("scrollIndex") == null ? 0 : parseInt(localStorage.getItem("scrollIndex"));
-			var size = parseInt(jedlab.scrollerObj().length);
-			console.log('size : ' + size);
-			console.log('index before : ' + index);			  
-			if(index < 0)
-				index = 0;
-			if(index >= (size-1))
-				index =size-2;
-			console.log('index after : ' + index);			
-			var idx = index+1;
-			console.log('idx : ' + idx); 
-			var jqId = "#"+jedlab.scrollerObj()[idx];
-			var obj = jQuery(jqId);			
-			jQuery('html, body').stop().animate({scrollTop:obj.offset().top}, 'slow');
-			localStorage.setItem("scrollIndex", idx);			
-		},
-		up: function(){
-			var index = localStorage.getItem("scrollIndex") == null ? 1 : parseInt(localStorage.getItem("scrollIndex"));
-			var size = parseInt(jedlab.scrollerObj().length);
-			console.log('index before : ' + index);			  
-			if(index < 1)
-				index = 1;
-			if(index >= size)
-				index = jedlab.scrollerObj().length;
-			console.log('index after : ' + index);			
-	        var idx = index-1;
-	        console.log('idx : ' + idx);
-	        var jqId = "#"+jedlab.scrollerObj()[idx];
-	        var obj = jQuery(jqId);			
-	        jQuery('html, body').stop().animate({scrollTop:obj.offset().top}, 'slow');
-	        localStorage.setItem("scrollIndex", idx);
-		}
-	}
-		
-		//]]>
-	</script>
-
-		<div id="top-scroll"></div>
-		<div id="maia-header" class="maia-header">
-			<div class="maia-aux">
-				<div class="logo">
-					<a>Java Education &amp; Development Lab</a>
-				</div>
-			</div>
-
-		</div>
-
-		<div id="maia-nav-x" class="maia-nav maia-complex">
-			<div class="maia-aux">
-				<div class="ui secondary pointing menu">
-					<s:link propagation="none" includePageParams="false" 
-							view="/home.xhtml" styleClass="ui item" value="#{messages['Home']}">
-						 </s:link>
-					<div class="right menu">
-						<s:link propagation="none" includePageParams="false" 
-							view="/courseList.xhtml" styleClass="ui item" value="#{messages['Course_List']}">
-						 </s:link>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
 		<div id="maia-main">
 			<div class="classroom-maximum">
 
@@ -236,7 +133,17 @@
 		</div>
 
 
+<script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready(function(){
 
+	jedlab.init();
+	
+});
+           
+
+//]]>
+</script>
 
 
 	</ui:define>
