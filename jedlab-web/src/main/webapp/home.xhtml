@@ -12,7 +12,6 @@
 	jQuery(document).ready(function(){
 
 		jQuery("#featureContent, .classroom-maximum, #newsletter").mousewheel(function(event) {
-			console.log(event.deltaX, event.deltaY, event.deltaFactor);
 			    if(event.deltaY < 0)
 				{
 					jQuery(this).stop();
@@ -49,37 +48,37 @@
 			return ["top-scroll", "featureContent", "newsletter"];
 		},	
 		down: function(){
-			var index = parseInt(localStorage.getItem("scrollIndex"));
+			var index = localStorage.getItem("scrollIndex") == null ? 0 : parseInt(localStorage.getItem("scrollIndex"));
 			var size = parseInt(jedlab.scrollerObj().length);
-			console.log(index);
-			if(index == null || index < 0)
+			console.log('size : ' + size);
+			console.log('index before : ' + index);			  
+			if(index < 0)
 				index = 0;
-			if(index >= size)
-				index =size-2;			
-			var idx = index+1; 
-			console.log(idx);
-			localStorage.setItem("scrollIndex", idx);
-			if(idx >= size)
-				idx=idx-1;
+			if(index >= (size-1))
+				index =size-2;
+			console.log('index after : ' + index);			
+			var idx = index+1;
+			console.log('idx : ' + idx); 
 			var jqId = "#"+jedlab.scrollerObj()[idx];
 			var obj = jQuery(jqId);			
-			console.log(obj.offset().top);
 			jQuery('html, body').stop().animate({scrollTop:obj.offset().top}, 'slow');
+			localStorage.setItem("scrollIndex", idx);			
 		},
 		up: function(){
-			var index = parseInt(localStorage.getItem("scrollIndex"));
-			var size = parseInt(jedlab.scrollerObj().length);			  
-			console.log(index);
-			if(index == null || index <= 0)
+			var index = localStorage.getItem("scrollIndex") == null ? 0 : parseInt(localStorage.getItem("scrollIndex"));
+			var size = parseInt(jedlab.scrollerObj().length);
+			console.log('index before : ' + index);			  
+			if(index < 0)
 				index = 1;
 			if(index >= size)
-				index = 1;			
+				index = jedlab.scrollerObj().length;
+			console.log('index after : ' + index);			
 	        var idx = index-1;
-			console.log(idx);
-	        localStorage.setItem("scrollIndex", idx);
+	        console.log('idx : ' + idx);
 	        var jqId = "#"+jedlab.scrollerObj()[idx];
 	        var obj = jQuery(jqId);			
 	        jQuery('html, body').stop().animate({scrollTop:obj.offset().top}, 'slow');
+	        localStorage.setItem("scrollIndex", idx);
 		}
 	}
 		
@@ -140,13 +139,11 @@
 		<div class="ui equal width center aligned padded grid" style="height: 100%;"
 			id="featureContent" >
 			
-			<div class="row">
-				<div class="column">
+			<div class="row" style="margin: 0;padding: 0;margin-top: 150px;">
 				<h2 class="ui center aligned icon header">چرا جدلب</h2>
-				</div>
 			</div>
-
 			<div class="row">
+				
 
 				<div class="two wide column"></div>
 
@@ -213,10 +210,10 @@
 		</div>
 		
 		
-		<div class="ui equal width center aligned padded grid" style="height: 500px;"
+		<div class="ui equal width center aligned padded grid" style="height: 100%;"
 			id="newsletter" >
 			
-			<div class="row">
+			<div class="row" style="margin: 0;padding: 0;margin-top: 150px;">
 				<div class="column">
 					news letter
 				</div>
