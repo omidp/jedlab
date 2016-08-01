@@ -5,7 +5,8 @@
 	xmlns:s="http://jboss.com/products/seam/taglib">
 
 	<div class="input-field col s6">
-		<s:fragment rendered="#{required}"> <i class="red prefix">*</i></s:fragment>
+		
+		<ui:insert name="prefix"></ui:insert>
 		<s:validateAll>
 			<ui:insert />
 		</s:validateAll>
@@ -13,6 +14,6 @@
 		<ui:insert name="label"></ui:insert>
 		 
 	</div>
-	<div style="clear: both;padding: 10px;margin:10px"/>
+	
 
 </ui:composition>

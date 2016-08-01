@@ -5,60 +5,106 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
+	<ui:define name="head">
+		<link href="#{_ctx}/css/icon.css" rel="stylesheet" />
+	</ui:define>
+
 	<ui:define name="body">
 
 		<div class="ui middle aligned equal width center aligned padded grid"
 			style="height: 100%;" id="featureContent">
 
 			<div class="row" style="margin: 0; padding: 0; margin-top: 150px;">
+ 
+				<div class="one wide column"></div>
 
-				<div class="two wide column"></div>
-				
 				<div class="four wide column">
+					<div class="ui piled segment">
+						<h2 class="ui teal image header">
+							<div class="content">#{messages['Log_In_To_Account']}</div>
+						</h2>
 
-					<h2 class="ui teal image header">
-						<div class="content">#{messages['Log_In_To_Account']}</div>
-					</h2>
+						<h:form id="loginForm" styleClass="ui large form">
 
-					<h:form id="loginForm" styleClass="ui large form">
 
-						<div class="ui stacked segment">
 							<div class="field">
-								<div class="ui left icon input">
-									<i class="user icon"></i> <input type="text" name="email"
-										placeholder="E-mail address" />
-								</div>
+								<s:decorate id="uField" template="/layout/edit.xhtml">
+									<ui:define name="prefix">
+										<i class="icon-user prefix"></i>
+									</ui:define>
+									<h:inputText id="uname" />
+									<ui:define name="label">
+										<s:label for="uname">#{messages['Email']}</s:label>
+									</ui:define>
+								</s:decorate>
 							</div>
 							<div class="field">
-								<div class="ui left icon input">
-									<i class="lock icon"></i> <input type="password"
-										name="password" placeholder="Password" />
-								</div>
+								<s:decorate id="pField" template="/layout/edit.xhtml">
+									<ui:define name="prefix">
+										<i class="icon-lock prefix"></i>
+									</ui:define>
+									<h:inputSecret id="upass" />
+									<ui:define name="label">
+										<s:label for="upass">#{messages['Password']}</s:label>
+									</ui:define>
+								</s:decorate>
 							</div>
-							<h:commandButton action="#{identity.login()}" style="ui fluid large teal submit button" value="#{messages['Send']}" />
-						</div>
+							<h:commandButton action="#{identity.login()}"
+								value="#{messages['Send']}" styleClass="btn btn-blue" />
 
-						<div class="ui error message"></div>
 
-						
-
-					</h:form>
-
+						</h:form>
+					</div>
 
 				</div>
-				
+
 				<div class="two wide column"></div>
 
 				<div class="ui vertical divider">#{messages['Or']}</div>
-				
-				<div class="two wide column"></div>
 
-				<div class="four wide column"></div>
-				
+				<div class="one wide column"></div>
+
+				<div class="four wide column">
+					<div class="ui piled segment">
+						<h2 class="ui teal image header">
+							<div class="content">#{messages['Register']}</div>
+						</h2>
+
+						<h:form id="registerForm" styleClass="ui large form">
+
+
+							<div class="field">
+								<s:decorate id="uEmail" template="/layout/edit.xhtml">
+									<ui:define name="prefix">
+										<i class="icon-user prefix"></i>
+									</ui:define>
+									<h:inputText id="uemail" />
+									<ui:define name="label">
+										<s:label for="uemail">#{messages['Email']}</s:label>
+									</ui:define>
+								</s:decorate>
+							</div>
+							<h:commandButton action="#{identity.login()}"
+								value="#{messages['Send']}" styleClass="btn btn-green" />
+
+
+						</h:form>
+
+					</div>
+
+
+				</div>
+
 				<div class="two wide column"></div>
 
 			</div>
 		</div>
+
+		<script type="text/javascript">
+			jQuery(document).ready(function(){
+				Materialize.updateTextFields();
+			});
+		</script>
 
 	</ui:define>
 </ui:composition>

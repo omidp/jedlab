@@ -1,14 +1,8 @@
 @charset "UTF-8";
 
 
-@font-face {
-  font-family: 'FugazOne';
-  src: url("fonts/FugazOne.eot");
-  src: url("fonts/FugazOne.eot?#iefix") format('embedded-opentype'), url("fonts/FugazOne.woff") format('woff'), url("fonts/FugazOne.ttf") format('truetype');
-}
-
 p {
-  line-height: 2rem;
+  line-height: 1.5 !important;
 }
 
 html,
@@ -152,10 +146,10 @@ summary {
 body {
     background-color: #f5f5f5;
     color: #404040;
-    font-family: "FugazOne", "Yekan", "helvetica neue", helvetica, arial, sans-serif
+    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
 }
 .local-direction{
-	font-family: "FugazOne", "Yekan", "helvetica neue", helvetica, arial, sans-serif !important;
+	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif !important;
 	direction: rtl;
 }
 body * {
@@ -483,7 +477,7 @@ section#education-hero-new .delayelement {
     }
     section#education-hero-new .centered-container .title {
         font-size: 22px;
-        line-height: 27px
+        line-height: 35px
     }
     section#education-hero-new .centered-container .subtitle {
         line-height: 17px
@@ -520,7 +514,7 @@ section#what-is-classroom {
     width: 100%
 }
 section#what-is-classroom .top-text {
-    font-family: "FugazOne", "Yekan", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
     font-size: 14px;
     font-weight: 600;
     left: 0;
@@ -605,90 +599,6 @@ section#what-is-classroom .delayelement {
     }
 }
 
-@media screen and (max-width: 767px) {
-    #maia-header .logo a {
-        display: inline-block;
-        margin-top: 5px
-    }
-    #maia-nav-x .maia-aux .toggle-nav {
-        top: -36px !important
-    }
-}
-
-#maia-header {
-    border-bottom: medium none;
-}
-#maia-header {
-    min-height: 45px;
-    position: fixed;
-    z-index: 1000;
-}
-#maia-header, #maia-nav-x, #maia-footer, .maia-stage {
-    margin: 0;
-}
-#maia-header {
-    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #fafafa, #f5f5f5) repeat scroll 0 0;
-    border-bottom: 1px solid #eee;
-    color: #444;
-    min-height: 44px;
-    padding: 14px 15px 13px;
-}
-#maia-header, #maia-nav-x, #maia-footer, .maia-stage {
-    
-}
-.maia-header {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 14px 0 13px;
-    position: absolute;
-    top: 0;
-    transform: translateZ(0px);
-    width: 100%;
-    z-index: 0;
-}
-
-#maia-main, .maia-aux {
-    margin: auto;
-    max-width: 978px;
-}
-
-#maia-header .logo {
-    float: left;
-    font-family: "FugazOne", "Yekan", "helvetica neue", helvetica, arial, sans-serif;
-    font-size: 32px;
-    font-weight: 400;
-    line-height: 1.375;
-    margin: 0;
-    text-rendering: optimizelegibility;
-}
-
-
-#maia-header .logo a {
-    color: #63666a;
-    text-decoration: none;
-    font-family: "FugazOne", "Yekan", "helvetica neue", helvetica, arial, sans-serif;
-}
-
-
-
-#maia-main {
-    padding: 0;
-}
-#maia-main {
-    top: -1px;
-}
-#maia-main {
-    clear: both;
-    margin: 116px -15px 0;
-    max-width: none !important;
-    overflow: hidden;
-    padding: 0 15px;
-    position: relative;
-}
-#maia-main {
-    clear: both;
-    margin-top: 30px;
-}
 
 .classroom-maximum {
     background: #eaeaea none repeat scroll 0 0;
@@ -697,59 +607,6 @@ section#what-is-classroom .delayelement {
     width: 100%;
 }
 
-
-#maia-nav-x.maia-complex {
-    margin-bottom: 0 !important;
-}
-#maia-nav-x.maia-complex {
-    margin-bottom: 45px;
-}
-#maia-header, #maia-nav-x, #maia-footer, .maia-stage {
-    margin: 0;
-}
-#maia-nav-x, #maia-nav-x.maia-compact h1 {
-    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #4e78c2, #325da7) repeat scroll 0 0;
-    color: #fff;
-    padding: 0 15px;
-}
-
-.maia-nav {
-    top: 70px;
-}
-.maia-nav {
-    box-sizing: border-box;
-    font-family: "FugazOne", "Yekan", "helvetica neue", helvetica, arial, sans-serif;
-    position: absolute;
-    top: 71px;
-    transform: translateZ(0px);
-    width: 100%;
-    z-index: 0;
-}
-#maia-nav-x {
-    background-color: #fff;
-    background-image: none;
-    border-bottom: 1px solid #efefef;
-}
-#maia-nav-x, #maia-nav-x.maia-compact h1 {
-    color: #444;
-}
-#maia-nav-x {
-    background: #fff none repeat scroll 0 0;
-    border-bottom: 1px solid #efefef;
-    height: 45px;
-}
-#maia-nav-x {
-    position: fixed;
-    z-index: 1000;
-}
-
-#maia-header .maia-aux::after, #maia-header .maia-util::after, #maia-main::after {
-    clear: both;
-    content: " ";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
 
 #maia-main {
     clear: both;
