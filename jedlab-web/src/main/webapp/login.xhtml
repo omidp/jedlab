@@ -6,7 +6,7 @@
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="head">
-		<link href="#{_ctx}/css/icon.css" rel="stylesheet" />
+		
 	</ui:define>
 
 	<ui:define name="body">
@@ -32,9 +32,10 @@
 									<ui:define name="prefix">
 										<i class="icon-user prefix"></i>
 									</ui:define>
-									<h:inputText id="uname" required="true"/>
+									<h:inputText id="uname" required="true" value="#{credentials.username}">
+									</h:inputText>
 									<ui:define name="label">
-										<s:label for="uname">#{messages['Email']}</s:label>
+										#{messages['Email']} / #{messages['User_Name']}
 									</ui:define>
 								</s:decorate>
 							</div>
@@ -43,9 +44,9 @@
 									<ui:define name="prefix">
 										<i class="icon-lock prefix"></i>
 									</ui:define>
-									<h:inputSecret id="upass" required="true"/>
+									<h:inputSecret id="upass" required="true" value="#{credentials.password}"/>
 									<ui:define name="label">
-										<s:label for="upass">#{messages['Password']}</s:label>
+										#{messages['Password']}
 									</ui:define>
 								</s:decorate>
 							</div>
@@ -78,9 +79,10 @@
 									<ui:define name="prefix">
 										<i class="icon-mail prefix"></i>
 									</ui:define>
-									<h:inputText id="uemail" value="#{user.email}" required="true"/>
+									<h:inputText id="uemail" value="#{user.email}" required="true">
+									</h:inputText>
 									<ui:define name="label">
-										<s:label for="uemail">#{messages['Email']}</s:label>
+										#{messages['Email']}
 									</ui:define>
 								</s:decorate>
 								

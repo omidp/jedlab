@@ -10,7 +10,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
@@ -33,6 +35,8 @@ public class Member extends BasePO
     private String password;
 
     @Column(name = "email_address")
+    @Email(message="#{messages['Invalid_Email']}")
+    @NotNull
     private String email;
 
     @Column(name = "join_date", updatable = false, insertable = false, columnDefinition = " timestamp without time zone DEFAULT now()")

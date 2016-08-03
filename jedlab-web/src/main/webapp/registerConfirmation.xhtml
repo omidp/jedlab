@@ -6,16 +6,79 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html" 
     template="/layout/layout.xhtml">
+    
+    <ui:define name="head">
+		
+	</ui:define>
 
 <ui:define name="body">
+
+
+<div class="ui middle aligned equal width center aligned padded grid"
+			style="height: 100%;" >
+
+			<div class="row centerContent" >
+ 
+				<div class="one wide column"></div>
+
+				<div class="twelve wide column">
+					
+					<div class="ui piled segment">
+						<h2 class="ui teal image header">
+							<div class="content">#{registerAction.instance.email}</div>
+						</h2>
+
+						<h:form id="loginForm" styleClass="ui large form">
+
+
+							<div class="field">
+								<s:decorate id="uField" template="/layout/edit.xhtml">
+									<ui:define name="prefix">
+										<i class="icon-user prefix"></i>
+									</ui:define>
+									<h:inputText value="#{registerAction.instance.username}" id="username" required="true" />
+									<ui:define name="label">
+										#{messages['User_Name']}
+									</ui:define>
+								</s:decorate>
+							</div>
+							<div class="field">
+								<s:decorate id="pField" template="/layout/edit.xhtml">
+									<ui:define name="prefix">
+										<i class="icon-lock prefix"></i>
+									</ui:define>
+									<h:inputSecret  value="#{registerAction.instance.password}" required="true" id="upass"/>
+									<ui:define name="label">
+										#{messages['Password']}
+									</ui:define>
+								</s:decorate>
+							</div>
+							<div class="field">
+								<s:decorate id="cpField" template="/layout/edit.xhtml">
+									<ui:define name="prefix">
+										<i class="icon-lock prefix"></i>
+									</ui:define>
+									<h:inputSecret id="cpass" value="#{registerAction.confirmPasswd}" required="true"/>
+									<ui:define name="label">
+										#{messages['Confirm_Password']}
+									</ui:define>
+								</s:decorate>
+							</div>
+							<h:commandButton action="#{registerAction.confirm()}" id="btnLogin"
+								value="#{messages['Send']}" styleClass="btn btn-blue" />
+
+
+						</h:form>
+					</div>
+					
+				</div>
+
+				<div class="two wide column"></div>
+
+
+			</div>
+		</div>
 	
-    <h:form id="registrationForm">
-    		email : <h:outputText value="#{registerAction.instance.email}" /> <br />
-    		User Name : <h:inputText value="#{registerAction.instance.userName}" /> <br />
-    		pasword : <h:inputSecret  value="#{registerAction.instance.password}" /> <br />
-    		confirm pasword : <h:inputSecret  value="#{registerAction.confirmPasswd}" /> <br />
-            <h:commandButton id="submit" value="confirm" action="#{registerAction.confirm()}"/>
-    </h:form>
 
  </ui:define>
 </ui:composition>

@@ -11,7 +11,10 @@
 			<ui:insert />
 		</s:validateAll>
 		<s:div styleClass="ui pointing red basic label" rendered="#{invalid}"><s:message /></s:div>
-		<ui:insert name="label"></ui:insert>
+		<s:label>
+			<s:span styleClass="red" rendered="#{required}">*</s:span>				
+			<ui:insert name="label"></ui:insert>
+		</s:label>
 		 
 	</div>
 	
