@@ -12,7 +12,7 @@
 	<ui:define name="body">
 
 		<div class="ui middle aligned equal width center aligned padded grid"
-			style="height: 100%;" id="featureContent">
+			style="height: 100%;" >
 
 			<div class="row" style="margin: 0; padding: 0; margin-top: 150px;">
  
@@ -32,7 +32,7 @@
 									<ui:define name="prefix">
 										<i class="icon-user prefix"></i>
 									</ui:define>
-									<h:inputText id="uname" />
+									<h:inputText id="uname" required="true"/>
 									<ui:define name="label">
 										<s:label for="uname">#{messages['Email']}</s:label>
 									</ui:define>
@@ -43,13 +43,13 @@
 									<ui:define name="prefix">
 										<i class="icon-lock prefix"></i>
 									</ui:define>
-									<h:inputSecret id="upass" />
+									<h:inputSecret id="upass" required="true"/>
 									<ui:define name="label">
 										<s:label for="upass">#{messages['Password']}</s:label>
 									</ui:define>
 								</s:decorate>
 							</div>
-							<h:commandButton action="#{identity.login()}"
+							<h:commandButton action="#{identity.login()}" id="btnLogin"
 								value="#{messages['Send']}" styleClass="btn btn-blue" />
 
 
@@ -76,15 +76,17 @@
 							<div class="field">
 								<s:decorate id="uEmail" template="/layout/edit.xhtml">
 									<ui:define name="prefix">
-										<i class="icon-user prefix"></i>
+										<i class="icon-mail prefix"></i>
 									</ui:define>
-									<h:inputText id="uemail" />
+									<h:inputText id="uemail" value="#{user.email}" required="true"/>
 									<ui:define name="label">
 										<s:label for="uemail">#{messages['Email']}</s:label>
 									</ui:define>
 								</s:decorate>
+								
 							</div>
-							<h:commandButton action="#{identity.login()}"
+							
+							<h:commandButton action="#{registerAction.register()}" id="btnRegister"
 								value="#{messages['Send']}" styleClass="btn btn-green" />
 
 
@@ -99,11 +101,33 @@
 
 			</div>
 		</div>
+		
+		<script type="text/javascript">
+
+								jQuery(document).ready(function(){
+
+									jQuery("#registerForm\\:uEmail\\:uemail").on('keyup', function(e){
+										if (e.keyCode == 13) { jQuery("#registerForm\\:btnRegister").click();}
+									});
+
+									jQuery("#loginForm\\:uField\\:uname").on('keyup', function(e){
+										if (e.keyCode == 13) { jQuery("#loginForm\\:btnLogin").click();}
+									});
+
+									jQuery("#loginForm\\:pField\\:upass").on('keyup', function(e){
+										if (e.keyCode == 13) { jQuery("#loginForm\\:btnLogin").click();}
+									});
+									
+									
+								});
+									
+								</script>
 
 		<script type="text/javascript">
 			jQuery(document).ready(function(){
 				Materialize.updateTextFields();
 			});
+			
 		</script>
 
 	</ui:define>

@@ -9,6 +9,117 @@
   src: url("fonts/Yekan.woff") format('woff'), url("fonts/Yekan.ttf") format('truetype');
 }
 
+.locale-direction{
+	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif !important;
+	direction: rtl;
+}
+
+.centerContent{
+	margin: 0; padding: 0; margin-top: 150px;
+}
+
+/* =Notifications
+-----------------------------------------------------------------------------*/
+.message {
+	color: #ffffff;
+	font-family: 'Yekan';
+	direction: rtl;
+	text-align: center;
+}
+
+.message li {
+	padding: 7px 15px;
+	text-align: center;
+	margin-bottom: .65em;
+}
+
+.message li.infomsg {
+	direction: rtl;
+	border: 1px solid #4161E0;
+	border-radius: 3px;
+	color: #ffffff;
+	list-style: disc inside url("../images/msginfo.png");
+	background: rgba(212, 228, 239, 1);
+	background: -moz-linear-gradient(top, rgba(212, 228, 239, 1) 0%,
+		rgba(211, 227, 239, 1) 1%, rgba(134, 174, 204, 1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(212, 228,
+		239, 1)), color-stop(1%, rgba(211, 227, 239, 1)),
+		color-stop(100%, rgba(134, 174, 204, 1)));
+	background: -webkit-linear-gradient(top, rgba(212, 228, 239, 1) 0%,
+		rgba(211, 227, 239, 1) 1%, rgba(134, 174, 204, 1) 100%);
+	background: -o-linear-gradient(top, rgba(212, 228, 239, 1) 0%,
+		rgba(211, 227, 239, 1) 1%, rgba(134, 174, 204, 1) 100%);
+	background: -ms-linear-gradient(top, rgba(212, 228, 239, 1) 0%,
+		rgba(211, 227, 239, 1) 1%, rgba(134, 174, 204, 1) 100%);
+	background: linear-gradient(to bottom, rgba(212, 228, 239, 1) 0%,
+		rgba(211, 227, 239, 1) 1%, rgba(134, 174, 204, 1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef',
+		endColorstr='#86aecc', GradientType=0);
+}
+
+.message li.errormsg {
+	direction: rtl;
+	border: 1px solid #DE2C3B;
+	border-radius: 3px;
+	background: #FECEAF; /* Old browsers */
+	background: -moz-linear-gradient(top, #FECEAF 0%, #D9966A 100%);
+	/* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FECEAF),
+		color-stop(100%, #D9966A));
+	/* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #FECEAF 0%, #98bede 100%);
+	/* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #FECEAF 0%, #D9966A 100%);
+	/* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #FECEAF 0%, #D9966A 100%);
+	/* IE10+ */
+	background: linear-gradient(top, #FECEAF 0%, #D9966A 100%); /* W3C */
+	/* IE6-9 */
+	background: -moz-linear-gradient(top, #FECEAF 0%, #D9966A 100%);
+	/* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FECEAF),
+		color-stop(100%, #D9966A)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #FECEAF 0%, #D9966A 100%);
+	/* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #FECEAF 0%, #D9966A 100%);
+	/* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #FECEAF 0%, #D9966A 100%);
+	/* IE10+ */
+	background: linear-gradient(top, #FECEAF 0%, #D9966A 100%); /* W3C */
+	list-style: disc inside url("../images/msgerror.png");
+	border-radius: 3px;
+}
+
+.message li.warnmsg {
+	direction: rtl;
+	border: 1px solid #E7E084;
+	border-radius: 3px;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffd65e+0,febf04+100;Yellow+3D+%232 */
+	background: #ffd65e; /* Old browsers */
+	background: -moz-linear-gradient(top, #ffd65e 0%, #febf04 100%);
+	/* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #ffd65e 0%, #febf04 100%);
+	/* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #ffd65e 0%, #febf04 100%);
+	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffd65e',
+		endColorstr='#febf04', GradientType=0); /* IE6-9 */
+	list-style: disc inside url("../images/msgwarn.png");
+}
+
+.alert-box {
+	margin: 10px;
+	position: absolute;
+	right: 0;
+	top: 20px;
+	width: 25%;
+	z-index: 10000000;
+}
+
+html, 
+body {
+    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+}
 
 /*-------------------
         Links

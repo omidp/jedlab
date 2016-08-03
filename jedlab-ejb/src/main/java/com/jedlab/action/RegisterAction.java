@@ -2,6 +2,7 @@ package com.jedlab.action;
 
 import java.io.Serializable;
 
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
@@ -9,10 +10,17 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.faces.Renderer;
+import org.jboss.seam.international.StatusMessage;
+import org.jboss.seam.international.StatusMessage.Severity;
 import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.PasswordHash;
 
@@ -67,11 +75,11 @@ public class RegisterAction implements Serializable
             instance = (Member) entityManager.createQuery("select u from Member u where u.activationCode = :activationCode")
                     .setParameter("activationCode", user.getActivationCode()).setMaxResults(1).getSingleResult();
             if (getInstance().getEmail() == null || getInstance().getActivationCode() == null)
-                throw new ErrorPageExceptionHandler("unable to find user with this activation code");
+                throw new ErrorPageExceptionHandler(StatusMessage.getBundleMessage("No_User_Found",""));
         }
         catch (NoResultException e)
         {
-            throw new ErrorPageExceptionHandler("unable to find user with this activation code");
+            throw new ErrorPageExceptionHandler(StatusMessage.getBundleMessage("No_User_Found",""));
         }
 
     }
@@ -110,16 +118,30 @@ public class RegisterAction implements Serializable
             entityManager.flush();
             if (user.getId() != null)
             {
-                // renderer.render("/mailTemplates/register.xhtml");
-                StatusMessages.instance().add("Email sent successfully");
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                String viewId = Pages.getCurrentViewId();
+                String url = facesContext.getApplication().getViewHandler().getActionURL(facesContext, Pages.getCurrentViewId());
+                url = Pages.instance().encodeScheme(viewId, facesContext, url);
+                url = url.substring(0, url.lastIndexOf("/") + 1);
+                String activationLink = url + "registerConfirmation.seam" + "?ac=" + user.getActivationCode();
+                Events.instance().raiseAsynchronousEvent("sendMail", user, activationLink);
+                StatusMessages.instance().addFromResourceBundle("Register_Success", user.getEmail());
             }
             return "registered";
         }
         catch (Exception e)
         {
-            StatusMessages.instance().add("Email sending failed: " + e.getMessage());
-            throw new PageExceptionHandler("failed");
+            throw new PageExceptionHandler(Interpolator.instance().interpolate(StatusMessage.getBundleMessage("Register_Fail", ""),
+                    user.getEmail()), Severity.ERROR);
         }
+    }
+    
+    @Observer("sendMail")
+    public void sendEmail(Member registeredUser, String activationLink)
+    {        
+        Contexts.getConversationContext().set("user", registeredUser);
+        Contexts.getConversationContext().set("activationLink", activationLink);
+        renderer.render("/mailTemplates/register.xhtml");
     }
 
     public String recoverLink()

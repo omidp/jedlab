@@ -92,7 +92,7 @@
 	<event type="org.jboss.seam.security.loginSuccessful">
 		<action execute="#{redirect.returnToCapturedView}" />
 	</event>
-	<mail:mail-session host="smtp.gmail.com" port="587" username="modernprojtest@gmail.com" password="constantine@123"  />
+	<mail:mail-session host="mailtrap.io" port="2525" username="5c2004fb6d747b" password="c2cfab3fb3d9c0"  />
 	<!--<bpm:jbpm>
 		<bpm:process-definitions>			
 			<value>managerProcess.jpdl.xml</value>

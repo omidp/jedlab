@@ -141,17 +141,14 @@ summary {
     display: block
 }
 .relative-container {
-    position: relative
+    position: relative;    
 }
 body {
     background-color: #f5f5f5;
     color: #404040;
     font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
 }
-.local-direction{
-	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif !important;
-	direction: rtl;
-}
+
 body * {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
