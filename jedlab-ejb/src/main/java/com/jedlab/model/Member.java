@@ -21,7 +21,7 @@ import org.jboss.seam.annotations.Scope;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "member", uniqueConstraints = { @UniqueConstraint(columnNames = "user_name"),
-        @UniqueConstraint(columnNames = "email_address") })
+        @UniqueConstraint(columnNames = "email_address") , @UniqueConstraint(columnNames = "activation_code")})
 @Name("user")
 @Scope(ScopeType.CONVERSATION)
 @AutoCreate

@@ -2,6 +2,8 @@ package com.jedlab.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,17 +12,19 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.jboss.seam.international.StatusMessage;
 
 @Entity
-@Table(name = "course", schema="public")
-@Where(clause = " active = true ")
+@Table(name = "course", schema = "public")
+@Where(clause = " is_active = 'true' ")
 public class Course extends BasePO
 {
 
@@ -50,13 +54,26 @@ public class Course extends BasePO
     @Enumerated(EnumType.STRING)
     private Level level;
 
-    @Column(name = "is_active", columnDefinition="boolean DEFAULT true")
+    @Column(name = "is_active", columnDefinition = "boolean DEFAULT true")
     private boolean active;
-    
-    @Column(name="created_date", updatable = false, insertable = false, columnDefinition=" timestamp without time zone DEFAULT now()")
+
+    @Column(name = "created_date", updatable = false, insertable = false, columnDefinition = " timestamp without time zone DEFAULT now()")
     @Temporal(TemporalType.TIMESTAMP)
     @org.hibernate.annotations.Generated(org.hibernate.annotations.GenerationTime.INSERT)
     private Date createdDate;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
+    private Set<Chapter> chapters = new HashSet<>(0);
+
+    public Set<Chapter> getChapters()
+    {
+        return chapters;
+    }
+
+    public void setChapters(Set<Chapter> chapters)
+    {
+        this.chapters = chapters;
+    }
 
     public Date getCreatedDate()
     {
@@ -194,8 +211,11 @@ public class Course extends BasePO
     {
         this.active = active;
     }
-
     
-    
+    @Transient
+    public boolean getHasImage()
+    {
+        return getImage() != null && getImage().length > 0;
+    }
 
 }

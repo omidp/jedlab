@@ -1,11 +1,18 @@
 package com.jedlab.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import com.jedlab.framework.DateUtil;
 
 @Entity
 @Table(name = "chapter", schema="public")
@@ -16,7 +23,8 @@ public class Chapter extends BasePO
     private String name;
 
     @Column(name = "duration")
-    private long duration;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date duration;
 
     @Column(name = "file_url")
     private String url;
@@ -24,6 +32,23 @@ public class Chapter extends BasePO
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
+    
+    @Column(name = "created_date", updatable = false, insertable = false, columnDefinition = " timestamp without time zone DEFAULT now()")
+    @Temporal(TemporalType.TIMESTAMP)
+    @org.hibernate.annotations.Generated(org.hibernate.annotations.GenerationTime.INSERT)
+    private Date createdDate;
+    
+    
+
+    public Date getCreatedDate()
+    {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate)
+    {
+        this.createdDate = createdDate;
+    }
 
     public String getName()
     {
@@ -35,12 +60,12 @@ public class Chapter extends BasePO
         this.name = name;
     }
 
-    public long getDuration()
+    public Date getDuration()
     {
         return duration;
     }
 
-    public void setDuration(long duration)
+    public void setDuration(Date duration)
     {
         this.duration = duration;
     }
@@ -63,6 +88,14 @@ public class Chapter extends BasePO
     public void setCourse(Course course)
     {
         this.course = course;
+    }
+    
+    @Transient
+    public String getDurationWithformat()
+    {
+        if(getDuration() != null)
+            return DateUtil.getDuration(getDuration());
+        return "";
     }
 
 }

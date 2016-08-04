@@ -12,7 +12,44 @@ import com.jedlab.model.Course;
 public class CourseHome extends EntityHome<Course>
 {
 
-    
-    
-    
+    public void setCourseId(Long id)
+    {
+        setId(id);
+    }
+
+    public Long getCourseId()
+    {
+        return (Long) getId();
+    }
+
+    @Override
+    protected Course createInstance()
+    {
+        Course course = new Course();
+        return course;
+    }
+
+    public void load()
+    {
+        if (isIdDefined())
+        {
+            wire();
+        }
+    }
+
+    private void wire()
+    {
+
+    }
+
+    public boolean isWired()
+    {
+        return true;
+    }
+
+    public Course getDefinedInstance()
+    {
+        return isIdDefined() ? getInstance() : null;
+    }
+
 }

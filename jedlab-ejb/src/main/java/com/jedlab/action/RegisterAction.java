@@ -90,7 +90,7 @@ public class RegisterAction implements Serializable
         String tempPasswd = getInstance().getPassword();
         if (getConfirmPasswd().equals(tempPasswd) == false)
         {
-            StatusMessages.instance().addFromResourceBundle("Password_Does_Not_Match");
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Password_Does_Not_Match");
             return null;
         }
         String passwordKey = PasswordHash.instance().generateSaltedHash(tempPasswd, getInstance().getUsername(), "md5");
@@ -98,7 +98,7 @@ public class RegisterAction implements Serializable
         getInstance().setActivationCode(null);
         getInstance().setActive(Boolean.TRUE);
         entityManager.flush();
-        // renderer.render("/mailTemplates/thankyou.xhtml");
+        renderer.render("/mailTemplates/thankyou.xhtml");
         Identity identity = Identity.instance();
         identity.getCredentials().setUsername(getInstance().getUsername());
         identity.getCredentials().setPassword(tempPasswd);
@@ -124,7 +124,7 @@ public class RegisterAction implements Serializable
                 url = Pages.instance().encodeScheme(viewId, facesContext, url);
                 url = url.substring(0, url.lastIndexOf("/") + 1);
                 String activationLink = url + "registerConfirmation.seam" + "?ac=" + user.getActivationCode();
-                Events.instance().raiseAsynchronousEvent("sendMail", user, activationLink);
+                Events.instance().raiseAsynchronousEvent(Constants.SEND_MAIL_REGISTRATION, user, activationLink);
                 StatusMessages.instance().addFromResourceBundle("Register_Success", user.getEmail());
             }
             return "registered";
@@ -136,7 +136,7 @@ public class RegisterAction implements Serializable
         }
     }
     
-    @Observer("sendMail")
+    @Observer(Constants.SEND_MAIL_REGISTRATION)
     public void sendEmail(Member registeredUser, String activationLink)
     {        
         Contexts.getConversationContext().set("user", registeredUser);

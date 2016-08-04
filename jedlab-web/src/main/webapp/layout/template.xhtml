@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:s="http://jboss.com/products/seam/taglib"
-	xmlns:c="http://java.sun.com/jstl/core" xmlns:o="http://openfaces.org/"
+	xmlns:c="http://java.sun.com/jstl/core" 
 	contentType="text/html">
 	<c:set var="_ctx" value="#{request.contextPath}" />
 	<html>
@@ -13,8 +13,8 @@
 <title><h:outputText value="#{messages['Page_Title']}" /></title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" href="#{_ctx}/favicon.ico" type="image/x-icon" />
-<link href="#{_ctx}/#{theme.semanticCss}" rel="stylesheet" />
-<link href="#{_ctx}/#{theme.css}" rel="stylesheet" />
+<link href="#{_ctx}/css/semantic.rtl.min.css" rel="stylesheet" />
+<link href="#{_ctx}/css/common.css" rel="stylesheet" />
 <link href="#{_ctx}/css/icon.css" rel="stylesheet" />
 
 
@@ -25,7 +25,7 @@
 <script type="text/javascript" src="#{_ctx}/js/atmosphere.js"> </script>
 
 <style type="text/css">
-
+html, body{top: 0;margin: 0; padding: 0;}
 </style>
 
 <script type="text/javascript">
@@ -34,7 +34,67 @@
 <ui:insert name="head" />
 
 </head>
-<body>
+<body id="home" class="pushable">
+
+	<div class="pusher">
+	<s:div id="uiMessage">
+			<script type="text/javascript">
+			jQuery(document).ready(function(){
+				
+				//msg setup
+				var message=jQuery("ul.message li");
+				var messageUl=jQuery("ul.message");
+				message.click(function() {
+					jQuery(this).hide('drop', {}, 1000).fadeOut();			        
+			    });
+				messageUl.data('defaultTimer', setTimeout(function(){ 
+						messageUl.hide();
+                	}, 5000));
+				messageUl.hover(function(){
+				    var item=jQuery(this);
+	                var siblingsNodes=jQuery(this).siblings('li');
+			    	var defaultTimer = messageUl.data('defaultTimer');
+                	if(defaultTimer){ 
+                		clearTimeout(defaultTimer);
+	                }
+				    },function(){
+				    	messageUl.data('defaultTimer', setTimeout(function(){ 
+				    		messageUl.hide();
+		                	}, 2000));
+					    });
+			});
+		</script>
+			<div class="alert-box">
+				<h:messages id="messages" globalOnly="true" styleClass="message"
+					errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"
+					rendered="#{showGlobalMessages != 'false'}" />
+			</div>
+		</s:div>
+	
+	
+	<div class="ui vertically padded internally celled grid">
+
+			<div class="row">
+				<ui:include src="/layout/header.xhtml" />
+			</div>
+ 
+			<div class="row">
+				<ui:insert name="body"></ui:insert>
+			</div>
+
+			<div class="row">
+				<ui:include src="/layout/footer.xhtml" />
+			</div>
+
+		</div>
+		
+		
+		
+		<div class="ui page dimmer" id="dimmerLoader">
+			<div class="ui text loader">#{messages['Loading']}</div>
+		</div>
+		
+	</div>	
 	
 </body>
 	</html>

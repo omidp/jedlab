@@ -97,8 +97,9 @@ jQuery.noConflict();
 							view="/login.xhtml" styleClass="ui item locale-direction" value="#{messages['Sign_In']} ( #{messages['Register']} )">
 					</s:link>
 					<s:link propagation="none" includePageParams="false"  rendered="#{identity.loggedIn}"
-							action="#{identity.logout()}" styleClass="ui item locale-direction" value="#{messages['Sign_Out']}">
+							action="#{identity.logout()}" styleClass="ui item locale-direction">
 						<i class="icon-exit"></i>	
+						<h:outputText value="#{messages['Sign_Out']}" />
 					</s:link>
 					<div class="right menu">
 						<s:link propagation="none" includePageParams="false" 

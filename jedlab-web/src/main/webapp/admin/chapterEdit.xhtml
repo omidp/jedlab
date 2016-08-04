@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html" 
+    template="/layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="chapterForm">
+    
+                <h:panelGrid columns="2" dir="rtl">
+                	
+                	<h:outputLabel for="coursename">#{messages['Course_Name']}</h:outputLabel>
+                    <h:outputLabel id="coursename"
+                              value="#{chapterHome.course.name}"/>
+                
+                    <h:outputLabel for="cname">#{messages['Chapter_Name']}</h:outputLabel>
+                    <h:inputText id="cname"
+                              value="#{chapterHome.instance.name}"/>
+                              
+                    <h:outputLabel for="t">#{messages['Duration']}</h:outputLabel>
+                    <h:inputText id="t"
+                                value="#{chapterHome.duration}">
+                                
+                    </h:inputText>            
+                                
+                  
+					<h:outputLabel for="p">#{messages['Path']}</h:outputLabel>
+                    <h:inputText id="p"
+                                value="#{chapterHome.instance.url}">
+                    </h:inputText>            	
+                    
+                 
+                </h:panelGrid>
+
+        
+
+            <h:commandButton id="submit" value="Save" action="#{chapterHome.persist()}"/>
+
+    </h:form>
+
+ </ui:define>
+</ui:composition>

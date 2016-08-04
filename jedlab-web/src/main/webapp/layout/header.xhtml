@@ -5,5 +5,52 @@
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:c="http://java.sun.com/jstl/core">
 
-	
+	<div class="sixteen wide column">
+		<div class="ui secondary  menu"
+			style="height: 30px; margin: 0; padding: 0; top: 0">
+
+			<s:link propagation="none" includePageParams="false"
+				rendered="#{identity.loggedIn}" view="/member/courseList.xhtml"
+				styleClass="item">
+				<h:outputText value="#{messages['Course_List']}" />
+			</s:link>
+
+			<s:link propagation="none" includePageParams="false"
+				rendered="#{identity.loggedIn}"
+				view="/member/registeredCourseList.xhtml" styleClass="item">
+				<h:outputText value="#{messages['Register_Course_List']}" />
+			</s:link>
+			
+			<s:link propagation="none" includePageParams="false"
+				rendered="#{identity.loggedIn and s:hasRole('Admin')}"
+				view="/admin/courseEdit.xhtml" styleClass="item">
+				<h:outputText value="#{messages['Create_Course']}" />
+			</s:link>
+
+
+
+			<div class="right menu">
+				<div class="item">
+					<div class="ui icon input">
+						<input placeholder="Search..." type="text" /> <i
+							class="search link icon"></i>
+					</div>
+				</div>
+				<s:link propagation="none" includePageParams="false"
+					rendered="#{identity.loggedIn}" action="#{identity.logout()}"
+					styleClass="ui item locale-direction">
+					<i class="icon-exit"></i>
+					<h:outputText value="#{messages['Sign_Out']}" />
+				</s:link>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			
+		});
+	</script>
+
 </ui:composition>

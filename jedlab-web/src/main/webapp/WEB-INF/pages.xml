@@ -25,13 +25,11 @@
 	
 	
 	
-	<page view-id="/member/*" login-required="true">		
-		<!--<action execute="#{securityChecker.checkExpiry()}" />
-			<action execute="#{securityChecker.checkToken()}" on-postback="false" />		
-		-->		
+	<page view-id="/admin/*" login-required="true">		
+		<restrict>#{s:hasRole('Admin')}</restrict>		
 	</page>
 	
-	<page view-id="/admin/*" login-required="true">		
+	<page view-id="/member/*" login-required="true">		
 		<!--<action execute="#{securityChecker.checkExpiry()}" />
 			<action execute="#{securityChecker.checkToken()}" on-postback="false" />		
 		-->		
