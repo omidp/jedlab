@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<div style="width:100%" class="locale-direction">
+
+		<div class="ui link cards">
+
+			<c:forEach items="#{memberCourseQuery.resultList}" var="_item">
+				<div class="card">
+					<div class="image">
+						<a href="#{_ctx}/member/course.seam?courseId=#{_item.course.id}">
+						<s:graphicImage value="#{_item.course.image}"
+							rendered="#{_item.course.hasImage}"
+							styleClass="ui middle aligned small image"></s:graphicImage>
+
+						<s:graphicImage value="/images/no_video_photo.png"
+							rendered="#{_item.course.hasImage == false}"
+							styleClass="ui middle aligned small image"></s:graphicImage>
+						</a>	
+					</div>
+					<div class="content">
+						<div class="header">
+								<h:outputText value="#{_item.course.name}"/>
+							
+						</div>
+						<div class="meta">
+							#{messages['Publish_Date']} : <h:outputText value="#{_item.course.createdDate}" converter="#{persianDateConverter}" /> <br />
+							#{_item.course.chapters.size()} #{messages['Chapter']}
+						</div>
+						<div class="description"></div>
+					</div>
+					<div class="extra content">
+						<span class="right floated"> #{messages['Detail_View']} </span> 
+						
+					</div>
+				</div>
+			</c:forEach>
+
+		</div>
+		
+		</div>
+
+
+	</ui:define>
+</ui:composition>

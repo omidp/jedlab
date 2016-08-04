@@ -6,5 +6,13 @@
 	<param name="courseId" value="#{courseHome.courseId}" required="true"/>
 	
 	
+	<navigation from-action="#{memberCourseHome.register()}">
+		<end-conversation />
+		<rule if-outcome="registered">
+			<redirect view-id="/member/memberCourseList.xhtml" include-page-params="false">
+			</redirect>
+		</rule>
+	</navigation>
+	
 
 </page>
