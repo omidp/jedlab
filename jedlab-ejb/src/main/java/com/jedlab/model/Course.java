@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
@@ -37,7 +38,8 @@ public class Course extends BasePO
     @Basic(fetch = FetchType.LAZY)
     private byte[] image;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
+    @NotNull
     private BigDecimal price;
 
     @Column(name = "teacher")
@@ -216,6 +218,12 @@ public class Course extends BasePO
     public boolean getHasImage()
     {
         return getImage() != null && getImage().length > 0;
+    }
+    
+    @Transient
+    public boolean isFree()
+    {
+        return getPrice().compareTo(BigDecimal.ZERO) > 0;
     }
 
 }

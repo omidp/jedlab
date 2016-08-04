@@ -17,6 +17,7 @@ public class CourseQuery extends PagingEntityQuery<Course>
     private static final String EJBQL = "select c from Course c LEFT OUTER JOIN c.chapters chapters";
     
     private static final String[] RESTRICTIONS = { "lower(c.name) like lower(concat('%',concat(#{courseQuery.course.name},'%')))",
+        "c.id = #{courseQuery.course.id}"
         };
     
     Course course = new Course();

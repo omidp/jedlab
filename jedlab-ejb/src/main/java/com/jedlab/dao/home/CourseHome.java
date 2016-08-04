@@ -52,4 +52,20 @@ public class CourseHome extends EntityHome<Course>
         return isIdDefined() ? getInstance() : null;
     }
 
+    @Override
+    protected Course loadInstance()
+    {
+        try
+        {
+
+            return (Course) getEntityManager()
+                    .createQuery("select c from Course c LEFT OUTER JOIN c.chapters chapters where c.id = :courseId")
+                    .setParameter("courseId", getId()).getSingleResult();
+        }
+        catch (Exception e)
+        {
+        }
+        return null;
+    }
+
 }

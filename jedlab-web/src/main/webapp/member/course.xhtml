@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<div class="ui styled fluid accordion" id="courseContent">
+
+			<div class="active title">
+				<i class="dropdown icon"></i> What is a dog?
+			</div>
+			<div class="active content">
+				<p>A dog is a type of domesticated animal. Known for its loyalty
+					and faithfulness, it can be found as a welcome guest in many
+					households across the world.</p>
+			</div>
+
+			<div class="title">
+				<i class="dropdown icon"></i> Chapters
+			</div>
+
+			<div class="content">
+
+				<div class="transition hidden">
+
+					<table class="ui celled padded table" dir="rtl">
+						<thead>
+							<tr>
+								<th class="single line">#{messages['Chapter_Name']}</th>
+								<th>#{messages['Duration']}</th>
+								<th>#{messages['Publish_Date']}</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<c:forEach var="_item" items="#{courseHome.instance.chapters}">
+								<tr>
+									<td>
+										<h2 class="ui center aligned header">#{_item.name}</h2>
+									</td>
+									<td class="single line">#{_item.durationWithformat}</td>
+									<td><h:outputText value="#{_item.createdDate}"
+											converter="#{persianDateConverter}" /></td>
+
+								</tr>
+							</c:forEach>
+
+						</tbody>
+					</table>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<script>
+		jQuery(document).ready(function(){
+
+			$('#courseContent')
+			  .accordion({
+			    selector: {
+			      trigger: '.title .icon'
+			    }
+			  })
+			;
+
+		});
+	</script>
+
+
+	</ui:define>
+</ui:composition>
