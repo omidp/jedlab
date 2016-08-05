@@ -39,11 +39,6 @@ public class AuthenticatorBean implements Authenticator
     public boolean authenticate()
     {
         log.info("authenticating {0}", credentials.getUsername());
-        if ("admin".equals(credentials.getUsername()) && "nimda@java".equals(credentials.getPassword()))
-        {
-            identity.addRole(Constants.ROLE_ADMIN);
-            return true;
-        }
         try
         {
             Member m = (Member) entityManager.createQuery("select m from Member m where m.username = :uname or m.email = :email")
@@ -51,6 +46,10 @@ public class AuthenticatorBean implements Authenticator
                     .getSingleResult();
             if (m.isActive() == false)
                 return false;
+            if ("admin".equals(credentials.getUsername()))
+            {
+                identity.addRole(Constants.ROLE_ADMIN);
+            }
             String passwordKey = PasswordHash.instance().generateSaltedHash(credentials.getPassword(), credentials.getUsername(), "md5");
             if (passwordKey.equals(m.getPassword()))
             {

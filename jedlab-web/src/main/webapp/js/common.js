@@ -18,7 +18,8 @@ var common = {
 	       document.applets[0].setParam("url", uri);
 	       document.applets[0].setParam("userId", uid);
 	       document.applets[0].setParam("password", p);
-	       document.applets[0].setParam("local", "false");
+	       document.applets[0].setParam("local", false);
+	       document.applets[0].setParam("keepAspect", false);
 	       common.restartVideo();
 		},
 		restartVideo : function(){

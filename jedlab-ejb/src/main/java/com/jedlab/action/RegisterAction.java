@@ -98,12 +98,20 @@ public class RegisterAction implements Serializable
         getInstance().setActivationCode(null);
         getInstance().setActive(Boolean.TRUE);
         entityManager.flush();
-        renderer.render("/mailTemplates/thankyou.xhtml");
+        StatusMessages.instance().addFromResourceBundle("Register_Completed");
+        Events.instance().raiseAsynchronousEvent(Constants.SEND_THANK_YOU_MAIL, getInstance());
         Identity identity = Identity.instance();
         identity.getCredentials().setUsername(getInstance().getUsername());
         identity.getCredentials().setPassword(tempPasswd);
         identity.login();
         return "confirmed";
+    }
+    
+    @Observer(Constants.SEND_THANK_YOU_MAIL)
+    public void sendThankYouEmail(Member registeredUser)
+    {        
+        Contexts.getConversationContext().set("user", registeredUser);
+        renderer.render("/mailTemplates/thankyou.xhtml");
     }
 
     @Transactional

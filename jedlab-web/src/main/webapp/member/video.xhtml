@@ -10,12 +10,13 @@
 	<ui:define name="head">
 		<script src="#{request.contextPath}/js/deployJava.js"></script>
 	</ui:define>
+	
 		
 	<ui:define name="body">
  
-		<div style="position: absolute;top:0; left:0;width: 100%; height: 75%;z-index: 9999999;background-color: #000">
+		<div style="position: absolute;top:0; left:0;width: 720px; height: 420px;margin: 0 auto;z-index: 9999999;background-color: #000">
 			<applet code="com.fluendo.player.Cortado.class"
-				archive="cortado-ovtk-stripped-0.6.0-1.jar" width="100%" height="100%">
+				archive="cortado-ovtk-stripped-0.6.0-1.jar" width="720" height="420">
 			</applet>
 		</div>
 
