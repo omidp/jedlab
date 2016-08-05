@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:c="http://java.sun.com/jstl/core" 
+	contentType="text/html">
+	<c:set var="_ctx" value="#{request.contextPath}" />
+	<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title><h:outputText value="#{messages['Page_Title']}" /></title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="#{_ctx}/favicon.ico" type="image/x-icon" />
+<link href="#{_ctx}/css/semantic.rtl.min.css" rel="stylesheet" />
+<link href="#{_ctx}/css/common.css" rel="stylesheet" />
+<link href="#{_ctx}/css/icon.css" rel="stylesheet" />
+
+
+<script type="text/javascript" src="#{_ctx}/js/jquery.js"> </script>
+<script type="text/javascript" src="#{_ctx}/js/semantic.min.js"> </script>
+<script type="text/javascript" src="#{_ctx}/js/prototype.js"> </script>
+<script type="text/javascript" src="#{_ctx}/js/handlebars.js"> </script>
+<script type="text/javascript" src="#{_ctx}/js/atmosphere.js"> </script>
+<script type="text/javascript" src="#{_ctx}/js/common.js"> </script>
+<style type="text/css">
+html, body{top: 0;margin: 0; padding: 0;}
+</style>
+
+<script type="text/javascript">
+		
+	</script>
+<ui:insert name="head" />
+
+</head>
+<body id="home">
+
+<ui:insert name="body"></ui:insert>	
+</body>
+	</html>
+</f:view>

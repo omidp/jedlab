@@ -47,6 +47,7 @@
     
 	<!-- Make sure this URL pattern is the same as that used by the Faces Servlet -->
 	<web:ajax4jsf-filter disabled="true"></web:ajax4jsf-filter>
+	<web:authentication-filter url-pattern="*.play" auth-type="basic" realm="seamApp"/>
 	<web:hot-deploy-filter url-pattern="*.seam" />
 	<web:multipart-filter create-temp-files="true"
 		max-request-size="10000000" url-pattern="*.seam" />
@@ -116,7 +117,6 @@
 		<property name="errorPage">/pdfMissing.seam</property>
 	</component>
 	<factory auto-create="true" name="hibernateSession" value="#{entityManager.delegate}" />
-	<factory auto-create="true" name="restrictedHibernateSession" value="#{restrictedEntityManager.delegate}" />
 	<factory auto-create="true" name="httpRequest"
 		value="#{facesContext.externalContext.request}" />
 	<factory auto-create="true" name="contextPath" scope="CONVERSATION"

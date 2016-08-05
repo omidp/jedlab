@@ -14,6 +14,7 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.PasswordHash;
 
 import com.jedlab.framework.CacheManager;
+import com.jedlab.model.LoginActivity;
 import com.jedlab.model.Member;
 
 @Stateless
@@ -31,6 +32,9 @@ public class AuthenticatorBean implements Authenticator
 
     @In
     EntityManager entityManager;
+    
+    @In(create=true)
+    LoginActionManager loginActionManager;
 
     public boolean authenticate()
     {
@@ -50,9 +54,24 @@ public class AuthenticatorBean implements Authenticator
             String passwordKey = PasswordHash.instance().generateSaltedHash(credentials.getPassword(), credentials.getUsername(), "md5");
             if (passwordKey.equals(m.getPassword()))
             {
+                LoginActivity la = loginActionManager.addActivity(m.getUsername());
                 Contexts.getSessionContext().set(Constants.CURRENT_USER_ID, m.getId());
+                Contexts.getSessionContext().set(Constants.CURRENT_USER_NAME, m.getUsername());
+                Contexts.getSessionContext().set(LoginActivity.TOKEN, la.getToken());
                 CacheManager.put(Constants.CURRENT_USER, m);
                 return true;
+            }
+            //check token
+            //comes from filter
+            LoginActivity la = loginActionManager.findLastActiveLogin(credentials.getUsername());
+            if(la != null)
+            {
+                if(credentials.getPassword().equals(la.getToken()))
+                {
+                    Contexts.getSessionContext().set(Constants.CURRENT_USER_ID, m.getId());
+                    Contexts.getSessionContext().set(Constants.CURRENT_USER_NAME, m.getUsername());
+                    return true;
+                }
             }
         }
         catch (NoResultException e)

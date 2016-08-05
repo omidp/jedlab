@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="/layout/videoLayout.xhtml">
+	
+	<ui:define name="head">
+		<script src="#{request.contextPath}/js/deployJava.js"></script>
+	</ui:define>
+		
+	<ui:define name="body">
+ 
+		<div style="position: absolute;top:0; left:0;width: 100%; height: 75%;z-index: 9999999;background-color: #000">
+			<applet code="com.fluendo.player.Cortado.class"
+				archive="cortado-ovtk-stripped-0.6.0-1.jar" width="100%" height="100%">
+			</applet>
+		</div>
+
+		<script type="text/javascript">
+			jQuery(document).ready(function(){
+				var t = '#{loginActionManager.currentToken}';
+				var u = '#{loginActionManager.currentUsername}';
+				var vname = "#{chapterId}";
+				var loc = window.location.origin + "#{_ctx}/"+vname+".play"; 
+				console.log(loc);
+				common.playVideo(loc, t, u);
+				
+			});
+		</script>
+		</ui:define>
+</ui:composition>

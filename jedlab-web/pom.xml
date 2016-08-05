@@ -20,6 +20,8 @@
 
 	<dependencies>
 
+
+
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
 			<artifactId>jboss-seam-mail</artifactId>
@@ -157,7 +159,7 @@
 			</exclusions>
 		</dependency>
 
-		
+
 
 		<dependency>
 			<groupId>javax.faces</groupId>
@@ -184,7 +186,7 @@
 			<artifactId>atmosphere-seam</artifactId>
 		</dependency>
 
-		
+
 
 
 
@@ -206,7 +208,7 @@
 				</configuration>
 			</plugin>
 
-		
+
 		</plugins>
 	</build>
 

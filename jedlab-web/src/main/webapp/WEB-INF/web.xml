@@ -28,15 +28,8 @@
 
 
 	<!--<context-param> <param-name>facelets.REFRESH_PERIOD</param-name> <param-value>-1</param-value> 
-		</context-param> 
-
-
-
-	<context-param>
-		<param-name>facelets.LIBRARIES</param-name>
-		<param-value>/WEB-INF/tags/jedlab-taglib.xml 
-		</param-value>
-	</context-param>-->
+		</context-param> <context-param> <param-name>facelets.LIBRARIES</param-name> 
+		<param-value>/WEB-INF/tags/jedlab-taglib.xml </param-value> </context-param> -->
 
 
 	<!-- Seam -->
@@ -113,6 +106,22 @@
 		<url-pattern>/seam/docstore/*</url-pattern>
 	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>Video Player</servlet-name>
+		<url-pattern>*.play</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Video Player</servlet-name>
+		<servlet-class>com.jedlab.VideoPlayer</servlet-class>
+	</servlet>
+
+<error-page>
+    <exception-type>
+          com.jedlab.framework.exceptions.RequestException
+    </exception-type >
+    <location>/error.seam</location>
+</error-page>
 
 	<!-- Session Configuration -->
 	<session-config>

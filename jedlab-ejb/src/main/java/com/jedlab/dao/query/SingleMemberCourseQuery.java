@@ -10,22 +10,29 @@ import org.hibernate.criterion.Subqueries;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.contexts.Contexts;
 
 import com.jedlab.action.Constants;
 import com.jedlab.framework.PagingController;
+import com.jedlab.model.Course;
 import com.jedlab.model.MemberCourse;
 
-@Name("memberCourseQuery")
+@Name("singleMemberCourseQuery")
 @Scope(ScopeType.CONVERSATION)
-public class MemberCourseQuery extends PagingController<MemberCourse>
+public class SingleMemberCourseQuery extends PagingController<MemberCourse>
 {
+
+    @RequestParameter
+    Long courseId;
 
     private List<MemberCourse> resultList;
 
+    private Course course;
+
     private Long resultCount;
 
-    public MemberCourseQuery()
+    public SingleMemberCourseQuery()
     {
         setMaxResults(15);
     }
@@ -41,7 +48,13 @@ public class MemberCourseQuery extends PagingController<MemberCourse>
         if (getMaxResults() != null)
             criteria.setMaxResults(getMaxResults() + 1);
         resultList = criteria.list();
+        course = resultList.iterator().next().getCourse();
         return truncResultList(resultList);
+    }
+
+    public Course getCourse()
+    {
+        return course;
     }
 
     private Criteria createCriteria()
@@ -51,12 +64,7 @@ public class MemberCourseQuery extends PagingController<MemberCourse>
         criteria.createCriteria("mc.course", "c", Criteria.LEFT_JOIN);
         criteria.createCriteria("c.chapters", "chap", Criteria.LEFT_JOIN);
         criteria.add(Restrictions.eq("mc.member.id", uid));
-        //
-        DetachedCriteria dc = DetachedCriteria.forClass(MemberCourse.class, "memc");
-        dc.setProjection(Projections.distinct(Projections.property("course")));
-        dc.add(Restrictions.eq("memc.member.id", uid));
-        //
-        criteria.add(Subqueries.propertyIn("mc.course.id", dc));
+        criteria.add(Restrictions.eq("c.id", courseId));
         return criteria;
     }
 
@@ -76,7 +84,7 @@ public class MemberCourseQuery extends PagingController<MemberCourse>
     {
         return resultList != null && getMaxResults() != null && resultList.size() > getMaxResults();
     }
-    
-    ////////////////
-    
+
+    // //////////////
+
 }

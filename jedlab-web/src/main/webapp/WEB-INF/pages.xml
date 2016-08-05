@@ -30,9 +30,7 @@
 	</page>
 	
 	<page view-id="/member/*" login-required="true">		
-		<!--<action execute="#{securityChecker.checkExpiry()}" />
-			<action execute="#{securityChecker.checkToken()}" on-postback="false" />		
-		-->		
+		<action execute="#{loginActionManager.checkToken()}" on-postback="false" />
 	</page>
 
 	<exception class="org.jboss.seam.framework.EntityNotFoundException">

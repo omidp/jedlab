@@ -31,10 +31,7 @@ public class CourseHome extends EntityHome<Course>
 
     public void load()
     {
-        if (isIdDefined())
-        {
-            wire();
-        }
+        
     }
 
     private void wire()
