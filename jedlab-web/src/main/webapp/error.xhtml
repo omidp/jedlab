@@ -1,29 +1,178 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:s="http://jboss.com/products/seam/taglib"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"    
-    >
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core">
+	<c:set var="_ctx" value="#{request.contextPath}" />
 	<html>
-	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
-	<title><h:outputText value="#{messages['Page_Title']}" /></title>	
-	<script type="text/javascript">
-	
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>JEDLAB | <h:outputText value="#{messages['Error_Title']}" /></title>
+<script type="text/javascript" src="#{_ctx}/js/jquery.js"> </script>
+<script type="text/javascript">
+//<![CDATA[
+		var contextPath = "#{_ctx}";
 		var currentDate = new Date(#{currentDate.time});
 		var sessionTimeout = #{httpSession.maxInactiveInterval};
 		var pathName = window.location.pathname.substring(contextPath.length+1).replace('.seam', '.xhtml');		
 		jQuery.noConflict();
-		
-	</script>
-	</head>
-	<body>
-		
-		Oooops something bad happened :-(
-    
+		jQuery(document).ready( function(){
+			
+			var bodyHeight 		= jQuery(window).height();
+			var contentHeight	= jQuery("#mother").height();
+			var newHeight;
+			
+			if ( bodyHeight < contentHeight ){
+				var newHeight = contentHeight - bodyHeight;
+								
+			} else {
+				var newHeight = bodyHeight - contentHeight;
 
-    </body>
-    </html>
+			}
+			newHeight = newHeight / 2; 
+			
+			jQuery("body").css({marginTop:newHeight});
+			
+		});
+		//]]>
+	</script>
+<style type="text/css"> 
+body {
+    background: #efefef none repeat scroll 0 0;
+    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+@font-face {
+  font-family: 'Roboto-Light';
+  src: url("css/fonts/Roboto-Light.eot");
+  src: url("css/fonts/Roboto-Light.eot?#iefix") format('embedded-opentype'), url("css/fonts/Roboto-Light.woff") format('woff'), url("css/fonts/Roboto-Light.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'Yekan';
+  src: url("css/fonts/Yekan.woff") format('woff'), url("css/fonts/Yekan.ttf") format('truetype');
+}
+div#mother {
+	height: 572px;
+	margin: 0 auto;
+	position: relative;
+	width: 943px;
+}
+
+div#errorBox {
+    background: rgba(0, 0, 0, 0) url("images/bg-404.png") no-repeat scroll left top;
+    height: 572px;
+    margin: auto;
+    width: 943px;
+}
+
+
+div#errorText {
+    color: #39351e;
+    line-height: 2.5;
+    margin-right: 100px;
+    padding: 146px 0 0 346px;
+    text-align: right;
+}
+
+div#home {
+    margin: 20px 0 0 444px;
+}
+div.link {
+    float: left;
+    height: 50px;
+    width: 145px;
+}
+div#contact {
+    margin: 20px 0 0 25px;
+}
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+.button-link {
+    padding: 10px 15px;
+    background: #4479BA;
+    color: #FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: solid 1px #20538D;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+.button-link:hover {
+    background: #356094;
+    border: solid 1px #2A4E77;
+    text-decoration: none;
+}
+.button-link:active {
+    -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    background: #2E5481;
+    border: solid 1px #203E5F;
+}
+.left {
+  float: left;
+  width: 125px;
+  text-align: right;
+  margin: 2px 10px;
+  display: inline;
+}
+
+.right {
+  float: left;
+  text-align: left;
+  margin: 2px 10px;	
+  display: inline;
+}
+</style>
+</head>
+<body style="margin-top: 65.5px;">
+	<div id="mother">
+		<div id="errorBox">
+			<div id="errorText">
+				<h1></h1>
+				<p>
+					¯\_(ツ)_/¯ <br/> 
+					#{messages['Something_Bad_Happened']} <br />
+					نگران نباش 
+				</p>
+				<p>
+					روی یکی از دکمه های زیر کلیک کن 
+				</p>
+				<div class="left">
+				<a title="#{messages['Home']}" href="#{_ctx}/" id="home" class="link button-link" style="margin-right: 5px;">
+					#{messages['Home']}					
+				</a>
+				</div>
+				
+				<div class="right">
+				<a title="#{messages['Contact_Us']}" href="#{_ctx}/contactus.seam" id="contact" class="link button-link" style="margin-left: 5px;">
+					#{messages['Contact_Us']}					
+				</a>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</body>
+	</html>
 </ui:composition>

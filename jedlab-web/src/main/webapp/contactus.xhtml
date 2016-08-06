@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<link href="#{_ctx}/css/kube.css" rel="stylesheet" />
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div
+			style="margin: 0 auto; padding: 0; margin-top: 150px; width: 550px;"
+			class="locale-direction">
+			<h:form styleClass="form">
+				<fieldset>
+					<legend>#{messages['Contact_Us']}</legend> 
+
+					<div class="form-item">
+						<label>#{messages['Email']} #{messages['You']}</label>
+						<h:inputText value="" />
+					</div>
+					
+					<div class="form-item">
+						<label>#{messages['Title']}</label>
+						<h:inputText value="" />
+					</div>
+
+					<div class="form-item">
+						<label>#{messages['Content_Text']}</label>
+						<h:inputTextarea value="" rows="5" />
+					</div>
+
+					<div class="form-item end">
+						<h:commandButton  value="#{messages['Send']}" styleClass="btn btn-blue"/>
+					</div>
+				</fieldset>
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>
