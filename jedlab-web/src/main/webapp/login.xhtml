@@ -6,7 +6,8 @@
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="head">
-		
+		<script type="text/javascript" src="#{_ctx}/js/materialize.js"> </script>
+		<link href="#{_ctx}/css/materialize.css" rel="stylesheet" />
 	</ui:define>
 
 	<ui:define name="body">
@@ -89,7 +90,7 @@
 							</div>
 							
 							<h:commandButton action="#{registerAction.register()}" id="btnRegister"
-								value="#{messages['Send']}" styleClass="btn btn-green" />
+								value="#{messages['Save']}" styleClass="btn btn-green" />
 
 
 						</h:form>

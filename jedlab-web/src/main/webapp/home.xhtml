@@ -10,8 +10,9 @@
 		<script type="text/javascript" src="#{_ctx}/js/home.js"> </script>
 	</ui:define>
 
-	<ui:define name="body">
+	<ui:define name="body"> 
 	
+		<div id="navigator" class="ui blue circular label" onclick="javascript:jedlab.down();"><i class="icon-arrow-down"></i></div>
 		
 		<div id="maia-main">
 			<div class="classroom-maximum">
@@ -27,12 +28,13 @@
 								<section id="education-hero-new">
 									<div class="centered-container">
 										<img class="logo" src="#{_ctx}/images/hero_logo.png" alt="" />
-										<h1 class="title white-text locale-direction">کلاس های
-											JEDLAB</h1>
-										<p class="subtitle white-text border-top">اگر میخواهید
-											مهارت کافی برای راه اندازی کسب و کار نرم افزاری خود داشته
-											باشید و یابه کسی تبدیل شوید ،تا هر شرکت نرم افزاری آرزوی
-											داشتن شما را داشته باشد با ما همراه شوید</p>
+										<h1 class="title white-text locale-direction"></h1>
+										<p class="subtitle white-text border-top">
+										می خواهید برنامه نویسی شوید تا هر شرکتی آرزوی داشتن شما را داشته باشد 
+										و یا کسب و کار نرم افزاری خود را ، راه اندازی کنید ؟ 
+										<br /> 
+										با ما همراه شوید
+										</p>
 										<s:link propagation="none" view="/login.xhtml"
 											includePageParams="false"
 											styleClass="classroom-button subtext-button hero-button">
@@ -69,7 +71,7 @@
 
 					<img class="ui center aligned medium circular image"
 						src="#{_ctx}/images/use_post_meeting.png"
-						style="margin-left: 90px; height: 232px; width: 176px" />
+						style="margin-left: 90px; height: 90px; width: 100px" />
 					<h2 class="ui center aligned icon header">تبدیل حرف به عمل</h2>
 
 					<p class="locale-direction">علاوه بر یادگیری جاوا بصورت آکادمیک برخی از پروزه های متن
@@ -86,7 +88,7 @@
 				<div class="four wide column">
 
 					<img class="ui center aligned medium circular image"
-						src="#{_ctx}/images/java_var.png" style="margin-left: 40px;" />
+						src="#{_ctx}/images/java_var.png" style="margin-left: 40px;height: 90px; width: 100px" />
 					<h2 class="ui center aligned icon header">تنوع</h2>
 
 					<p>
@@ -104,7 +106,7 @@
 
 					<img class="ui center aligned medium circular image"
 						src="#{_ctx}/images/cash-payment-icon-ft.png"
-						style="margin-left: 40px;" />
+						style="margin-left: 40px;height: 90px; width: 100px" />
 					<h2 class="ui center aligned icon header">صرفه جویی در زمان و
 						هزینه</h2>
 

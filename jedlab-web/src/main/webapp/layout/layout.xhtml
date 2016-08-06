@@ -86,25 +86,32 @@ jQuery.noConflict();
 
 		<div id="maia-nav-x" class="maia-nav maia-complex">
 			<div class="maia-aux">
-				<div class="ui secondary pointing menu">
-					<s:link propagation="none" includePageParams="false" 
-							view="/home.xhtml" styleClass="ui item" value="#{messages['Home']}">
-					</s:link>
-					<s:link propagation="none" includePageParams="false" 
-							 styleClass="ui item" value=" | ">
-					</s:link>
-					<s:link propagation="none" includePageParams="false"  rendered="#{!identity.loggedIn}"
-							view="/login.xhtml" styleClass="ui item locale-direction" value="#{messages['Sign_In']} ( #{messages['Register']} )">
-					</s:link>
-					<s:link propagation="none" includePageParams="false"  rendered="#{identity.loggedIn}"
-							action="#{identity.logout()}" styleClass="ui item locale-direction">
-						<i class="icon-exit"></i>	
-						<h:outputText value="#{messages['Sign_Out']}" />
-					</s:link>
+				<div class="ui secondary menu">
 					<div class="right menu">
+						<s:link propagation="none" includePageParams="false"  rendered="#{!identity.loggedIn}"
+								view="/login.xhtml" styleClass="ui item locale-direction clickableLink" 
+								>
+								<i class="icon-user-tie" style="color:#000;margin-left: 5px;"></i>
+								<h:outputText value="#{messages['Sign_In']} ( #{messages['Register']} )" />	
+						</s:link>
+						<s:link propagation="none" includePageParams="false"  rendered="#{identity.loggedIn}"
+								action="#{identity.logout()}" styleClass="ui item locale-direction clickableLink"  value="#{messages['Sign_Out']}">
+							<i class="icon-exit" style="color:#000;margin-left: 5px;"></i>	
+						</s:link>
 						<s:link propagation="none" includePageParams="false" 
-							view="/courseList.xhtml" styleClass="ui item" value="#{messages['Course_List']}">
+								 styleClass="ui item" value=" | ">
+						</s:link>  
+						<s:link propagation="none" includePageParams="false" 
+							view="/courseList.xhtml" styleClass="ui item clickableLink" value="#{messages['Course_List']}">
+							<i class="icon-books" style="color:#000;margin-left: 5px;"></i>
 						 </s:link>
+						<s:link propagation="none" includePageParams="false" 
+								 styleClass="ui item" value=" | ">
+						</s:link>
+						<s:link propagation="none" includePageParams="false" 
+								view="/home.xhtml" styleClass="ui item clickableLink" value="#{messages['Home']}">
+								<i class="icon-home" style="color:#000;margin-left: 5px;"></i>
+						</s:link> 
 					</div>
 				</div>
 			</div>
