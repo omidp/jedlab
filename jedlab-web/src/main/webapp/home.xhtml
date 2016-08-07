@@ -1,18 +1,88 @@
-<!DOCTYPE html>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:o="http://openfaces.org/"
-	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core">
+	<c:set var="_ctx" value="#{request.contextPath}" />
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>JEDLAB | <h:outputText value="#{' '}" /> <h:outputText value="#{messages['Page_Title']}" /></title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="#{_ctx}/favicon.ico" type="image/x-icon" />
+<link href="#{_ctx}/css/icon.css" rel="stylesheet" />
+<link href="#{_ctx}/css/semantic.rtl.min.css" rel="stylesheet" />
+<link href="#{_ctx}/css/home.css" rel="stylesheet" />
+<script type="text/javascript" src="#{_ctx}/js/jquery.js"> </script>
+<script type="text/javascript" src="#{_ctx}/js/jquery.mousewheel.min.js"> </script>
+<script type="text/javascript" src="#{_ctx}/js/semantic.min.js"> </script>
+<script type="text/javascript">
+//<![CDATA[
+jQuery.noConflict();
+//]]>
+</script>
+</head>
+<body>
 
-	<ui:define name="head">
-		<link href="#{_ctx}/css/home-min.css" rel="stylesheet" />
-		<script type="text/javascript" src="#{_ctx}/js/home.js"> </script>
-	</ui:define>
+		<div id="top-scroll"></div>
+		
+		<div id="maia-header" class="maia-header">
+			<div class="maia-aux">
+				<div class="logo">
+					<a><h:outputText value="#{messages['JEDLAB']}" /> </a>
+				</div>
+				<div class="slogan">
+					<a><img alt="#{messages['JEDLAB']}"></img></a>
+				</div>
+			</div>
 
-	<ui:define name="body"> 
-	
-		<div id="navigator" class="ui blue circular label" onclick="javascript:jedlab.down();"><i class="icon-arrow-down"></i></div>
+		</div>
+
+		<div id="maia-nav-x" class="maia-nav maia-complex">
+			<div class="maia-aux">
+				<div class="ui secondary menu">
+					<div class="item">
+					    <div class="ui search">
+						  <input class="prompt" placeholder="#{messages['Search']}" type="text" />
+						</div>
+				    </div>
+					<div class="right menu">
+						<s:link propagation="none" includePageParams="false"  rendered="#{!identity.loggedIn}"
+								view="/login.xhtml" styleClass="ui item locale-direction clickableLink" 
+								>
+								<h:outputText value="#{messages['Sign_In']} ( #{messages['Register']} )" />	
+								<i class="icon-user-tie" style="color:#000;margin-left: 5px;"></i>
+						</s:link>						
+						<s:link propagation="none" includePageParams="false" 
+								 styleClass="ui item" value=" | ">
+						</s:link>  
+						<s:link propagation="none" includePageParams="false" 
+							view="/courseList.xhtml" styleClass="ui item clickableLink" value="#{messages['Course_List']}">
+							<i class="icon-books" style="color:#000;margin-left: 5px;"></i>
+						 </s:link>
+						<s:link propagation="none" includePageParams="false" 
+								 styleClass="ui item" value=" | ">
+						</s:link>
+						<s:link propagation="none" includePageParams="false" 
+								view="/home.xhtml" styleClass="ui item clickableLink" value="#{messages['Home']}">
+								<i class="icon-home" style="color:#000;margin-left: 5px;"></i>
+						</s:link> 
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="navigator" class="ui blue circular label" onclick="javascript:jedlab.down();"
+			data-position="top center" 
+			data-content="#{messages['Next_Page']}"><i class="icon-arrow-down"></i></div>
+		<script>
+			jQuery(document).ready(function(){
+				jQuery('#navigator').popup({inline: true});
+			});
+		</script>
 		
 		<div id="maia-main">
 			<div class="classroom-maximum">
@@ -151,7 +221,8 @@ jQuery(document).ready(function(){
 
 //]]>
 </script>
-
-
-	</ui:define>
+		
+<script type="text/javascript" src="#{_ctx}/js/home.js"> </script>
+</body>
+</html>
 </ui:composition>

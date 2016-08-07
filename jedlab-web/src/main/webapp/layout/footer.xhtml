@@ -1,27 +1,29 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"	
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:s="http://jboss.com/products/seam/taglib">
 
-	<div class="ui container">
-		
-		  
-		<div class="ui small right floated horizontal list">
-			
-			<a class="item" href="#">Shop</a>
-		
+	<div id="footer">
+		<div class="row" style="margin-top: 10px;font-size: 12px;">
+			<div class="col" style="text-align: center;"></div>
+			<div class="col" style="text-align: center;"> <h:outputText value="#{messages['Copy_Right']}" /> </div>
+			<div class="col" style="text-align: center;">
+				<ul class="site-footer-links">
+					<li><a href="#{_ctx}">#{messages['About_Us']}</a></li>
+					<li><a href="#{_ctx}">|</a></li>
+					<li><a href="#{_ctx}">#{messages['Contact_Us']}</a></li>
+					<li><a href="#{_ctx}">|</a></li>
+					<li><a href="#{_ctx}">#{messages['Terms_Of_Use']}</a></li>
+					<li><a href="#{_ctx}">|</a></li>
+					<li><a href="#{_ctx}">#{messages['Privacy']}</a></li>
+					<li><a href="#{_ctx}">|</a></li>
+					<li><a href="#{_ctx}">#{messages['FAQ']}</a></li>
+				</ul>
+				
+			</div>
 		</div>
-		<i class="large github mark icon"></i>
-		
-		<div class="ui small horizontal list">
-			<div class="disabled item" href="#">© 2016 GitHub, Inc.</div>
-			
-			<a class="item" href="#">Terms</a>
-		
-		</div>
-	
 	</div>
-	
-	
+
+
 </ui:composition>

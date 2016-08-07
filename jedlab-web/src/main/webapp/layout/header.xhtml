@@ -5,46 +5,49 @@
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:c="http://java.sun.com/jstl/core">
 
-	<div class="sixteen wide column">
-		<div class="ui secondary  menu"
-			style="height: 30px; margin: 0; padding: 0; top: 0">
 
-			<s:link propagation="none" includePageParams="false"
-				rendered="#{identity.loggedIn}" view="/member/courseList.xhtml"
-				styleClass="item">
-				<h:outputText value="#{messages['Course_List']}" />
-			</s:link>
-
-			<s:link propagation="none" includePageParams="false"
-				rendered="#{identity.loggedIn}"
-				view="/member/memberCourseList.xhtml" styleClass="item">
-				<h:outputText value="#{messages['Register_Course_List']}" />
-			</s:link>
-			
-			<s:link propagation="none" includePageParams="false"
-				rendered="#{identity.loggedIn and s:hasRole('Admin')}"
-				view="/admin/courseEdit.xhtml" styleClass="item">
-				<h:outputText value="#{messages['Create_Course']}" />
-			</s:link>
-
-
-
-			<div class="right menu">
-				<div class="item">
-					<div class="ui icon input">
-						<input placeholder="Search..." type="text" /> <i
-							class="search link icon"></i>
-					</div>
+	<div class="row" id="layout-topbar">
+		<div class="col col-10">
+			<div class="ui secondary  menu">
+				<div id="search-bar">
+					<input type="text" placeholder="#{messages['Search']}" />
 				</div>
-				<s:link propagation="none" includePageParams="false"
-					rendered="#{identity.loggedIn}" action="#{identity.logout()}"
-					styleClass="ui item locale-direction">
-					<i class="icon-exit"></i>
-					<h:outputText value="#{messages['Sign_Out']}" />
-				</s:link>
+				<div class="right menu">
+					<s:link propagation="none" includePageParams="false"
+						rendered="#{!identity.loggedIn}" view="/login.xhtml"
+						styleClass="ui item locale-direction white">
+						<i class="icon-user-tie" style="color: #fff; margin-left: 5px;"></i>
+						<h:outputText
+							value="#{messages['Sign_In']} ( #{messages['Register']} )" />
+					</s:link>
+					<s:link propagation="none" includePageParams="false"
+						styleClass="ui item" value=" | ">
+					</s:link>
+					<s:link propagation="none" includePageParams="false"
+						view="/courseList.xhtml" styleClass="ui item white"
+						value="#{messages['Course_List']}"> 
+						<i class="icon-books" style="color: #fff; margin-left: 5px;"></i>
+					</s:link>
+					<s:link propagation="none" includePageParams="false"
+						styleClass="ui item" value=" | ">
+					</s:link>
+					<s:link propagation="none" includePageParams="false"
+						view="/home.xhtml" styleClass="ui item white"
+						value="#{messages['Home']}">
+						<i class="icon-home" style="color: #fff; margin-left: 5px;"></i>
+					</s:link>
+				</div>
 			</div>
 		</div>
+		<div class="col col-2" id="logo">
+			<img class="ui mini right floated image"
+				src="#{_ctx}/images/logo.png" />
+			<p id="slogan">#{messages['JEDLAB']}</p>
+		</div>
 	</div>
+
+
+
 
 
 	<script type="text/javascript">

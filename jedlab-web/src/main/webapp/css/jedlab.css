@@ -1,0 +1,104 @@
+#layout-topbar {
+	background-color: #0288d1;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+	height: 64px;
+	z-index: 1000;
+	color: #fff;
+}
+
+a, div, span, input, textarea, li, strong, button {
+	outline: medium none;
+	text-decoration: none;
+}
+
+#logo {
+	text-align: right;
+	background-color: #03a9f4;
+	border-right: 1px solid #0277bd;
+	display: block;
+	color: #fff;
+}
+
+#logo img {
+	margin-right: 5px;
+	padding-top: 10px;
+}
+
+.white {
+	color: #ffffff !important;
+}
+
+#search-bar {
+	display: inline-block;
+	float: right;
+	height: 4.7rem;
+	padding: 0 1.5rem;
+}
+
+#search-bar input[type="text"] {
+	background-color: rgba(255, 255, 255, 0.2);
+	border: 0 none;
+	border-radius: 1.4rem;
+	color: rgba(255, 255, 255, 0.9);
+	float: left;
+	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue",
+		helvetica, arial, sans-serif;
+	font-size: 1.4rem;
+	height: 2.2rem;
+	margin: 0.9rem 0 0;
+	padding: 0 2.2rem 0 1.2rem;
+	width: 150px;
+}
+
+#loginPanel {
+	margin-top: 70px;
+}
+
+#footer {
+	background-color: #454546;
+	bottom: 0;
+	height: 100px;
+	left: 0;
+	position: absolute;
+	width: 100%;
+	color: #fff;
+	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue",
+		helvetica, arial, sans-serif;
+}
+
+#wrapper {
+	min-height: 100%;
+	
+}
+
+@media ( max-width : 975px) {
+	#slogan {
+		display: none;
+	}
+	.ui.secondary.menu .item {
+	margin-right: 0;
+	padding-right: 0;
+	}
+	.ui.secondary.menu {
+	margin-right: 0;
+	margin-left:0;
+	padding-left: 0;
+	}
+	
+}
+
+
+.site-footer-links {
+    list-style: outside none none;
+    margin: 0;
+}
+
+.site-footer-links li {
+    display: inline-block;
+    line-height: 16px;
+}
+
+.site-footer-links li a{
+	color: #fff;
+}
+
