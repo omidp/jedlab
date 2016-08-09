@@ -75,11 +75,11 @@ public class RegisterAction implements Serializable
             instance = (Member) entityManager.createQuery("select u from Member u where u.activationCode = :activationCode")
                     .setParameter("activationCode", user.getActivationCode()).setMaxResults(1).getSingleResult();
             if (getInstance().getEmail() == null || getInstance().getActivationCode() == null)
-                throw new ErrorPageExceptionHandler(StatusMessage.getBundleMessage("No_User_Found",""));
+                throw new ErrorPageExceptionHandler(StatusMessage.getBundleMessage("No_User_Found", ""));
         }
         catch (NoResultException e)
         {
-            throw new ErrorPageExceptionHandler(StatusMessage.getBundleMessage("No_User_Found",""));
+            throw new ErrorPageExceptionHandler(StatusMessage.getBundleMessage("No_User_Found", ""));
         }
 
     }
@@ -90,7 +90,7 @@ public class RegisterAction implements Serializable
         String tempPasswd = getInstance().getPassword();
         if (getConfirmPasswd().equals(tempPasswd) == false)
         {
-            StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Password_Does_Not_Match");
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Password_Does_Not_Match");
             return null;
         }
         String passwordKey = PasswordHash.instance().generateSaltedHash(tempPasswd, getInstance().getUsername(), "md5");
@@ -106,10 +106,10 @@ public class RegisterAction implements Serializable
         identity.login();
         return "confirmed";
     }
-    
+
     @Observer(Constants.SEND_THANK_YOU_MAIL)
     public void sendThankYouEmail(Member registeredUser)
-    {        
+    {
         Contexts.getConversationContext().set("user", registeredUser);
         renderer.render("/mailTemplates/thankyou.xhtml");
     }
@@ -143,10 +143,10 @@ public class RegisterAction implements Serializable
                     user.getEmail()), Severity.ERROR);
         }
     }
-    
+
     @Observer(Constants.SEND_MAIL_REGISTRATION)
     public void sendEmail(Member registeredUser, String activationLink)
-    {        
+    {
         Contexts.getConversationContext().set("user", registeredUser);
         Contexts.getConversationContext().set("activationLink", activationLink);
         renderer.render("/mailTemplates/register.xhtml");
@@ -159,10 +159,13 @@ public class RegisterAction implements Serializable
             Member u = (Member) entityManager.createQuery("select u from User u where u.email = :email")
                     .setParameter("email", getInstance().getEmail()).setMaxResults(1).getSingleResult();
             if (u.getActivationCode() == null || u.getActivationCode().isEmpty())
-                throw new PageExceptionHandler("user already activated");
+            {
+                StatusMessages.instance().addFromResourceBundle(Severity.WARN, "User_Activated");
+                return null;
+            }
             user.setEmail(u.getEmail());
             user.setActivationCode(u.getActivationCode());
-            // renderer.render("/mailTemplates/register.xhtml");
+            Events.instance().raiseAsynchronousEvent(Constants.SEND_MAIL_REGISTRATION, u, u.getActivationCode());
             return "recoveredLink";
         }
         catch (NoResultException e)
@@ -180,15 +183,25 @@ public class RegisterAction implements Serializable
                     .setParameter("email", getInstance().getEmail()).setMaxResults(1).getSingleResult();
             if (u.isActive() == false)
                 throw new PageExceptionHandler("user is no activated");
-            u.setRecoverPasswordCode(RandomStringUtils.randomAlphanumeric(25));
+            String code = RandomStringUtils.randomAlphanumeric(25);
+            u.setRecoverPasswordCode(code);
             entityManager.flush();
-            // renderer.render("/mailTemplates/resetPassword.xhtml");
-
+            Events.instance().raiseAsynchronousEvent(Constants.SEND_MAIL_REGISTRATION, u.getUsernameOrEmail(), code, u.getEmail());
         }
         catch (NoResultException e)
         {
         }
         return "recoveredPassword";
+    }
+    
+    
+    @Observer(Constants.SEND_RESET_PASSWORD_MAIL)
+    public void sendResetPassword(String username, String passwd, String email)
+    {
+        Contexts.getConversationContext().set("username", username);
+        Contexts.getConversationContext().set("email", email);
+        Contexts.getConversationContext().set("passwd", passwd);
+        renderer.render("/mailTemplates/resetpassword.xhtml");
     }
 
 }

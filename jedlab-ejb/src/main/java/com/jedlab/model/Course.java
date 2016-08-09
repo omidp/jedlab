@@ -46,7 +46,19 @@ public class Course extends BasePO
     private String teacher;
 
     @Column(name = "description")
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     private String description;
+
+    @Column(name = "requirement")
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    private String requirement;
+
+    @Column(name = "experience")
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    private String experience;
 
     @Column(name = "lang")
     @Enumerated(EnumType.STRING)
@@ -66,6 +78,26 @@ public class Course extends BasePO
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
     private Set<Chapter> chapters = new HashSet<>(0);
+
+    public String getRequirement()
+    {
+        return requirement;
+    }
+
+    public void setRequirement(String requirement)
+    {
+        this.requirement = requirement;
+    }
+
+    public String getExperience()
+    {
+        return experience;
+    }
+
+    public void setExperience(String experience)
+    {
+        this.experience = experience;
+    }
 
     public Set<Chapter> getChapters()
     {
@@ -213,17 +245,17 @@ public class Course extends BasePO
     {
         this.active = active;
     }
-    
+
     @Transient
     public boolean getHasImage()
     {
         return getImage() != null && getImage().length > 0;
     }
-    
+
     @Transient
     public boolean isFree()
     {
-        return getPrice().compareTo(BigDecimal.ZERO) > 0;
+        return getPrice().compareTo(BigDecimal.ZERO) == 0;
     }
 
 }

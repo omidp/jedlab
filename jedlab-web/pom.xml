@@ -20,7 +20,11 @@
 
 	<dependencies>
 
-
+		<dependency>
+			<groupId>org.tasktops.jsf</groupId>
+			<artifactId>components</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.seam</groupId>

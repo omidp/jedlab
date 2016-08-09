@@ -8,25 +8,26 @@
 	>
 
 		
-		<div style="width:100%" class="locale-direction">
+		<div style="margin-top: 60px;margin-right: 10px" class="locale-direction">
 
 		<div class="ui link cards">
 
 			<c:forEach items="#{courseQuery.resultList}" var="_item">
 				<div class="card">
 					<div class="image">
-						<a href="#{_ctx}/member/course.seam?courseId=#{_item.id}">
+						
 						<s:graphicImage value="#{_item.image}"
 							rendered="#{_item.hasImage}"
-							styleClass="ui middle aligned small image"></s:graphicImage>
+							></s:graphicImage>
 
 						<s:graphicImage value="/images/no_video_photo.png"
 							rendered="#{_item.hasImage == false}"
-							styleClass="ui middle aligned small image"></s:graphicImage>
-						</a>	
+							></s:graphicImage>
+							
 					</div>
 					<div class="content">
 						<div class="header">
+							
 							<s:link propagation="none" includePageParams="false"
 								rendered="#{identity.loggedIn and s:hasRole('Admin')}"
 								view="/admin/chapterEdit.xhtml" styleClass="item">
@@ -35,7 +36,7 @@
 							</s:link>
 							
 							
-								<h:outputText value="#{_item.name}" rendered="#{!s:hasRole('Admin')}"/>
+							<h:outputText value="#{_item.name}" rendered="#{!s:hasRole('Admin')}"/>
 							
 						</div>
 						<div class="meta">
@@ -45,8 +46,7 @@
 						<div class="description"></div>
 					</div>
 					<div class="extra content">
-						<span class="right floated"> #{messages['Detail_View']} </span> 
-						
+						<a href="#{_ctx}/course.seam?courseId=#{_item.id}" class="right floated clickableLink" style="font-weight: bold;"> #{messages['Detail_View']} </a> 
 					</div>
 				</div>
 			</c:forEach>

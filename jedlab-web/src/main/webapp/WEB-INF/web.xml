@@ -123,6 +123,36 @@
     <location>/error.seam</location>
 </error-page>
 
+<servlet>
+		<servlet-name>Jsf Components Resource Servlet</servlet-name>
+		<servlet-class>org.tasktops.jsf.JsfResourceServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Jsf Components Resource Servlet</servlet-name>
+		<url-pattern>/jsfIcons/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Jsf Styles Resource Servlet</servlet-name>
+		<servlet-class>com.jedlab.CssComponentResource</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Jsf Styles Resource Servlet</servlet-name>
+		<url-pattern>/ui.styles.css</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Jsf Scripts Resource Servlet</servlet-name>
+		<servlet-class>com.jedlab.JsComponentResource</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Jsf Scripts Resource Servlet</servlet-name>
+		<url-pattern>/ui.scripts.js</url-pattern>
+	</servlet-mapping>
+
 	<!-- Session Configuration -->
 	<session-config>
 		<session-timeout>55</session-timeout>

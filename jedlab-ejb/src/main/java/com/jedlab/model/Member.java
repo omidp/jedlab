@@ -9,6 +9,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
@@ -17,6 +18,8 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+
+import com.jedlab.framework.StringUtil;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -121,6 +124,14 @@ public class Member extends BasePO
     public void setActive(boolean active)
     {
         this.active = active;
+    }
+    
+    @Transient
+    public String getUsernameOrEmail()
+    {
+        if(StringUtil.isNotEmpty(getUsername()))
+            return getUsername();
+        return getEmail();
     }
 
 }

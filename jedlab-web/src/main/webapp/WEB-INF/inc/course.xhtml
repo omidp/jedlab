@@ -5,96 +5,26 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:jedlab="http://tasktops.com/ui"
 	>
 
-
-		<div class="ui styled fluid accordion" id="courseContent">
-
-			<div class="title active">
-				<i class="dropdown icon"></i> General Info
-			</div>
-
-			<div class="content active">
-
-				<div class="transition visible">as</div>
-
-			</div>
-
-			<div class="title active">
-				<i class="dropdown icon"></i> Chapters
-			</div>
-
-			<div class="content active">
-
-				<div class="transition visible">
-
-					<table class="ui celled padded table" dir="rtl">
-						<thead>
-							<tr>
-								<th class="single line">#{messages['Chapter_Name']}</th>
-								<th>#{messages['Duration']}</th>
-								<th>#{messages['Publish_Date']}</th>
-							</tr>
-						</thead>
-						<tbody>
-
-							<c:forEach var="_item" items="#{courseHome.instance.chapters}">
-								<tr>
-									<td>
-										<h2 class="ui center aligned header">#{_item.name}</h2>
-									</td>
-									<td class="single line">#{_item.durationWithformat}</td>
-									<td><h:outputText value="#{_item.createdDate}"
-											converter="#{persianDateConverter}" /></td>
-
-								</tr>
-							</c:forEach>
-
-						</tbody>
-					</table>
-
-				</div>
-
-			</div>
-
-		</div>
-
-
-		<div class="ui warning message">
-			<i class="close icon"></i>
-			<div class="header">You must register before you can do that!</div>
-			Visit our registration page, then try again
-		</div>
-		
-		<div>
-			<s:button action="#{memberCourseHome.register()}"
-				rendered="#{identity.loggedIn and !memberCourseHome.memberRegisteredInCourse}" 
-				value="#{messages['Enroll']}">
-				<f:param name="courseId" value="#{courseId}"></f:param>	
-			</s:button>
+		<jedlab:tabs scrollWidth="100%" keepState="true">
+			<jedlab:tabPanel  title="#{messages['Detail']}" >
+				<ui:include src="/WEB-INF/inc/courseDetail.xhtml" />
+			</jedlab:tabPanel>
+			
+			<jedlab:tabPanel title="#{messages['Chapter_List']}">
+				<ui:include src="/WEB-INF/inc/chapterList.xhtml" />
+			</jedlab:tabPanel>
+			
+			<jedlab:tabPanel title="#{messages['Reference']}">
 				
-			<s:button view="/login.xhtml"
-				rendered="#{!identity.loggedIn}"
-				value="#{messages['Login_To_Enroll']}"></s:button>
+			</jedlab:tabPanel>
+			
+			<jedlab:tabPanel title="#{messages['Comment']}">
 				
-			<s:div rendered="#{identity.loggedIn and memberCourseHome.memberRegisteredInCourse}">
-				<h:outputText value="you already registered" />
-			</s:div>		
-		</div>
-
-		<script>
-		jQuery(document).ready(function(){
-
-			$('#courseContent')
-			  .accordion({
-			    selector: {
-			      trigger: '.title .icon'
-			    }
-			  })
-			;
-
-		});
-	</script>
-
+			</jedlab:tabPanel>
+			
+		</jedlab:tabs>
 
 </ui:composition>

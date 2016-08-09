@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<div class="locale-direction">
+		<h3 class="ui block header">
+			<h:outputText value="#{courseHome.instance.name}" />
+		</h3>
+
+		<div class="ui items">
+			<div class="item">
+				<div class="image">
+					<s:graphicImage value="#{courseHome.instance.image}"></s:graphicImage>
+				</div>
+				<div class="content">
+					<span class="header"> <h:outputText
+							value="#{messages['Free']}"
+							rendered="#{courseHome.instance.free}" /> 
+							
+							<h:outputText
+							value="#{courseHome.instance.price}"
+							rendered="#{courseHome.instance.free == false}" />
+
+					</span>
+					<div class="meta">
+						<span> </span>
+					</div>
+					<div class="description">
+						<p>						
+							<h:outputText value="#{courseHome.instance.chapters.size()} #{messages['Chapter']}" /> 
+						</p>
+					</div>
+					<div class="extra">
+						<h:outputText value="#{messages['Level']} : " /> <h:outputText value="#{courseHome.instance.level.label}" rendered="#{not empty courseHome.instance.level}"/> <br />
+						<h:outputText value="#{messages['Language']} : " /> <h:outputText value="#{courseHome.instance.language.label}" rendered="#{not empty courseHome.instance.language}" /> <br />
+						<h:outputText value="#{messages['Publish_Date']} : " /> <h:outputText value="#{courseHome.instance.createdDate}" converter="#{persianDateConverter}"/>	 <br />
+					</div>
+				</div>
+			</div>
+
+		</div>
+		
+		<h3><h:outputText value="#{messages['Requirment']}" /> </h3>
+		
+		<s:formattedText value="#{courseHome.instance.requirement}"></s:formattedText>
+		
+		<h3><h:outputText value="#{messages['Experience']}" /> </h3>
+		
+		<s:formattedText value="#{courseHome.instance.experience}"></s:formattedText>
+		
+		
+		<h3><h:outputText value="#{messages['Instructor']}" /> </h3>
+		
+		<s:formattedText value="#{courseHome.instance.teacher}"></s:formattedText>
+		
+		
+
+	</div>
+</ui:composition>
