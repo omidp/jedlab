@@ -3,32 +3,54 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:c="http://java.sun.com/jstl/core"
-	>
+	xmlns:c="http://java.sun.com/jstl/core">
 
-		
-		<table class="ui celled padded table" dir="rtl">
-						<thead>
-							<tr>
-								<th class="single line">#{messages['Chapter_Name']}</th>
-								<th>#{messages['Duration']}</th>
-								<th>#{messages['Publish_Date']}</th>
-							</tr>
-						</thead>
-						<tbody>
+	<s:fragment rendered="#{s:hasRole('Admin')}">
+		<h:dataTable value="#{chapterQuery.resultList}" var="_item" styleClass="ui selectable celled table" dir="rtl">
 
-							<c:forEach var="_item" items="#{courseHome.instance.chapters}">
-								<tr>
-									<td>
-										<h2 class="ui center aligned header">#{_item.name}</h2>
-									</td>
-									<td class="single line">#{_item.durationWithformat}</td>
-									<td><h:outputText value="#{_item.createdDate}"
-											converter="#{persianDateConverter}" /></td>
+			<h:column>
+				<s:link value="#{_item.name}" view="/admin/chapterEdit.xhtml"
+					propagation="none" includePageParams="false">
+					<f:param name="chapterId" value="#{_item.id}"></f:param>
+					<f:param name="courseId" value="#{_item.course.id}"></f:param>
+				</s:link>
+			</h:column>
 
-								</tr>
-							</c:forEach>
+		</h:dataTable>
+ 
+		<s:decorate template="/layout/seamPaging.xhtml">
+			<ui:param name="entityList" value="#{chapterQuery}" />
+		</s:decorate>
+	</s:fragment>
 
-						</tbody>
-					</table>
+	<s:fragment rendered="#{not s:hasRole('Admin')}">
+
+		<table class="ui selectable celled table" dir="rtl">
+			<thead>
+				<tr>
+					<th>#{messages['Chapter_Name']}</th>
+					<th>#{messages['Duration']}</th>
+					<th>#{messages['Publish_Date']}</th>
+					<th>#{messages['View']}</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<c:forEach var="_item" items="#{courseHome.instance.chapters}">
+					<tr>
+						<td>
+							<h4 class="ui center aligned header">#{_item.name}</h4>
+						</td>
+						<td>#{_item.durationWithformat}</td>
+						<td><h:outputText value="#{_item.createdDate}"
+								converter="#{persianDateConverter}" /></td>
+						<td><h:outputText value="#{messages['View']}" /></td>
+
+					</tr>
+				</c:forEach>
+
+			</tbody>
+		</table>
+	</s:fragment>
+
 </ui:composition>

@@ -4,62 +4,78 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html" 
-    template="/layout/template.xhtml">
+    template="/layout/layout.xhtml">
 
 <ui:define name="body">
 
-    <h:form id="courseForm" enctype="multipart/form-data">
-    
-                <h:panelGrid columns="2" >
+    <h:form id="courseForm" >
+                <h:panelGrid columns="2" dir="rtl" style="width:100%;">
+                 
                     <h:outputLabel for="cname">#{messages['Course_Name']}</h:outputLabel>
                     <h:inputText id="cname"
                               value="#{courseHome.instance.name}"/>
                               
-                    <h:outputLabel for="t">#{messages['Teacher']}</h:outputLabel>
-                    <h:inputText id="t"
-                                value="#{courseHome.instance.teacher}"/>
                                 
-                    <h:outputLabel for="file">#{messages['Course_Image']}</h:outputLabel>
-                    <s:fileUpload id="file" data="#{courseHome.instance.image}"
-									 accept="images/*"
-									/>            
+									
+                    <s:graphicImage value="#{courseHome.instance.image}" rendered="#{courseHome.instance.hasImage}"></s:graphicImage>				            
+					<h:outputLabel for="file">#{messages['Image']}</h:outputLabel>
 									
 									
-					<h:outputLabel for="p">#{messages['Price']}</h:outputLabel>
                     <h:inputText id="p"
                                 value="#{courseHome.instance.price}">
                                 <f:convertNumber />
                     </h:inputText>            	
+					<h:outputLabel for="p">#{messages['Price']}</h:outputLabel>
                     
-                    <h:outputLabel for="lang">#{messages['Language']}</h:outputLabel>
 	                <h:selectOneMenu value="#{courseHome.instance.language}" id="lang">
 	                	<s:selectItems value="#{courseLangs}" var="_item" label="#{_item.label}"></s:selectItems>
 	                	<s:convertEnum></s:convertEnum>
 	                </h:selectOneMenu>
+                    <h:outputLabel for="lang">#{messages['Language']}</h:outputLabel>
 	                
 	                
-	                <h:outputLabel for="lvl">#{messages['Level']}</h:outputLabel>
 	                <h:selectOneMenu value="#{courseHome.instance.level}" id="lvl">
 	                	<s:selectItems value="#{courseLevels}" var="_item" label="#{_item.label}"></s:selectItems>
 	                	<s:convertEnum></s:convertEnum>
 	                </h:selectOneMenu>
+	                <h:outputLabel for="lvl">#{messages['Level']}</h:outputLabel>
 	                
 	                
-	                <h:outputLabel for="active">#{messages['Active']}</h:outputLabel>
 	                <h:selectBooleanCheckbox value="#{courseHome.instance.active}" id="active"/>
+	                <h:outputLabel for="active">#{messages['Active']}</h:outputLabel>
 	                
-	                <h:outputLabel for="desc">#{messages['Description']}</h:outputLabel>
 	                <h:inputTextarea value="#{courseHome.instance.description}" id="desc"/>
+	                <h:outputLabel for="desc">#{messages['Description']}</h:outputLabel>
 	                    
                     			
                  
                 </h:panelGrid>
-
+                
         
 
-            <h:commandButton id="submit" value="Save" action="#{courseHome.persist()}"/>
+            <h:commandButton id="save" value="#{messages['Save']}" action="#{courseHome.persist()}" rendered="#{!courseHome.managed}"/>
+            
+            <h:commandButton id="update" value="#{messages['Update']}" action="#{courseHome.update()}" rendered="#{courseHome.managed}"/>
 
     </h:form>
+    
+    <hr />
+    
+    <h:form enctype="multipart/form-data">
+    	<h:panelGrid columns="2" dir="rtl" style="width:100%">
+    		<h:outputLabel for="file">#{messages['Course_Image']}</h:outputLabel>
+                    <s:fileUpload id="file" data="#{courseHome.instance.image}"
+									 accept="images/*"
+									/>
+		</h:panelGrid>							
+		<h:commandButton id="submit" value="#{messages['Save']}" action="#{courseHome.update()}"/>							
+    </h:form>
+    
+    <hr />
+    
+    <s:button propagation="none" view="/courseList.xhtml" value="#{messages['Back']}"></s:button>
+    
+    
 
  </ui:define>
 </ui:composition>

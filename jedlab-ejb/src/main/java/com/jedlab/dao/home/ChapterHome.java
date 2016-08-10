@@ -6,9 +6,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.framework.EntityHome;
+import org.jboss.seam.log.Log;
 
 import com.jedlab.framework.DateUtil;
 import com.jedlab.framework.StringUtil;
@@ -20,6 +22,9 @@ import com.jedlab.model.Course;
 public class ChapterHome extends EntityHome<Chapter>
 {
 
+    @Logger
+    Log logger;
+    
     private String duration;
 
     private Course course;
@@ -61,6 +66,10 @@ public class ChapterHome extends EntityHome<Chapter>
     public void load()
     {
         course = getEntityManager().find(Course.class, getCourse().getId());
+        if(isIdDefined())
+        {
+          this.duration =  getInstance().getDurationWithformat();
+        }
     }
 
     private void wire()
@@ -71,9 +80,17 @@ public class ChapterHome extends EntityHome<Chapter>
         }
         if (StringUtil.isNotEmpty(getDuration()))
         {
-            getInstance().setDuration(DateUtil.getDuration(getDuration()));
+            try
+            {
+                getInstance().setDuration(DateUtil.getDuration(getDuration()));
+            }
+            catch (ParseException e)
+            {
+                logger.info("invalid parse hour and minutes {}", e);
+            }
         }
     }
+    
 
     public boolean isWired()
     {
@@ -98,5 +115,6 @@ public class ChapterHome extends EntityHome<Chapter>
         wire();
         return super.update();
     }
+    
 
 }

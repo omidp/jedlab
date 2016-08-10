@@ -42,8 +42,6 @@ public class Course extends BasePO
     @NotNull
     private BigDecimal price;
 
-    @Column(name = "teacher")
-    private String teacher;
 
     @Column(name = "description")
     @Lob
@@ -196,15 +194,6 @@ public class Course extends BasePO
         this.price = price;
     }
 
-    public String getTeacher()
-    {
-        return teacher;
-    }
-
-    public void setTeacher(String teacher)
-    {
-        this.teacher = teacher;
-    }
 
     public String getDescription()
     {

@@ -20,6 +20,15 @@
 						<h:outputText
 							value="#{messages['Sign_In']} ( #{messages['Register']} )" />
 					</s:link>
+					
+					<s:link propagation="none" includePageParams="false"
+						rendered="#{identity.loggedIn}" action="#{identity.logout()}"
+						styleClass="ui item locale-direction white">
+						<i class="icon-user-tie" style="color: #fff; margin-left: 5px;"></i>
+						<h:outputText
+							value="#{messages['Sign_Out']}" />
+					</s:link>
+					
 					<s:link propagation="none" includePageParams="false"
 						styleClass="ui item" value=" | ">
 					</s:link>

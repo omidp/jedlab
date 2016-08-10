@@ -8,12 +8,22 @@
 	
 	<param name="courseId" value="#{chapterHome.course.id}" required="true"/>
 	
+	<param name="chapterId" value="#{chapterHome.chapterId}"/>
+	
 	<action execute="#{chapterHome.load()}"/>
 	
 	<navigation from-action="#{chapterHome.persist()}">
 		<end-conversation />
 		<rule if-outcome="persisted">
-			<redirect view-id="/admin/courseList.xhtml" include-page-params="false">
+			<redirect view-id="/courseList.xhtml" include-page-params="false">
+			</redirect>
+		</rule>
+	</navigation>
+	
+	<navigation from-action="#{chapterHome.update()}">
+		<end-conversation />
+		<rule if-outcome="updated">
+			<redirect view-id="/courseList.xhtml" include-page-params="false">
 			</redirect>
 		</rule>
 	</navigation>

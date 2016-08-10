@@ -4,13 +4,22 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html" 
-    template="/layout/template.xhtml">
+    template="/layout/layout.xhtml">
+    
+    <ui:define name="head">
+    	<style>
+    		input[type="text"]
+    		{
+    			width: 500px;
+    		}
+    	</style>
+    </ui:define>
 
 <ui:define name="body">
 
     <h:form id="chapterForm">
     
-                <h:panelGrid columns="2" dir="rtl">
+                <h:panelGrid columns="2" dir="rtl" style="width:100%">
                 	
                 	<h:outputLabel for="coursename">#{messages['Course_Name']}</h:outputLabel>
                     <h:outputLabel id="coursename"
@@ -37,7 +46,12 @@
 
         
 
-            <h:commandButton id="submit" value="Save" action="#{chapterHome.persist()}"/>
+            <h:commandButton id="save" value="#{messages['Save']}" action="#{chapterHome.persist()}" rendered="#{!chapterHome.managed}"/>
+            
+            <h:commandButton id="update" value="#{messages['Update']}" action="#{chapterHome.update()}" rendered="#{chapterHome.managed}"/>
+            
+            
+            <s:button propagation="none" includePageParams="false" view="/courseList.xhtml" value="#{messages['Back']}"></s:button>
 
     </h:form>
 
