@@ -1,18 +1,13 @@
 package com.jedlab;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -22,9 +17,9 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
 
 import com.jedlab.action.Constants;
+import com.jedlab.framework.MultipartFileSender;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.exceptions.RequestException;
-import com.jedlab.model.MemberCourse;
 import com.jedlab.model.VideoToken;
 
 public class VideoPlayer extends HttpServlet
@@ -68,37 +63,13 @@ public class VideoPlayer extends HttpServlet
         File file = new File(filePath);
         if (file.exists() == false)
             throw new RequestException("file  not found");
-        InputStream is = null;
-        OutputStream os = null;
-        BufferedInputStream boa = null;
-        InputStream isbyte = null;
         try
         {
-            is = new FileInputStream(file);
-            isbyte = new FileInputStream(file);
-            boa = new BufferedInputStream(isbyte);
-            byte[] b = IOUtils.toByteArray(is);
-            os = resp.getOutputStream();
-            resp.setHeader("Content-Length", String.valueOf(b.length));
-            // String l = String.valueOf(b.length);
-            // String l2 = String.valueOf(b.length / 2);
-            // resp.setHeader("Content-Range", String.format("bytes %s-%s/%s",
-            // "0", l, l));
-
-            IOUtils.copy(boa, os);
-            os.flush();
-            sess.delete(vt);
-            sess.flush();
+            MultipartFileSender.fromFile(file).with(req).with(resp).serveResource();
         }
         catch (Exception e)
         {
-        }
-        finally
-        {
-            IOUtils.closeQuietly(is);
-            IOUtils.closeQuietly(os);
-            IOUtils.closeQuietly(boa);
-            IOUtils.closeQuietly(isbyte);
+            e.printStackTrace();
         }
     }
 
