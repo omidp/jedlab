@@ -3,6 +3,7 @@ package com.jedlab.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,9 +16,12 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import com.jedlab.framework.CollectionUtil;
 
@@ -40,6 +44,7 @@ public class Comment extends BasePO
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @NotNull
+    @Length(min=2)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -116,6 +121,12 @@ public class Comment extends BasePO
     public boolean isHasReplies()
     {
         return CollectionUtil.isNotEmpty(replies);
+    }
+    
+    @Transient
+    public String getSocialDate(){
+        PrettyTime p = new PrettyTime(new Locale("fa", "IR"));
+        return p.format(getCreatedDate());
     }
 
 }

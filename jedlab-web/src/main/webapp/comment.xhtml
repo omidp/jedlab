@@ -31,38 +31,84 @@
 	</ui:define>
 
 	<ui:define name="body">
-		
-		<div style="margin-top: 10px;margin-bottom: 10px;direction: rtl;">
-		<s:fragment rendered="#{!identity.loggedIn}">
-			<s:button value="#{messages['Login_For_Comment']}"
-				propagation="none"
-				type="button"
-				includePageParams="false" 
-				onclick="redirectToLogin();" styleClass="btn btn-yellow locale-font">
-				<f:param name="courseId" value="#{courseId}"></f:param>
-				<f:param name="from" value="iframe"></f:param>
-			</s:button>
-		</s:fragment>
-		
-		<s:fragment rendered="#{identity.loggedIn}">
-			<div id="commentPanel">
-				<h:form class="ui reply form">
-					<input type="hidden" name="replyId" id="replyId"/>
-					<input name="courseId" value="#{courseId}" id="courseId" type="hidden"/>
-					<div class="field">
-						<h:inputTextarea value="#{commentHome.instance.content}" />
-					</div>
-					<h:commandButton  value="#{messages['Send']} #{messages['Reply']}" action="#{commentHome.persist()}" />				
-				</h:form>
-			</div>
 
-		</s:fragment>
-		
+		<div style="margin-top: 10px; margin-bottom: 10px; direction: rtl;">
+			<s:fragment rendered="#{!identity.loggedIn}">
+				<s:button value="#{messages['Login_For_Comment']}"
+					propagation="none" type="button" includePageParams="false"
+					onclick="redirectToLogin();"
+					styleClass="btn btn-yellow locale-font">
+					<f:param name="courseId" value="#{courseId}"></f:param>
+					<f:param name="from" value="iframe"></f:param>
+				</s:button>
+			</s:fragment>
+
+			<s:fragment rendered="#{identity.loggedIn}">
+				<div id="commentPanel">
+					<h:form class="form" style="margin-right: 25px;">
+						<div>
+							<div class="form-item">
+								<label style="font-weight: bolder; font-size: 14px;">
+									#{messages['Content_Text']}</label>
+								<h:inputTextarea value="#{commentHome.instance.content}"
+									styleClass="width-50" style="width:50%;" cols="15" rows="6" />
+								<div class="desc">
+									<i class="icon-info pointer" id="commentInfo"></i>
+								</div>
+							</div>
+							<input type="hidden" name="replyId" id="replyId" /> <input
+								name="courseId" value="#{courseId}" id="courseId" type="hidden" />
+						</div>
+						<div id="contentHelper" class="locale-direction"
+							style="display: none; width: 550px;">
+							<div class="header">#{messages['Comment_Help']}</div>
+							<ul class="list">
+								<li>#{messages['Comment_Tip_1']}</li>
+								<li>#{messages['Comment_Tip_2']}</li>
+								<li>#{messages['Comment_Tip_3']}</li>
+								<li>#{messages['Comment_Tip_4']}</li>
+								<li>#{messages['Comment_Tip_5']}</li>
+								<li>#{messages['Comment_Tip_6']}</li>
+								<li>#{messages['Comment_Tip_7']}</li>
+								<li>#{messages['Comment_Tip_8']}</li>
+							</ul>
+						</div>
+						<h:commandButton styleClass="btn btn-blue btn-outline"
+							value="#{messages['Send']} #{messages['Reply']}"
+							action="#{commentHome.persist()}" />
+					</h:form>
+				</div>
+
+
+				<script>
+					jQuery(document).ready(function(){
+
+						jQuery('#commentInfo')
+						  .popup({
+						    inline   : true,
+						    popup: jQuery("#contentHelper"),
+						    hoverable: true,
+						    position : 'top left',
+						    delay: {
+						      show: 300,
+						      hide: 800
+						    }
+						  })
+						;
+						
+					});
+				</script>
+
+			</s:fragment>
+
 		</div>
-		
-		
-		<h4 class="ui header"><h:outputText value="#{messages['No_Comment']}" rendered="#{empty commentQuery.resultList}" />  </h4>
-		
+
+
+		<h4 class="ui header">
+			<h:outputText value="#{messages['No_Comment']}"
+				rendered="#{empty commentQuery.resultList}" />
+		</h4>
+
 		<s:fragment rendered="#{not empty commentQuery.resultList}">
 			<omidp:comment commentValues="#{commentQuery.resultList}" />
 		</s:fragment>

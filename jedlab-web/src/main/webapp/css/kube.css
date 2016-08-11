@@ -870,12 +870,30 @@ label {
 }
 
 .form label {
-    color: #111;
-    display: block;
-    font-size: 14px;
-    font-weight: normal;
+	color: #111;
+	display: block;
+	font-size: 14px;
+	font-weight: normal;
 }
 
 .form .form-item {
-    margin-bottom: 24px;
+	margin-bottom: 24px;
+}
+
+.desc {
+	text-transform: none;
+	margin-top: 4px;
+	color: rgba(0, 0, 0, 0.5);
+	font-size: 12px;
+	line-height: 20px;
+	font-weight: normal;
+}
+
+ul.desc {
+	margin-bottom: 8px;
+}
+
+span.desc {
+	margin-left: 4px;
+	line-height: 20px;
 }

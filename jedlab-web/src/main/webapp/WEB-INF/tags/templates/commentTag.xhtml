@@ -19,7 +19,7 @@
 					<div class="content">
 						<a class="author">#{_item.member.username}</a>
 						<div class="metadata">
-							<span class="date">Today at 5:42PM</span>
+							<span class="date">#{_item.socialDate}</span>
 						</div>
 						<div class="text">
 							<p>
@@ -37,11 +37,12 @@
 						</div>
 					</div>
 
-					<c:if test="#{item.hasReplies}">
-						<omidp:comment commentValues="#{_item.replies}" />
-					</c:if>
 
 				</div>
+				
+				<c:if test="#{_item.hasReplies}">
+					<omidp:comment commentValues="#{_item.replies}" />
+				</c:if>
 
 
 			</c:forEach>

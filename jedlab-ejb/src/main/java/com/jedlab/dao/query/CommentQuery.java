@@ -16,7 +16,7 @@ import com.jedlab.model.Course;
 public class CommentQuery extends PagingEntityQuery<Comment>
 {
 
-    private static final String EJBQL = "select c from Comment c LEFT OUTER JOIN c.course course LEFT OUTER JOIN c.member m";
+    private static final String EJBQL = "select c from Comment c LEFT OUTER JOIN c.course course LEFT OUTER JOIN c.member m where c.reply is null";
 
     private static final String[] RESTRICTIONS = { 
             "c.course.id = #{commentQuery.course.id}"};
