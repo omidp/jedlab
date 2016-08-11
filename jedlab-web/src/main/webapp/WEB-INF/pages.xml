@@ -9,7 +9,7 @@
 				<redirect view-id="/member/dashboard.xhtml" />
 			</rule>
 		</navigation>
-		<navigation from-action="#{identity.login}">
+		<navigation from-action="#{identity.login()}">
 			<rule
 				if="#{identity.loggedIn}">
 				<redirect view-id="/member/dashboard.xhtml">
@@ -18,11 +18,10 @@
 			</rule>
 			
 		</navigation>
-		<navigation from-action="#{identity.logout}">
-			<redirect include-page-params="false" view-id="/login.xhtml" />
+		<navigation from-action="#{identity.logout()}">
+			<redirect include-page-params="false" view-id="/home.xhtml" />
 		</navigation>
 	</page>
-	
 	
 	
 	<page view-id="/admin/*" login-required="true">		

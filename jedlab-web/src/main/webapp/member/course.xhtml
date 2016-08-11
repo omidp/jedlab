@@ -5,17 +5,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jstl/core"
-	template="/layout/template.xhtml">
+	template="/layout/layout.xhtml">
 
 	<ui:define name="body">
 
-		<s:fragment rendered="#{!memberCourseHome.memberRegisteredInCourse}">
-			<ui:include src="/WEB-INF/inc/course.xhtml" />
-		</s:fragment>
 		
-		<s:fragment rendered="#{memberCourseHome.memberRegisteredInCourse}">
-			<ui:include src="/WEB-INF/inc/memberCourse.xhtml" />
-		</s:fragment>
+		<ui:include src="/WEB-INF/inc/course.xhtml" />
 
 
 	</ui:define>

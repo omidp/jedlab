@@ -20,6 +20,10 @@
 				var idSection = "cmSection_"+itemId;
 				jQuery("#commentPanel").prepend(jQuery("#"+idSection).contents());
 			}
+			function redirectToLogin()
+			{
+				window.top.location.href = window.location.origin +"#{_ctx}/member/course.seam?courseId="+#{courseId}; 
+			}
 		</script>
 	</ui:define>
 
@@ -28,8 +32,9 @@
 		<s:fragment rendered="#{!identity.loggedIn}">
 			<s:button value="#{messages['Login_For_Comment']}"
 				propagation="none"
+				type="button"
 				includePageParams="false" 
-				view="/member/comment.xhtml" styleClass="btn btn-yellow">
+				onclick="redirectToLogin();" styleClass="btn btn-yellow">
 				<f:param name="courseId" value="#{courseId}"></f:param>
 				<f:param name="from" value="iframe"></f:param>
 			</s:button>
