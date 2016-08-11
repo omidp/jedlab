@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:omidp="http://omidbiz.com/omidp">
+
+	<div class="ui comments">
+
+		<h3 class="ui dividing header"></h3>
+
+
+		<c:forEach var="_item" items="#{commentValues}">
+
+			<div class="comment">
+				<a class="avatar"> </a>
+				<div class="content">
+					<a class="author">#{_item.member.username}</a>
+					<div class="metadata">
+						<span class="date">Today at 5:42PM</span>
+					</div>
+					<div class="text">
+						<p>
+							<s:formattedText value="#{_item.content}"></s:formattedText>
+						</p>
+					</div>
+					<div class="actions">
+						<s:fragment rendered="#{identity.loggedIn}">
+							<a onclick="addCmSection(#{_item.id});" class="reply">#{messages['Reply']}</a>
+							<a onclick="cancelReply(#{_item.id});" class="reply">#{messages['Cancel']}</a>							
+							<div id="cmSection_#{_item.id}"></div>
+						</s:fragment>
+					</div>
+				</div>
+				
+				<c:if test="#{item.hasReplies}">
+					<omidp:comment commentValues="#{_item.replies}" />
+				</c:if>
+				
+			</div>
+
+
+		</c:forEach>
+
+	</div>
+</ui:composition>

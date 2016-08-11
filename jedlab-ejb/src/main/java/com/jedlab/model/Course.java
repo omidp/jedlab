@@ -42,7 +42,6 @@ public class Course extends BasePO
     @NotNull
     private BigDecimal price;
 
-
     @Column(name = "description")
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -57,6 +56,12 @@ public class Course extends BasePO
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String experience;
+
+    @Column(name = "resources")
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Basic(fetch = FetchType.LAZY)
+    private String resources;
 
     @Column(name = "lang")
     @Enumerated(EnumType.STRING)
@@ -76,6 +81,16 @@ public class Course extends BasePO
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
     private Set<Chapter> chapters = new HashSet<>(0);
+
+    public String getResources()
+    {
+        return resources;
+    }
+
+    public void setResources(String resources)
+    {
+        this.resources = resources;
+    }
 
     public String getRequirement()
     {
@@ -193,7 +208,6 @@ public class Course extends BasePO
     {
         this.price = price;
     }
-
 
     public String getDescription()
     {

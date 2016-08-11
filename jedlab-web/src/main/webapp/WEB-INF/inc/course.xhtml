@@ -21,11 +21,13 @@
 				<ui:include src="/WEB-INF/inc/chapterList.xhtml" />
 			</jedlab:tabPanel>
 			
-			<jedlab:tabPanel title="#{messages['Reference']}">
+			<jedlab:tabPanel title="#{messages['Resources']}">
 				
 			</jedlab:tabPanel>
 			
-			<jedlab:tabPanel title="#{messages['Comment']}">
+			<jedlab:tabPanel title="#{messages['Comment']}" 
+				useIframe="true" 
+				includePageParams="true" link="#{_ctx}/comment.seam">
 				
 			</jedlab:tabPanel>
 			

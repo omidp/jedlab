@@ -88,7 +88,11 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-
+	<context-param>
+		<param-name>facelets.LIBRARIES</param-name>
+		<param-value>/WEB-INF/tags/jedlab-taglib.xml 
+		</param-value>
+	</context-param>
 
 
 	<servlet-mapping>
