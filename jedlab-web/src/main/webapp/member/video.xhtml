@@ -4,32 +4,49 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:c="http://java.sun.com/jstl/core"
-	template="/layout/dialog.xhtml">
-	
-	<ui:define name="head">
-		<script src="#{request.contextPath}/js/deployJava.js"></script>
-	</ui:define>
-	
-		
-	<ui:define name="body">
- 
-		<div style="position: absolute;top:0; left:0;width: 720px; height: 420px;margin: 0 auto;z-index: 9999999;background-color: #000">
-			<applet code="com.fluendo.player.Cortado.class"
-				archive="cortado-ovtk-stripped-0.6.0-1.jar" width="720" height="420">
-			</applet>
-		</div>
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/dialog.xhtml">
 
+	<ui:define name="head">
+		<link rel="stylesheet" href="#{_ctx}/css/video.css" />
+	</ui:define>
+
+
+	<ui:define name="body">
+
+		
+		<video id="my-video" class="video-js vjs-default-skin" controls="controls" preload="auto"
+			width="800" height="580" poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
+			<p class="vjs-no-js">
+				To view this video please enable JavaScript, and consider upgrading
+				to a web browser			</p>
+		</video>
+				
+		<script src="#{_ctx}/js/video.js" ></script>
 		<script type="text/javascript">
+			window.HELP_IMPROVE_VIDEOJS = false;
 			jQuery(document).ready(function(){
-				var t = '#{loginActionManager.currentToken}';
-				var u = '#{loginActionManager.currentUsername}';
-				var vname = "#{chapterId}";
-				var loc = window.location.origin + "#{_ctx}/"+vname+".play"; 
-				console.log(loc);
-				common.playVideo(loc, t, u);
+
+				jQuery( window ).resize(function() {
+					myPlayer.width(jQuery(document).width());
+					var h = jQuery(document).height();
+					var fit = (h*30)/100;
+					myPlayer.height(Math.round(h-fit));
+					});	 
 				
 			});
+			var myPlayer;
+			videojs("my-video").ready(function(){
+				var t = '#{chapterHome.token}'
+				var loc = window.location.origin + "#{_ctx}/"+t+".play";
+				myPlayer = this;
+				myPlayer.src({"type":"video/mp4", "src":loc});
+				myPlayer.width(jQuery(document).width());
+				var h = jQuery(document).height();
+				var fit = (h*30)/100;
+				myPlayer.height(Math.round(h-fit));
+			});
+			
 		</script>
-		</ui:define>
+	
+	</ui:define>
 </ui:composition>

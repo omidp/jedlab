@@ -24,7 +24,7 @@
 <script type="text/javascript" src="#{_ctx}/js/jquery.effects.core.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/jquery.effects.drop.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/common.js"> </script>
-
+<script type="text/javascript" src="#{_ctx}/js/semantic.min.js"> </script>
 <style type="text/css">
 
 </style>
@@ -34,7 +34,7 @@
 jQuery.noConflict();
 var contextPath = '#{_ctx}';
 var currentDate = new Date(#{currentDate.time});
-var sessionTimeout = #{securitySettings.sessionTtl};
+//var sessionTimeout = #{securitySettings.sessionTtl};
 var pathName = window.location.pathname.substring(contextPath.length+1).replace('.seam', '.xhtml');	
 //]]>
 </script>

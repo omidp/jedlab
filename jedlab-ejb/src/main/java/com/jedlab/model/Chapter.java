@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 import com.jedlab.framework.DateUtil;
 
 @Entity
-@Table(name = "chapter", schema="public")
+@Table(name = "chapter", schema = "public")
 public class Chapter extends BasePO
 {
 
@@ -32,13 +32,24 @@ public class Chapter extends BasePO
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
-    
+
     @Column(name = "created_date", updatable = false, insertable = false, columnDefinition = " timestamp without time zone DEFAULT now()")
     @Temporal(TemporalType.TIMESTAMP)
     @org.hibernate.annotations.Generated(org.hibernate.annotations.GenerationTime.INSERT)
     private Date createdDate;
-    
-    
+
+    @Transient
+    private boolean registered;
+
+    public boolean isRegistered()
+    {
+        return registered;
+    }
+
+    public void setRegistered(boolean registered)
+    {
+        this.registered = registered;
+    }
 
     public Date getCreatedDate()
     {
@@ -89,11 +100,11 @@ public class Chapter extends BasePO
     {
         this.course = course;
     }
-    
+
     @Transient
     public String getDurationWithformat()
     {
-        if(getDuration() != null)
+        if (getDuration() != null)
             return DateUtil.getDuration(getDuration());
         return "";
     }

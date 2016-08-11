@@ -81,6 +81,21 @@ public class Course extends BasePO
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
     private Set<Chapter> chapters = new HashSet<>(0);
+    
+    @Transient
+    private boolean registered;
+    
+    
+
+    public boolean isRegistered()
+    {
+        return registered;
+    }
+
+    public void setRegistered(boolean registered)
+    {
+        this.registered = registered;
+    }
 
     public String getResources()
     {
@@ -258,7 +273,7 @@ public class Course extends BasePO
     @Transient
     public boolean isFree()
     {
-        return getPrice().compareTo(BigDecimal.ZERO) == 0;
+        return getPrice() == null || getPrice().compareTo(BigDecimal.ZERO) == 0;
     }
 
 }

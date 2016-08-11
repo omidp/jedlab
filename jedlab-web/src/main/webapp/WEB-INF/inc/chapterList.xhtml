@@ -6,7 +6,8 @@
 	xmlns:c="http://java.sun.com/jstl/core">
 
 	<s:fragment rendered="#{s:hasRole('Admin')}">
-		<h:dataTable value="#{chapterQuery.resultList}" var="_item" styleClass="ui selectable celled table" dir="rtl">
+		<h:dataTable value="#{chapterQuery.resultList}" var="_item"
+			styleClass="ui selectable celled table" dir="rtl">
 
 			<h:column>
 				<s:link value="#{_item.name}" view="/admin/chapterEdit.xhtml"
@@ -17,13 +18,22 @@
 			</h:column>
 
 		</h:dataTable>
- 
+
 		<s:decorate template="/layout/seamPaging.xhtml">
 			<ui:param name="entityList" value="#{chapterQuery}" />
 		</s:decorate>
 	</s:fragment>
 
+	<!-- User Area -->
 	<s:fragment rendered="#{not s:hasRole('Admin')}">
+
+		<s:button value="#{messages['Enroll_To_View']}" propagation="none"
+			type="button" includePageParams="false"
+			action="#{courseHome.register()}"
+			rendered="#{identity.loggedIn and !courseHome.instance.registered}"
+			styleClass="btn btn-yellow">
+			<f:param name="courseId" value="#{courseId}"></f:param>
+		</s:button>
 
 		<table class="ui selectable celled table" dir="rtl">
 			<thead>
@@ -31,7 +41,7 @@
 					<th>#{messages['Chapter_Name']}</th>
 					<th>#{messages['Duration']}</th>
 					<th>#{messages['Publish_Date']}</th>
-					<th>#{messages['View']}</th>
+					<th>#{messages[' ']}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -44,13 +54,90 @@
 						<td>#{_item.durationWithformat}</td>
 						<td><h:outputText value="#{_item.createdDate}"
 								converter="#{persianDateConverter}" /></td>
-						<td><h:outputText value="#{messages['View']}" /></td>
+						<td>
+							<s:fragment rendered="#{identity.loggedIn and _item.registered}">
+								<span class="clickable video-tag" data-id="#{_item.id}">
+									<h:outputText value="#{messages['View']}" />
+								</span>
+							</s:fragment> 
+							<s:fragment rendered="#{!identity.loggedIn}">
+								<span onclick="redirectToLogin();" style="cursor: pointer;">#{messages['Login_To_View']}</span>
+							</s:fragment></td>
 
 					</tr>
 				</c:forEach>
 
 			</tbody>
 		</table>
+
+		<script>
+		jQuery(document).ready(function(){
+
+			jQuery(".video-tag").each(function( index ) {
+				jQuery(this).click(function(){
+				  var chpId = jQuery(this).data("id");
+				  show_video(chpId);
+				});
+			});
+
+		});
+		function view()
+		{
+			
+		}
+		function redirectToLogin()
+		{
+			window.top.location.href = window.location.origin +"#{_ctx}/member/course.seam?courseId="+#{courseId}; 
+		}
+		function show_video(chpId)
+		{
+			jQuery.fn.embed.settings.sources = {
+					jedlab: {
+					    name   : 'jedlab',
+					    type   : 'video',
+					    icon   : 'video play',
+					    domain : window.location.origin,
+					    url    : window.location.origin + "#{_ctx}/member/video.seam",
+					    parameters: function(settings) {
+					      return {
+					        autohide       : !settings.showUI,
+					        autoplay       : settings.autoplay,
+					        color          : settings.colors || undefined,
+					        hq             : settings.hd,
+					        jsapi          : settings.api,
+					        modestbranding : 1,
+					        chapterId: chpId,
+					        courseId: #{courseId}
+					      };
+					    }
+					  }
+			};
+
+			jQuery('#videoDimmer').dimmer('show');
+			jQuery('#videoEmbed').embed({
+				  source      : 'jedlab'				  
+				  
+				});
+		}
+
+		function hide_video()
+		{
+			jQuery('#videoDimmer')
+			  .dimmer('hide');
+		}
+		</script>
+
+
+		<div class="ui page dimmer" id="videoDimmer">
+			<div class="content">
+				<div class="center">
+					<div style="background-color: #000;color: #fff;height: 30px;width: 100%;z-index:99999999;" onclick="hide_video();">Close</div>
+					<div class="ui embed" id="videoEmbed">
+					</div>					
+				</div>
+			</div>
+		</div>
+
 	</s:fragment>
 
 </ui:composition>

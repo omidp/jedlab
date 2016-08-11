@@ -1,11 +1,25 @@
 package com.jedlab.dao.home;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.NoResultException;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.framework.EntityHome;
+import org.jboss.seam.security.Identity;
 
+import com.jedlab.action.Constants;
+import com.jedlab.framework.CollectionUtil;
+import com.jedlab.framework.PageExceptionHandler;
+import com.jedlab.framework.StringUtil;
+import com.jedlab.framework.WebUtil;
+import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
+import com.jedlab.model.Member;
+import com.jedlab.model.MemberCourse;
 
 @Name("courseHome")
 @Scope(ScopeType.CONVERSATION)
@@ -31,7 +45,7 @@ public class CourseHome extends EntityHome<Course>
 
     public void load()
     {
-        
+
     }
 
     private void wire()
@@ -49,20 +63,92 @@ public class CourseHome extends EntityHome<Course>
         return isIdDefined() ? getInstance() : null;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected Course loadInstance()
     {
         try
         {
 
-            return (Course) getEntityManager()
+            Course course = (Course) getEntityManager()
                     .createQuery("select c from Course c LEFT OUTER JOIN c.chapters chapters where c.id = :courseId")
                     .setParameter("courseId", getId()).getSingleResult();
+            if (Identity.instance().isLoggedIn())
+            {
+                Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
+                List<Chapter> chapterList = getEntityManager()
+                        .createQuery(
+                                "select chap from Chapter chap where chap.id IN (select mc.chapter.id from MemberCourse mc where mc.member.id = :memId AND mc.course.id = :courseId)")
+                        .setParameter("memId", uid).setParameter("courseId", getId()).getResultList();
+                Set<Chapter> chapters = course.getChapters();
+                boolean registerInCourse = false;
+                if (CollectionUtil.isNotEmpty(chapters))
+                {
+                    for (Chapter chapter : chapterList)
+                    {
+                        for (Chapter item : chapters)
+                        {
+                            if (chapter.getId().longValue() == item.getId().longValue())
+                            {
+                                item.setRegistered(true);
+                                registerInCourse = true;
+                            }
+                        }
+                    }
+                }
+                course.setRegistered(registerInCourse);
+            }
+
+            return course;
         }
         catch (Exception e)
         {
         }
         return null;
+    }
+    
+    public String register()
+    {
+        String courseParamId = WebUtil.getParameterValue("courseId");
+        if(StringUtil.isEmpty(courseParamId))
+        {
+            throw new PageExceptionHandler("unable to find course");
+        }
+        if(Identity.instance().isLoggedIn() == false)
+        {
+            throw new PageExceptionHandler("unable to find course");
+        }
+        try
+        {
+            Course course = (Course) getEntityManager()
+                    .createQuery("select c from Course c LEFT OUTER JOIN c.chapters chapters where c.id = :courseId")
+                    .setParameter("courseId", Long.parseLong(courseParamId)).getSingleResult();
+            if(course.isFree())
+            {
+                Set<Chapter> chapters = course.getChapters();
+                if (CollectionUtil.isNotEmpty(chapters))
+                {
+                    Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
+                    for (Chapter chapter : chapters)
+                    {
+                        MemberCourse mc = new MemberCourse();
+                        mc.setChapter(chapter);
+                        mc.setCourse(course);
+                        //
+                        Member m = new Member();
+                        m.setId(uid);
+                        mc.setMember(m);
+                        getEntityManager().persist(mc);
+                    }
+                }
+                return "registered";
+            }
+        }
+        catch (NoResultException e)
+        {
+            throw new PageExceptionHandler("emkane sabte nam vojod nadarad");
+        }
+        return "notRegistered";
     }
 
 }

@@ -5,10 +5,20 @@
 	<param name="courseId" value="#{courseHome.courseId}" required="true"/>
 	
 	
-	<navigation from-action="#{memberCourseHome.register()}">
+	<navigation from-action="#{courseHome.register()}">
 		<end-conversation />
 		<rule if-outcome="registered">
-			<redirect view-id="/member/memberCourseList.xhtml" include-page-params="false">
+			<redirect view-id="/member/course.xhtml" include-page-params="false">
+				<param name="courseId" value="#{courseId}"/>
+			</redirect>
+		</rule>
+		<rule if-outcome="gotoBank">
+			
+		</rule>
+		<rule if-outcome="notRegistered">
+			<redirect view-id="/member/course.xhtml" include-page-params="false">
+				<param name="courseId" value="#{courseId}"/>
+				<message>#{messages['Unable_To_Register']}</message>
 			</redirect>
 		</rule>
 	</navigation>

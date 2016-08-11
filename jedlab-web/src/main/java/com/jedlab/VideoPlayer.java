@@ -22,8 +22,10 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
 
 import com.jedlab.action.Constants;
+import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.exceptions.RequestException;
 import com.jedlab.model.MemberCourse;
+import com.jedlab.model.VideoToken;
 
 public class VideoPlayer extends HttpServlet
 {
@@ -50,34 +52,43 @@ public class VideoPlayer extends HttpServlet
         if (uid == null)
             throw new RequestException("not loggedin");
         Session sess = (Session) Component.getInstance("hibernateSession");
-        String corId = getCourseId(req.getRequestURL().toString());
-        Long chapterId = Long.parseLong(corId);
-        Criteria criteria = sess.createCriteria(MemberCourse.class, "mc");
-        criteria.createCriteria("mc.chapter", "chap", Criteria.LEFT_JOIN);
-        criteria.add(Restrictions.eq("mc.member.id", uid));
-        criteria.add(Restrictions.eq("chap.id", chapterId));
-        MemberCourse mc = (MemberCourse) criteria.uniqueResult();
-        if (mc == null)
+        String token = getToken(req.getRequestURL().toString());
+        if (StringUtil.isEmpty(token))
+            throw new RequestException("not loggedin");
+
+        Criteria criteria = sess.createCriteria(VideoToken.class, "vt");
+        criteria.createCriteria("vt.chapter", "chap", Criteria.LEFT_JOIN);
+        criteria.add(Restrictions.eq("vt.memberId", uid));
+        criteria.add(Restrictions.eq("vt.token", token));
+        criteria.setMaxResults(1);
+        VideoToken vt = (VideoToken) criteria.uniqueResult();
+        if (vt == null)
             throw new RequestException("user not registered in course");
-        String filePath = mc.getChapter().getUrl();
+        String filePath = vt.getChapter().getUrl();
         File file = new File(filePath);
         if (file.exists() == false)
             throw new RequestException("file  not found");
         InputStream is = null;
         OutputStream os = null;
+        BufferedInputStream boa = null;
+        InputStream isbyte = null;
         try
         {
             is = new FileInputStream(file);
-            BufferedInputStream boa = new BufferedInputStream(new FileInputStream(new File("/home/omidp/temp/jedlab_video/content.ogv")));
+            isbyte = new FileInputStream(file);
+            boa = new BufferedInputStream(isbyte);
             byte[] b = IOUtils.toByteArray(is);
             os = resp.getOutputStream();
             resp.setHeader("Content-Length", String.valueOf(b.length));
-            String l = String.valueOf(b.length);
-            String l2 = String.valueOf(b.length / 2);
-            resp.setHeader("Content-Range", String.format("bytes %s-%s/%s", "0", l, l));
+            // String l = String.valueOf(b.length);
+            // String l2 = String.valueOf(b.length / 2);
+            // resp.setHeader("Content-Range", String.format("bytes %s-%s/%s",
+            // "0", l, l));
 
             IOUtils.copy(boa, os);
             os.flush();
+            sess.delete(vt);
+            sess.flush();
         }
         catch (Exception e)
         {
@@ -86,6 +97,8 @@ public class VideoPlayer extends HttpServlet
         {
             IOUtils.closeQuietly(is);
             IOUtils.closeQuietly(os);
+            IOUtils.closeQuietly(boa);
+            IOUtils.closeQuietly(isbyte);
         }
     }
 
@@ -94,7 +107,7 @@ public class VideoPlayer extends HttpServlet
     {
     }
 
-    private static String getCourseId(String location)
+    private static String getToken(String location)
     {
         String name = location.substring(location.lastIndexOf("/") + 1);
         return name.substring(0, name.indexOf("."));
