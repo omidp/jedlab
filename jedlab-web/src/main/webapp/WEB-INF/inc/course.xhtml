@@ -5,31 +5,32 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jstl/core"
-	xmlns:jedlab="http://tasktops.com/ui"
-	>
-	 
-	
-	
-	
-	
-		<jedlab:tabs scrollWidth="100%" keepState="true">
-			<jedlab:tabPanel  title="#{messages['Detail']}" >
-				<ui:include src="/WEB-INF/inc/courseDetail.xhtml" />
-			</jedlab:tabPanel>
-			
-			<jedlab:tabPanel title="#{messages['Chapter_List']}">
-				<ui:include src="/WEB-INF/inc/chapterList.xhtml" />
-			</jedlab:tabPanel>
-			
-			<jedlab:tabPanel title="#{messages['Resources']}">
+	xmlns:jedlab="http://tasktops.com/ui">
+
+
+	<div class="ui segment locale-direction">
+		
+		<s:graphicImage value="#{courseHome.instance.image}" rendered="#{courseHome.instance.hasImage}"></s:graphicImage>
+		
+		<h3 class="ui center aligned header"> <h:outputText value="#{courseHome.instance.name}" /> </h3>
 				
-			</jedlab:tabPanel>
-			
-			<jedlab:tabPanel title="#{messages['Comment']}" 
-				useIframe="true" 
-				includePageParams="true" link="#{_ctx}/comment.seam">
-				
-			</jedlab:tabPanel>
-			
-		</jedlab:tabs>
+	</div>
+
+
+	<jedlab:tabs scrollWidth="100%" keepState="true">
+		<jedlab:tabPanel title="#{messages['Detail']}">
+			<ui:include src="/WEB-INF/inc/courseDetail.xhtml" />
+		</jedlab:tabPanel>
+
+		<jedlab:tabPanel title="#{messages['Chapter_List']}">
+			<ui:include src="/WEB-INF/inc/chapterList.xhtml" />
+		</jedlab:tabPanel>
+
+		<jedlab:tabPanel title="#{messages['Comment']}" useIframe="true"
+			join="false" includePageParams="false"
+			link="#{_ctx}/comment.seam?courseId=#{courseId}">
+
+		</jedlab:tabPanel>
+
+	</jedlab:tabs>
 </ui:composition>

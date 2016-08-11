@@ -26,16 +26,25 @@
 
 	<!-- User Area -->
 	<s:fragment rendered="#{not s:hasRole('Admin')}">
-
+		
+		 
+		<div style="margin-top: 10px;margin-bottom: 10px;direction: rtl;">
 		<s:button value="#{messages['Enroll_To_View']}" propagation="none"
 			type="button" includePageParams="false"
 			action="#{courseHome.register()}"
 			rendered="#{identity.loggedIn and !courseHome.instance.registered}"
-			styleClass="btn btn-yellow">
+			styleClass="btn btn-yellow locale-font">
 			<f:param name="courseId" value="#{courseId}"></f:param>
 		</s:button>
-
-		<table class="ui selectable celled table" dir="rtl">
+		
+		<s:fragment rendered="#{!identity.loggedIn}">
+				<button type="button" class="btn btn-yellow locale-font" 
+									onclick="redirectToLogin();" style="cursor: pointer;">#{messages['Login_To_View']}</button>
+		</s:fragment>
+		</div>
+		
+		<div style="margin-top: 10px;margin-bottom: 10px;">
+		<table class="ui single line table" dir="rtl">
 			<thead>
 				<tr>
 					<th>#{messages['Chapter_Name']}</th>
@@ -49,26 +58,26 @@
 				<c:forEach var="_item" items="#{courseHome.instance.chapters}">
 					<tr>
 						<td>
-							<h4 class="ui center aligned header">#{_item.name}</h4>
+							<h4 class="ui header">#{_item.name}</h4>
 						</td>
 						<td>#{_item.durationWithformat}</td>
 						<td><h:outputText value="#{_item.createdDate}"
 								converter="#{persianDateConverter}" /></td>
 						<td>
 							<s:fragment rendered="#{identity.loggedIn and _item.registered}">
-								<span class="clickable video-tag" data-id="#{_item.id}">
+								<button class="clickable video-tag btn-small btn-blue btn-outline" data-id="#{_item.id}">
 									<h:outputText value="#{messages['View']}" />
-								</span>
-							</s:fragment> 
-							<s:fragment rendered="#{!identity.loggedIn}">
-								<span onclick="redirectToLogin();" style="cursor: pointer;">#{messages['Login_To_View']}</span>
-							</s:fragment></td>
+								</button>
+							</s:fragment>
+							#{' '}
+						</td>
 
 					</tr>
 				</c:forEach>
 
 			</tbody>
 		</table>
+		</div>
 
 		<script>
 		jQuery(document).ready(function(){

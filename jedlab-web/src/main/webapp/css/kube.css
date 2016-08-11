@@ -7,6 +7,7 @@ textarea {
 button {
 	width: auto;
 	overflow: visible;
+	font-family: 'Yekan', Tahoma, sans-serif !important;
 }
 /* Hand cursor on clickable controls */
 input[type="reset"], input[type="submit"], input[type="file"], input[type="radio"],
@@ -43,7 +44,8 @@ input[type="text"], input[type="password"], input[type="email"], input[type="url
 	input[type="phone"], input[type="tel"], input[type="number"], input[type="datetime"],
 	input[type="date"], input[type="month"], input[type="color"], input[type="time"],
 	input[type="search"], input[type="datetime-local"] {
-	font-family: 'Yekan', Tahoma, sans-serif;
+	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue",
+		helvetica, arial, sans-serif;
 	font-size: 1em;
 	box-shadow: none;
 	padding: 0.3em 0.35em;

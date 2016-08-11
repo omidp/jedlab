@@ -136,5 +136,11 @@ public class LoginActionManager extends EntityController
     {
         return (String) Contexts.getSessionContext().get(Constants.CURRENT_USER_NAME);
     }
+    
+    
+    public Long getCurrentUserId()
+    {
+        return (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+    }
 
 }

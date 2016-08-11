@@ -81,7 +81,9 @@ var pathName = window.location.pathname.substring(contextPath.length+1).replace(
 		</s:div>
 		<div id="wrapper">
 				<ui:include src="/layout/header.xhtml" />
+				<div style="height: 100%;">
 					<ui:insert name="body"></ui:insert>
+				</div>	
 				<ui:include src="/layout/footer.xhtml" />
 		</div>
 	</div>

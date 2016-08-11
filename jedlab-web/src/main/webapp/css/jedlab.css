@@ -59,7 +59,7 @@ a, div, span, input, textarea, li, strong, button {
 	bottom: 0;
 	height: 40px;
 	left: 0;
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	color: #fff;
 	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue",
@@ -104,4 +104,23 @@ a, div, span, input, textarea, li, strong, button {
 
 .video-tag{
 	
+}
+
+#commentListItems{
+	width: 100%;
+	margin-right: 15px;
+	max-height: 100%;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+#commentItems{
+	margin-bottom: 35px;
+	padding-bottom: 20px;
+}
+#courseDetail{
+	width: 100%;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }

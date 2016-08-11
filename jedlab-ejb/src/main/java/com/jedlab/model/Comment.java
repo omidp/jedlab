@@ -15,6 +15,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 
@@ -32,23 +33,24 @@ public class Comment extends BasePO
     private Date createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @Column(name = "content")
+    @Column(name = "content", nullable = false)
     @Lob
     @Type(type = "org.hibernate.type.TextType")
+    @NotNull
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reply_id")
-    private Comment comment;
+    private Comment reply;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "comment")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "reply")
     private List<Comment> replies = new ArrayList<Comment>();
 
     public Date getCreatedDate()
@@ -91,14 +93,14 @@ public class Comment extends BasePO
         this.member = member;
     }
 
-    public Comment getComment()
+    public Comment getReply()
     {
-        return comment;
+        return reply;
     }
 
-    public void setComment(Comment comment)
+    public void setReply(Comment reply)
     {
-        this.comment = comment;
+        this.reply = reply;
     }
 
     public List<Comment> getReplies()
@@ -110,7 +112,7 @@ public class Comment extends BasePO
     {
         this.replies = replies;
     }
-    
+
     public boolean isHasReplies()
     {
         return CollectionUtil.isNotEmpty(replies);

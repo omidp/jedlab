@@ -25,6 +25,17 @@ html, body{
 	direction: rtl;
 }
 
+.locale-font{
+	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue",
+		helvetica, arial, sans-serif !important;
+}
+
+input[type="button"]
+{
+	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue",
+		helvetica, arial, sans-serif;
+}
+
 .centerContent {
 	margin: 0;
 	padding: 0;

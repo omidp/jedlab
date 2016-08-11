@@ -14,11 +14,14 @@
 			{
 				var idSection = "cmSection_"+itemId;
 				jQuery("#"+idSection).prepend(jQuery("#commentPanel").contents());
+				jQuery("#replyId").val(itemId);
+				jQuery("#btnCancel_"+itemId).show();
 			}
 			function cancelReply(itemId)
 			{
 				var idSection = "cmSection_"+itemId;
 				jQuery("#commentPanel").prepend(jQuery("#"+idSection).contents());
+				jQuery("#btnCancel_"+itemId).hide();
 			}
 			function redirectToLogin()
 			{
@@ -29,12 +32,13 @@
 
 	<ui:define name="body">
 		
+		<div style="margin-top: 10px;margin-bottom: 10px;direction: rtl;">
 		<s:fragment rendered="#{!identity.loggedIn}">
 			<s:button value="#{messages['Login_For_Comment']}"
 				propagation="none"
 				type="button"
 				includePageParams="false" 
-				onclick="redirectToLogin();" styleClass="btn btn-yellow">
+				onclick="redirectToLogin();" styleClass="btn btn-yellow locale-font">
 				<f:param name="courseId" value="#{courseId}"></f:param>
 				<f:param name="from" value="iframe"></f:param>
 			</s:button>
@@ -43,14 +47,18 @@
 		<s:fragment rendered="#{identity.loggedIn}">
 			<div id="commentPanel">
 				<h:form class="ui reply form">
+					<input type="hidden" name="replyId" id="replyId"/>
+					<input name="courseId" value="#{courseId}" id="courseId" type="hidden"/>
 					<div class="field">
-						<h:inputTextarea value="" />
+						<h:inputTextarea value="#{commentHome.instance.content}" />
 					</div>
-					<h:commandButton  value="#{messages['Send']} #{messages['Reply']}" />				
+					<h:commandButton  value="#{messages['Send']} #{messages['Reply']}" action="#{commentHome.persist()}" />				
 				</h:form>
 			</div>
 
 		</s:fragment>
+		
+		</div>
 		
 		
 		<h4 class="ui header"><h:outputText value="#{messages['No_Comment']}" rendered="#{empty commentQuery.resultList}" />  </h4>
