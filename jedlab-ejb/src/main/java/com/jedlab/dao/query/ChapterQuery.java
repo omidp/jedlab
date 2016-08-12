@@ -18,17 +18,18 @@ public class ChapterQuery extends PagingEntityQuery<Chapter>
     private static final String EJBQL = "select c from Chapter c LEFT OUTER JOIN c.course course";
 
     private static final String[] RESTRICTIONS = { "lower(c.name) like lower(concat('%',concat(#{chapterQuery.chapter.name},'%')))",
-            "c.course.id = #{chapterQuery.course.id}", "c.id = #{chapterQuery.chapter.id}"};
+            "c.course.id = #{chapterQuery.course.id}", "c.id = #{chapterQuery.chapter.id}" };
 
     Chapter chapter = new Chapter();
-    
+
     Course course = new Course();
 
     public ChapterQuery()
     {
         setEjbql(EJBQL);
         setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
-        // setOrderColumn("memoType");
+//        setOrderColumn("createdDate");
+//        setOrderDirection("desc");
         setMaxResults(15);
     }
 
@@ -41,7 +42,5 @@ public class ChapterQuery extends PagingEntityQuery<Chapter>
     {
         return course;
     }
-    
-    
 
 }

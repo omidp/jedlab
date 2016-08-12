@@ -9,30 +9,21 @@
 	<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>JEDLAB | <h:outputText value="#{messages['Page_Title']}" /></title>
+<title>JEDLAB | <h:outputText value="#{' '}" /> <h:outputText value="#{messages['Page_Title']}" /></title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" href="#{_ctx}/favicon.ico" type="image/x-icon" />
 <link href="#{_ctx}/css/semantic.rtl.min.css" rel="stylesheet" />
-<link href="#{_ctx}/css/common.css" rel="stylesheet" />
+<link href="#{_ctx}/ui.styles.css" rel="stylesheet" />
 <link href="#{_ctx}/css/icon.css" rel="stylesheet" />
-<link href="#{_ctx}/css/kube.css" rel="stylesheet" />
 <link href="#{_ctx}/css/jedlab.css" rel="stylesheet" />
-<link href="#{_ctx}/ui.styles.css" rel="stylesheet" /> 
 
 <script type="text/javascript" src="#{_ctx}/js/jquery.js"> </script>
-<script type="text/javascript" src="#{_ctx}/js/jquery.effects.core.js"> </script>
-<script type="text/javascript" src="#{_ctx}/js/jquery.effects.drop.js"> </script>
+<script type="text/javascript" src="#{_ctx}/ui.scripts.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/common.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/semantic.min.js"> </script>
 <style type="text/css">
-html, body {
-	top: 0;
-	margin: 0;
-	padding: 0;
-}
+
 </style>
-
-
 
 <script type="text/javascript">
 //<![CDATA[
@@ -43,8 +34,9 @@ var currentDate = new Date(#{currentDate.time});
 var pathName = window.location.pathname.substring(contextPath.length+1).replace('.seam', '.xhtml');	
 //]]>
 </script>
-	
-<ui:insert name="head" />
+
+<ui:insert name="head" /> 
+
 
 </head>
 <body>

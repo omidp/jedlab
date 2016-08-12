@@ -13,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -77,6 +78,7 @@ public class Course extends BasePO
     @Column(name = "created_date", updatable = false, insertable = false, columnDefinition = " timestamp without time zone DEFAULT now()")
     @Temporal(TemporalType.TIMESTAMP)
     @org.hibernate.annotations.Generated(org.hibernate.annotations.GenerationTime.INSERT)
+    @OrderBy(value="DESC")
     private Date createdDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")

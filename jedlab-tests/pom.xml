@@ -18,7 +18,10 @@
 
 
 	
-		
+		<dependency>
+			<groupId>org.omidbiz</groupId>
+			<artifactId>axon-hibernate</artifactId>
+		</dependency>
 	
 		
 		

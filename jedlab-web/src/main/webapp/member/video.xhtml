@@ -14,7 +14,7 @@
 	<ui:define name="body">
 
 		
-		<video id="my-video" class="video-js vjs-default-skin" controls="controls" preload="auto"
+		<video id="my-video" class="video-js" controls="controls" preload="auto"
 			width="800" height="580" poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
 			<p class="vjs-no-js">
 				To view this video please enable JavaScript, and consider upgrading
@@ -24,16 +24,6 @@
 		<script src="#{_ctx}/js/video.js" ></script>
 		<script type="text/javascript">
 			window.HELP_IMPROVE_VIDEOJS = false;
-			jQuery(document).ready(function(){
-
-				jQuery( window ).resize(function() {
-					myPlayer.width(jQuery(document).width());
-					var h = jQuery(document).height();
-					var fit = (h*30)/100;
-					myPlayer.height(Math.round(h-fit));
-					});	 
-				
-			});
 			var myPlayer;
 			videojs("my-video").ready(function(){
 				var t = '#{chapterHome.token}'
@@ -44,6 +34,16 @@
 				var h = jQuery(document).height();
 				var fit = (h*30)/100;
 				myPlayer.height(Math.round(h-fit));
+			});
+			jQuery(document).ready(function(){
+
+				jQuery( window ).resize(function() {
+					myPlayer.width(jQuery(document).width());
+					var h = jQuery(document).height();
+					var fit = (h*30)/100;
+					myPlayer.height(Math.round(h-fit));
+					});	 
+				
 			});
 			
 		</script>

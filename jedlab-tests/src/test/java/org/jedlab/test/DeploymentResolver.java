@@ -1,9 +1,12 @@
 package org.jedlab.test;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.Node;
@@ -26,11 +29,18 @@ public class DeploymentResolver
      * simple deployment only add seam dependencies including hibernate etc ...
      * 
      * @return
+     * @throws IOException 
      */
-    public static WebArchive simpleSeamDeployment()
+    public static WebArchive simpleSeamDeployment() throws IOException
     {
         InputStream is = DeploymentResolver.class.getResourceAsStream("jboss-deployment-structure-test.txt");
-        String deploymentContent = "";// TestUtil.readFile(is);
+        List<String> readLines = IOUtils.readLines(is);
+        StringBuilder sb = new StringBuilder();
+        for (String line : readLines)
+        {
+            sb.append(line);
+        }
+        String deploymentContent = sb.toString();
         //woodstox xml parser clean up
         deploymentContent = deploymentContent.replaceAll("[\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F]", "");
         WebArchive war = ShrinkWrap.create(WebArchive.class, "framework-web-test.war");

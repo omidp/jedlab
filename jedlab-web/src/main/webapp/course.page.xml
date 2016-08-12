@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
 	<param name="courseId" value="#{courseHome.courseId}" required="true"/>
+	<param name="courseId" value="#{chapterQuery.course.id}" />
 	
 	
 	<navigation from-action="#{courseHome.register()}">

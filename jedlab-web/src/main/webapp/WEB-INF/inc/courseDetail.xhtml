@@ -10,7 +10,8 @@
 			<legend>#{messages['Description']} #{messages['Course']}</legend>
 
 			<p>
-				<s:formattedText value="#{courseHome.instance.description}"></s:formattedText>
+				<s:formattedText value="#{courseHome.instance.description}" rendered="#{not empty courseHome.instance.description}"></s:formattedText>
+				<h:outputText value="#{messages['Has_Not']}" rendered="#{empty courseHome.instance.description}"/>
 			</p>
 		</fieldset>
 		
@@ -20,7 +21,8 @@
 			<legend>#{messages['Requirment']} #{messages['Course']}</legend>
 
 			<p>
-				<s:formattedText value="#{courseHome.instance.requirement}"></s:formattedText>
+				<s:formattedText value="#{courseHome.instance.requirement}" rendered="#{not empty courseHome.instance.requirement}"></s:formattedText>
+				<h:outputText value="#{messages['Has_Not']}" rendered="#{empty courseHome.instance.requirement}"/>
 			</p>
 		</fieldset>
 		
@@ -29,7 +31,8 @@
 			<legend>#{messages['Resources']}</legend>
 
 			<p>
-				<s:formattedText value="#{courseHome.instance.resources}"></s:formattedText>
+				<s:formattedText value="#{courseHome.instance.resources}" rendered="#{not empty courseHome.instance.resources}"></s:formattedText>
+				<h:outputText value="#{messages['Has_Not']}" rendered="#{empty courseHome.instance.resources}"/>
 			</p>
 		</fieldset>
 		

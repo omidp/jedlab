@@ -26,8 +26,7 @@ public class CourseQuery extends PagingEntityQuery<Course>
     {
         setEjbql(EJBQL);
         setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
-//        setOrderColumn("memoType");
-        setMaxResults(15);
+        setMaxResults(9);
     }
 
     public Course getCourse()

@@ -34,7 +34,7 @@
 
 		<div style="margin-top: 10px; margin-bottom: 10px; direction: rtl;">
 			<s:fragment rendered="#{!identity.loggedIn}">
-				<s:button value="#{messages['Login_For_Comment']}"
+				<s:button value="#{messages['Login_For_Comment']}" rendered="false"
 					propagation="none" type="button" includePageParams="false"
 					onclick="redirectToLogin();"
 					styleClass="btn btn-yellow locale-font">
@@ -103,11 +103,12 @@
 
 		</div>
 
-
-		<h4 class="ui header">
-			<h:outputText value="#{messages['No_Comment']}"
-				rendered="#{empty commentQuery.resultList}" />
-		</h4>
+		<s:div styleClass="well" rendered="#{empty commentQuery.resultList}">
+			<h4 class="ui header">
+				<h:outputText value="#{messages['No_Comment']}"
+					rendered="#{empty commentQuery.resultList}" />
+			</h4>
+		</s:div>
 
 		<s:fragment rendered="#{not empty commentQuery.resultList}">
 			<omidp:comment commentValues="#{commentQuery.resultList}" />

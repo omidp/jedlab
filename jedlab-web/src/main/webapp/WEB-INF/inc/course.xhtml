@@ -7,15 +7,61 @@
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:jedlab="http://tasktops.com/ui">
 
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="ui divided items locale-direction">
+				<div class="item">
+					<div class="image">
+						<s:graphicImage value="#{courseHome.instance.image}"
+							style="height:150px;" rendered="#{courseHome.instance.hasImage}">
+							<s:transformImageSize maintainRatio="true" height="150"></s:transformImageSize>
+						</s:graphicImage>
 
-	<div class="ui segment locale-direction">
-		
-		<s:graphicImage value="#{courseHome.instance.image}" rendered="#{courseHome.instance.hasImage}"></s:graphicImage>
-		
-		<h3 class="ui center aligned header"> <h:outputText value="#{courseHome.instance.name}" /> </h3>
-				
+						<s:graphicImage value="/images/no_video_photo.png"
+							style="height:150px;"
+							rendered="#{courseHome.instance.hasImage == false}">
+							<s:transformImageSize maintainRatio="true" height="150"></s:transformImageSize>
+						</s:graphicImage>
+					</div>
+					<div class="content">
+						<a class="header">#{courseHome.instance.name}</a>
+						<div class="meta">
+							<span class="cinema">
+								<h:outputText value="#{courseHome.instance.chapters.size()} #{messages['Chapter']}" />							
+							</span>
+						</div>
+						<div class="description">
+							<p>
+								#{messages['Publish_Date']} :
+								<h:outputText value="#{courseHome.instance.createdDate}"
+									converter="#{persianDateConverter}" />
+								<br /> #{messages['Level']} :
+								<h:outputText value="#{courseHome.instance.level.label}" />
+							</p>
+						</div>
+						<div class="extra">
+							<div class="ui label">
+								<s:button value="#{messages['Enroll_To_View']}"
+									propagation="none" type="button" includePageParams="false"
+									action="#{courseHome.register()}"
+									rendered="#{identity.loggedIn and !courseHome.instance.registered}"
+									styleClass="btn btn-yellow locale-font">
+									<f:param name="courseId" value="#{courseId}"></f:param>
+								</s:button>
+
+								<s:fragment rendered="#{!identity.loggedIn}">
+									<button type="button" class="btn btn-yellow locale-font"
+										onclick="redirectToLogin();" style="cursor: pointer;">#{messages['Login_To_View']}</button>
+								</s:fragment>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
+	<div style="padding: 5px;margin: 5px;margin-bottom:45px;">
 
 	<jedlab:tabs scrollWidth="100%" keepState="true">
 		<jedlab:tabPanel title="#{messages['Detail']}">
@@ -33,4 +79,14 @@
 		</jedlab:tabPanel>
 
 	</jedlab:tabs>
+	
+	</div>
+	
+	<script>
+	function redirectToLogin()
+	{
+		window.top.location.href = window.location.origin +"#{_ctx}/member/course.seam?courseId="+#{courseId}; 
+	}
+	</script>
+	
 </ui:composition>
