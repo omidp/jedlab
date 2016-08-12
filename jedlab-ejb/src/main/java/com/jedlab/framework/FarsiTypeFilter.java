@@ -18,7 +18,9 @@ public class FarsiTypeFilter extends AbstractFilter
     {
         if (request instanceof HttpServletRequest)
         {
+            request.setCharacterEncoding("UTF-8");
             FarsiRequestWrapper frw = new FarsiRequestWrapper((HttpServletRequest) request);
+            response.setCharacterEncoding("UTF-8");
             filterChain.doFilter(frw, response);
         }
         else

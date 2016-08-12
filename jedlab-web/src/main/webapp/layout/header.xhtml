@@ -3,6 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:jedlab="http://tasktops.com/ui"
 	xmlns:c="http://java.sun.com/jstl/core">
 
 
@@ -10,7 +11,25 @@
 		<div class="col col-10">
 			<div class="ui secondary  menu">
 				<div id="search-bar">
-					<input type="text" placeholder="#{messages['Search']}" />
+					<jedlab:suggestion placeholder="#{messages['Search']}" 
+						url="#{_ctx}/course.search" 
+						onSelect="redirectToResult"
+						value="#{courseQuery.course.name}"
+						forceId="searchInput"
+						style="direction:rtl;"></jedlab:suggestion>
+						<script>
+							jQuery(document).ready(function(){
+								jQuery("#searchInput").on('keyup', function(e){
+									if (e.keyCode == 13) { location.href = window.location.origin + '#{_ctx}/courseList.seam?courseName='+jQuery("#searchInput").val(); }
+								});
+							});
+						</script>
+						<script>	
+							function redirectToResult(event, ui)
+							{
+								location.href = window.location.origin + '#{_ctx}/course.seam?courseId='+ui.item.id;
+							}
+						</script>
 				</div>
 				<div class="right menu">
 					<s:link propagation="none" includePageParams="false"

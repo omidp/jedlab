@@ -22,7 +22,7 @@ import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.exceptions.RequestException;
 import com.jedlab.model.VideoToken;
 
-public class VideoPlayer extends HttpServlet
+public class VideoPlayerServlet extends HttpServlet
 {
 
     @Override

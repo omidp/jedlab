@@ -117,7 +117,17 @@
 
 	<servlet>
 		<servlet-name>Video Player</servlet-name>
-		<servlet-class>com.jedlab.VideoPlayer</servlet-class>
+		<servlet-class>com.jedlab.VideoPlayerServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Course Search</servlet-name>
+		<url-pattern>*.search</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Course Search</servlet-name>
+		<servlet-class>com.jedlab.CourseSearchServlet</servlet-class>
 	</servlet>
 
 <error-page>

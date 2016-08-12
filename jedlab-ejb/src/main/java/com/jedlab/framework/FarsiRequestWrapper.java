@@ -19,10 +19,7 @@ public class FarsiRequestWrapper extends HttpServletRequestWrapper
     @Override
     public String getCharacterEncoding()
     {
-        if (request != null)
-            return request.getCharacterEncoding();
-        else
-            return "UTF-8";
+        return "UTF-8";
     }
 
     @Override
