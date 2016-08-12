@@ -1,11 +1,36 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html" 
-	template="/layout/layout.xhtml">
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
-	</ui:composition>
+	<ui:define name="body">
+
+		<div class="panel panel-default" style="margin: 10px;padding: 10px;">
+			<div class="panel-body">
+				<div class="ui middle aligned divided list">
+					<c:forEach items="#{memberCourseQuery.resultList}" var="_item">
+
+						<div class="item memberCourse" >
+
+							<div class="right floated content">
+								<s:link view="/course.xhtml" value="#{_item.course.name}">
+									<f:param name="courseId" value="#{_item.course.id}"></f:param>
+								</s:link>
+							</div>
+							<s:graphicImage value="#{_item.course.image}"
+								rendered="#{_item.course.hasImage}" styleClass="ui avatar image"></s:graphicImage>
+							<div class="content"></div>
+
+						</div>
+
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+
+</ui:composition>

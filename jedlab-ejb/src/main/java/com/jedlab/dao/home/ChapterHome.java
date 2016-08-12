@@ -1,5 +1,6 @@
 package com.jedlab.dao.home;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -7,6 +8,7 @@ import java.util.Date;
 
 import javax.persistence.NoResultException;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Logger;
@@ -131,9 +133,11 @@ public class ChapterHome extends EntityHome<Chapter>
 
     /**
      * one time token for video link
+     * 
+     * @throws UnsupportedEncodingException
      */
     @Transactional
-    public void generateVideoToken()
+    public void generateVideoToken() throws UnsupportedEncodingException
     {
         Long courseId = Long.parseLong(WebUtil.getParameterValue("courseId"));
         Long chapterId = Long.parseLong(WebUtil.getParameterValue("chapterId"));
@@ -141,11 +145,12 @@ public class ChapterHome extends EntityHome<Chapter>
         try
         {
             Chapter c = (Chapter) getEntityManager()
-                    .createQuery("select c from Chapter c where c.course.id = :courseId AND c.id = (select mc.chapter.id from MemberCourse mc where mc.chapter.id = :chapterId AND mc.member.id = :memId)  ")
+                    .createQuery(
+                            "select c from Chapter c where c.course.id = :courseId AND c.id = (select mc.chapter.id from MemberCourse mc where mc.chapter.id = :chapterId AND mc.member.id = :memId)  ")
                     .setParameter("courseId", courseId).setParameter("chapterId", chapterId).setParameter("memId", uid).getSingleResult();
             if (c != null)
             {
-                VideoToken vt = new VideoToken();                
+                VideoToken vt = new VideoToken();
                 vt.setChapter(c);
                 vt.setCourseId(chapterId);
                 String t = RandomStringUtils.randomAlphanumeric(25);
@@ -154,6 +159,7 @@ public class ChapterHome extends EntityHome<Chapter>
                 getEntityManager().persist(vt);
                 getEntityManager().flush();
                 this.token = t;
+
             }
         }
         catch (NoResultException e)
@@ -165,11 +171,6 @@ public class ChapterHome extends EntityHome<Chapter>
     public String getToken()
     {
         return token;
-    }
-
-    public void setToken(String token)
-    {
-        this.token = token;
     }
 
 }

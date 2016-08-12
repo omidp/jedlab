@@ -129,6 +129,16 @@
 		<servlet-name>Course Search</servlet-name>
 		<servlet-class>com.jedlab.CourseSearchServlet</servlet-class>
 	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Video Image Loader</servlet-name>
+		<url-pattern>*.image</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Video Image Loader</servlet-name>
+		<servlet-class>com.jedlab.VideoImagePosterServlet</servlet-class>
+	</servlet>
 
 <error-page>
     <exception-type>

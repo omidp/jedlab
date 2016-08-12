@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 @font-face {
 	font-family: 'Roboto-Light';
 	src: url("fonts/Roboto-Light.eot");
@@ -23,7 +24,8 @@ textarea {
 button {
 	width: auto;
 	overflow: visible;
-	font-family: "Roboto-Light", 'Yekan', Tahoma, VideoJS, sans-serif !important;
+	font-family: "Roboto-Light", 'Yekan', Tahoma, VideoJS,
+		sans-serif !important;
 }
 /* Hand cursor on clickable controls */
 input[type="reset"], input[type="submit"], input[type="file"], input[type="radio"],
@@ -914,12 +916,8 @@ span.desc {
 	line-height: 20px;
 }
 
-
-
 /* =END OF KUBE
 -----------------------------------------------------------------------------*/
-
-
 #layout-topbar {
 	background-color: #0288d1;
 	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
@@ -990,7 +988,6 @@ a, div, span, input, textarea, li, strong, button {
 
 #wrapper {
 	min-height: 100%;
-	
 }
 
 @media ( max-width : 975px) {
@@ -998,58 +995,53 @@ a, div, span, input, textarea, li, strong, button {
 		display: none;
 	}
 	.ui.secondary.menu .item {
-	margin-right: 0;
-	padding-right: 0;
+		margin-right: 0;
+		padding-right: 0;
 	}
 	.ui.secondary.menu {
-	margin-right: 0;
-	margin-left:0;
-	padding-left: 0;
+		margin-right: 0;
+		margin-left: 0;
+		padding-left: 0;
 	}
-	
 }
 
-
 .site-footer-links {
-    list-style: outside none none;
-    margin: 0;
+	list-style: outside none none;
+	margin: 0;
 }
 
 .site-footer-links li {
-    display: inline-block;
-    line-height: 16px;
+	display: inline-block;
+	line-height: 16px;
 }
 
-.site-footer-links li a{
+.site-footer-links li a {
 	color: #fff;
 }
 
-.video-tag{
+.video-tag {
 	
 }
 
-#commentListItems{
+#commentListItems {
 	width: 100%;
 	margin-right: 15px;
 	max-height: 100%;
-    overflow-y: auto;
-    /* prevent horizontal scrollbar */
-    overflow-x: hidden;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
 }
 
-#commentItems{
+#commentItems {
 	margin-bottom: 35px;
 	padding-bottom: 20px;
 }
-#courseDetail{
+
+#courseDetail {
 	width: 100%;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
-
-
-
-
 
 html, body {
 	margin: 0;
@@ -2112,24 +2104,26 @@ legend {
 	overflow-y: auto;
 	/* prevent horizontal scrollbar */
 	overflow-x: hidden;
+	cursor: pointer;
 }
 /* IE 6 doesn't support max-height
    * we use height instead, but this forces the menu to always be this tall
    */
 * html .ui-autocomplete {
 	height: 100px;
+	cursor: pointer;
 }
 
 /* =Pagination
 -----------------------------------------------------------------------------*/
 .pagination {
 	/**background: none repeat scroll 0 0 #F2F2F2;*/
-    direction: rtl;
-    float: right;
-    padding: 10px;
-    text-align: center;
-    width: 87%;
-    margin-bottom: 45px;
+	direction: rtl;
+	float: right;
+	padding: 10px;
+	text-align: center;
+	width: 87%;
+	margin-bottom: 45px;
 }
 
 .page {
@@ -2147,45 +2141,62 @@ legend {
 	text-decoration: none;
 	text-shadow: 0 1px 0 #FFFFFF;
 }
+
 .list-item-per-pages {
-    direction: rtl;
-    float: left;
-    font-size: 11pt;
-    padding-top: 10px;
-    text-align: right;
-    height: 50px;
+	direction: rtl;
+	float: left;
+	font-size: 11pt;
+	padding-top: 10px;
+	text-align: right;
+	height: 50px;
 }
 
 .well {
-    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
-    margin-bottom: 20px;
-    min-height: 20px;
-    padding: 19px;
-    direction: rtl;
-    text-align: center;
+	background-color: #f5f5f5;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+	margin-bottom: 20px;
+	min-height: 20px;
+	padding: 19px;
+	direction: rtl;
+	text-align: center;
 }
 
 .panel-default {
-    border-color: #ddd;
+	border-color: #ddd;
 }
 
 .panel {
-    background-color: #fff;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-    margin-bottom: 20px;
+	background-color: #fff;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+	margin-bottom: 20px;
 }
 
 .panel-body {
-    padding: 15px;
+	padding: 15px;
 }
 
-
-.ui.items > .item > .image + .content {
+.ui.items>.item>.image+.content {
 	padding-right: 1.5em;
 }
 
+.width-100 {
+	width: 100% !important;
+}
+
+.ui.comments {
+	width: 100% !important;
+	max-width: 100% !important;
+}
+
+.memberCourse {
+	border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	border: 1px solid #a19ea1;
+	margin: 10px;
+	padding: 10px;
+}

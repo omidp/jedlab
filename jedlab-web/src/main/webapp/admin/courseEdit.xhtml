@@ -17,7 +17,9 @@
                               
                                 
 									
-                    <s:graphicImage value="#{courseHome.instance.image}" rendered="#{courseHome.instance.hasImage}"></s:graphicImage>				            
+                    <s:graphicImage value="#{courseHome.instance.image}" style="width:150px;" rendered="#{courseHome.instance.hasImage}">
+                    	<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>
+                    </s:graphicImage>				            
 					<h:outputLabel for="file">#{messages['Image']}</h:outputLabel>
 									
 									

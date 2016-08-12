@@ -19,6 +19,13 @@
 			</h:column>
 
 		</h:dataTable>
+		
+		
+		<s:button view="/admin/chapterEdit.xhtml"
+			value="#{messages['Add']} Chapter" 
+			propagation="none" includePageParams="false">
+			<f:param name="courseId" value="#{courseId}"></f:param>
+		</s:button>
 
 	</s:fragment>
 
@@ -126,7 +133,7 @@
 							<div
 								style="background-color: #000; color: #fff; height: 30px; width: 100%; z-index: 99999999;"
 								class="pointer"
-								onclick="javascript:location.reload();hide_video();">Close</div>
+								onclick="javascript:location.reload();hide_video();">#{messages['Close']}</div>
 							<div class="ui embed" id="videoEmbed"></div>
 						</div>
 					</div>

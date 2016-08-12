@@ -43,7 +43,7 @@
 					<s:link propagation="none" 
 						rendered="#{identity.loggedIn}" action="#{identity.logout()}"
 						styleClass="ui item locale-direction white">
-						<i class="icon-user-tie" style="color: #fff; margin-left: 5px;"></i>
+						<i class="icon-exit" style="color: #fff; margin-left: 5px;"></i>
 						<h:outputText
 							value="#{messages['Sign_Out']}" />
 					</s:link>
@@ -63,6 +63,11 @@
 						view="/home.xhtml" styleClass="ui item white"
 						value="#{messages['Home']}">
 						<i class="icon-home" style="color: #fff; margin-left: 5px;"></i>
+					</s:link>
+					<s:link propagation="none" includePageParams="false"
+						styleClass="ui item white" rendered="#{identity.loggedIn}"
+						value="#{loginActionManager.currentUsername} #{messages['Welcome']}">
+						<i class="icon-user-tie" style="color: #fff; margin-left: 5px;"></i>
 					</s:link>
 				</div>
 			</div>
