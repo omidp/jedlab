@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:jedlab="http://tasktops.com/ui">
+
+	<s:fragment rendered="#{not empty jedLab.pageDescription}">
+		<nav id="breadcrumb-custom-separator" class="breadcrumb">
+			<ul>
+				<li><s:link value="#{messages['You_Are_Here']} : "
+						view="/member/dashboard.xhtml" propagation="none"
+						includePageParams="false" /></li>
+				<li class="active"><s:link value=" #{jedLab.pageDescription} "
+						propagation="none" /></li>
+			</ul>
+		</nav>
+	</s:fragment>
+</ui:composition>

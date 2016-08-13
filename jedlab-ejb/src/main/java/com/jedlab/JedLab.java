@@ -5,6 +5,7 @@ import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.framework.HibernateEntityController;
+import org.jboss.seam.navigation.Pages;
 
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CacheManager;
@@ -38,6 +39,14 @@ public class JedLab extends HibernateEntityController
     public Language[] courseLangs()
     {
         return Language.values();
+    }
+
+    public String getPageDescription()
+    {
+        String desc = Pages.instance().getDescription(Pages.getCurrentViewId());
+        if(desc == null)
+            return null;
+        return interpolate(desc);
     }
 
 }

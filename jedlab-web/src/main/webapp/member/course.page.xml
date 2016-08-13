@@ -3,6 +3,10 @@
 	login-required="true"
 	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
+	<description>
+		#{messages['Course']}
+	</description>
+
 	<param name="courseId" value="#{courseHome.courseId}" required="true"/>
 	
 	

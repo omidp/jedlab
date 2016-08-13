@@ -14,14 +14,15 @@ import org.jboss.seam.contexts.Contexts;
 
 import com.jedlab.action.Constants;
 import com.jedlab.framework.PagingController;
+import com.jedlab.model.Course;
 import com.jedlab.model.MemberCourse;
 
 @Name("memberCourseQuery")
 @Scope(ScopeType.CONVERSATION)
-public class MemberCourseQuery extends PagingController<MemberCourse>
+public class MemberCourseQuery extends PagingController<Course>
 {
 
-    private List<MemberCourse> resultList;
+    private List<Course> resultList;
 
     private Long resultCount;
 
@@ -31,7 +32,7 @@ public class MemberCourseQuery extends PagingController<MemberCourse>
     }
 
     @Override
-    public List<MemberCourse> getResultList()
+    public List<Course> getResultList()
     {
         if (resultList != null)
             return resultList;
@@ -47,16 +48,15 @@ public class MemberCourseQuery extends PagingController<MemberCourse>
     private Criteria createCriteria()
     {
         Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
-        Criteria criteria = getSession().createCriteria(MemberCourse.class, "mc");
-        criteria.createCriteria("mc.course", "c", Criteria.LEFT_JOIN);
+        Criteria criteria = getSession().createCriteria(Course.class, "c");
         criteria.createCriteria("c.chapters", "chap", Criteria.LEFT_JOIN);
-        criteria.add(Restrictions.eq("mc.member.id", uid));
         //
         DetachedCriteria dc = DetachedCriteria.forClass(MemberCourse.class, "memc");
-        dc.setProjection(Projections.distinct(Projections.property("course")));
+        dc.setProjection(Projections.distinct(Projections.property("course.id")));
         dc.add(Restrictions.eq("memc.member.id", uid));
         //
-        criteria.add(Subqueries.propertyIn("mc.course.id", dc));
+        criteria.add(Subqueries.propertyIn("c.id", dc));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return criteria;
     }
 
