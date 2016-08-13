@@ -41,6 +41,19 @@ public class Chapter extends BasePO
     @Transient
     private boolean registered;
 
+    @Transient
+    private boolean viewed;
+
+    public boolean isViewed()
+    {
+        return viewed;
+    }
+
+    public void setViewed(boolean viewed)
+    {
+        this.viewed = viewed;
+    }
+
     public boolean isRegistered()
     {
         return registered;

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -55,7 +56,7 @@ public class Comment extends BasePO
     @JoinColumn(name = "reply_id")
     private Comment reply;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "reply")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "reply", cascade=CascadeType.REMOVE)
     private List<Comment> replies = new ArrayList<Comment>();
 
     public Date getCreatedDate()

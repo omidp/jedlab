@@ -157,6 +157,13 @@ public class ChapterHome extends EntityHome<Chapter>
                 vt.setToken(t);
                 vt.setMemberId(uid);
                 getEntityManager().persist(vt);
+                //
+                getEntityManager()
+                        .createQuery(
+                                "update MemberCourse mc set mc.viewed = true where mc.course.id = :courseId AND mc.member.id = :memId AND mc.chapter.id = :chapterId")
+                        .setParameter("courseId", courseId).setParameter("memId", uid).setParameter("chapterId", chapterId)
+                        .executeUpdate();
+                //
                 getEntityManager().flush();
                 this.token = t;
 

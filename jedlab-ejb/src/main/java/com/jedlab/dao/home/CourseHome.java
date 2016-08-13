@@ -1,5 +1,6 @@
 package com.jedlab.dao.home;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -76,21 +77,33 @@ public class CourseHome extends EntityHome<Course>
             if (Identity.instance().isLoggedIn())
             {
                 Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
-                List<Chapter> chapterList = getEntityManager()
+                //
+                List<MemberCourse> memberCourseList = getEntityManager()
                         .createQuery(
-                                "select chap from Chapter chap where chap.id IN (select mc.chapter.id from MemberCourse mc where mc.member.id = :memId AND mc.course.id = :courseId)")
+                                "select mc from MemberCourse mc LEFT OUTER JOIN mc.chapter chapter where mc.member.id = :memId AND mc.course.id = :courseId")
                         .setParameter("memId", uid).setParameter("courseId", getId()).getResultList();
+                List<Chapter> registeredCourses = new ArrayList<>();
+                for (MemberCourse memberCourse : memberCourseList)
+                {
+                    Chapter chapter = memberCourse.getChapter();
+                    if(memberCourse.isViewed())
+                        chapter.setViewed(true);
+                    registeredCourses.add(chapter);
+                }
+                ///
                 Set<Chapter> chapters = course.getChapters();
                 boolean registerInCourse = false;
                 if (CollectionUtil.isNotEmpty(chapters))
                 {
-                    for (Chapter chapter : chapterList)
+                    for (Chapter chapter : registeredCourses)
                     {
                         for (Chapter item : chapters)
                         {
                             if (chapter.getId().longValue() == item.getId().longValue())
                             {
                                 item.setRegistered(true);
+                                if(chapter.isViewed())
+                                    item.setViewed(true);
                                 registerInCourse = true;
                             }
                         }

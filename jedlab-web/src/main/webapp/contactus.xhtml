@@ -6,7 +6,7 @@
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="head">
-		<link href="#{_ctx}/css/kube.css" rel="stylesheet" />
+		
 	</ui:define>
 
 	<ui:define name="body">
@@ -20,21 +20,23 @@
 
 					<div class="form-item">
 						<label>#{messages['Email']} #{messages['You']}</label>
-						<h:inputText value="" />
+						<h:inputText value="#{contactusAction.contactus.email}" required="true"/>
 					</div>
 					
 					<div class="form-item">
 						<label>#{messages['Title']}</label>
-						<h:inputText value="" />
+						<h:inputText value="#{contactusAction.contactus.title}" required="true" />
 					</div>
 
 					<div class="form-item">
 						<label>#{messages['Content_Text']}</label>
-						<h:inputTextarea value="" rows="5" />
+						<h:inputTextarea value="#{contactusAction.contactus.content}" rows="5" required="true"/>
 					</div>
 
 					<div class="form-item end">
-						<h:commandButton  value="#{messages['Send']}" styleClass="btn btn-blue"/>
+						<h:commandButton  value="#{messages['Send']}"
+							action="#{contactusAction.contact()}" 
+							styleClass="btn btn-blue"/>
 					</div>
 				</fieldset>
 			</h:form>

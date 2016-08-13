@@ -20,7 +20,6 @@ public class CommentQuery extends PagingEntityQuery<Comment>
 
     private static final String[] RESTRICTIONS = { 
             "c.course.id = #{commentQuery.course.id}"};
-
     
     Course course = new Course();
 

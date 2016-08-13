@@ -2200,3 +2200,11 @@ legend {
 	margin: 10px;
 	padding: 10px;
 }
+
+
+
+.ui.table td.positive, .ui.table tr.viewed {
+    background: #e7e7e7 none repeat scroll 0 0 !important;
+    box-shadow: 0 0 0 #a3c293 inset;
+    color: #2c662d !important;
+}

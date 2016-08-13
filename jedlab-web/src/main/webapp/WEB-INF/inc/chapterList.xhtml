@@ -51,7 +51,7 @@
 					<tbody>
 
 						<c:forEach var="_item" items="#{courseHome.instance.chapters}">
-							<tr>
+							<tr class="#{_item.viewed ? 'viewed' :''}">
 								<td>
 									<h4 class="ui header">#{_item.name}</h4>
 								</td>
