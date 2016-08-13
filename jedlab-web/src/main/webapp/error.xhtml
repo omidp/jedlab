@@ -158,20 +158,20 @@ a:hover {
 				<p>
 					روی یکی از دکمه های زیر کلیک کن 
 				</p>
-				<div class="left">
+				<div class="left" style="cursor: pointer;">
 				<a title="#{messages['Home']}" href="#{_ctx}/" id="home" class="link button-link" style="margin-right: 5px;">
 					#{messages['Home']}					
 				</a>
 				</div>
 				
-				<div class="right">
+				<div class="right" style="cursor: pointer;">
 				<a title="#{messages['Contact_Us']}" href="#{_ctx}/contactus.seam" id="contact" class="link button-link" style="margin-left: 5px;">
 					#{messages['Contact_Us']}					
 				</a>
 				</div>
 				
-				<div class="right">
-				<a title="#{messages['Back']}" onclick="javascript:history.goBack();"  class="link button-link" style="margin-left: 5px;">
+				<div class="right" style="cursor: pointer;">
+				<a title="#{messages['Back']}" onclick="javascript:window.history.back();"  class="link button-link" style="margin-left: 5px;">
 					#{messages['Back']}					
 				</a>
 				</div>

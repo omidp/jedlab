@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.NoResultException;
 
@@ -27,6 +28,8 @@ import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.WebUtil;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
+import com.jedlab.model.Member;
+import com.jedlab.model.MemberCourse;
 import com.jedlab.model.VideoToken;
 
 @Name("chapterHome")
@@ -101,6 +104,8 @@ public class ChapterHome extends EntityHome<Chapter>
                 logger.info("invalid parse hour and minutes {}", e);
             }
         }
+        //
+
     }
 
     public boolean isWired()
@@ -114,10 +119,23 @@ public class ChapterHome extends EntityHome<Chapter>
     }
 
     @Override
+    @Transactional
     public String persist()
     {
         wire();
-        return super.persist();
+        String persist = super.persist();
+        List<Member> members = getEntityManager().createQuery("select mc.member from MemberCourse mc where mc.course.id = :courseId")
+                .setParameter("courseId", getCourse().getId()).getResultList();
+        for (Member mem : members)
+        {
+            MemberCourse mc = new MemberCourse();
+            mc.setCourse(getCourse());
+            mc.setChapter(getInstance());
+            mc.setMember(mem);
+            getEntityManager().persist(mc);
+            getEntityManager().flush();
+        }
+        return persist;
     }
 
     @Override
@@ -161,8 +179,7 @@ public class ChapterHome extends EntityHome<Chapter>
                 getEntityManager()
                         .createQuery(
                                 "update MemberCourse mc set mc.viewed = true where mc.course.id = :courseId AND mc.member.id = :memId AND mc.chapter.id = :chapterId")
-                        .setParameter("courseId", courseId).setParameter("memId", uid).setParameter("chapterId", chapterId)
-                        .executeUpdate();
+                        .setParameter("courseId", courseId).setParameter("memId", uid).setParameter("chapterId", chapterId).executeUpdate();
                 //
                 getEntityManager().flush();
                 this.token = t;

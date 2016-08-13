@@ -10,10 +10,15 @@
 	<div style="margin-top: 60px; margin-right: 10px"
 		class="locale-direction">
 
-		<s:fragment rendered="#{s:hasRole('Admin')}">
+		<s:fragment rendered="#{s:hasRole('Admin')}">		
 			<s:button value="#{messages['Create']} #{messages['Course']}"
 				view="/admin/courseEdit.xhtml" 
 				propagation="none" includePageParams="false" ></s:button>
+				
+			<h:form>
+				<h:inputText value="#{courseQuery.course.name}" id="courseName" />
+				<h:commandButton action="#{webContext.redirectIt()}" value="Search" />
+			</h:form>	
 			<h:dataTable value="#{courseQuery.resultList}" var="_item" styleClass="ui selectable celled table">
 				
 				<h:column>
