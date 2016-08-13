@@ -60,6 +60,14 @@ public class VideoPlayerServlet extends HttpServlet
         if (vt == null)
             throw new RequestException("user not registered in course");
         String filePath = vt.getChapter().getUrl();
+        String res = req.getParameter("resolution");
+        if(StringUtil.isNotEmpty(res))
+        {
+            if("medium".equals(res))
+                filePath = filePath + "_medium";
+            if("small".equals(res))
+                filePath = filePath + "_small";
+        }
         File file = new File(filePath);
         if (file.exists() == false)
             throw new RequestException("file  not found");

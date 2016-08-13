@@ -2273,3 +2273,13 @@ legend {
 	box-shadow: 0 0 0 #a3c293 inset;
 	color: #2c662d !important;
 }
+
+
+#video-drp {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 150px;
+	z-index: 999999;	
+	cursor: pointer;	
+}
