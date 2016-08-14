@@ -52,7 +52,7 @@
 			<div class="ui link cards">
 
 				<c:forEach items="#{courseQuery.resultList}" var="_item">
-					<div class="card">
+					<div class="card" onclick="gotoCourse(#{_item.id});">
 						<div class="image">
 
 							<s:graphicImage value="#{_item.image}"
@@ -95,7 +95,7 @@
 							</div>
 						</div>
 						<div class="extra content white">
-							<a href="#{_ctx}/course.seam?courseId=#{_item.id}"
+							<a href="#{_ctx}/course.seam?courseId=#{_item.id}" id="cItem_#{_item.id}"
 								class="btn btn-blue btn-outline right floated clickableLink" style="font-weight: bold;">
 								#{messages['Detail_View']} </a>
 						</div>
@@ -103,6 +103,13 @@
 				</c:forEach>  
 
 			</div>
+			
+			<script>
+				function gotoCourse(item)
+				{
+					window.location = jQuery("#cItem_"+item).attr('href');
+				}
+			</script>
 			
 
 		</s:fragment>
