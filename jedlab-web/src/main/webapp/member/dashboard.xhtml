@@ -12,8 +12,12 @@
 		<div class="memberCourse locale-direction">
 
 			<h3 class="ui block header">#{messages['Register_Course_List']}</h3>
+			
+			<s:div styleClass="well" rendered="#{empty memberCourseQuery.resultList}">
+				<h:outputText value="#{messages['No_Member_Course']}" />
+			</s:div>
 
-			<div class="ui relaxed divided list">
+			<s:div styleClass="ui relaxed divided list" rendered="#{not empty memberCourseQuery.resultList}">
 				<c:forEach items="#{memberCourseQuery.resultList}" var="_item">
 
 					<div class="item">
@@ -42,7 +46,9 @@
 					</div>
 
 				</c:forEach>
-			</div>
+			</s:div>
+			
+			
 		</div>
 
 	</ui:define>

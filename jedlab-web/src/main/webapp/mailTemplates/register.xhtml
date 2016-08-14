@@ -12,10 +12,14 @@
 	
 
     <m:body>
-    	<style type="text/css">
-
+   <style type="text/css">
+		@font-face {
+		font-family: 'Yekan';
+		src: url("http://wwww.jedlab.ir/css/fonts/Yekan.woff") format('woff'), url("fonts/Yekan.ttf")
+			format('truetype');
+		}
 		#outlook a {padding:0;}
-		body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
+		body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;font-family:'Yekan', Tahoma;}
 		.ExternalClass {width:100%;}
 		.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
 		#backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
@@ -35,9 +39,12 @@
 			color: purple !important; 
 		}
 
-		table td {border-collapse: collapse;}
+		table td {border-collapse: collapse;padding: 10px;}
 
-		table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+		table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; 
+    border-spacing: 10px;
+    border-collapse: separate;
+}
 
 		a {color: #000;}
 
@@ -118,24 +125,24 @@
 								<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
 									<tr height="40">
 										<td width="200">#{' '}</td>
-										<td width="200">#{' '}</td>
-										<td width="200">#{' '}</td>
+										<td width="400">به جمع جدلب خوش آمدید</td>
+										
 									</tr>
 									<tr>
 										<td width="200" valign="top">#{' '}</td>
-										<td width="200" valign="top" align="center">
+										<td width="400" valign="top" align="center">
 											<div class="contentEditableContainer contentTextEditable">
 												<div class="contentEditable" >
-													
+			با این ایمیل از شما دعوت می کنیم تا ثبت نامتون رو کامل کنید . جدلب یه سایت آموزشی در مورد تکنولوژی های جاواست. 
 												</div>
 											</div>
 										</td>
-										<td width="200" valign="top">#{' '}</td>
+										
 									</tr>
 									<tr height="25">
 										<td width="200">#{' '}</td>
-										<td width="200">#{' '}</td>
-										<td width="200">#{' '}</td>
+										<td width="400">هدف جدلب ارتقا دانش جاوا و نزدیک کردن محیط آکادمیک و صنعته .</td>
+										
 									</tr>
 								</table>
 							</div>
@@ -146,17 +153,21 @@
 										<td width="100%" colspan="3" align="center" style="padding-bottom:10px;padding-top:25px;">
 											<div class="contentEditableContainer contentTextEditable">
 												<div class="contentEditable" >
-													<h2 >Welcome #{user.email}!</h2>
+													<h2 >جدلب آموزش های ویدیویی جاوا داره</h2>
 												</div>
 											</div>
 										</td>
 									</tr>
 									<tr>
-										<td width="100">#{' '}</td>
+										<td width="100">
+			
+										</td>
 										<td width="400" align="center" style="padding-bottom:5px;">
 											<div class="contentEditableContainer contentTextEditable">
 												<div class="contentEditable" >
-													<p ></p>
+													<p >
+
+</p>
 												</div>
 											</div>
 										</td>
@@ -170,17 +181,27 @@
 									<tr>
 										<td width="100">#{' '}</td>
 										<td width="400" align="center" style="padding-top:25px;padding-bottom:115px;">
-											<table cellpadding="0" cellspacing="0" border="0" align="center" width="200" height="50">
+											<table cellpadding="0" cellspacing="0" border="0" align="center" width="400" height="50">
 												<tr>
 													<td bgcolor="#ED006F" align="center" style="border-radius:4px;" width="200" height="50">
 														<div class="contentEditableContainer contentTextEditable">
 															<div class="contentEditable" >
 																<a target='_blank' href="#{activationLink}" class='link2'>فعالسازی حساب کاربری</a>
 															</div>
+															
+														</div>
+
+													</td>
+													<td bgcolor="#ED006F" align="center" style="border-radius:4px;" width="150" height="50">
+														<div class="contentEditableContainer contentTextEditable">
+															<div class="contentEditable" >
+																<a target='_blank' href="http://www.jedlab.ir" class='link2'>ورود به سایت</a>
+															</div>
 														</div>
 
 													</td>
 												</tr>
+												
 											</table>
 										</td>
 										<td width="100">#{' '}</td>
@@ -204,7 +225,7 @@
 												<div class="contentEditable" >
 													<span style="font-size:13px;color:#181818;font-family:Tahoma, Helvetica, Arial, sans-serif;line-height:200%;direction:rtl;">ارسال شده توسط تیم جدلب</span>
 													<br/>
-													<span style="font-size:11px;color:#555;font-family:Helvetica, Arial, sans-serif;line-height:200%;">[09128016804]</span>
+													<span style="font-size:11px;color:#555;font-family:Helvetica, Arial, sans-serif;line-height:200%;">[]</span>
 													<br/>
 								                    <span style="font-size:13px;color:#181818;font-family:Helvetica, Arial, sans-serif;line-height:200%;" />
 														
@@ -252,7 +273,6 @@
 			</td>
 		</tr>
 	</table>
-
     </m:body>
 
     

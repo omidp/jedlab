@@ -8,16 +8,16 @@
     template="/layout/layout.xhtml">
     
     <ui:define name="head">
-		
+		<script type="text/javascript" src="#{_ctx}/js/materialize.js"> </script>
+		<link href="#{_ctx}/css/materialize.css" rel="stylesheet" />
 	</ui:define>
 
 <ui:define name="body">
 
 
-<div class="ui middle aligned equal width center aligned padded grid"
-			style="height: 100%;" >
+		<div class="ui middle aligned equal width center aligned padded grid">
 
-			<div class="row centerContent" >
+			<div class="row" id="loginPanel">
  
 				<div class="one wide column"></div>
 
@@ -28,7 +28,7 @@
 							<div class="content">#{registerAction.instance.email}</div>
 						</h2>
 
-						<h:form id="loginForm" styleClass="ui large form">
+						<div styleClass="ui large form">
 
 
 							<div class="field">
@@ -36,7 +36,7 @@
 									<ui:define name="prefix">
 										<i class="icon-user prefix"></i>
 									</ui:define>
-									<h:inputText value="#{registerAction.instance.username}" id="username" required="true" />
+									<input type="text" id="username"/>									
 									<ui:define name="label">
 										#{messages['User_Name']}
 									</ui:define>
@@ -47,7 +47,7 @@
 									<ui:define name="prefix">
 										<i class="icon-lock prefix"></i>
 									</ui:define>
-									<h:inputSecret  value="#{registerAction.instance.password}" required="true" id="upass"/>
+									<input type="password" id="upass"/>
 									<ui:define name="label">
 										#{messages['Password']}
 									</ui:define>
@@ -58,17 +58,16 @@
 									<ui:define name="prefix">
 										<i class="icon-lock prefix"></i>
 									</ui:define>
-									<h:inputSecret id="cpass" value="#{registerAction.confirmPasswd}" required="true"/>
+									<input type="password" id="cpass"/>
 									<ui:define name="label">
 										#{messages['Confirm_Password']}
 									</ui:define>
 								</s:decorate>
 							</div>
-							<h:commandButton action="#{registerAction.confirm()}" id="btnLogin"
-								value="#{messages['Send']}" styleClass="btn btn-blue" />
+							<button id="btnLogin" class="btn btn-blue" type="button">#{messages['Send']}</button>
 
 
-						</h:form>
+						</div>
 					</div>
 					
 				</div>
@@ -77,6 +76,28 @@
 
 
 			</div>
+		</div>
+		
+		<script type="text/javascript">
+			jQuery(document).ready(function(){
+				jQuery("#btnLogin").click(function(){
+					jQuery("#loginForm\\:usernameField").val(jQuery("#username").val());
+					jQuery("#loginForm\\:upassField").val(btoa(jQuery("#upass").val()));
+					jQuery("#loginForm\\:cpassField").val(btoa(jQuery("#cpass").val()));
+					jQuery("#loginForm\\:btnLoginClick").click();
+				});
+			});
+		</script>
+		
+		
+		<div style="display: none;">
+			<h:form id="loginForm">
+				<h:inputHidden value="#{registerAction.instance.username}" id="usernameField" required="true" />
+				<h:inputHidden  value="#{registerAction.instance.password}" required="true" id="upassField"/>
+				<h:inputHidden id="cpassField" value="#{registerAction.confirmPasswd}" required="true"/>
+				<h:commandButton action="#{registerAction.confirm()}" id="btnLoginClick"
+								value="#{messages['Send']}" styleClass="btn btn-blue" />
+			</h:form>
 		</div>
 	
 

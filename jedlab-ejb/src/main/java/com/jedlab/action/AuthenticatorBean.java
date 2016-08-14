@@ -14,6 +14,7 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.PasswordHash;
 
 import com.jedlab.framework.CacheManager;
+import com.jedlab.framework.CryptoUtil;
 import com.jedlab.model.LoginActivity;
 import com.jedlab.model.Member;
 
@@ -50,7 +51,8 @@ public class AuthenticatorBean implements Authenticator
             {
                 identity.addRole(Constants.ROLE_ADMIN);
             }
-            String passwordKey = PasswordHash.instance().generateSaltedHash(credentials.getPassword(), credentials.getUsername(), "md5");
+            String pass = CryptoUtil.decodeBase64(credentials.getPassword());
+            String passwordKey = PasswordHash.instance().generateSaltedHash(pass, credentials.getUsername(), "md5");
             if (passwordKey.equals(m.getPassword()))
             {
                 LoginActivity la = loginActionManager.addActivity(m.getUsername());
@@ -62,16 +64,16 @@ public class AuthenticatorBean implements Authenticator
             }
             //check token
             //comes from filter
-            LoginActivity la = loginActionManager.findLastActiveLogin(credentials.getUsername());
-            if(la != null)
-            {
-                if(credentials.getPassword().equals(la.getToken()))
-                {
-                    Contexts.getSessionContext().set(Constants.CURRENT_USER_ID, m.getId());
-                    Contexts.getSessionContext().set(Constants.CURRENT_USER_NAME, m.getUsername());
-                    return true;
-                }
-            }
+//            LoginActivity la = loginActionManager.findLastActiveLogin(credentials.getUsername());
+//            if(la != null)
+//            {
+//                if(credentials.getPassword().equals(la.getToken()))
+//                {
+//                    Contexts.getSessionContext().set(Constants.CURRENT_USER_ID, m.getId());
+//                    Contexts.getSessionContext().set(Constants.CURRENT_USER_NAME, m.getUsername());
+//                    return true;
+//                }
+//            }
         }
         catch (NoResultException e)
         {

@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.management.PasswordHash;
 
+import com.jedlab.framework.CryptoUtil;
 import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.model.Member;
 
@@ -82,8 +83,9 @@ public class PasswordAction implements Serializable
             StatusMessages.instance().addFromResourceBundle("Password_Does_Not_Match");
             return null;
         }
-        String passwordKey = PasswordHash.instance().generateSaltedHash(getPassword(), user.getUsername(), "md5");
-        entityManager.createQuery("update User u set u.password = :passwd where u.id = :userId").setParameter("passwd", passwordKey)
+        String passwd = CryptoUtil.decodeBase64(getPassword());
+        String passwordKey = PasswordHash.instance().generateSaltedHash(passwd, user.getUsername(), "md5");
+        entityManager.createQuery("update Member u set u.password = :passwd where u.id = :userId").setParameter("passwd", passwordKey)
                 .setParameter("userId", user.getId()).executeUpdate();
         entityManager.flush();
         return "reset";

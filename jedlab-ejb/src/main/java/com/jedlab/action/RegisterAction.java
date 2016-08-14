@@ -24,6 +24,7 @@ import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.PasswordHash;
 
+import com.jedlab.framework.CryptoUtil;
 import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.PageExceptionHandler;
 import com.jedlab.model.Member;
@@ -60,6 +61,8 @@ public class RegisterAction implements Serializable
 
     public Member getInstance()
     {
+        if(instance == null)
+            instance = new Member();
         return instance;
     }
 
@@ -93,6 +96,7 @@ public class RegisterAction implements Serializable
             StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Password_Does_Not_Match");
             return null;
         }
+        tempPasswd = CryptoUtil.decodeBase64(tempPasswd);
         String passwordKey = PasswordHash.instance().generateSaltedHash(tempPasswd, getInstance().getUsername(), "md5");
         getInstance().setPassword(passwordKey);
         getInstance().setActivationCode(null);
@@ -156,7 +160,7 @@ public class RegisterAction implements Serializable
     {
         try
         {
-            Member u = (Member) entityManager.createQuery("select u from User u where u.email = :email")
+            Member u = (Member) entityManager.createQuery("select u from Member u where u.email = :email")
                     .setParameter("email", getInstance().getEmail()).setMaxResults(1).getSingleResult();
             if (u.getActivationCode() == null || u.getActivationCode().isEmpty())
             {
@@ -170,8 +174,9 @@ public class RegisterAction implements Serializable
         }
         catch (NoResultException e)
         {
-            throw new PageExceptionHandler("user does not exists");
+            StatusMessages.instance().addFromResourceBundle(Severity.WARN, "Email_Not_Found");
         }
+        return null;
     }
 
     @Transactional
@@ -179,28 +184,40 @@ public class RegisterAction implements Serializable
     {
         try
         {
-            Member u = (Member) entityManager.createQuery("select u from User u where u.email = :email")
+            Member u = (Member) entityManager.createQuery("select u from Member u where u.email = :email")
                     .setParameter("email", getInstance().getEmail()).setMaxResults(1).getSingleResult();
             if (u.isActive() == false)
-                throw new PageExceptionHandler("user is no activated");
+            {
+                StatusMessages.instance().addFromResourceBundle(Severity.WARN, "User_Is_Not_Active");
+                return null;
+            }
             String code = RandomStringUtils.randomAlphanumeric(25);
             u.setRecoverPasswordCode(code);
             entityManager.flush();
-            Events.instance().raiseAsynchronousEvent(Constants.SEND_MAIL_REGISTRATION, u.getUsernameOrEmail(), code, u.getEmail());
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            String url = facesContext.getApplication().getViewHandler().getActionURL(facesContext, Pages.getCurrentViewId());
+            String viewId = Pages.getCurrentViewId();
+            url = Pages.instance().encodeScheme(viewId, facesContext, url);
+            url = url.substring(0, url.lastIndexOf("/") + 1);
+            String recoverLink = url + "resetPassword.seam" + "?rpc=" + code;
+            Events.instance().raiseAsynchronousEvent(Constants.SEND_RESET_PASSWORD_MAIL, u.getUsernameOrEmail(), recoverLink, u.getEmail());
+            StatusMessages.instance().addFromResourceBundle(Severity.INFO, "Reset_Pass_Check_Mail");
         }
         catch (NoResultException e)
         {
+            StatusMessages.instance().addFromResourceBundle(Severity.WARN, "Email_Not_Found");
+            return null;
         }
         return "recoveredPassword";
     }
     
     
     @Observer(Constants.SEND_RESET_PASSWORD_MAIL)
-    public void sendResetPassword(String username, String passwd, String email)
+    public void sendResetPassword(String username, String recoverPassLink, String email)
     {
         Contexts.getConversationContext().set("username", username);
         Contexts.getConversationContext().set("email", email);
-        Contexts.getConversationContext().set("passwd", passwd);
+        Contexts.getConversationContext().set("recoverPassLink", recoverPassLink);
         renderer.render("/mailTemplates/resetpassword.xhtml");
     }
 
