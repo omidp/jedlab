@@ -13,17 +13,23 @@ var common = {
 		removeNotification : function() {
 			jQuery(".alert-box").empty();
 		},
-		playVideo : function(uri, uid, p){
-	       document.applets[0].setParam("audio", true); 
-	       document.applets[0].setParam("url", uri);
-	       document.applets[0].setParam("userId", uid);
-	       document.applets[0].setParam("password", p);
-	       document.applets[0].setParam("local", false);
-	       document.applets[0].setParam("keepAspect", false);
-	       common.restartVideo();
-		},
-		restartVideo : function(){
-			document.applets[0].restart(); 
+		isIE : function(){
+			var ua = window.navigator.userAgent;
+		    var msie = ua.indexOf("MSIE ");
+
+		    if (msie > 0) // If Internet Explorer, return version number
+		    {
+		        return true;
+		    }
+		    else  // If another browser, return 0
+		    {
+		    	if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))  // If Internet Explorer, return version number
+		        {
+		            return true;
+		        }
+		    }
+
+		    return false;
 		}
 };
 

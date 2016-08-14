@@ -16,7 +16,7 @@
 <link href="#{_ctx}/css/icon.css" rel="stylesheet" />
 <link href="#{_ctx}/css/semantic.rtl.min.css" rel="stylesheet" />
 <link href="#{_ctx}/css/home.css" rel="stylesheet" />
-
+<script type="text/javascript" src="#{_ctx}/js/common.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/jquery.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/jquery.mousewheel.min.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/semantic.min.js"> </script>
@@ -221,12 +221,22 @@ jQuery.noConflict();
 jQuery(document).ready(function(){
 
 	jedlab.init();
+	if(common.isIE())
+	{
+		jQuery('#noie').dimmer('show');
+	}
 	
 });
            
 
 //]]>
 </script>
+
+<div class="ui page dimmer" id="noie">
+  <div class="content">
+    <div class="center">#{messages['No_IE']}</div>
+  </div>
+</div>
 		
 <script type="text/javascript" src="#{_ctx}/js/home.js"> </script>
 </body>
