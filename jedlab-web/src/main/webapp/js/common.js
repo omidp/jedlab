@@ -30,6 +30,12 @@ var common = {
 		    }
 
 		    return false;
+		},
+		showLoading : function() {
+			jQuery("#dimmerLoader").dimmer('show');
+		},
+		hideLoading : function() {
+			jQuery("#dimmerLoader").dimmer('hide');
 		}
 };
 
