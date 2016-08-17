@@ -12,24 +12,31 @@
 	<ui:define name="body">
 
 		<div
-			style="margin: 0 auto; padding: 0; margin-top: 150px; width: 550px;"
+			style="margin:50px;height: 100%;"
 			class="locale-direction">
+			
+			<p>
+				جهت ارسال درخواست پشتیبانی، فرم زیر را تکمیل نمایید.
+پاسخ شما از طریق ایمیل به اطلاع شما خواهد رسید.
+			</p>
+			
 			<h:form styleClass="form">
 				<fieldset>
 					<legend>#{messages['Contact_Us']}</legend> 
 
-					<div class="form-item">
-						<label>#{messages['Email']} #{messages['You']}</label>
-						<h:inputText value="#{contactusAction.contactus.email}" required="true"/>
+					<div class="form-item">							
+						<label><s:span styleClass="red">*</s:span> #{' '} #{messages['Email']} #{messages['You']}</label>
+						<h:inputText value="#{contactusAction.contactus.email}" required="true">
+						</h:inputText>
 					</div>
 					
 					<div class="form-item">
-						<label>#{messages['Title']}</label>
+						<label><s:span styleClass="red">*</s:span> #{' '} #{messages['Title']}</label>
 						<h:inputText value="#{contactusAction.contactus.title}" required="true" />
 					</div>
 
 					<div class="form-item">
-						<label>#{messages['Content_Text']}</label>
+						<label><s:span styleClass="red">*</s:span> #{' '} #{messages['Content_Text']}</label>
 						<h:inputTextarea value="#{contactusAction.contactus.content}" rows="5" required="true"/>
 					</div>
 

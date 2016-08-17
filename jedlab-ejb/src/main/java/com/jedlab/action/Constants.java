@@ -15,5 +15,6 @@ public class Constants
     public static final String ADD_LOGIN_ACTIVITY = "com.jedlab.action.LoginActionManager.addLoginActivity";
     public static final String SEND_THANK_YOU_MAIL = "com.jedlab.action.RegisterAction.sendThankYouMail";
     public static final String SEND_RESET_PASSWORD_MAIL = "com.jedlab.action.RegisterAction.sendResetPasswordl";
+    public static final String SEND_CONTACTUS_MAIL = "com.jedlab.action.RegisterAction.sendContactus";
 
 }
