@@ -1,6 +1,8 @@
 package com.jedlab.action;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
@@ -18,6 +20,7 @@ import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Interpolator;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessage.Severity;
@@ -29,6 +32,7 @@ import org.jboss.seam.security.management.PasswordHash;
 import com.jedlab.framework.CryptoUtil;
 import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.PageExceptionHandler;
+import com.jedlab.framework.WebContext;
 import com.jedlab.model.Member;
 
 @Name("registerAction")
@@ -192,7 +196,15 @@ public class RegisterAction implements Serializable
             }
             user.setEmail(u.getEmail());
             user.setActivationCode(u.getActivationCode());
-            Events.instance().raiseAsynchronousEvent(Constants.SEND_MAIL_REGISTRATION, u, u.getActivationCode());
+            //
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            String viewId = Pages.getCurrentViewId();
+            String url = facesContext.getApplication().getViewHandler().getActionURL(facesContext, Pages.getCurrentViewId());
+            url = Pages.instance().encodeScheme(viewId, facesContext, url);
+            url = url.substring(0, url.lastIndexOf("/") + 1);
+            String activationLink = url + "registerConfirmation.seam" + "?ac=" + u.getActivationCode();
+            StatusMessages.instance().addFromResourceBundle("Activation_Sent");
+            Events.instance().raiseAsynchronousEvent(Constants.SEND_MAIL_REGISTRATION, u, activationLink);
             return "recoveredLink";
         }
         catch (NoResultException e)
@@ -241,6 +253,15 @@ public class RegisterAction implements Serializable
         Contexts.getConversationContext().set("email", email);
         Contexts.getConversationContext().set("recoverPassLink", recoverPassLink);
         renderer.render("/mailTemplates/resetpassword.xhtml");
+    }
+    
+    public void sendToDashboard()
+    {
+        if(Identity.instance().isLoggedIn())
+        {
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            FacesManager.instance().redirect("/member/dashboard.xhtml", parameters, false, false);
+        }
     }
 
 }

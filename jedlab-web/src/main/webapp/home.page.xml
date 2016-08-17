@@ -5,7 +5,7 @@ login-required="false"
 
 	<param name="from" />
 
-	<action execute="#{identity.login()}" if="#{identity.loggedIn}"
+	<action execute="#{registerAction.sendToDashboard()}"
 		on-postback="false" />
 	
 	

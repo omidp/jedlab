@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.international.StatusMessage.Severity;
 import org.jboss.seam.security.management.PasswordHash;
 
 import com.jedlab.framework.CryptoUtil;
@@ -80,7 +81,7 @@ public class PasswordAction implements Serializable
     {
         if (getPassword().equals(getConfirmPassword()) == false)
         {
-            StatusMessages.instance().addFromResourceBundle("Password_Does_Not_Match");
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Password_Does_Not_Match");
             return null;
         }
         String passwd = CryptoUtil.decodeBase64(getPassword());

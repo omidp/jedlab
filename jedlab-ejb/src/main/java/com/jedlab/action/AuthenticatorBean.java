@@ -52,7 +52,7 @@ public class AuthenticatorBean implements Authenticator
                 identity.addRole(Constants.ROLE_ADMIN);
             }
             String pass = CryptoUtil.decodeBase64(credentials.getPassword());
-            String passwordKey = PasswordHash.instance().generateSaltedHash(pass, credentials.getUsername(), "md5");
+            String passwordKey = PasswordHash.instance().generateSaltedHash(pass, m.getUsername(), "md5");
             if (passwordKey.equals(m.getPassword()))
             {
                 LoginActivity la = loginActionManager.addActivity(m.getUsername());
