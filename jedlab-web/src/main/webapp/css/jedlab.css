@@ -1010,8 +1010,14 @@ a, div, span, input, textarea, li, strong, button {
 }
 
 #logo img {
-	margin-right: 5px;
+	margin-right: 3px;
+	padding-top: 15px;
+	margin-left: 2px !important;
+}
+
+#slogan{
 	padding-top: 10px;
+	font-size: 12px;
 }
 
 .white {
@@ -2286,3 +2292,4 @@ legend {
 	z-index: 999999;	
 	cursor: pointer;	
 }
+
