@@ -25,10 +25,12 @@
 <script type="text/javascript">
 //<![CDATA[
 jQuery.noConflict();
-if(common.isIE() || common.isMobile())
-{
-	jQuery('#noie').dimmer('show');
-}
+jQuery(document).ready(function(){
+	if(common.isMobile() || common.isIE())
+	{
+		jQuery('#noie').dimmer('show');
+	}
+});
 //]]>
 </script>
 </head>

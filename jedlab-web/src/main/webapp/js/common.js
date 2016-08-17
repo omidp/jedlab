@@ -35,6 +35,9 @@ var common = {
 			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 				 return true;
 			}
+			if(window.innerWidth <= 800 && window.innerHeight <= 600) {
+			     return true;
+			}
 			return false;
 		},
 		showLoading : function() {
