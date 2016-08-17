@@ -25,6 +25,10 @@
 <script type="text/javascript">
 //<![CDATA[
 jQuery.noConflict();
+if(common.isIE() || common.isMobile())
+{
+	jQuery('#noie').dimmer('show');
+}
 //]]>
 </script>
 </head>
@@ -262,10 +266,6 @@ jQuery.noConflict();
 jQuery(document).ready(function(){
 
 	jedlab.init();
-	if(common.isIE())
-	{
-		jQuery('#noie').dimmer('show');
-	}
 	
 });
            

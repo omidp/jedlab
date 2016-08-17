@@ -31,6 +31,12 @@ var common = {
 
 		    return false;
 		},
+		isMobile : function(){
+			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+				 return true;
+			}
+			return false;
+		},
 		showLoading : function() {
 			jQuery("#dimmerLoader").dimmer('show');
 		},
