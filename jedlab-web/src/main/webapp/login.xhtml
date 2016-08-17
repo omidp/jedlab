@@ -129,6 +129,7 @@
 									});
 
 									jQuery("#btnLogin").click(function(){
+										common.showLoading();
 										jQuery("#loginForm\\:hunfield").val(jQuery("#uname").val());
 										jQuery("#loginForm\\:hpfield").val(btoa(jQuery("#upass").val()));
 										jQuery("#loginForm\\:btnLoginClick").click();

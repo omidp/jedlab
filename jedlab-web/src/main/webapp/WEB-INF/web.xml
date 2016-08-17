@@ -139,6 +139,17 @@
 		<servlet-name>Video Image Loader</servlet-name>
 		<servlet-class>com.jedlab.VideoImagePosterServlet</servlet-class>
 	</servlet>
+	
+	
+		<servlet-mapping>
+		<servlet-name>Username Check Availibility</servlet-name>
+		<url-pattern>/checkAvailibility</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Username Check Availibility</servlet-name>
+		<servlet-class>com.jedlab.CheckUsernameAvailibilityServlet</servlet-class>
+	</servlet>
 
 <error-page>
     <exception-type>

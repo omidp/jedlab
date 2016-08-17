@@ -36,7 +36,7 @@
 									<ui:define name="prefix">
 										<i class="icon-user prefix"></i>
 									</ui:define>
-									<input type="text" id="username"/>									
+									<input type="text" id="username" onblur="checkAvailibility();" />									
 									<ui:define name="label">
 										#{messages['User_Name']}
 									</ui:define>
@@ -81,12 +81,28 @@
 		<script type="text/javascript">
 			jQuery(document).ready(function(){
 				jQuery("#btnLogin").click(function(){
+					common.showLoading();
 					jQuery("#loginForm\\:usernameField").val(jQuery("#username").val());
 					jQuery("#loginForm\\:upassField").val(btoa(jQuery("#upass").val()));
 					jQuery("#loginForm\\:cpassField").val(btoa(jQuery("#cpass").val()));
 					jQuery("#loginForm\\:btnLoginClick").click();
 				});
 			});
+
+			function checkAvailibility()
+			{
+				var errorMsg = "#{messages['Username_Exists']}";
+				jQuery.ajax({
+					  url: "#{_ctx}/checkAvailibility",
+					  data: {"un":jQuery("#username").val()},
+					  success: function(){console.log('suc')},
+					  error: function(){
+						common.notification(errorMsg, "errormsg");
+					  },
+					  fail: function(){console.log('fail')},
+					  dataType: "text"
+					});
+			}
 		</script>
 		
 		

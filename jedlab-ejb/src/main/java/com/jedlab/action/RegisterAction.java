@@ -5,8 +5,10 @@ import java.io.Serializable;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -61,7 +63,7 @@ public class RegisterAction implements Serializable
 
     public Member getInstance()
     {
-        if(instance == null)
+        if (instance == null)
             instance = new Member();
         return instance;
     }
@@ -90,6 +92,17 @@ public class RegisterAction implements Serializable
     @Transactional
     public String confirm()
     {
+        EntityManager em = (EntityManager) Component.getInstance("entityManager");
+        try
+        {
+            em.createQuery("select m from Member m where m.username = :uname").setParameter("uname", getInstance().getUsername()).setMaxResults(1)
+                    .getSingleResult();
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Username_Exists");
+            return null;
+        }
+        catch (NoResultException e)
+        {
+        }
         String tempPasswd = getInstance().getPassword();
         if (getConfirmPasswd().equals(tempPasswd) == false)
         {
@@ -106,7 +119,7 @@ public class RegisterAction implements Serializable
         Events.instance().raiseAsynchronousEvent(Constants.SEND_THANK_YOU_MAIL, getInstance());
         Identity identity = Identity.instance();
         identity.getCredentials().setUsername(getInstance().getUsername());
-        identity.getCredentials().setPassword(tempPasswd);
+        identity.getCredentials().setPassword(CryptoUtil.encodeBase64(tempPasswd));
         identity.login();
         return "confirmed";
     }
@@ -124,8 +137,18 @@ public class RegisterAction implements Serializable
 
         try
         {
+            entityManager.createQuery("select m from Member m where m.email = :email").setParameter("email", user.getEmail())
+                    .setMaxResults(1).getSingleResult();
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Email_Exists");
+            return null;
+        }
+        catch (NoResultException e)
+        {
+        }
+        try
+        {
             user.setActive(Boolean.FALSE);
-            user.setActivationCode(RandomStringUtils.randomAlphanumeric(30));
+            user.setActivationCode(RandomStringUtils.randomAlphanumeric(45));
             entityManager.persist(user);
             entityManager.flush();
             if (user.getId() != null)
@@ -191,7 +214,7 @@ public class RegisterAction implements Serializable
                 StatusMessages.instance().addFromResourceBundle(Severity.WARN, "User_Is_Not_Active");
                 return null;
             }
-            String code = RandomStringUtils.randomAlphanumeric(25);
+            String code = RandomStringUtils.randomAlphanumeric(45);
             u.setRecoverPasswordCode(code);
             entityManager.flush();
             FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -210,8 +233,7 @@ public class RegisterAction implements Serializable
         }
         return "recoveredPassword";
     }
-    
-    
+
     @Observer(Constants.SEND_RESET_PASSWORD_MAIL)
     public void sendResetPassword(String username, String recoverPassLink, String email)
     {

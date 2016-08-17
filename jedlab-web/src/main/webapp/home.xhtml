@@ -32,11 +32,11 @@ jQuery.noConflict();
 		
 		<div id="maia-header" class="maia-header">
 			<div class="maia-aux">
-				<div class="logo">
+				<div class="logo" style="margin-top: 10px">
 					<a><h:outputText value="#{messages['JEDLAB']}" /> </a>
 				</div>
 				<div class="slogan">
-					<a><img alt="#{messages['JEDLAB']}"></img></a>
+					<a href="#{_ctx}"><s:graphicImage value="/images/logo.png"></s:graphicImage>  </a>
 				</div>
 			</div>
 
@@ -134,7 +134,7 @@ jQuery.noConflict();
 		</div>
 
 		<div class="ui equal width center aligned padded grid"
-			style="height: 100%;" id="featureContent">
+			style="height: 100%;padding-top: 120px" id="featureContent">
 
 			<div class="row">
 
@@ -142,10 +142,10 @@ jQuery.noConflict();
 				<div class="two wide column"></div>
 
 				<div class="four wide column">
-
-					<img class="ui center aligned medium circular image"
-						src="#{_ctx}/images/use_post_meeting.png"
-						style="margin-left: 90px; height: 90px; width: 100px" />
+					<s:graphicImage value="/images/home_action.png" styleClass="ui center aligned small circular image" style="margin:0 auto;">
+						
+					</s:graphicImage>
+					
 					<h2 class="ui center aligned icon header">تبدیل حرف به عمل</h2>
 
 					<p class="locale-direction">علاوه بر یادگیری جاوا بصورت آکادمیک برخی از پروزه های متن
@@ -160,10 +160,12 @@ jQuery.noConflict();
 				</div>
 
 				<div class="four wide column">
-
-					<img class="ui center aligned medium circular image"
-						src="#{_ctx}/images/java_var.png" style="margin-left: 40px;height: 90px; width: 100px" />
-					<h2 class="ui center aligned icon header">تنوع</h2>
+					
+					<s:graphicImage value="/images/java_var.png" styleClass="ui center aligned small circular image" style="margin:0 auto;">
+						
+					</s:graphicImage>
+					
+					<h2 class="ui center aligned icon header">تبدیل حرف به عمل</h2>
 
 					<p>
 						JEDLAB آموزش های مختلفی برای شما فراهم می کند ، آموزش هایی که در
@@ -178,9 +180,10 @@ jQuery.noConflict();
 
 				<div class="four wide column">
 
-					<img class="ui center aligned medium circular image"
-						src="#{_ctx}/images/cash-payment-icon-ft.png"
-						style="margin-left: 40px;height: 90px; width: 100px" />
+					<s:graphicImage value="/images/cash-payment-icon-ft.png" styleClass="ui center aligned small circular image" style="margin:0 auto;">
+						
+					</s:graphicImage>	
+						
 					<h2 class="ui center aligned icon header">صرفه جویی در زمان و
 						هزینه</h2>
 
