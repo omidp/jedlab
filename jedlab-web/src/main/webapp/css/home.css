@@ -637,7 +637,6 @@ section#what-is-classroom .delayelement {
 #maia-header {
 	background: rgba(0, 0, 0, 0)
 		-moz-linear-gradient(center top, #fafafa, #f5f5f5) repeat scroll 0 0;
-	
 	color: #444;
 	min-height: 44px;
 	padding: 14px 15px 13px;
@@ -775,10 +774,11 @@ html, body {
 	color: #4078c0 !important;
 }
 
-a{
+a {
 	text-decoration: none;
 }
-a:hover{
+
+a:hover {
 	text-decoration: none;
 }
 
@@ -787,7 +787,8 @@ a:hover{
 .ui.search .prompt {
 	border-radius: 500rem;
 	direction: rtl;
-	font-family: "Roboto-Light","Yekan","Tahoma","helvetica neue",helvetica,arial,sans-serif;
+	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue",
+		helvetica, arial, sans-serif;
 }
 
 .ui.search>.prompt {
@@ -807,13 +808,34 @@ a:hover{
 		box-shadow 0.1s ease 0s, border-color 0.1s ease 0s;
 }
 
-.slogan{
+.slogan {
 	float: right;
-    font-family: "Roboto-Light","Yekan","Tahoma","helvetica neue",helvetica,arial,sans-serif;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1.375;
-    margin: 0;
-    text-rendering: optimizelegibility;
-    width: 300px;
+	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue",
+		helvetica, arial, sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.375;
+	margin: 0;
+	text-rendering: optimizelegibility;
+	width: 300px;
+}
+
+.typeBox {
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(242, 242, 242, 1);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(242, 242, 242, 1);
+	box-shadow: 10px 10px 5px 0px rgba(242, 242, 242, 1);
+	border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	border: 0px solid #b0a7b0;
+	background-color: #fff;
+	padding: 10px;
+}
+
+.typeBox p{
+	line-height: 15px;
+	padding: 10px;
+}
+.typed-cursor{
+	display: none;
 }

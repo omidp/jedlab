@@ -7,10 +7,11 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jstl/core">
 	<c:set var="_ctx" value="#{request.contextPath}" />
-<html>
+	<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>JEDLAB | <h:outputText value="#{' '}" /> <h:outputText value="#{messages['Page_Title']}" /></title>
+<title>JEDLAB | <h:outputText value="#{' '}" /> <h:outputText
+		value="#{messages['Page_Title']}" /></title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" href="#{_ctx}/favicon.ico" type="image/x-icon" />
 <link href="#{_ctx}/css/icon.css" rel="stylesheet" />
@@ -20,6 +21,7 @@
 <script type="text/javascript" src="#{_ctx}/js/jquery.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/jquery.mousewheel.min.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/semantic.min.js"> </script>
+<script type="text/javascript" src="#{_ctx}/js/typed.min.js"> </script>
 <script type="text/javascript">
 //<![CDATA[
 jQuery.noConflict();
@@ -28,198 +30,234 @@ jQuery.noConflict();
 </head>
 <body>
 
-		<div id="top-scroll"></div>
-		
-		<div id="maia-header" class="maia-header">
-			<div class="maia-aux">
-				<div class="logo" style="margin-top: 10px">
-					<a><h:outputText value="#{messages['JEDLAB']}" /> </a>
-				</div>
-				<div class="slogan">
-					<a href="#{_ctx}"><s:graphicImage value="/images/logo.png"></s:graphicImage>  </a>
-				</div>
-			</div>
+	<div id="top-scroll"></div>
 
+	<div id="maia-header" class="maia-header">
+		<div class="maia-aux">
+			<div class="logo" style="margin-top: 10px">
+				<a><h:outputText value="#{messages['JEDLAB']}" /> </a>
+			</div>
+			<div class="slogan">
+				<a href="#{_ctx}"><s:graphicImage value="/images/logo.png"></s:graphicImage>
+				</a>
+			</div>
 		</div>
 
-		<div id="maia-nav-x" class="maia-nav maia-complex">
-			<div class="maia-aux">
-				<div class="ui secondary menu">
-					<div class="item">
-					    <div class="ui search">
-						  <input id="searchInput" class="prompt" placeholder="#{messages['Search']}" type="text" />
-						  <script>
+	</div>
+
+	<div id="maia-nav-x" class="maia-nav maia-complex">
+		<div class="maia-aux">
+			<div class="ui secondary menu">
+				<div class="item">
+					<div class="ui search">
+						<input id="searchInput" class="prompt"
+							placeholder="#{messages['Search']}" type="text" />
+						<script>
 							jQuery(document).ready(function(){
 								jQuery("#searchInput").on('keyup', function(e){
 									if (e.keyCode == 13) { location.href = window.location.origin + '#{_ctx}/courseList.seam?courseName='+jQuery("#searchInput").val(); }
 								});
 							});
 						  </script>
-						</div>
-				    </div>
-					<div class="right menu">
-						<s:link propagation="none" includePageParams="false"  rendered="#{!identity.loggedIn}"
-								view="/login.xhtml" styleClass="ui item locale-direction clickableLink" 
-								>
-								<h:outputText value="#{messages['Sign_In']} ( #{messages['Register']} )" />	
-								<i class="icon-user-tie" style="color:#000;margin-left: 5px;"></i>
-						</s:link>						
-						<s:link propagation="none" includePageParams="false" 
-								 styleClass="ui item" value=" | ">
-						</s:link>  
-						<s:link propagation="none" includePageParams="false" 
-							view="/courseList.xhtml" styleClass="ui item clickableLink" value="#{messages['Course_List']}">
-							<i class="icon-books" style="color:#000;margin-left: 5px;"></i>
-						 </s:link>
-						<s:link propagation="none" includePageParams="false" 
-								 styleClass="ui item" value=" | ">
-						</s:link>
-						<s:link propagation="none" includePageParams="false" 
-								view="/home.xhtml" styleClass="ui item clickableLink" value="#{messages['Home']}">
-								<i class="icon-home" style="color:#000;margin-left: 5px;"></i>
-						</s:link> 
 					</div>
+				</div>
+				<div class="right menu">
+					<s:link propagation="none" includePageParams="false"
+						rendered="#{!identity.loggedIn}" view="/login.xhtml"
+						styleClass="ui item locale-direction clickableLink">
+						<h:outputText
+							value="#{messages['Sign_In']} ( #{messages['Register']} )" />
+						<i class="icon-user-tie" style="color: #000; margin-left: 5px;"></i>
+					</s:link>
+					<s:link propagation="none" includePageParams="false"
+						styleClass="ui item" value=" | ">
+					</s:link>
+					<s:link propagation="none" includePageParams="false"
+						view="/courseList.xhtml" styleClass="ui item clickableLink"
+						value="#{messages['Course_List']}">
+						<i class="icon-books" style="color: #000; margin-left: 5px;"></i>
+					</s:link>
+					<s:link propagation="none" includePageParams="false"
+						styleClass="ui item" value=" | ">
+					</s:link>
+					<s:link propagation="none" includePageParams="false"
+						view="/home.xhtml" styleClass="ui item clickableLink"
+						value="#{messages['Home']}">
+						<i class="icon-home" style="color: #000; margin-left: 5px;"></i>
+					</s:link>
 				</div>
 			</div>
 		</div>
-		
-		<div id="navigator" class="ui blue circular label" onclick="javascript:jedlab.down();"
-			data-position="top center" 
-			data-content="#{messages['Next_Page']}"><i class="icon-arrow-down"></i></div>
-		<script>
+	</div>
+
+	<div id="navigator" class="ui blue circular label"
+		onclick="javascript:jedlab.down();" data-position="top center"
+		data-content="#{messages['Next_Page']}">
+		<i class="icon-arrow-down"></i>
+	</div>
+	<script>
 			jQuery(document).ready(function(){
 				jQuery('#navigator').popup({inline: true});
 			});
 		</script>
-		
-		<div id="maia-main">
-			<div class="classroom-maximum">
 
-				<div class="main">
+	<div id="maia-main">
+		<div class="classroom-maximum">
 
-					<div class="container">
+			<div class="main">
 
-						<div class="scroller">
+				<div class="container">
 
-							<div class="scroller-inner"
-								style="transform: translate3d(0px, 0px, 0px);">
-								<section id="education-hero-new">
-									<div class="centered-container">
-										<img class="logo" src="#{_ctx}/images/hero_logo.png" alt="" />
-										<h1 class="title white-text locale-direction"></h1>
-										<p class="subtitle white-text border-top">
-										می خواهید برنامه نویسی شوید تا هر شرکتی آرزوی داشتن شما را داشته باشد 
-										و یا کسب و کار نرم افزاری خود را ، راه اندازی کنید ؟ 
-										<br /> 
-										با ما همراه شوید
-										</p>
-										<s:link propagation="none" view="/login.xhtml"
-											includePageParams="false"
-											styleClass="classroom-button subtext-button hero-button">
-											<span class="hero-text">#{messages['Sign_In']}</span>
-										</s:link>
-									</div>
-								</section>
+					<div class="scroller">
 
-
-
+						<div class="scroller-inner"
+							style="transform: translate3d(0px, 0px, 0px);">
+							<section id="education-hero-new">
+							<div class="centered-container">
+								<img class="logo" src="#{_ctx}/images/hero_logo.png" alt="" />
+								<h1 class="title white-text locale-direction"></h1>
+								<p class="subtitle white-text border-top">
+									می خواهید برنامه نویسی شوید تا هر شرکتی آرزوی داشتن شما را
+									داشته باشد و یا کسب و کار نرم افزاری خود را ، راه اندازی کنید ؟
+									<br /> با ما همراه شوید
+								</p>
+								<s:link propagation="none" view="/login.xhtml"
+									includePageParams="false"
+									styleClass="classroom-button subtext-button hero-button">
+									<span class="hero-text">#{messages['Sign_In']}</span>
+								</s:link>
 							</div>
+							</section>
+
+
 
 						</div>
 
 					</div>
 
 				</div>
+
 			</div>
 		</div>
+	</div>
 
-		<div class="ui equal width center aligned padded grid"
-			style="height: 100%;padding-top: 120px" id="featureContent">
+	<div class="ui equal width center aligned padded grid"
+		style="height: 100%; padding-top: 120px" id="featureContent">
 
-			<div class="row">
-
-
-				<div class="two wide column"></div>
-
-				<div class="four wide column">
-					<s:graphicImage value="/images/home_action.png" styleClass="ui center aligned small circular image" style="margin:0 auto;">
-						
-					</s:graphicImage>
-					
-					<h2 class="ui center aligned icon header">تبدیل حرف به عمل</h2>
-
-					<p class="locale-direction">علاوه بر یادگیری جاوا بصورت آکادمیک برخی از پروزه های متن
-						باز هم آموزش داده می شود و شما می توانید وارد بازار متن باز شوید و
-						در این پروژه ها مشارکت کنید. بعلاوه شما بصورت انفرادی در کلاس ها
-						شرکت می کنید اما پرسش و پاسخ عمومی است .
-						<br />
-						تمام منابعی که لازم دارید در سایت موجود است
-						</p>
-						
-
-				</div>
-
-				<div class="four wide column">
-					
-					<s:graphicImage value="/images/java_var.png" styleClass="ui center aligned small circular image" style="margin:0 auto;">
-						
-					</s:graphicImage>
-					
-					<h2 class="ui center aligned icon header">تبدیل حرف به عمل</h2>
-
-					<p>
-						JEDLAB آموزش های مختلفی برای شما فراهم می کند ، آموزش هایی که در
-						ساخت هر نرم افزاری لازم و حتی <b>کافی</b> است. مانند فریم ورک های
-						مختلف ، آموزش ساخت گزارش با جاوا ، کار با موتورهای گردش کار ، کار
-						با پایگاه داده و غیره <br /> اینها فقط بخشی از آموزش هاست . ما
-						فقط به <b>مقدمات</b> بسنده نمی کنیم و جزیی ترین مسایل هم آموزش می
-						دهیم
-					</p>
-
-				</div>
-
-				<div class="four wide column">
-
-					<s:graphicImage value="/images/cash-payment-icon-ft.png" styleClass="ui center aligned small circular image" style="margin:0 auto;">
-						
-					</s:graphicImage>	
-						
-					<h2 class="ui center aligned icon header">صرفه جویی در زمان و
-						هزینه</h2>
-
-					<p class="locale-direction">
-						بسیاری از آموزشگاه ها مبالغ هنگفتی برای آموزش حتی در مقطع مقدماتی
-						دریافت می کنند که حتی این مبالغ با کیفیت آموزش هم مطابقت ندارد <br />
-						<b> ما برای آموزش مقدماتی هیچ هزینه ای دریافت نمی کنیم </b> <br />
-						آموزش در JEDLAB هیچ هزینه ی رفت و آمدی برای شما ندارد و می توانید
-						آموزش ها را در خانه ببینید
-					</p>
-
-				</div>
+		<div class="row">
 
 
+			<div class="two wide column"></div>
 
+			<div class="four wide column">
+				<s:graphicImage value="/images/home_action.png"
+					styleClass="ui center aligned small circular image"
+					style="margin:0 auto;">
 
-				<div class="two wide column"></div>
+				</s:graphicImage>
+
+				<h2 class="ui center aligned icon header">یادگیری موثر</h2>
+
+				<p class="locale-direction">
+					کلاس های جدلب یکنفره برگزار می شود ولی برای یادگیری موثرتر پرسش و
+					پاسخ بصورت گروهی است و شما می توانید مشکلات بقیه هم ببینید و از آن
+					درس بگیرید دوره های جدلب <b> بدون هیچ هزینه ای تکرار پذیر </b> است
+				</p>
+
 
 			</div>
 
-		</div>
+			<div class="four wide column">
 
+				<s:graphicImage value="/images/java_var.png"
+					styleClass="ui center aligned small circular image"
+					style="margin:0 auto;">
 
-		<div class="ui equal width center aligned padded grid"
-			style="height: 100%;" id="newsletter">
-			
-			<div class="row" style="margin: 0; padding: 0; margin-top: 150px;">
-				<h2 class="ui center aligned icon header locale-direction">چرا
-					JEDLAB</h2>
-				<div class="column"></div>
+				</s:graphicImage>
+
+				<h2 class="ui center aligned icon header">تنوع مطالب</h2>
+
+				<p class="locale-direction">
+					در جدلب شما هر آنچه که برای ساخت یک نرم افزار نیاز دارید را می
+					آموزید شامل استفاده از موتور گردش کار ، گزارش ساز و استفاده از فریم
+					ورک های مختلف <br /> آموزش در جدلب <b> فقط تئوری نیست </b> و شما
+					وارد عمل می شوید
+				</p>
+
 			</div>
 
+			<div class="four wide column">
+
+				<s:graphicImage value="/images/cash-payment-icon-ft.png"
+					styleClass="ui center aligned small circular image"
+					style="margin:0 auto;">
+
+				</s:graphicImage>
+
+				<h2 class="ui center aligned icon header">صرفه جویی در زمان و
+					هزینه</h2>
+
+				<p class="locale-direction">
+					بدلیل آنلاین بودن آموزش و همچنین عدم نیاز به رفت و آمد از اتلاف وقت
+					و انرژی شما جلوگیری می شود. <br /> بعلاوه بسیاری از دوره های
+					مقدماتی ما بصورت <b> رایگان </b> در اختیار شما قرار می گیرد <br />
+					همچنین مدیریت زمان با شماست و شما زمان آموزش خود را انتخاب می کنید
+				</p>
+
+			</div>
+
+
+
+
+			<div class="two wide column"></div>
+
 		</div>
 
+	</div>
 
-<script type="text/javascript">
+
+	<div class="ui equal width center aligned padded grid"
+		style="height: 100%; padding-top: 120px" id="newsletter">
+
+		<div class="row">
+			<div class="one wide column"></div>
+			<div class="eight wide column">
+
+				<h2 class="ui center aligned icon header">دورنما</h2>
+
+				<div class="ui card" style="margin: 0 auto;padding-bottom: 10px;margin-bottom: 10px;">
+					<div class="content">
+						<div class="header">همین حالا شروع کنید</div>
+						<div class="meta"></div>
+						<div class="description">
+							<a href="#{_ctx}/courseList.seam"> لیست دوره ها </a>
+						</div>
+					</div>
+				</div>
+
+				<div class="typeBox">
+					<p id="typed"></p>
+				</div>
+
+				<div id="typed-strings" class="typeBox">
+					<p>هدف جدلب ، تقويت حوزه توليد نرم‌افزار مرتبط با تکنولوژی های
+						جاوا است. جدلب با کمک به کارآفرينان، برنامه‌نويسان در ايران
+						می‌کوشد تا کيفيت و رضايت بيشتری در حوزه نرم‌افزارهای مبتنی بر جاوا
+						فراهم آيد. در شرايط فعلی توليد نرم‌افزار در ايران، نیاز فزاینده‌ای
+						به تکنولوژی‌های مبتنی بر جاوا در پروژه‌های سازمانی و سرویس‌های
+						عمومی احساس می‌شود. در اين شرايط، تأمين نيروی انسانی کارآمد برای
+						توليد نرم‌افزار در حوزه جاوا ، گاهی به معضلی جدی تبديل می‌شود.
+						جدلب می کوشد تا این مشکل را تسهیل کند .</p>
+				</div>
+
+			</div>
+			<div class="two wide column"></div>
+		</div>
+
+	</div>
+
+
+	<script type="text/javascript">
 //<![CDATA[
 jQuery(document).ready(function(){
 
@@ -235,13 +273,13 @@ jQuery(document).ready(function(){
 //]]>
 </script>
 
-<div class="ui page dimmer" id="noie">
-  <div class="content">
-    <div class="center">#{messages['No_IE']}</div>
-  </div>
-</div>
-		
-<script type="text/javascript" src="#{_ctx}/js/home.js"> </script>
+	<div class="ui page dimmer" id="noie">
+		<div class="content">
+			<div class="center">#{messages['No_IE']}</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="#{_ctx}/js/home.js"> </script>
 </body>
-</html>
+	</html>
 </ui:composition>
