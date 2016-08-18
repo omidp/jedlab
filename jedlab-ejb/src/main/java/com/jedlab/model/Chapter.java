@@ -16,7 +16,7 @@ import com.jedlab.framework.DateUtil;
 
 @Entity
 @Table(name = "chapter", schema = "public")
-public class Chapter extends BasePO
+public class Chapter extends BasePO implements Comparable<Chapter>
 {
 
     @Column(name = "name")
@@ -38,11 +38,24 @@ public class Chapter extends BasePO
     @org.hibernate.annotations.Generated(org.hibernate.annotations.GenerationTime.INSERT)
     private Date createdDate;
 
+    @Column(name = "c_sequence")
+    private Integer sequence;
+
     @Transient
     private boolean registered;
 
     @Transient
     private boolean viewed;
+
+    public Integer getSequence()
+    {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence)
+    {
+        this.sequence = sequence;
+    }
 
     public boolean isViewed()
     {
@@ -120,6 +133,14 @@ public class Chapter extends BasePO
         if (getDuration() != null)
             return DateUtil.getDuration(getDuration());
         return "";
+    }
+
+    @Override
+    public int compareTo(Chapter o)
+    {
+        if(getSequence() == null)
+            return 0;
+        return getSequence().compareTo(o.getSequence());
     }
 
 }

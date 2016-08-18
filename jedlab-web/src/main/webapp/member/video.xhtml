@@ -19,34 +19,11 @@ body {
 	<ui:define name="body">
 
 
-		<div id="video-drp">
-			<div class="ui compact menu" id="vidRes">
-				<div class="ui simple dropdown item">
-					#{messages['Video']} <i class="dropdown icon"></i>
-					<div class="menu">
-						<div class="item">
-							<s:link value="HD" propagation="none" onclick="redirect(this);">
-								<f:param name="resolution" value="large"></f:param>
-							</s:link>
-						</div>
-						<div class="item">
-							<s:link value="480" propagation="none" onclick="redirect(this);">
-								<f:param name="resolution" value="medium"></f:param>
-							</s:link>
-						</div>
-						<div class="item">
-							<s:link value="360" propagation="none" onclick="redirect(this);">
-								<f:param name="resolution" value="small"></f:param>
-							</s:link>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 
-		<video id="my-video" class="video-js" controls="controls"
+		<video id="my-video" class="video-js vjs-default-skin" controls="controls"
 			preload="auto" width="800" height="580"
-			poster="video.image?courseId=#{courseId}" data-setup="{}">
+			poster="video.image?courseId=#{courseId}" data-setup="{'controls': true, 'autoplay': false, 'preload': 'auto'}">
 			<p class="vjs-no-js">To view this video please enable JavaScript,
 				and consider upgrading to a web browser</p>
 		</video>

@@ -17,37 +17,47 @@
                               
                                 
 									
-                    <s:graphicImage value="#{courseHome.instance.image}" style="width:150px;" rendered="#{courseHome.instance.hasImage}">
-                    	<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>
-                    </s:graphicImage>				            
-					<h:outputLabel for="file">#{messages['Image']}</h:outputLabel>
+                    
 									
 									
+					<h:outputLabel for="p">#{messages['Price']}</h:outputLabel>
                     <h:inputText id="p"
                                 value="#{courseHome.instance.price}">
                                 <f:convertNumber />
                     </h:inputText>            	
-					<h:outputLabel for="p">#{messages['Price']}</h:outputLabel>
                     
+                    <h:outputLabel for="lang">#{messages['Language']}</h:outputLabel>
 	                <h:selectOneMenu value="#{courseHome.instance.language}" id="lang">
 	                	<s:selectItems value="#{courseLangs}" var="_item" label="#{_item.label}"></s:selectItems>
 	                	<s:convertEnum></s:convertEnum>
 	                </h:selectOneMenu>
-                    <h:outputLabel for="lang">#{messages['Language']}</h:outputLabel>
 	                
 	                
+	                <h:outputLabel for="lvl">#{messages['Level']}</h:outputLabel>
 	                <h:selectOneMenu value="#{courseHome.instance.level}" id="lvl">
 	                	<s:selectItems value="#{courseLevels}" var="_item" label="#{_item.label}"></s:selectItems>
 	                	<s:convertEnum></s:convertEnum>
 	                </h:selectOneMenu>
-	                <h:outputLabel for="lvl">#{messages['Level']}</h:outputLabel>
 	                
 	                
-	                <h:selectBooleanCheckbox value="#{courseHome.instance.active}" id="active"/>
 	                <h:outputLabel for="active">#{messages['Active']}</h:outputLabel>
+	                <h:selectBooleanCheckbox value="#{courseHome.instance.active}" id="active"/>
 	                
-	                <h:inputTextarea value="#{courseHome.instance.description}" id="desc"/>
 	                <h:outputLabel for="desc">#{messages['Description']}</h:outputLabel>
+	                <h:inputTextarea value="#{courseHome.instance.description}" id="desc"/>
+	                
+	                <h:outputLabel for="desc">#{messages['Requirment']}</h:outputLabel>
+	                <h:inputTextarea value="#{courseHome.instance.requirement}" id="req"/>
+	                
+	                <h:outputLabel for="desc">#{messages['Resources']}</h:outputLabel>
+	                <h:inputTextarea value="#{courseHome.instance.resources}" id="res"/>
+	                
+	                
+					<h:outputLabel for="file">#{messages['Image']}</h:outputLabel>
+	                <s:graphicImage value="#{courseHome.instance.image}" style="width:150px;" rendered="#{courseHome.instance.hasImage}">
+                    	<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>
+                    </s:graphicImage>				            
+                    <h:outputText value="#{messages['Has_Not']}" rendered="#{!courseHome.instance.hasImage}" />
 	                    
                     			
                  

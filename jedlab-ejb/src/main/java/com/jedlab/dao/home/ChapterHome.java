@@ -92,6 +92,16 @@ public class ChapterHome extends EntityHome<Chapter>
         if (getCourse().getId() != null)
         {
             getInstance().setCourse(getCourse());
+            try
+            {
+                Long cntSeq = (Long) getEntityManager().createQuery("select count(c) from Chapter c where c.course.id = :courseId")
+                        .setParameter("courseId", getCourse().getId()).getSingleResult();
+                getInstance().setSequence((int) (cntSeq * 10));
+            }
+            catch (NoResultException e)
+            {
+                getInstance().setSequence(1);
+            }
         }
         if (StringUtil.isNotEmpty(getDuration()))
         {
@@ -105,7 +115,6 @@ public class ChapterHome extends EntityHome<Chapter>
             }
         }
         //
-
     }
 
     public boolean isWired()
