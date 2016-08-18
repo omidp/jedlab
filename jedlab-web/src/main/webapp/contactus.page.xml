@@ -7,7 +7,7 @@
 	<navigation from-action="#{contactusAction.contact()}">
 		<end-conversation />
 		<rule if-outcome="successful">
-			<redirect view-id="/home.xhtml" include-page-params="false">
+			<redirect view-id="/contactus.xhtml" include-page-params="false">
 				
 			</redirect>
 		</rule>		

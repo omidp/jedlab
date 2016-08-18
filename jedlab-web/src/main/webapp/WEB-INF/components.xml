@@ -96,7 +96,7 @@
 	
 	
 	<!-- <mail:mail-session host="mailtrap.io" port="2525" username="5c2004fb6d747b" password="c2cfab3fb3d9c0"  /> -->
-	 <mail:mail-session host="smtp.postmarkapp.com" port="2525" username="e93a5803-eaec-4ca5-bb23-693a2a839dd0" password="e93a5803-eaec-4ca5-bb23-693a2a839dd0"  /> 
+	 <mail:mail-session host="smtp.mailgun.org" port="2525" username="postmaster@jedlab.ir" password="3a6743d8bf86926761e103d86858bdbe"  /> 
 	
 	
 	<!--<bpm:jbpm>
