@@ -13,22 +13,28 @@
 <title>JEDLAB | <h:outputText value="#{' '}" /> <h:outputText
 		value="#{messages['Page_Title']}" /></title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="keywords" content="ویدیو , جاوا , جدلب , آموزش , برنامه نویسی , آموزشگاه , اندروید ,Java, Video, jedlab, Android, Iran, Training , Education , J2EE, Iranian Java Developers" />
+<meta name="description" content="جدلب با ارائه آنلاین ویدیوهای آموزشی جاوا محلی است برای ارتقاء سطح دانش  شما" />
 <link rel="icon" href="#{_ctx}/favicon.ico" type="image/x-icon" />
 <link href="#{_ctx}/css/icon.css" rel="stylesheet" />
 <link href="#{_ctx}/css/semantic.rtl.min.css" rel="stylesheet" />
 <link href="#{_ctx}/css/home.css" rel="stylesheet" />
-<script type="text/javascript" src="#{_ctx}/js/common.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/jquery.js"> </script>
+<script type="text/javascript" src="#{_ctx}/js/common.js"> </script>
+<script type="text/javascript">
+//<![CDATA[
+jQuery.noConflict();
+//]]>
+</script>
 <script type="text/javascript" src="#{_ctx}/js/jquery.mousewheel.min.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/semantic.min.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/typed.min.js"> </script>
 <script type="text/javascript">
 //<![CDATA[
-jQuery.noConflict();
 jQuery(document).ready(function(){
-	if(common.isMobile() || common.isIE())
+	if(common.isMobile())
 	{
-		jQuery('#noie').dimmer('show');
+		jQuery('#nomobile').dimmer('show');
 	}
 });
 //]]>
@@ -275,11 +281,13 @@ jQuery(document).ready(function(){
 //]]>
 </script>
 
-	<div class="ui page dimmer" id="noie">
+	<div class="ui page dimmer" id="nomobile">
 		<div class="content">
-			<div class="center">#{messages['No_IE']}</div>
+			<div class="center">#{messages['No_Mobile']}</div>
 		</div>
 	</div>
+	
+	
 
 	<script type="text/javascript" src="#{_ctx}/js/home.js"> </script>
 </body>

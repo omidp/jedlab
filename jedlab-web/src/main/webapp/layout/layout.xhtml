@@ -4,14 +4,18 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:s="http://jboss.com/products/seam/taglib"
-	xmlns:c="http://java.sun.com/jstl/core" 
-	contentType="text/html">
+	xmlns:c="http://java.sun.com/jstl/core" contentType="text/html">
 	<c:set var="_ctx" value="#{request.contextPath}" />
 	<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>JEDLAB | <h:outputText value="#{' '}" /> <h:outputText value="#{messages['Page_Title']}" /></title>
+<title>JEDLAB | <h:outputText value="#{' '}" /> <h:outputText
+		value="#{messages['Page_Title']}" /></title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="keywords"
+	content="ویدیو , جاوا , جدلب , آموزش , برنامه نویسی , آموزشگاه , اندروید ,Java, Video, jedlab, Android, Iran, Training , Education , J2EE, Iranian Java Developers" />
+<meta name="description"
+	content="جدلب با ارائه آنلاین ویدیوهای آموزشی جاوا محلی است برای ارتقاء سطح دانش  شما" />
 <link rel="icon" href="#{_ctx}/favicon.ico" type="image/x-icon" />
 <link href="#{_ctx}/css/semantic.rtl.min.css" rel="stylesheet" />
 <link href="#{_ctx}/ui.styles.css" rel="stylesheet" />
@@ -23,7 +27,6 @@
 <script type="text/javascript" src="#{_ctx}/js/common.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/semantic.min.js"> </script>
 <style type="text/css">
-
 </style>
 
 <script type="text/javascript">
@@ -33,20 +36,24 @@ var contextPath = '#{_ctx}';
 var currentDate = new Date(#{currentDate.time});
 //var sessionTimeout = #{securitySettings.sessionTtl};
 var pathName = window.location.pathname.substring(contextPath.length+1).replace('.seam', '.xhtml');	
+if(common.isMobile())
+{
+	jQuery('#nomobile').dimmer('show');
+}
 //]]>
 </script>
 
-<ui:insert name="head" /> 
+<ui:insert name="head" />
 
 
 
 </head>
 <body id="home" class="pushable">
-	
+
 	<div class="pusher">
 
-			<s:div id="uiMessage">
-				<script type="text/javascript">
+		<s:div id="uiMessage">
+			<script type="text/javascript">
 				jQuery(document).ready(function(){
 					
 					//msg setup
@@ -79,22 +86,28 @@ var pathName = window.location.pathname.substring(contextPath.length+1).replace(
 			</div>
 		</s:div>
 		<div id="wrapper">
-				<ui:include src="/layout/header.xhtml" />
-				<ui:include src="/WEB-INF/inc/breadcrumb.xhtml" />
-				<div style="height: 100%;">
-					<ui:insert name="body"></ui:insert>
-				</div>	
-				<ui:include src="/layout/footer.xhtml" />
+			<ui:include src="/layout/header.xhtml" />
+			<ui:include src="/WEB-INF/inc/breadcrumb.xhtml" />
+			<div style="height: 100%;">
+				<ui:insert name="body"></ui:insert>
+			</div>
+			<ui:include src="/layout/footer.xhtml" />
 		</div>
 	</div>
 
 
-	
+
 	<div class="ui page dimmer" id="dimmerLoader">
-			<div class="ui text loader">#{messages['Loading']}</div>
+		<div class="ui text loader">#{messages['Loading']}</div>
 	</div>
-	
-	
+
+	<div class="ui page dimmer" id="nomobile">
+		<div class="content">
+			<div class="center">#{messages['No_Mobile']}</div>
+		</div>
+	</div>
+
+
 </body>
-</html>
+	</html>
 </f:view>

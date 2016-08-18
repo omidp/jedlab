@@ -109,6 +109,16 @@
 		<servlet-name>Document Store Servlet</servlet-name>
 		<url-pattern>/seam/docstore/*</url-pattern>
 	</servlet-mapping>
+	
+	<filter>
+		<filter-name>IE Filter</filter-name>
+		<filter-class>com.jedlab.IEFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>IE Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<servlet-mapping>
 		<servlet-name>Video Player</servlet-name>
