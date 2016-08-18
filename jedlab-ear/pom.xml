@@ -15,7 +15,7 @@
 	<name>jedlab EAR Module</name>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
@@ -23,7 +23,7 @@
 			<groupId>com.omid</groupId>
 			<artifactId>jedlab-web</artifactId>
 			<type>war</type>
-			
+
 		</dependency>
 
 		<dependency>
@@ -32,17 +32,17 @@
 			<type>ejb</type>
 			<exclusions>
 				<exclusion>
-						<groupId>commons-collections</groupId>
-						<artifactId>commons-collections</artifactId>
-					</exclusion>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
 				<exclusion>
 					<groupId>dom4j</groupId>
 					<artifactId>dom4j</artifactId>
-				</exclusion>	
+				</exclusion>
 				<exclusion>
 					<groupId>xml-apis</groupId>
 					<artifactId>xml-apis</artifactId>
-				</exclusion>				
+				</exclusion>
 				<exclusion>
 					<artifactId>jdtcore</artifactId>
 					<groupId>eclipse</groupId>
@@ -98,7 +98,7 @@
 				<configuration>
 					<version>5</version>
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
-					
+
 					<modules>
 						<webModule>
 							<groupId>com.omid</groupId>
@@ -163,6 +163,39 @@
 							</execution>
 						</executions>
 					</plugin>
+
+					<plugin>
+						<groupId>com.jedlab.maven.plugin</groupId>
+						<artifactId>compressor</artifactId>
+						<version>0.2</version>
+						<configuration>
+						</configuration>
+						<executions>
+							<execution>
+								<id>cssCompressor</id>
+								<phase>package</phase>
+								<goals>
+									<goal>cssCompressor</goal>
+								</goals>
+								<configuration>
+									<sourceDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-web.war/css/</sourceDirectory>
+									<outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-web.war/css/</outputDirectory>
+								</configuration>
+							</execution>
+							<execution>
+								<id>jsCompressor</id>
+								<phase>package</phase>
+								<goals>
+									<goal>jsCompressor</goal>
+								</goals>
+								<configuration>
+									<sourceDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-web.war/js/</sourceDirectory>
+									<outputDirectory>${project.build.directory}/${project.build.finalName}-exploded/${project.build.finalName}.ear/${example.name}-web.war/js/</outputDirectory>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
 				</plugins>
 			</build>
 		</profile>
