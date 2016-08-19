@@ -179,7 +179,7 @@ public class ChapterHome extends EntityHome<Chapter>
             {
                 VideoToken vt = new VideoToken();
                 vt.setChapter(c);
-                vt.setCourseId(chapterId);
+                vt.setCourseId(courseId);
                 String t = RandomStringUtils.randomAlphanumeric(25);
                 vt.setToken(t);
                 vt.setMemberId(uid);

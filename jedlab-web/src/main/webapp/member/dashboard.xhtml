@@ -36,6 +36,7 @@
 
 						<div style="float: right;">
 							<s:link view="/course.xhtml" value="#{_item.name}"
+								propagation="none" includePageParams="false"
 								styleClass="header">
 								<f:param name="courseId" value="#{_item.id}"></f:param>
 							</s:link>

@@ -7,7 +7,7 @@
 	xmlns:c="http://java.sun.com/jstl/core" template="/layout/dialog.xhtml">
 
 	<ui:define name="head">
-		<link rel="stylesheet" href="#{_ctx}/css/video.css" />
+		
 		<style type="text/css">
 			body {
 				background-color: #000;
@@ -21,28 +21,32 @@
 
 		
 
-		<video id="my-video" class="video-js vjs-default-skin" controls="controls"
+		<video id="my-video" controls="controls"
 			preload="auto" width="800" height="580"
-			poster="video.image?courseId=#{courseId}" data-setup="{'controls': true, 'autoplay': false, 'preload': 'auto'}">
+			poster="video.image?courseId=#{courseId}" data-setup="{}">
 			<p class="vjs-no-js">To view this video please enable JavaScript,
 				and consider upgrading to a web browser</p>
 		</video>
 
-		<script src="#{_ctx}/js/video.js"></script>
 		
 		<script type="text/javascript">
-			window.HELP_IMPROVE_VIDEOJS = false;
-			var myPlayer;
-			videojs("my-video").ready(function(){
-				var t = '#{chapterHome.token}'
-				var loc = window.location.origin + "#{_ctx}/"+t+".play?resolution=#{resolution}";
-				myPlayer = this;
-				myPlayer.src({"type":"video/mp4", "src":loc});
-			});
-
+			
 			jQuery(document).ready(function(){
-				
+					var t = '#{chapterHome.token}'
+					var loc = window.location.origin + "#{_ctx}/"+t+".play?cid=#{conversation.id}&amp;resolution=#{resolution}";
+					var source = document.createElement('source');
+					source.src = loc;
+				    source.type = "video/mp4";
+					var myPlayer = jQuery("#my-video");
+					myPlayer.append(source);
+					//
+					myPlayer.width(jQuery(document).width());
+					var h = jQuery(document).height();
+					var fit = (h*35)/100;
+					myPlayer.height(Math.round(h-fit));
+					//
 			});
+					 
 			
 			function redirect(atag)
 			{

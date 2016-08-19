@@ -20,20 +20,23 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Created by kevin on 10/02/15.
- * See full code here : https://github.com/davinkevin/Podcast-Server/blob/d927d9b8cb9ea1268af74316cd20b7192ca92da7/src/main/java/lan/dk/podcastserver/utils/multipart/MultipartFileSender.java
-*/
+ * Created by kevin on 10/02/15. See full code here :
+ * https://github.com/davinkevin
+ * /Podcast-Server/blob/d927d9b8cb9ea1268af74316cd20b7192ca92da7
+ * /src/main/java/lan/dk/podcastserver/utils/multipart/MultipartFileSender.java
+ */
 public class MultipartFileSender
 {
 
     private static final int DEFAULT_BUFFER_SIZE = 20480; // ..bytes = 20KB.
-    private static final long DEFAULT_EXPIRE_TIME = 604800000L; // ..ms = 1
-                                                                // week.
+    // private static final long DEFAULT_EXPIRE_TIME = 604800000L; // ..ms = 1
+    // week.
     private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
 
     Path filepath;
     HttpServletRequest request;
     HttpServletResponse response;
+    Long expireHeader;
 
     public MultipartFileSender()
     {
@@ -73,6 +76,12 @@ public class MultipartFileSender
         return this;
     }
 
+    public MultipartFileSender with(Long expireHeader)
+    {
+        this.expireHeader = expireHeader;
+        return this;
+    }
+
     public void serveResource() throws Exception
     {
         if (response == null || request == null)
@@ -98,7 +107,10 @@ public class MultipartFileSender
 
         long lastModified = lastModifiedObj.toMillis();// LocalDateTime.ofInstant(lastModifiedObj.toInstant(),
                                                        // ZoneId.of(ZoneOffset.systemDefault().getId())).toEpochSecond(ZoneOffset.UTC);
-        String contentType = "video/mp4";
+                                                       // String contentType =
+                                                       // "video/mp4";
+        String contentType = "application/octet-stream";
+        response.setHeader("Content-Disposition", "inline");
         // If-None-Match header should contain "*" or ETag. If so, then return
         // 304.
         String ifNoneMatch = request.getHeader("If-None-Match");
@@ -208,7 +220,8 @@ public class MultipartFileSender
         response.setHeader("Accept-Ranges", "bytes");
         response.setHeader("ETag", fileName);
         response.setDateHeader("Last-Modified", lastModified);
-        response.setDateHeader("Expires", System.currentTimeMillis() + DEFAULT_EXPIRE_TIME);
+        if (expireHeader != null)
+            response.setDateHeader("Expires", expireHeader);
 
         // Send requested file (part(s)) to client
         // ------------------------------------------------
@@ -239,7 +252,6 @@ public class MultipartFileSender
 
                 // Copy single part range.
                 Range.copy(input, output, length, r.start, r.length);
-
             }
             else
             {
@@ -268,6 +280,7 @@ public class MultipartFileSender
                 // End with multipart boundary.
                 sos.println();
                 sos.println("--" + MULTIPART_BOUNDARY + "--");
+
             }
         }
 
