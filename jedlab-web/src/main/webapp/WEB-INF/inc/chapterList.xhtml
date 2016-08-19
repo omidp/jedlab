@@ -4,79 +4,80 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jstl/core">
+	<div style="min-height: 250px;">
+		<s:fragment rendered="#{s:hasRole('Admin')}">
 
-	<s:fragment rendered="#{s:hasRole('Admin')}">
-		
-		<h:dataTable value="#{chapterQuery.resultList}" var="_item"
-			styleClass="ui selectable celled table" dir="rtl">
+			<h:dataTable value="#{chapterQuery.resultList}" var="_item"
+				styleClass="ui selectable celled table" dir="rtl">
 
-			<h:column>
-				<s:link value="#{_item.name}" view="/admin/chapterEdit.xhtml"
-					propagation="none" includePageParams="false">
-					<f:param name="chapterId" value="#{_item.id}"></f:param>
-					<f:param name="courseId" value="#{_item.course.id}"></f:param>
-				</s:link>
-			</h:column>
+				<h:column>
+					<s:link value="#{_item.name}" view="/admin/chapterEdit.xhtml"
+						propagation="none" includePageParams="false">
+						<f:param name="chapterId" value="#{_item.id}"></f:param>
+						<f:param name="courseId" value="#{_item.course.id}"></f:param>
+					</s:link>
+				</h:column>
 
-		</h:dataTable>
-		
-		
-		<s:button view="/admin/chapterEdit.xhtml"
-			value="#{messages['Add']} Chapter" 
-			propagation="none" includePageParams="false">
-			<f:param name="courseId" value="#{courseId}"></f:param>
-		</s:button>
+			</h:dataTable>
 
-	</s:fragment>
 
-	<!-- User Area -->
-	<s:fragment rendered="#{not s:hasRole('Admin')}">
+			<s:button view="/admin/chapterEdit.xhtml"
+				value="#{messages['Add']} Chapter" propagation="none"
+				includePageParams="false">
+				<f:param name="courseId" value="#{courseId}"></f:param>
+			</s:button>
 
-		<s:div styleClass="well"
-			rendered="#{empty courseHome.instance.chapters}">
-			<h:outputText value="#{messages['Has_Not']}" />
-		</s:div>
-		<s:fragment rendered="#{not empty courseHome.instance.chapters}">
+		</s:fragment>
 
-			<div style="padding: 5px; margin: 5px;">
-				<table class="ui single line table" dir="rtl">
-					<thead>
-						<tr>
-							<th>#{messages['Chapter_Name']}</th>
-							<th>#{messages['Duration']} (#{messages['Minutes']})</th>
-							<th>#{messages['Publish_Date']}</th>
-							<th>#{messages[' ']}</th>
-						</tr>
-					</thead>
-					<tbody>
+		<!-- User Area -->
+		<s:fragment rendered="#{not s:hasRole('Admin')}">
 
-						<c:forEach var="_item" items="#{courseHome.instance.chapters}">
-							<tr class="#{_item.viewed ? 'viewed' :''}">
-								<td>
-									<h4 class="ui header">#{_item.name}</h4>
-								</td>
-								<td>#{_item.durationWithformat}</td>
-								<td><h:outputText value="#{_item.createdDate}"
-										converter="#{persianDateConverter}" /></td>
-								<td><s:fragment
-										rendered="#{identity.loggedIn and _item.registered}">
-										<button
-											class="clickable video-tag btn-small btn-blue btn-outline"
-											data-id="#{_item.id}">
-											<h:outputText value="#{messages['View']}" />
-										</button>
-									</s:fragment> #{' '}</td>
+			<s:div styleClass="well"
+				rendered="#{empty courseHome.instance.chapters}">
+				<h:outputText value="#{messages['Has_Not']}" />
+			</s:div>
+			<s:fragment rendered="#{not empty courseHome.instance.chapters}">
 
+				<div style="padding: 5px; margin: 5px;">
+					<table class="ui single line table" dir="rtl">
+						<thead>
+							<tr>
+								<th>#{messages['Chapter_Name']}</th>
+								<th>#{messages['Duration']} (#{messages['Minutes']})</th>
+								<th>#{messages['Publish_Date']}</th>
+								<th>#{messages[' ']}</th>
 							</tr>
-						</c:forEach>
+						</thead>
+						<tbody>
 
-					</tbody>
-				</table>
-			</div>
-			
-			
-			<s:fragment rendered="#{identity.loggedIn and courseHome.instance.registered}">
-				<script>
+							<c:forEach var="_item" items="#{courseHome.instance.chapters}">
+								<tr class="#{_item.viewed ? 'viewed' :''}">
+									<td>
+										<h4 class="ui header">#{_item.name}</h4>
+									</td>
+									<td>#{_item.durationWithformat}</td>
+									<td><h:outputText value="#{_item.createdDate}"
+											converter="#{persianDateConverter}" /></td>
+									<td><s:fragment
+											rendered="#{identity.loggedIn and _item.registered}">
+											<button
+												class="clickable video-tag btn-small btn-blue btn-outline"
+												data-id="#{_item.id}">
+												<h:outputText value="#{messages['View']}" />
+											</button>
+										</s:fragment> #{' '}</td>
+
+								</tr>
+							</c:forEach>
+
+						</tbody>
+					</table>
+				</div>
+
+
+				<s:fragment
+					rendered="#{identity.loggedIn and courseHome.instance.registered}">
+					<script>
 		jQuery(document).ready(function(){
 
 			jQuery(".video-tag").each(function( index ) {
@@ -92,12 +93,13 @@
 		</script>
 
 
-				
+
+
+				</s:fragment>
 
 			</s:fragment>
 
 		</s:fragment>
-
-	</s:fragment>
+	</div>
 
 </ui:composition>
