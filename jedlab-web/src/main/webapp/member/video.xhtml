@@ -7,53 +7,90 @@
 	xmlns:c="http://java.sun.com/jstl/core" template="/layout/dialog.xhtml">
 
 	<ui:define name="head">
-		
+
+		<link rel="stylesheet" href="#{_ctx}/css/video.css" />
+
 		<style type="text/css">
-			body {
-				background-color: #000;
-			}
-		</style>
+body {
+	background-color: #000;
+}
+</style>
 	</ui:define>
 
 
 	<ui:define name="body">
 
+		<div
+			style="width: 100%; height: 100%; margin: 0 auto; background-color: #000; color: #fff; text-align: center;">
+			<div style="height: 40px; padding: 10px;">
+				<s:button view="/course.xhtml" styleClass="btn btn-yellow"
+					propagation="none" value="#{messages['Back']}">
+					<f:param name="courseId" value="#{courseId}"></f:param>
+				</s:button>
 
-		
+				<div id="video-drp">
+					<div class="ui compact menu" id="vidRes">
+						<div class="ui simple dropdown item">
+							#{messages['Video']} <i class="dropdown icon"></i>
+							<div class="menu">
+								<div class="item">
+									<s:link value="HD" propagation="none" onclick="redirect(this);">
+										<f:param name="resolution" value="large"></f:param>
+									</s:link>
+								</div>
+								<div class="item">
+									<s:link value="480" propagation="none"
+										onclick="redirect(this);">
+										<f:param name="resolution" value="medium"></f:param>
+									</s:link>
+								</div>
+								<div class="item">
+									<s:link value="360" propagation="none"
+										onclick="redirect(this);">
+										<f:param name="resolution" value="small"></f:param>
+									</s:link>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div style="width: 100%;margin: 0 auto;" align="center">
+				<video id="my-video" controls="controls"
+					class="video-js vjs-default-skin" preload="auto" width="800"
+					height="580" poster="video.image?courseId=#{courseId}"
+					data-setup="{}">
+					<p class="vjs-no-js">To view this video please enable
+						JavaScript, and consider upgrading to a web browser</p>
+				</video>
+			</div>
 
-		<video id="my-video" controls="controls"
-			preload="auto" width="800" height="580"
-			poster="video.image?courseId=#{courseId}" data-setup="{}">
-			<p class="vjs-no-js">To view this video please enable JavaScript,
-				and consider upgrading to a web browser</p>
-		</video>
+		</div>
 
-		
+
+
 		<script type="text/javascript">
-			
+			window.HELP_IMPROVE_VIDEOJS = false;		 
+		</script>
+		<script src="#{_ctx}/js/video.js"></script>
+		<script>
 			jQuery(document).ready(function(){
-					var t = '#{chapterHome.token}'
-					var loc = window.location.origin + "#{_ctx}/"+t+".play?cid=#{conversation.id}&amp;resolution=#{resolution}";
-					var source = document.createElement('source');
-					source.src = loc;
-				    source.type = "video/mp4";
-					var myPlayer = jQuery("#my-video");
-					myPlayer.append(source);
-					//
-					myPlayer.width(jQuery(document).width());
-					var h = jQuery(document).height();
-					var fit = (h*35)/100;
-					myPlayer.height(Math.round(h-fit));
-					//
+				jQuery('#vidRes').dropdown();
 			});
-					 
-			
+		
+			videojs("my-video").ready(function(){
+				var t = '#{chapterHome.token}'
+				var loc = window.location.origin + "#{_ctx}/"+t+".play";
+				myPlayer = this;
+				myPlayer.src({"type":"video/mp4", "src":loc});
+				
+			});
+
 			function redirect(atag)
 			{
 				location.href = atag.href;
 			}
 		</script>
-		
 
 
 	</ui:define>

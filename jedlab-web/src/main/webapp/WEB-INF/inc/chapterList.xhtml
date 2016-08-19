@@ -82,62 +82,17 @@
 			jQuery(".video-tag").each(function( index ) {
 				jQuery(this).click(function(){
 				  var chpId = jQuery(this).data("id");
-				  show_video(chpId);
+				  location.href = window.location.origin + "#{_ctx}/member/video.seam?chapterId="+chpId+"&amp;courseId="+#{courseId};
 				});
 			});
 
 		});
 		
-		function show_video(chpId)
-		{
-			jQuery.fn.embed.settings.sources = {
-					jedlab: {
-					    name   : 'jedlab',
-					    type   : 'video',
-					    icon   : 'video play',
-					    domain : window.location.origin,
-					    url    : window.location.origin + "#{_ctx}/member/video.seam",
-					    parameters: function(settings) {
-					      return {
-					        autohide       : !settings.showUI,
-					        autoplay       : settings.autoplay,
-					        color          : settings.colors || undefined,
-					        hq             : settings.hd,
-					        jsapi          : settings.api,
-					        modestbranding : 1,
-					        chapterId: chpId,
-					        courseId: #{courseId}
-					      };
-					    }
-					  }
-			};
-
-			jQuery('#videoDimmer').dimmer('show');
-			jQuery('#videoEmbed').embed({
-				  source      : 'jedlab'				  
-				  
-				});
-		}
-
-		function hide_video()
-		{
-			jQuery('#videoDimmer')
-			  .dimmer('hide');
-		}
+		
 		</script>
 
 
-				<div class="ui page dimmer" id="videoDimmer">
-					<div class="content">
-						<div class="center">
-							<div
-								style="background-color: #000; color: #fff; height: 30px; width: 100%; z-index: 99999999;"
-								class="pointer"
-								onclick="javascript:location.reload();hide_video();">#{messages['Close']}</div>
-							<div class="ui embed" id="videoEmbed"></div>
-						</div>
-					</div>
-				</div>
+				
 
 			</s:fragment>
 
