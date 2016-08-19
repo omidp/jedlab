@@ -73,6 +73,7 @@ public class VideoPlayerServlet extends HttpServlet
             throw new RequestException("file  not found");
         try
         {
+            sess.delete(vt);
             MultipartFileSender.fromFile(file).with(req).with(resp).serveResource();
         }
         catch (Exception e)

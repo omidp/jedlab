@@ -9,10 +9,10 @@
 	<ui:define name="head">
 		<link rel="stylesheet" href="#{_ctx}/css/video.css" />
 		<style type="text/css">
-body {
-	background-color: #000;
-}
-</style>
+			body {
+				background-color: #000;
+			}
+		</style>
 	</ui:define>
 
 
@@ -28,7 +28,7 @@ body {
 				and consider upgrading to a web browser</p>
 		</video>
 
-		<script src="#{_ctx}/js/video.js"></script>
+		
 		<script type="text/javascript">
 			window.HELP_IMPROVE_VIDEOJS = false;
 			var myPlayer;
@@ -37,36 +37,19 @@ body {
 				var loc = window.location.origin + "#{_ctx}/"+t+".play?resolution=#{resolution}";
 				myPlayer = this;
 				myPlayer.src({"type":"video/mp4", "src":loc});
-				myPlayer.width(jQuery(document).width());
-				var h = jQuery(document).height();
-				var fit = (h*35)/100;
-				myPlayer.height(Math.round(h-fit));
 			});
-			jQuery(document).ready(function(){
 
-				jQuery( window ).resize(function() {
-					
-					myPlayer.width(jQuery(document).width());
-					var h = jQuery(document).height();
-					var fit = (h*35)/100;
-					myPlayer.height(Math.round(h-fit));
-					});	 
+			jQuery(document).ready(function(){
 				
 			});
 			
-		</script>
-
-		<script>
-			jQuery(document).ready(function(){
-				jQuery('#vidRes').dropdown();
-			});
-
 			function redirect(atag)
 			{
 				location.href = atag.href;
 			}
 		</script>
-
+		
+		<script src="#{_ctx}/js/video.js"></script>
 
 
 	</ui:define>
