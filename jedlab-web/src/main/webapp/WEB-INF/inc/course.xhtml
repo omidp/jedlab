@@ -37,6 +37,9 @@
 									converter="#{persianDateConverter}" />
 								<br /> #{messages['Level']} :
 								<h:outputText value="#{courseHome.instance.level.label}" />
+								<br />
+								<h:outputText value="#{messages['Free']}" rendered="#{courseHome.instance.free}" />
+								<h:outputText value="#{_item.price}" rendered="#{!courseHome.instance.free}" />
 							</p>
 						</div>
 						<div class="extra">

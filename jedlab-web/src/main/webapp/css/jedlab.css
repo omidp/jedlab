@@ -2295,3 +2295,6 @@ legend {
 	cursor: pointer;	
 }
 
+.seamTextLink{
+	color: #009fda !important;
+}

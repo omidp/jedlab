@@ -61,6 +61,7 @@ public class CourseSearchServlet extends HttpServlet
         dis.add(Restrictions.ilike("chapters.name", term, MatchMode.ANYWHERE));
         criteria.add(dis);
         criteria.setMaxResults(10);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<Course> courseList = criteria.list();
         if (CollectionUtil.isEmpty(courseList))
             return;

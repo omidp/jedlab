@@ -91,6 +91,9 @@
 									converter="#{persianDateConverter}" />
 								<br />
 								#{messages['Level']} :  <h:outputText value="#{_item.level}" />
+								<br />
+								<h:outputText value="#{messages['Free']}" rendered="#{_item.free}" />
+								<h:outputText value="#{_item.price}" rendered="#{!_item.free}" />
 							</div>
 							<div class="description">
 								 #{_item.chapterCount} #{messages['Chapter']}
