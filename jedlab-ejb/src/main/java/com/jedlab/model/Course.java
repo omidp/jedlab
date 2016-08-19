@@ -1,9 +1,9 @@
 package com.jedlab.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -78,16 +78,27 @@ public class Course extends BasePO
     @Column(name = "created_date", updatable = false, insertable = false, columnDefinition = " timestamp without time zone DEFAULT now()")
     @Temporal(TemporalType.TIMESTAMP)
     @org.hibernate.annotations.Generated(org.hibernate.annotations.GenerationTime.INSERT)
-    @OrderBy(value="DESC")
+    @OrderBy(value = "DESC")
     private Date createdDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
-    private Set<Chapter> chapters = new HashSet<>(0);
-    
+    private List<Chapter> chapters = new ArrayList<>(0);
+
+    @Transient
+    private Long chapterCount;
+
     @Transient
     private boolean registered;
-    
-    
+
+    public Long getChapterCount()
+    {
+        return chapterCount;
+    }
+
+    public void setChapterCount(Long chapterCount)
+    {
+        this.chapterCount = chapterCount;
+    }
 
     public boolean isRegistered()
     {
@@ -129,12 +140,12 @@ public class Course extends BasePO
         this.experience = experience;
     }
 
-    public Set<Chapter> getChapters()
+    public List<Chapter> getChapters()
     {
         return chapters;
     }
 
-    public void setChapters(Set<Chapter> chapters)
+    public void setChapters(List<Chapter> chapters)
     {
         this.chapters = chapters;
     }

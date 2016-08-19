@@ -91,7 +91,7 @@ public class CourseHome extends EntityHome<Course>
                     registeredCourses.add(chapter);
                 }
                 ///
-                Set<Chapter> chapters = course.getChapters();
+                List<Chapter> chapters = course.getChapters();
                 boolean registerInCourse = false;
                 if (CollectionUtil.isNotEmpty(chapters))
                 {
@@ -138,7 +138,7 @@ public class CourseHome extends EntityHome<Course>
                     .setParameter("courseId", Long.parseLong(courseParamId)).getSingleResult();
             if(course.isFree())
             {
-                Set<Chapter> chapters = course.getChapters();
+                List<Chapter> chapters = course.getChapters();
                 if (CollectionUtil.isNotEmpty(chapters))
                 {
                     Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);

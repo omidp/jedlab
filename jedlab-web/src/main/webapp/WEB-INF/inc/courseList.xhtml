@@ -49,6 +49,8 @@
 
 		<s:fragment rendered="#{not s:hasRole('Admin')}">
 
+			<h3 class="ui tiny header">#{messages['Count']} #{messages['Course']} : #{courseQuery.resultCount} </h3>
+			
 			<div class="ui link cards">
 
 				<c:forEach items="#{courseQuery.resultList}" var="_item">
@@ -91,7 +93,7 @@
 								#{messages['Level']} :  <h:outputText value="#{_item.level}" />
 							</div>
 							<div class="description">
-								 #{_item.chapters.size()} #{messages['Chapter']}
+								 #{_item.chapterCount} #{messages['Chapter']}
 							</div>
 						</div>
 						<div class="extra content white">

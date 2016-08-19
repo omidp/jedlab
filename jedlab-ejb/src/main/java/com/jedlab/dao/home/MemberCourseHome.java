@@ -1,5 +1,6 @@
 package com.jedlab.dao.home;
 
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Criteria;
@@ -59,7 +60,7 @@ public class MemberCourseHome extends HibernateEntityController
         criteria.createCriteria("c.chapters", Criteria.LEFT_JOIN);
         criteria.add(Restrictions.idEq(courseId));
         Course c = (Course) criteria.uniqueResult();
-        Set<Chapter> chapters = c.getChapters();
+        List<Chapter> chapters = c.getChapters();
         if (CollectionUtil.isNotEmpty(chapters))
         {
             for (Chapter chapter : chapters)
