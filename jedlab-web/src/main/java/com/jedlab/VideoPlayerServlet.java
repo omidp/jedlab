@@ -57,12 +57,14 @@ public class VideoPlayerServlet extends HttpServlet
         Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
         if (uid == null)
             throw new RequestException("not loggedin");
-        //only allowed partial content
+        // only allowed partial content
         String range = req.getHeader("Range");
+        if (StringUtil.isEmpty(range))
+            throw new RequestException("matcher not found");
         Matcher matcher = pattern.matcher(range);
         if (matcher.find() == false)
             throw new RequestException("not in range");
-//        Long r = Long.parseLong(matcher.group(1));
+        // Long r = Long.parseLong(matcher.group(1));
 
         Session sess = (Session) Component.getInstance("hibernateSession");
         PersistenceContexts.instance().changeFlushMode(FlushModeType.MANUAL);
@@ -80,7 +82,7 @@ public class VideoPlayerServlet extends HttpServlet
             throw new RequestException("user not registered in course, can't find video token");
         }
         Chapter chapter = vt.getChapter();
-        long expire =  chapter.getDuration().getTime() + new Date().getTime();
+        long expire = chapter.getDuration().getTime() + new Date().getTime();
         //
         String filePath = chapter.getUrl();
         String res = req.getParameter("resolution");
@@ -97,11 +99,12 @@ public class VideoPlayerServlet extends HttpServlet
         try
         {
             MultipartFileSender.fromFile(file).with(req).with(resp).with(expire).serveResource();
-//            if (r >= file.length())
-//            {
-//                sess.createQuery("delete from VideoToken vt where vt.id = :vtId").setParameter("vtId", vt.getId()).executeUpdate();
-//                sess.flush();
-//            }
+            // if (r >= file.length())
+            // {
+            // sess.createQuery("delete from VideoToken vt where vt.id = :vtId").setParameter("vtId",
+            // vt.getId()).executeUpdate();
+            // sess.flush();
+            // }
 
         }
         catch (Exception e)
