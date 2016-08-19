@@ -169,6 +169,10 @@
 						<artifactId>compressor</artifactId>
 						<version>0.2</version>
 						<configuration>
+							<excludes>
+								<exclude>video.css</exclude>
+								<exclude>video.js</exclude>
+							</excludes>
 						</configuration>
 						<executions>
 							<execution>

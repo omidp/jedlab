@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -53,12 +54,17 @@ public class JsCompressor extends AbstractMojo
 
     @Parameter(defaultValue = "${project.build.directory}", readonly = false)
     private File outputDirectory;
+    
+    @Parameter(readonly = false)
+    private List<String> excludes;
 
     public void execute() throws MojoExecutionException
     {
         ArrayList<File> jsFiles = new ArrayList<File>(FileUtils.listFiles(sourceDirectory, new String[] { "js" }, true));
         for (File file : jsFiles)
         {
+            if(excludes != null && excludes.contains(file.getName()))
+                continue;
             InputStream is = null;
             FileWriter sw = null;
             try
