@@ -10,6 +10,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import com.jedlab.framework.StringUtil;
+
 public class IEFilter implements Filter
 {
 
@@ -25,16 +27,21 @@ public class IEFilter implements Filter
         if (request instanceof HttpServletRequest)
         {
             String agent = ((HttpServletRequest) request).getHeader("User-Agent");
-            int indexOf = agent.indexOf("MSIE");
-            if(indexOf > 0)
+            if (StringUtil.isEmpty(agent))
             {
-                //ie
                 request.getRequestDispatcher("noie.html").forward(request, response);
                 return;
             }
-            if(agent.matches("/Trident.*rv\\:11\\./"))
+            int indexOf = agent.indexOf("MSIE");
+            if (indexOf > 0)
             {
-                //ie
+                // ie
+                request.getRequestDispatcher("noie.html").forward(request, response);
+                return;
+            }
+            if (agent.indexOf("Trident") > 0)
+            {
+                // ie
                 request.getRequestDispatcher("noie.html").forward(request, response);
                 return;
             }
