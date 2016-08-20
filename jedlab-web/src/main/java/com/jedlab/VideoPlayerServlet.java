@@ -33,8 +33,8 @@ public class VideoPlayerServlet extends HttpServlet
 {
 
     private static final Pattern pattern = Pattern.compile("=(.+?)-");
-    
-    private final static Logger LOGGER = Logger.getLogger(VideoPlayerServlet.class.getName()); 
+
+    private final static Logger LOGGER = Logger.getLogger(VideoPlayerServlet.class.getName());
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException
@@ -89,13 +89,7 @@ public class VideoPlayerServlet extends HttpServlet
             //
             String filePath = chapter.getUrl();
             String res = req.getParameter("resolution");
-            if (StringUtil.isNotEmpty(res))
-            {
-                if ("medium".equals(res))
-                    filePath = filePath + "_medium";
-                if ("small".equals(res))
-                    filePath = filePath + "_small";
-            }
+            filePath = getFileName(res, filePath);
             File file = new File(filePath);
             if (file.exists() == false)
                 throw new RequestException("file  not found");
@@ -113,6 +107,21 @@ public class VideoPlayerServlet extends HttpServlet
             LOGGER.info("exception occured VideServletPlayer : " + e.getMessage());
         }
 
+    }
+
+
+    private static String getFileName(String res, String origFilePath)
+    {
+        String extension = origFilePath.substring(origFilePath.lastIndexOf("."));
+        String fname = origFilePath.substring(0, origFilePath.lastIndexOf("."));
+        if (StringUtil.isNotEmpty(res))
+        {
+            if ("medium".equals(res))
+                fname = fname + "_medium";
+            if ("small".equals(res))
+                fname = fname + "_small";
+        }
+        return fname + extension;
     }
 
     @Override
