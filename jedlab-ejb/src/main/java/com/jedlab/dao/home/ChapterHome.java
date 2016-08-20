@@ -1,6 +1,7 @@
 package com.jedlab.dao.home;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,6 +12,13 @@ import javax.persistence.NoResultException;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
@@ -133,13 +141,18 @@ public class ChapterHome extends EntityHome<Chapter>
     {
         wire();
         String persist = super.persist();
-        List<Member> members = getEntityManager().createQuery("select mc.member from MemberCourse mc where mc.course.id = :courseId")
-                .setParameter("courseId", getCourse().getId()).getResultList();
-        for (Member mem : members)
+        Session sess = (Session) Component.getInstance("hibernateSession");
+        List<BigInteger> memberIds = sess
+                .createSQLQuery("select mc.member_id from member_course mc where mc.course_id = :courseId group by member_id")
+                .setParameter("courseId", getCourse().getId()).list();
+        for (BigInteger memId : memberIds)
         {
             MemberCourse mc = new MemberCourse();
             mc.setCourse(getCourse());
             mc.setChapter(getInstance());
+            //
+            Member mem = new Member();
+            mem.setId(memId.longValue());
             mc.setMember(mem);
             getEntityManager().persist(mc);
             getEntityManager().flush();
