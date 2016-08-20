@@ -202,6 +202,11 @@
 	<session-config>
 		<session-timeout>55</session-timeout>
 	</session-config>
+	
+	<welcome-file-list>  
+ 	  <welcome-file>home.seam</welcome-file>  
+    </welcome-file-list>  
+	
 
 	<security-constraint>
 		<display-name>Restrict raw XHTML Documents</display-name>

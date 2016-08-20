@@ -2,8 +2,8 @@ package com.jedlab;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +23,6 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
 
 import com.jedlab.action.Constants;
-import com.jedlab.framework.DateUtil;
 import com.jedlab.framework.MultipartFileSender;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.exceptions.RequestException;
@@ -34,6 +33,8 @@ public class VideoPlayerServlet extends HttpServlet
 {
 
     private static final Pattern pattern = Pattern.compile("=(.+?)-");
+    
+    private final static Logger LOGGER = Logger.getLogger(VideoPlayerServlet.class.getName()); 
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException
@@ -51,53 +52,53 @@ public class VideoPlayerServlet extends HttpServlet
     private static void doWork(HttpServletRequest req, HttpServletResponse resp) throws ServletException
     {
 
-        Identity identity = Identity.instance();
-        if (identity.isLoggedIn() == false)
-            throw new RequestException("not loggedin");
-        Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
-        if (uid == null)
-            throw new RequestException("not loggedin");
-        // only allowed partial content
-        String range = req.getHeader("Range");
-        if (StringUtil.isEmpty(range))
-            throw new RequestException("matcher not found");
-        Matcher matcher = pattern.matcher(range);
-        if (matcher.find() == false)
-            throw new RequestException("not in range");
-        // Long r = Long.parseLong(matcher.group(1));
-
-        Session sess = (Session) Component.getInstance("hibernateSession");
-        PersistenceContexts.instance().changeFlushMode(FlushModeType.MANUAL);
-        String token = getToken(req.getRequestURL().toString());
-        if (StringUtil.isEmpty(token))
-            throw new RequestException("invalid token");
-        Criteria criteria = sess.createCriteria(VideoToken.class, "vt");
-        criteria.createCriteria("vt.chapter", "chap", Criteria.LEFT_JOIN);
-        criteria.add(Restrictions.eq("vt.memberId", uid));
-        criteria.add(Restrictions.eq("vt.token", token));
-        criteria.setMaxResults(1);
-        VideoToken vt = (VideoToken) criteria.uniqueResult();
-        if (vt == null)
-        {
-            throw new RequestException("user not registered in course, can't find video token");
-        }
-        Chapter chapter = vt.getChapter();
-        long expire = chapter.getDuration().getTime() + new Date().getTime();
-        //
-        String filePath = chapter.getUrl();
-        String res = req.getParameter("resolution");
-        if (StringUtil.isNotEmpty(res))
-        {
-            if ("medium".equals(res))
-                filePath = filePath + "_medium";
-            if ("small".equals(res))
-                filePath = filePath + "_small";
-        }
-        File file = new File(filePath);
-        if (file.exists() == false)
-            throw new RequestException("file  not found");
         try
         {
+            Identity identity = Identity.instance();
+            if (identity.isLoggedIn() == false)
+                throw new RequestException("not loggedin");
+            Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+            if (uid == null)
+                throw new RequestException("not loggedin");
+            // only allowed partial content
+            String range = req.getHeader("Range");
+            if (StringUtil.isEmpty(range))
+                throw new RequestException("matcher not found");
+            Matcher matcher = pattern.matcher(range);
+            if (matcher.find() == false)
+                throw new RequestException("not in range");
+            // Long r = Long.parseLong(matcher.group(1));
+
+            Session sess = (Session) Component.getInstance("hibernateSession");
+            PersistenceContexts.instance().changeFlushMode(FlushModeType.MANUAL);
+            String token = getToken(req.getRequestURL().toString());
+            if (StringUtil.isEmpty(token))
+                throw new RequestException("invalid token");
+            Criteria criteria = sess.createCriteria(VideoToken.class, "vt");
+            criteria.createCriteria("vt.chapter", "chap", Criteria.LEFT_JOIN);
+            criteria.add(Restrictions.eq("vt.memberId", uid));
+            criteria.add(Restrictions.eq("vt.token", token));
+            criteria.setMaxResults(1);
+            VideoToken vt = (VideoToken) criteria.uniqueResult();
+            if (vt == null)
+            {
+                throw new RequestException("user not registered in course, can't find video token");
+            }
+            Chapter chapter = vt.getChapter();
+            long expire = chapter.getDuration().getTime() + new Date().getTime();
+            //
+            String filePath = chapter.getUrl();
+            String res = req.getParameter("resolution");
+            if (StringUtil.isNotEmpty(res))
+            {
+                if ("medium".equals(res))
+                    filePath = filePath + "_medium";
+                if ("small".equals(res))
+                    filePath = filePath + "_small";
+            }
+            File file = new File(filePath);
+            if (file.exists() == false)
+                throw new RequestException("file  not found");
             MultipartFileSender.fromFile(file).with(req).with(resp).with(expire).serveResource();
             // if (r >= file.length())
             // {
@@ -109,7 +110,7 @@ public class VideoPlayerServlet extends HttpServlet
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            LOGGER.info("exception occured VideServletPlayer : " + e.getMessage());
         }
 
     }
