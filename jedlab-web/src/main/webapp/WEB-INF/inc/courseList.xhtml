@@ -90,7 +90,7 @@
 								<h:outputText value="#{_item.createdDate}"
 									converter="#{persianDateConverter}" />
 								<br />
-								#{messages['Level']} :  <h:outputText value="#{_item.level}" />
+								#{messages['Level']} :  <h:outputText value="#{_item.level.label}" />
 								<br />
 								<h:outputText value="#{messages['Free']}" rendered="#{_item.free}" />
 								<h:outputText value="#{_item.price}" rendered="#{!_item.free}" />
