@@ -48,9 +48,9 @@
 									propagation="none" type="button" includePageParams="false"
 									action="#{courseHome.register()}"
 									rendered="#{identity.loggedIn and !courseHome.instance.registered}"
-									styleClass="btn btn-yellow locale-font">
-									<f:param name="courseId" value="#{courseId}"></f:param>
-								</s:button>
+									styleClass="btn btn-green locale-font">
+									<f:param name="courseId" value="#{courseId}"></f:param> 
+								</s:button>  
 
 								<s:fragment rendered="#{!identity.loggedIn}">
 									<button type="button" class="btn btn-yellow locale-font"
@@ -90,7 +90,7 @@
 	<script>
 	function redirectToLogin()
 	{
-		window.top.location.href = window.location.origin +"#{_ctx}/member/course.seam?courseId="+#{courseId}; 
+		window.top.location.href = window.location.origin +"#{_ctx}/member/course.seam?courseId=#{courseId}"; 
 	}
 	</script>
 	

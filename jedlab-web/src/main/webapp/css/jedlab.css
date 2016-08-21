@@ -16,7 +16,6 @@
 /* =KUBE
 -----------------------------------------------------------------------------*/
 nav ul, nav ol {
-	
 	list-style: none;
 }
 
@@ -1015,7 +1014,7 @@ a, div, span, input, textarea, li, strong, button {
 	margin-left: 2px !important;
 }
 
-#slogan{
+#slogan {
 	padding-top: 10px;
 	font-size: 12px;
 }
@@ -1063,7 +1062,7 @@ a, div, span, input, textarea, li, strong, button {
 }
 
 #wrapper {
-	min-height: 100%;	
+	min-height: 100%;
 	position: relative;
 }
 
@@ -2285,16 +2284,15 @@ legend {
 	color: #2c662d !important;
 }
 
-
 #video-drp {
-	position: fixed;
+	cursor: pointer;
+	display: inline;
+	margin: 0 auto;
 	top: 0;
-	right: 0;
 	width: 150px;
-	z-index: 999999;	
-	cursor: pointer;	
+	z-index: 999999;
 }
 
-.seamTextLink{
+.seamTextLink {
 	color: #009fda !important;
 }

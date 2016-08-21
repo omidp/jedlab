@@ -83,7 +83,7 @@
 			jQuery(".video-tag").each(function( index ) {
 				jQuery(this).click(function(){
 				  var chpId = jQuery(this).data("id");
-				  location.href = window.location.origin + "#{_ctx}/member/video.seam?chapterId="+chpId+"&amp;courseId="+#{courseId};
+				  location.href = window.location.origin + "#{_ctx}/member/video.seam?chapterId="+chpId+"&amp;courseId=#{courseId}";
 				});
 			});
 
