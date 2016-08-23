@@ -20,12 +20,9 @@
 						<a class="author">#{_item.member.username}</a>
 						<div class="metadata">
 							<span class="date">#{_item.socialDate}</span>
-						</div>
+						</div>  
 						<div class="text">
-							<p>
 								<s:formattedText value="#{_item.content}"></s:formattedText>
-
-							</p>
 						</div>
 						<div class="actions">
 							<s:fragment rendered="#{identity.loggedIn}">

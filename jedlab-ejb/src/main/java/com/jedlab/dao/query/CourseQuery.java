@@ -9,7 +9,9 @@ import org.hibernate.criterion.Restrictions;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.security.Identity;
 
+import com.jedlab.action.Constants;
 import com.jedlab.framework.PagingController;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
@@ -42,6 +44,7 @@ public class CourseQuery extends PagingController<Course>
         if (resultList != null)
             return resultList;
         Criteria criteria = getSession().createCriteria(Course.class, "c");
+        applyFilter(criteria);
         addToValueParams("#{courseQuery.course.name}");
         addToValueParams("#{courseQuery.course.id}");
         if (getFirstResult() != null)
@@ -56,7 +59,7 @@ public class CourseQuery extends PagingController<Course>
 
     private void addChpterCount(List<Course> courseList)
     {
-        Criteria criteria = getSession().createCriteria(Chapter.class, "chapter");
+        Criteria criteria = getSession().createCriteria(Chapter.class, "chapter");        
         criteria.setProjection(Projections.projectionList().add(Projections.count("course"))
                 .add(Projections.groupProperty("course")));
         criteria.add(Restrictions.in("course", courseList));
@@ -75,6 +78,12 @@ public class CourseQuery extends PagingController<Course>
         }
     }
 
+    private void applyFilter(Criteria criteria)
+    {
+        if(Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
+            criteria.add(Restrictions.eq("active", true));
+    }
+
     private void refresh()
     {
         resultCount = null;
@@ -91,6 +100,7 @@ public class CourseQuery extends PagingController<Course>
         if (resultCount != null)
             return resultCount;
         Criteria criteria = getSession().createCriteria(Course.class, "c");
+        applyFilter(criteria);
         criteria.setProjection(Projections.rowCount());
         resultCount = (Long) criteria.uniqueResult();
         return resultCount;

@@ -26,7 +26,7 @@ import org.jboss.seam.international.StatusMessage;
 
 @Entity
 @Table(name = "course", schema = "public")
-@Where(clause = " is_active = 'true' ")
+//@Where(clause = " is_active = 'true' ")
 public class Course extends BasePO
 {
 
@@ -287,6 +287,12 @@ public class Course extends BasePO
     public boolean isFree()
     {
         return getPrice() == null || getPrice().compareTo(BigDecimal.ZERO) == 0;
+    }
+
+    @Transient
+    public boolean isHasChapter()
+    {
+        return chapterCount != null && chapterCount.longValue() > 0;
     }
 
 }

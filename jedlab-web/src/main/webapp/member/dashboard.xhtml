@@ -7,17 +7,33 @@
 
 	<ui:define name="body">
 
-		
+		<s:fragment rendered="#{s:hasRole('Admin')}">
+
+			<s:link value="Course List" propagation="none" styleClass="btn btn-blue"
+				view="/courseList.xhtml" includePageParams="false"></s:link>
+			<br />
+			<br />
+			<s:link value="Comment List" propagation="none" styleClass="btn btn-blue"
+				view="/admin/commentList.xhtml" includePageParams="false"></s:link>
+				
+			<br />
+			<br />
+			<s:link value="Member List" propagation="none" styleClass="btn btn-blue"
+				view="/admin/memberList.xhtml" includePageParams="false"></s:link>	
+
+		</s:fragment>
 
 		<div class="memberCourse locale-direction">
 
 			<h3 class="ui block header">#{messages['Register_Course_List']}</h3>
-			
-			<s:div styleClass="well" rendered="#{empty memberCourseQuery.resultList}">
+
+			<s:div styleClass="well"
+				rendered="#{empty memberCourseQuery.resultList}">
 				<h:outputText value="#{messages['No_Member_Course']}" />
 			</s:div>
 
-			<s:div styleClass="ui relaxed divided list" rendered="#{not empty memberCourseQuery.resultList}">
+			<s:div styleClass="ui relaxed divided list"
+				rendered="#{not empty memberCourseQuery.resultList}">
 				<c:forEach items="#{memberCourseQuery.resultList}" var="_item">
 
 					<div class="item">
@@ -36,8 +52,7 @@
 
 						<div style="float: right;">
 							<s:link view="/course.xhtml" value="#{_item.name}"
-								propagation="none" includePageParams="false"
-								styleClass="header">
+								propagation="none" includePageParams="false" styleClass="header">
 								<f:param name="courseId" value="#{_item.id}"></f:param>
 							</s:link>
 							<div class="description">#{_item.chapters.size()}
@@ -48,8 +63,8 @@
 
 				</c:forEach>
 			</s:div>
-			
-			
+
+
 		</div>
 
 	</ui:define>

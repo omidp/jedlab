@@ -7,7 +7,7 @@
 	xmlns:c="http://java.sun.com/jstl/core">
 
 
-	<div style="margin-top: 60px; margin-right: 10px"
+	<div style="margin-top: 20px; margin-right: 10px"
 		class="locale-direction">
 
 		<s:fragment rendered="#{s:hasRole('Admin')}">		
@@ -96,7 +96,10 @@
 								<h:outputText value="#{_item.price}" rendered="#{!_item.free}" />
 							</div>
 							<div class="description">
-								 #{_item.chapterCount} #{messages['Chapter']}
+								
+								<h:outputText value="#{_item.chapterCount} #{messages['Chapter']}" rendered="#{_item.hasChapter}"/>
+								<h:outputText value="#{messages['Chapter']} #{messages['Has_Not']}" rendered="#{!_item.hasChapter}"/>
+								 
 							</div>
 						</div>
 						<div class="extra content white">
