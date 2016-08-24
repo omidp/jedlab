@@ -138,7 +138,7 @@ public class VideoPlayerServlet extends HttpServlet
 
     }
 
-    private static String getFileName(String res, String origFilePath)
+    private String getFileName(String res, String origFilePath)
     {
         String extension = origFilePath.substring(origFilePath.lastIndexOf("."));
         String fname = origFilePath.substring(0, origFilePath.lastIndexOf("."));
@@ -157,13 +157,13 @@ public class VideoPlayerServlet extends HttpServlet
     {
     }
 
-    private static String getToken(String location)
+    private String getToken(String location)
     {
         String name = location.substring(location.lastIndexOf("/") + 1);
         return name.substring(0, name.indexOf("."));
     }
 
-    private static void sendError(HttpServletResponse resp) throws IOException
+    private void sendError(HttpServletResponse resp) throws IOException
     {
         resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         resp.sendRedirect("error.seam");

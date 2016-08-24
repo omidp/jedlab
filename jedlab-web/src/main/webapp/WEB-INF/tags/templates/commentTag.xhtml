@@ -14,21 +14,29 @@
 
 			<c:forEach var="_item" items="#{commentValues}">
 
-				<div class="comment">
+				<div class="comment comment-border">
 					<a class="avatar"> </a>
 					<div class="content">
+						<div class="comment-header"> 
 						<a class="author">#{_item.member.username}</a>
 						<div class="metadata">
 							<span class="date">#{_item.socialDate}</span>
 						</div>  
-						<div class="text">
+						</div>
+						<div class="text text-container">
 								<s:formattedText value="#{_item.content}"></s:formattedText>
 						</div>
-						<div class="actions">
+						<div class="actions comment-action">
 							<s:fragment rendered="#{identity.loggedIn}">
-								<a onclick="addCmSection(#{_item.id});" class="reply">#{messages['Reply']}</a>
+								<a onclick="addCmSection(#{_item.id});" class="reply btn-reply">
+									<i class="icon-pencil"></i>
+									#{messages['Reply']}
+								</a>
 								<a onclick="cancelReply(#{_item.id});"
-									id="btnCancel_#{_item.id}" style="display: none;" class="reply">#{messages['Cancel']}</a>
+									id="btnCancel_#{_item.id}" style="display: none;" class="reply btn-cancel">
+									<i class="icon-cancel-circle"></i>
+									#{messages['Cancel']}
+								</a>
 								<div id="cmSection_#{_item.id}" style="padding: 10px;"></div>
 							</s:fragment>
 						</div>

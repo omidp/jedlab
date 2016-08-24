@@ -45,23 +45,25 @@
 
 			<s:fragment rendered="#{identity.loggedIn}">
 				<div id="commentPanel">
-					<h:form class="form" style="margin-right: 25px;">
+					<h:form class="form" id="cmForm" style="margin-right: 25px;">
 						<div>
 							<div class="form-item">
-								<label style="font-weight: bolder; font-size: 14px;">
-									#{messages['Content_Text']}</label>
-								<h:inputTextarea value="#{commentHome.instance.content}"
+								<label style="font-weight: bolder; font-size: 14px;"> </label>
+								<h:inputTextarea value="#{commentHome.instance.content}" required="true"
 									styleClass="width-50" style="width:50%;" cols="15" rows="6" />
-								<div class="desc">
-									<i class="icon-info pointer" id="commentInfo"></i>
-								</div>
+								<div class="desc"></div>
 							</div>
 							<input type="hidden" name="replyId" id="replyId" /> <input
 								name="courseId" value="#{courseId}" id="courseId" type="hidden" />
 						</div>
+						<div style="padding-bottom: 10px;">
+							<h:commandButton styleClass="btn btn-green btn-outline"
+								id="commentBtn" value="#{messages['Send']} #{messages['Reply']}"
+								action="#{commentHome.persist()}" />
+						</div>
 						<div id="contentHelper" class="locale-direction"
 							style="display: none; width: 550px;">
-							<div class="header">#{messages['Comment_Help']}</div>
+							<div class="header"></div>
 							<ul class="list">
 								<li>#{messages['Comment_Tip_1']}</li>
 								<li>#{messages['Comment_Tip_2']}</li>
@@ -73,9 +75,6 @@
 								<li>#{messages['Comment_Tip_8']}</li>
 							</ul>
 						</div>
-						<h:commandButton styleClass="btn btn-blue btn-outline"
-							value="#{messages['Send']} #{messages['Reply']}"
-							action="#{commentHome.persist()}" />
 					</h:form>
 				</div>
 
@@ -83,18 +82,17 @@
 				<script>
 					jQuery(document).ready(function(){
 
-						jQuery('#commentInfo')
+						jQuery('#cmForm\\:commentBtn')
 						  .popup({
 						    inline   : true,
 						    popup: jQuery("#contentHelper"),
 						    hoverable: true,
-						    position : 'top left',
-						    delay: {
-						      show: 300,
+						    position : 'bottom center',
+						    delay: {						      
 						      hide: 800
 						    }
-						  })
-						;
+						  }); 	
+						
 						
 					});
 				</script>
