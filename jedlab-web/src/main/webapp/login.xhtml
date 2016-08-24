@@ -55,8 +55,8 @@
 					</div>
 					<div class="ui bottom attached warning message">
 						<i class="icon-info"></i>
-						<a href="#{_ctx}/recoverPassword.seam">#{messages['Forgot_Password']}
-						</a> 
+						<s:link propagation="none" includePageParams="false" view="/recoverPassword.seam">#{messages['Forgot_Password']}
+						</s:link>
 					</div>
 
 				</div>
@@ -101,8 +101,8 @@
 					</div>
 					<div class="ui bottom attached warning message">
 						<i class="icon-info"></i>
-						<a href="#{_ctx}/recoverActLink.seam">#{messages['Recover_Act_Link']}
-						</a> 
+						<s:link view="/recoverActLink.seam" propagation="none" includePageParams="false">#{messages['Recover_Act_Link']}
+						</s:link>
 					</div>
 
 				</div>

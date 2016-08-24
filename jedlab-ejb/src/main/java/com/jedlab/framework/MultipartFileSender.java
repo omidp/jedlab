@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jboss.seam.web.RedirectFilter;
 
 /**
  * Created by kevin on 10/02/15. See full code here :
@@ -88,6 +89,8 @@ public class MultipartFileSender
         {
             return;
         }
+        
+        
 
         if (!Files.exists(filepath))
         {
