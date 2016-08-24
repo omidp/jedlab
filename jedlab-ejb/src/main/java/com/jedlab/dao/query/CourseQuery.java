@@ -3,6 +3,7 @@ package com.jedlab.dao.query;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -12,7 +13,9 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.security.Identity;
 
 import com.jedlab.action.Constants;
+import com.jedlab.framework.CollectionUtil;
 import com.jedlab.framework.PagingController;
+import com.jedlab.framework.StringUtil;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
 
@@ -59,20 +62,23 @@ public class CourseQuery extends PagingController<Course>
 
     private void addChpterCount(List<Course> courseList)
     {
-        Criteria criteria = getSession().createCriteria(Chapter.class, "chapter");        
-        criteria.setProjection(Projections.projectionList().add(Projections.count("course"))
-                .add(Projections.groupProperty("course")));
-        criteria.add(Restrictions.in("course", courseList));
-        List<Object[]> obj = criteria.list();
-        for (Object[] items : obj)
+        if(CollectionUtil.isNotEmpty(courseList))
         {
-            Long chapterCount = Long.parseLong(String.valueOf(items[0]));
-            Course course = (Course) items[1];
-            for (Course c : courseList)
+            Criteria criteria = getSession().createCriteria(Chapter.class, "chapter");        
+            criteria.setProjection(Projections.projectionList().add(Projections.count("course"))
+                    .add(Projections.groupProperty("course")));
+            criteria.add(Restrictions.in("course", courseList));
+            List<Object[]> obj = criteria.list();
+            for (Object[] items : obj)
             {
-                if(course.getId().longValue() == c.getId().longValue())
+                Long chapterCount = Long.parseLong(String.valueOf(items[0]));
+                Course course = (Course) items[1];
+                for (Course c : courseList)
                 {
-                    c.setChapterCount(chapterCount);
+                    if(course.getId().longValue() == c.getId().longValue())
+                    {
+                        c.setChapterCount(chapterCount);
+                    }
                 }
             }
         }
@@ -82,6 +88,8 @@ public class CourseQuery extends PagingController<Course>
     {
         if(Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
             criteria.add(Restrictions.eq("active", true));
+        if(StringUtil.isNotEmpty(getCourse().getName()))
+            criteria.add(Restrictions.ilike("name", getCourse().getName(), MatchMode.ANYWHERE));
     }
 
     private void refresh()

@@ -2352,4 +2352,13 @@ legend {
 	text-align: left;
 	margin-left: 35px;
 }
-ta
+
+#searchInput{
+	 width: 130px !important;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+#searchInput:focus {
+    width: 200px !important;
+}

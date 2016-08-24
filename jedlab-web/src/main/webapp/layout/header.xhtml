@@ -11,27 +11,38 @@
 		<div class="col col-10">
 			<div class="ui secondary  menu">
 				<div id="search-bar">
-					<s:button type="image" image="#{_ctx}/images/reset.png"
-						style="margin-top: 17px;" 
+					
+					<div style="float: right;">					
+						<jedlab:suggestion placeholder="#{messages['Search']}" 
+							url="#{_ctx}/course.search" 
+							onSelect="redirectToResult"
+							value="#{courseQuery.course.name}"
+							forceId="searchInput"
+							style="direction:rtl;display:inline;"></jedlab:suggestion>
+					</div>	
+						 
+					<div style="float: left;margin-top: 20px;margin-right: 5px">
+						<s:button type="image" image="#{_ctx}/images/reset.png"
+						style="display:inline;" 
 						rendered="#{not empty courseName}"
 						includePageParams="false" view="/courseList.xhtml" propagation="none"></s:button>
-					<jedlab:suggestion placeholder="#{messages['Search']}" 
-						url="#{_ctx}/course.search" 
-						onSelect="redirectToResult"
-						value="#{courseQuery.course.name}"
-						forceId="searchInput"
-						style="direction:rtl;display:inline;"></jedlab:suggestion>
+						
+						
+						<div class="icon-search" onclick="doSearch();" style="cursor: pointer;display: inline;"></div>
+					</div>
+						
 						<script>
-							jQuery(document).ready(function(){
-								jQuery("#searchInput").on('keyup', function(e){
-									if (e.keyCode == 13) { location.href = window.location.origin + '#{_ctx}/courseList.seam?courseName='+jQuery("#searchInput").val(); }
-								});
-							});
-						</script>
-						<script>	
+							
+							
+							function  doSearch(){ 
+								if(jQuery("#searchInput").val() != '')
+									location.href = window.location.origin + '#{_ctx}/courseList/'+jQuery("#searchInput").val(); 
+							}
+							
+							
 							function redirectToResult(event, ui)
 							{
-								location.href = window.location.origin + '#{_ctx}/course.seam?courseId='+ui.item.id;
+								location.href = window.location.origin + '#{_ctx}/course/'+ui.item.id;
 							}
 						</script>
 				</div>

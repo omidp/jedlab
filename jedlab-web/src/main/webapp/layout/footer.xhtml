@@ -9,11 +9,11 @@
 			<div class="col" style="text-align: center;"> <h:outputText value="#{messages['Copy_Right']}" /> </div>
 			<div class="col" style="text-align: center;">
 				<ul class="site-footer-links">
-					<li><a href="#{_ctx}/contactus.seam">#{messages['Contact_Us']}</a></li>
+					<li><s:link includePageParams="false" propagation="none" view="/contactus.xhtml">#{messages['Contact_Us']}</s:link></li>
 					<li><a href="#{_ctx}">|</a></li>
-					<li><a href="#{_ctx}/terms.seam">#{messages['Terms_Of_Use']}</a></li>
+					<li><s:link includePageParams="false" propagation="none" view="/terms.xhtml">#{messages['Terms_Of_Use']}</s:link></li>
 					<li><a href="#{_ctx}">|</a></li>
-					<li><a href="#{_ctx}/privacy.seam">#{messages['Privacy']}</a></li>
+					<li><s:link includePageParams="false" propagation="none" view="/privacy.xhtml">#{messages['Privacy']}</s:link></li>
 					<li><a href="#{_ctx}">|</a></li>
 					
 				</ul>

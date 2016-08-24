@@ -3,6 +3,8 @@
 login-required="false"
 	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
+	
+	<rewrite pattern="/home" />
 	<param name="from" />
 
 	<action execute="#{registerAction.sendToDashboard()}"

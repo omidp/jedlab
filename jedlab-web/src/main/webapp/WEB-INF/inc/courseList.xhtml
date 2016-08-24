@@ -10,123 +10,151 @@
 	<div style="margin-top: 20px; margin-right: 10px"
 		class="locale-direction">
 
-		<s:fragment rendered="#{s:hasRole('Admin')}">		
+		<s:fragment rendered="#{s:hasRole('Admin')}">
 			<s:button value="#{messages['Create']} #{messages['Course']}"
-				view="/admin/courseEdit.xhtml" 
-				propagation="none" includePageParams="false" ></s:button>
-				
+				view="/admin/courseEdit.xhtml" propagation="none"
+				includePageParams="false"></s:button>
+
 			<h:form>
 				<h:inputText value="#{courseQuery.course.name}" id="courseName" />
 				<h:commandButton action="#{webContext.redirectIt()}" value="Search" />
-			</h:form>	
-			<h:dataTable value="#{courseQuery.resultList}" var="_item" styleClass="ui selectable celled table">
-				
+			</h:form>
+			<h:dataTable value="#{courseQuery.resultList}" var="_item"
+				styleClass="ui selectable celled table">
+
 				<h:column>
-					<s:link value="#{_item.name}" view="/admin/courseEdit.xhtml" propagation="none" includePageParams="false">
+					<s:link value="#{_item.name}" view="/admin/courseEdit.xhtml"
+						propagation="none" includePageParams="false">
 						<f:param name="courseId" value="#{_item.id}"></f:param>
 					</s:link>
 				</h:column>
-				
+
 				<h:column>
-					<s:link value="#{messages['Add']} #{messages['Chapter']}" view="/admin/chapterEdit.xhtml" propagation="none" includePageParams="false">
+					<s:link value="#{messages['Add']} #{messages['Chapter']}"
+						view="/admin/chapterEdit.xhtml" propagation="none"
+						includePageParams="false">
 						<f:param name="courseId" value="#{_item.id}"></f:param>
 					</s:link>
 				</h:column>
-				
-				
-				
+
+
+
 				<h:column>
-					<s:link value="#{messages['List']} #{messages['Chapter']}" view="/admin/chapterList.xhtml" propagation="none" includePageParams="false">
+					<s:link value="#{messages['List']} #{messages['Chapter']}"
+						view="/admin/chapterList.xhtml" propagation="none"
+						includePageParams="false">
 						<f:param name="courseId" value="#{_item.id}"></f:param>
 					</s:link>
 				</h:column>
-			
+
 			</h:dataTable>
-			
-		
+
+
 		</s:fragment>
 
 
 		<s:fragment rendered="#{not s:hasRole('Admin')}">
-
-			<h3 class="ui tiny header">#{messages['Count']} #{messages['Course']} : #{courseQuery.resultCount} </h3>
+		
+		
+			<s:fragment rendered="#{empty courseQuery.resultList}">
+				
+				<s:div styleClass="well">
+					<h:outputText value="#{messages['Course_Not_Found']}" />
+				</s:div>
 			
-			<div class="ui link cards">
+			
+			</s:fragment>
 
-				<c:forEach items="#{courseQuery.resultList}" var="_item">
-					<div class="card" onclick="gotoCourse(#{_item.id});">
-						<div class="image">
 
-							<s:graphicImage value="#{_item.image}"
-								style="height:250px;"
-								rendered="#{_item.hasImage}">
-								<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>	
-							</s:graphicImage>
+			<s:fragment rendered="#{not empty courseQuery.resultList}">
 
-							<s:graphicImage value="/images/no_video_photo.png"
-								style="height:250px;"
-								rendered="#{_item.hasImage == false}">
-								<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>		
-							</s:graphicImage>
+				<h3 class="ui tiny header">#{messages['Count']}
+					#{messages['Course']} : #{courseQuery.resultCount}</h3>
 
-						</div>
-						<div class="content">
-							<div class="header">
+				<div class="ui link cards">
 
-								<s:link propagation="none" includePageParams="false"
-									rendered="#{identity.loggedIn and s:hasRole('Admin')}"
-									view="/admin/chapterEdit.xhtml" styleClass="item">
-									<h:outputText value="#{_item.name}" />
+					<c:forEach items="#{courseQuery.resultList}" var="_item">
+						<div class="card" onclick="gotoCourse(#{_item.id});">
+							<div class="image">
+
+								<s:graphicImage value="#{_item.image}" style="height:250px;"
+									rendered="#{_item.hasImage}">
+									<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>
+								</s:graphicImage>
+
+								<s:graphicImage value="/images/no_video_photo.png"
+									style="height:250px;" rendered="#{_item.hasImage == false}">
+									<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>
+								</s:graphicImage>
+
+							</div>
+							<div class="content">
+								<div class="header">
+
+									<s:link propagation="none" includePageParams="false"
+										rendered="#{identity.loggedIn and s:hasRole('Admin')}"
+										view="/admin/chapterEdit.xhtml" styleClass="item">
+										<h:outputText value="#{_item.name}" />
+										<f:param name="courseId" value="#{_item.id}"></f:param>
+									</s:link>
+
+
+									<h:outputText styleClass="locale-font" value="#{_item.name}"
+										rendered="#{!s:hasRole('Admin')}" />
+
+								</div>
+								<div class="meta">
+									#{messages['Publish_Date']} :
+									<h:outputText value="#{_item.createdDate}"
+										converter="#{persianDateConverter}" />
+									<br /> #{messages['Level']} :
+									<h:outputText value="#{_item.level.label}" />
+									<br />
+									<h:outputText value="#{messages['Free']}"
+										rendered="#{_item.free}" />
+									<h:outputText value="#{_item.price}" rendered="#{!_item.free}" />
+								</div>
+								<div class="description">
+
+									<h:outputText
+										value="#{_item.chapterCount} #{messages['Chapter']}"
+										rendered="#{_item.hasChapter}" />
+									<h:outputText
+										value="#{messages['Chapter']} #{messages['Has_Not']}"
+										rendered="#{!_item.hasChapter}" />
+
+								</div>
+							</div>
+							<div class="extra content white">
+								<s:link view="/course.xhtml" value="#{messages['Detail_View']}"
+									propagation="none" includePageParams="false"
+									styleClass="btn btn-blue btn-outline right floated clickableLink cItem_#{_item.id}"
+									style="font-weight: bold;">
 									<f:param name="courseId" value="#{_item.id}"></f:param>
 								</s:link>
-
-
-								<h:outputText styleClass="locale-font" value="#{_item.name}"
-									rendered="#{!s:hasRole('Admin')}" />
-
-							</div>
-							<div class="meta">
-								#{messages['Publish_Date']} :
-								<h:outputText value="#{_item.createdDate}"
-									converter="#{persianDateConverter}" />
-								<br />
-								#{messages['Level']} :  <h:outputText value="#{_item.level.label}" />
-								<br />
-								<h:outputText value="#{messages['Free']}" rendered="#{_item.free}" />
-								<h:outputText value="#{_item.price}" rendered="#{!_item.free}" />
-							</div>
-							<div class="description">
-								
-								<h:outputText value="#{_item.chapterCount} #{messages['Chapter']}" rendered="#{_item.hasChapter}"/>
-								<h:outputText value="#{messages['Chapter']} #{messages['Has_Not']}" rendered="#{!_item.hasChapter}"/>
-								 
 							</div>
 						</div>
-						<div class="extra content white">
-							<a href="#{_ctx}/course.seam?courseId=#{_item.id}" id="cItem_#{_item.id}"
-								class="btn btn-blue btn-outline right floated clickableLink" style="font-weight: bold;">
-								#{messages['Detail_View']} </a>
-						</div>
-					</div>
-				</c:forEach>  
+					</c:forEach>
 
-			</div>
-			
-			<script>
-				function gotoCourse(item)
+				</div>
+
+				<script>
+				function gotoCourse(itemId)
 				{
-					window.location = jQuery("#cItem_"+item).attr('href');
+					window.location = jQuery(".cItem_"+itemId).attr('href');
 				}
 			</script>
-			
+
+			</s:fragment>
+
 
 		</s:fragment>
 
 	</div>
 
 
-			<s:decorate template="/layout/seamPaging.xhtml">
-				<ui:param name="entityList" value="#{courseQuery}" />
-			</s:decorate>
+	<s:decorate template="/layout/seamPaging.xhtml" rendered="#{not empty courseQuery.resultList}">
+		<ui:param name="entityList" value="#{courseQuery}" />
+	</s:decorate>
 
 </ui:composition>
