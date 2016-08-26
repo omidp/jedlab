@@ -13,6 +13,9 @@
 				include-page-params="false">
 			</redirect>
 		</rule>
+		<redirect view-id="/login.xhtml"
+				include-page-params="false">
+		</redirect>
 	</navigation>
 
 	<action execute="#{identity.login()}" if="#{identity.loggedIn}"

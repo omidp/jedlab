@@ -49,6 +49,19 @@
 									</ui:define>
 								</s:decorate>
 							</div>
+							
+							<s:div styleClass="field" rendered="#{authenticator.captchaRequired}">
+								<s:decorate id="captchaField" template="/layout/edit.xhtml">
+									<h:graphicImage id="capthaImg" style="float: left;"
+												value="/seam/resource/captcha?#{currentDate.time}" />
+									<input type="text" id="cp" />		
+									<ui:define name="label">
+										#{messages['Captcha_Response']}
+									</ui:define>			
+								</s:decorate>
+							</s:div>
+							
+							
 							<button type="button" class="btn btn-blue" id="btnLogin">#{messages['Send']}</button>
 							
 						</div>
@@ -130,8 +143,9 @@
 
 									jQuery("#btnLogin").click(function(){
 										common.showLoading();
-										jQuery("#loginForm\\:hunfield").val(jQuery("#uname").val());
+										jQuery("#loginForm\\:hunfield").val(jQuery("#uname").val());										
 										jQuery("#loginForm\\:hpfield").val(btoa(jQuery("#upass").val()));
+										jQuery("#loginForm\\:verifyCaptcha").val(jQuery("#cp").val());
 										jQuery("#loginForm\\:btnLoginClick").click();
 									});
 									
@@ -149,6 +163,8 @@
 		
 		<div style="display: none;">
 			<h:form id="loginForm">
+				<h:inputHidden id="verifyCaptcha" required="false"
+											value="#{captcha.response}" />
 				<h:inputHidden id="hunfield" 	value="#{credentials.username}" />
 				<h:inputHidden id="hpfield"	value="#{credentials.password}" />
 				<h:commandButton action="#{identity.login()}" id="btnLoginClick"
