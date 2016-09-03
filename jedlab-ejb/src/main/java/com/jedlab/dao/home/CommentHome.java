@@ -21,28 +21,26 @@ import com.jedlab.model.Member;
 public class CommentHome extends EntityHome<Comment>
 {
 
-
     @Override
     protected Comment createInstance()
     {
         return new Comment();
     }
-    
+
     public void load()
     {
         getInstance();
     }
-    
-    
+
     @Override
     public String persist()
     {
         String courseId = WebUtil.getParameterValue("courseId");
-        if(StringUtil.isEmpty(courseId))
+        if (StringUtil.isEmpty(courseId))
             return null;
         Comment reply = null;
         String replyId = WebUtil.getParameterValue("replyId");
-        if(StringUtil.isNotEmpty(replyId))
+        if (StringUtil.isNotEmpty(replyId))
         {
             reply = new Comment();
             reply.setId(Long.parseLong(replyId));
@@ -59,5 +57,22 @@ public class CommentHome extends EntityHome<Comment>
         FlashScope.instance().addMessage(Severity.INFO, StatusMessage.getBundleMessage(getCreatedMessageKey(), ""));
         return super.persist();
     }
-    
+
+    @Override
+    public String remove()
+    {
+        String cmId = WebUtil.getParameterValue("cmId");
+        if (StringUtil.isEmpty(cmId))
+        {
+            return "removed";
+        }
+        FlashScope.instance().addMessage(Severity.INFO, StatusMessage.getBundleMessage("Deleted", ""));
+        clearInstance();
+        Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
+        getEntityManager().createQuery("delete from Comment c where c.id = :cmId AND c.member.id = :memId")
+                .setParameter("cmId", Long.parseLong(cmId)).setParameter("memId", uid).executeUpdate();
+        getEntityManager().flush();
+        return "removed";
+    }
+
 }

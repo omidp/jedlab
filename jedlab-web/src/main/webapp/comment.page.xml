@@ -13,5 +13,16 @@
 			</redirect>
 		</rule>
 	</navigation>
+	
+	
+	<navigation from-action="#{commentHome.remove()}">
+		<end-conversation before-redirect="true"/>
+		<rule if-outcome="persisted">
+			<redirect view-id="/comment.xhtml" include-page-params="false">
+				<param name="courseId" value="#{courseId}"/>
+				<param name="cid" value=""/>
+			</redirect>
+		</rule>
+	</navigation>
 
 </page>

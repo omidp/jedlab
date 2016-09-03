@@ -3,15 +3,21 @@ package com.jedlab.model;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -21,12 +27,11 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.Where;
 import org.jboss.seam.international.StatusMessage;
 
 @Entity
 @Table(name = "course", schema = "public")
-//@Where(clause = " is_active = 'true' ")
+// @Where(clause = " is_active = 'true' ")
 public class Course extends BasePO
 {
 
@@ -84,11 +89,25 @@ public class Course extends BasePO
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
     private List<Chapter> chapters = new ArrayList<>(0);
 
+    @ManyToMany(targetEntity = Tag.class, cascade = CascadeType.ALL)
+    @JoinTable(name = "course_tags", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags = new HashSet<Tag>();
+
     @Transient
     private Long chapterCount;
 
     @Transient
     private boolean registered;
+
+    public Set<Tag> getTags()
+    {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags)
+    {
+        this.tags = tags;
+    }
 
     public Long getChapterCount()
     {

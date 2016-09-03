@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+  <s:div id="uiMessage">
+			<script type="text/javascript">
+				jQuery(document).ready(function(){
+					
+					//msg setup
+					var message=jQuery("ul.message li");
+					var messageUl=jQuery("ul.message");
+					message.click(function() {
+						jQuery(this).hide('drop', {}, 1000).fadeOut();			        
+				    });
+					messageUl.data('defaultTimer', setTimeout(function(){ 
+							messageUl.hide();
+	                	}, 5000));
+					messageUl.hover(function(){
+					    var item=jQuery(this);
+		                var siblingsNodes=jQuery(this).siblings('li');
+				    	var defaultTimer = messageUl.data('defaultTimer');
+	                	if(defaultTimer){ 
+	                		clearTimeout(defaultTimer);
+		                }
+					    },function(){
+					    	messageUl.data('defaultTimer', setTimeout(function(){ 
+					    		messageUl.hide();
+			                	}, 2000));
+						    });
+				});
+			</script>
+			<div class="alert-box">
+				<h:messages id="messages" globalOnly="true" styleClass="message"
+					errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"
+					rendered="#{showGlobalMessages != 'false'}" />
+			</div>
+		</s:div>
+</ui:composition>

@@ -24,5 +24,13 @@
 			</redirect>
 		</rule>
 	</navigation>
+	
+	<navigation from-action="#{courseHome.saveTags()}">
+		<end-conversation />
+		<rule if-outcome="persisted">
+			<redirect view-id="/courseList.xhtml" include-page-params="false">
+			</redirect>
+		</rule>
+	</navigation>
    
 </page>

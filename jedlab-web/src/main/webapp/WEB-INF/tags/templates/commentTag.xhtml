@@ -32,6 +32,13 @@
 									<i class="icon-pencil"></i>
 									#{messages['Reply']}
 								</a>
+								<s:fragment rendered="#{_item.owner}">
+									<s:link styleClass="reply btn-cancel" action="#{commentHome.remove()}">
+										<f:param name="cmId" value="#{_item.id}"></f:param>
+										<i class="icon-bin"></i>
+										#{messages['Delete']}
+									</s:link>
+								</s:fragment>
 								<a onclick="cancelReply(#{_item.id});"
 									id="btnCancel_#{_item.id}" style="display: none;" class="reply btn-cancel">
 									<i class="icon-cancel-circle"></i>

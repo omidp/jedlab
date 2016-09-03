@@ -22,8 +22,10 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
+import org.jboss.seam.contexts.Contexts;
 import org.ocpsoft.prettytime.PrettyTime;
 
+import com.jedlab.action.Constants;
 import com.jedlab.framework.CollectionUtil;
 
 @Table(name = "comments")
@@ -45,7 +47,7 @@ public class Comment extends BasePO
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @NotNull
-    @Length(min=2)
+    @Length(min = 2)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,7 +58,7 @@ public class Comment extends BasePO
     @JoinColumn(name = "reply_id")
     private Comment reply;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "reply", cascade=CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "reply", cascade = CascadeType.REMOVE)
     private List<Comment> replies = new ArrayList<Comment>();
 
     public Date getCreatedDate()
@@ -123,11 +125,18 @@ public class Comment extends BasePO
     {
         return CollectionUtil.isNotEmpty(replies);
     }
-    
+
     @Transient
-    public String getSocialDate(){
+    public String getSocialDate()
+    {
         PrettyTime p = new PrettyTime(new Locale("fa", "IR"));
         return p.format(getCreatedDate());
+    }
+
+    @Transient
+    public boolean isOwner()
+    {
+        return member != null && member.getId() == Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
     }
 
 }
