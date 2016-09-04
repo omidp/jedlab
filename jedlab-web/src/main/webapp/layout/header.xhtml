@@ -18,12 +18,40 @@
 				<h:graphicImage value="/images/logo.png" alt="#{messages['JEDLAB']}"
 					height="30" />
 			</s:link></li>
-		<li class="w3-hide-small"><s:link propagation="none"
+		<li class="w3-hide-small">
+		
+		<s:link propagation="none"
+				rendered="#{!identity.loggedIn}"
 				includePageParams="false" view="/home.xhtml"
 				styleClass="w3-padding-large w3-hover-white"
 				value="#{messages['Home']}">
 				<i class="icon-home"></i>
-			</s:link></li>
+			</s:link>
+		
+		<s:link propagation="none"
+				rendered="#{identity.loggedIn}"
+				includePageParams="false" view="/dashboard.xhtml"
+				styleClass="w3-padding-large w3-hover-white"
+				value="#{messages['Home']}">
+				<i class="icon-home"></i>
+			</s:link>	
+			
+			</li>
+		
+		<li class="w3-hide-small">
+		
+			<s:link propagation="none" 
+						styleClass="w3-padding-large w3-hover-white" rendered="#{identity.loggedIn}"
+						view="/member/userEdit.xhtml"
+						value="#{loginActionManager.currentUsername} #{messages['Welcome']}">
+						<i class="icon-user-tie" style="color: #fff; margin-left: 5px;"></i>
+					</s:link>
+			
+			
+		
+		</li>	
+			
+			
 		<li class="w3-hide-small"><s:link propagation="none"
 				includePageParams="false" rendered="#{!identity.loggedIn}"
 				view="/login.xhtml" styleClass="w3-padding-large w3-hover-white">
@@ -37,6 +65,19 @@
 				value="#{messages['Course_List']}">
 				<i class="icon-books"></i>
 			</s:link></li>
+			
+			 
+		<li class="w3-hide-small">
+			
+			<s:link propagation="none" 
+						rendered="#{identity.loggedIn}" action="#{identity.logout()}"
+						styleClass="w3-padding-large w3-hover-white">
+						<h:outputText
+							value="#{messages['Sign_Out']}" />
+						<i class="icon-exit"></i>
+					</s:link>
+		
+		</li>	
 
 		<li class="w3-hide-small w3-left" id="searchSection">
 
@@ -83,6 +124,15 @@
 					value="#{messages['Course_List']}">
 					<i class="icon-books"></i>
 				</s:link></li>
+			<li>
+				<s:link propagation="none" 
+						rendered="#{identity.loggedIn}" action="#{identity.logout()}"
+						styleClass="w3-padding-large">
+						<h:outputText
+							value="#{messages['Sign_Out']}" />
+						<i class="icon-exit"></i>
+					</s:link>
+			</li>	
 		</ul>
 	</div>
 

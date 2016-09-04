@@ -26,8 +26,8 @@
 					<div class="content">
 						<a class="header">#{courseHome.instance.name}</a>
 						<div class="meta">
-							<span class="cinema">
-								<h:outputText value="#{courseHome.instance.chapters.size()} #{messages['Chapter']}" />							
+							<span class="cinema"> <h:outputText
+									value="#{courseHome.instance.chapters.size()} #{messages['Chapter']}" />
 							</span>
 						</div>
 						<div class="description">
@@ -38,8 +38,10 @@
 								<br /> #{messages['Level']} :
 								<h:outputText value="#{courseHome.instance.level.label}" />
 								<br />
-								<h:outputText value="#{messages['Free']}" rendered="#{courseHome.instance.free}" />
-								<h:outputText value="#{_item.price}" rendered="#{!courseHome.instance.free}" />
+								<h:outputText value="#{messages['Free']}"
+									rendered="#{courseHome.instance.free}" />
+								<h:outputText value="#{_item.price}"
+									rendered="#{!courseHome.instance.free}" />
 							</p>
 						</div>
 						<div class="extra">
@@ -49,8 +51,8 @@
 									action="#{courseHome.register()}"
 									rendered="#{identity.loggedIn and !courseHome.instance.registered}"
 									styleClass="btn btn-green locale-font">
-									<f:param name="courseId" value="#{courseId}"></f:param> 
-								</s:button>  
+									<f:param name="courseId" value="#{courseId}"></f:param>
+								</s:button>
 
 								<s:fragment rendered="#{!identity.loggedIn}">
 									<button type="button" class="btn btn-yellow locale-font"
@@ -64,34 +66,61 @@
 		</div>
 	</div>
 
-	<div style="padding: 5px;margin: 5px;">
+	<div style="padding: 5px; margin: 5px;margin-bottom: 65px;">
 
-	<jedlab:tabs scrollWidth="100%" keepState="true">
-		<jedlab:tabPanel title="#{messages['Detail']}">
-			<ui:include src="/WEB-INF/inc/courseDetail.xhtml" />
-		</jedlab:tabPanel>
+		<jedlab:tabs scrollWidth="100%" keepState="true">
+			<jedlab:tabPanel title="#{messages['Detail']}">
+				<ui:include src="/WEB-INF/inc/courseDetail.xhtml" />
+			</jedlab:tabPanel>
 
-		<jedlab:tabPanel title="#{messages['Chapter_List']}">
-			<ui:include src="/WEB-INF/inc/chapterList.xhtml" />
-		</jedlab:tabPanel>
+			<jedlab:tabPanel title="#{messages['Requirment']}">
+				<fieldset>
+					<legend>#{messages['Requirment']} #{messages['Course']}</legend>
 
-		<jedlab:tabPanel title="#{messages['Comment']}" useIframe="true"
-			join="false" includePageParams="false"
-			link="#{_ctx}/comment.seam?courseId=#{courseId}">
+					<p>
+						<s:formattedText value="#{courseHome.instance.requirement}"
+							rendered="#{not empty courseHome.instance.requirement}"></s:formattedText>
+						<h:outputText value="#{messages['Has_Not']}"
+							rendered="#{empty courseHome.instance.requirement}" />
+					</p>
+				</fieldset>
+			</jedlab:tabPanel>
 
-		</jedlab:tabPanel>
+			<jedlab:tabPanel title="#{messages['Chapter_List']}">
+				<ui:include src="/WEB-INF/inc/chapterList.xhtml" />
+			</jedlab:tabPanel>
 
-	</jedlab:tabs>
-	
+			<jedlab:tabPanel title="#{messages['Resources']}">
+				<fieldset>
+					<legend>#{messages['Resources']}</legend>
+
+					<p>
+						<s:formattedText value="#{courseHome.instance.resources}"
+							rendered="#{not empty courseHome.instance.resources}"></s:formattedText>
+						<h:outputText value="#{messages['Has_Not']}"
+							rendered="#{empty courseHome.instance.resources}" />
+					</p>
+				</fieldset>
+			</jedlab:tabPanel>
+
+			<jedlab:tabPanel title="#{messages['Comment']}" useIframe="true"
+				join="false" includePageParams="false"
+				link="#{_ctx}/comment.seam?courseId=#{courseId}">
+
+			</jedlab:tabPanel>
+
+		</jedlab:tabs>
+
 	</div>
 	
-	<ui:include src="/WEB-INF/inc/instructor.xhtml" />
+
 	
+
 	<script>
 	function redirectToLogin()
 	{
 		window.top.location.href = window.location.origin +"#{_ctx}/member/course.seam?courseId=#{courseId}"; 
 	}
 	</script>
-	
+
 </ui:composition>
