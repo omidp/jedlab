@@ -4,6 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:jedlab="http://tasktops.com/ui"
 	xmlns:c="http://java.sun.com/jstl/core">
 	<c:set var="_ctx" value="#{request.contextPath}" />
 	<html>
@@ -29,6 +30,7 @@
 <meta property="og:image" content="http://jedlab.ir/images/logo.png" />
 
 <link rel="icon" href="#{_ctx}/favicon.ico" type="image/x-icon" />
+
 <link href="#{_ctx}/css/icon.css" rel="stylesheet" />
 <link href="#{_ctx}/css/semantic.rtl.min.css" rel="stylesheet" />
 <link href="#{_ctx}/css/home.css" rel="stylesheet" />
@@ -69,12 +71,34 @@
 				<i class="icon-books"></i>
 			</s:link></li>
 
+		<li class="w3-hide-small w3-left">
+
+			<div class="right-float">
+				<jedlab:suggestion placeholder="#{messages['Search']}"
+					url="#{_ctx}/course.search" onSelect="redirectToResult"
+					value="#{courseQuery.course.name}" forceId="searchInput"
+					styleClass="prompt"></jedlab:suggestion>
+			</div>
+			<div class="left-float"
+				style="margin-top: 15px; margin-right: 5px; margin-left: 5px;">
+				<s:button type="image" image="#{_ctx}/images/reset.png"
+					style="display:inline;cursor: pointer;" rendered="#{not empty courseName}"
+					includePageParams="false" view="/courseList.xhtml"
+					propagation="none"></s:button>
+
+
+				<div class="icon-search" onclick="doSearch();"
+					style="cursor: pointer; display: inline;"></div>
+			</div>
+
+		</li>
+
 	</ul>
 
 	<!-- Navbar on small screens -->
 	<div id="navDemo" class="w3-hide w3-hide-large w3-hide-medium w3-top"
 		style="margin-top: 51px">
-		<ul class="w3-navbar w3-left-align w3-large w3-black">
+		<ul class="w3-navbar w3-right-align w3-large w3-black">
 			<li><s:link propagation="none" includePageParams="false"
 					view="/home.xhtml" styleClass="w3-padding-large"
 					value="#{messages['Home']}">
@@ -140,7 +164,7 @@
 	<div class="w3-row-padding w3-padding-tiny w3-container">
 		<div class="w3-content">
 			<div class="w3-third w3-center right-float">
-				<h:graphicImage value="/images/java_var.jpg"
+				<h:graphicImage value="/images/java_var.jpg" alt="تنوع مطالب جاوا" 
 					styleClass="ui large image" />
 
 			</div>
@@ -214,24 +238,25 @@
 		</h1>
 	</div>
 
+
 	<!-- Footer -->
 	<footer class="w3-container w3-black w3-center w3-opacity">
-			<div>
-				<h:outputText value="#{messages['Copy_Right']}" />
-			</div>
+		<div>
+			<h:outputText value="#{messages['Copy_Right']}" />
+		</div>
 
-			<ul class="site-footer-links">
-				<li><s:link includePageParams="false" propagation="none"
-						view="/contactus.xhtml">#{messages['Contact_Us']}</s:link></li>
-				<li><a href="#{_ctx}">|</a></li>
-				<li><s:link includePageParams="false" propagation="none"
-						view="/terms.xhtml">#{messages['Terms_Of_Use']}</s:link></li>
-				<li><a href="#{_ctx}">|</a></li>
-				<li><s:link includePageParams="false" propagation="none"
-						view="/privacy.xhtml">#{messages['Privacy']}</s:link></li>
-				<li><a href="#{_ctx}">|</a></li>
+		<ul class="site-footer-links">
+			<li><s:link includePageParams="false" propagation="none"
+					view="/contactus.xhtml">#{messages['Contact_Us']}</s:link></li>
+			<li><a href="#{_ctx}">|</a></li>
+			<li><s:link includePageParams="false" propagation="none"
+					view="/terms.xhtml">#{messages['Terms_Of_Use']}</s:link></li>
+			<li><a href="#{_ctx}">|</a></li>
+			<li><s:link includePageParams="false" propagation="none"
+					view="/privacy.xhtml">#{messages['Privacy']}</s:link></li>
+			<li><a href="#{_ctx}">|</a></li>
 
-			</ul>
+		</ul>
 
 
 	</footer>

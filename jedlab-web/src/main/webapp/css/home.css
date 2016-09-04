@@ -2446,7 +2446,7 @@ section#what-is-classroom .delayelement {
 	text-decoration: none;
 }
 
-.start-now{
+.start-now {
 	background-color: #F1F5F7;
 	color: #85BD9E;
 }
@@ -2468,11 +2468,37 @@ section#what-is-classroom .delayelement {
 	color: #fff;
 }
 
-footer{
+footer {
 	padding: 1.01em 16px !important;
-	
 }
 
-footer ul.site-footer-links li a{
+footer ul.site-footer-links li a {
 	text-decoration: none !important;
+}
+
+#searchInput {
+	background-color: rgba(255, 255, 255, 0.2);
+	border: 0 none;
+	border-radius: 1.4rem;
+	color: rgba(255, 255, 255, 0.9);
+	float: left;
+	font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue",
+		helvetica, arial, sans-serif;
+	font-size: 1.4rem;
+	height: 2.2rem;
+	margin: 0.5rem 0 0;
+	padding: 0 2.2rem 0 1.2rem;
+	width: 200px;
+	-webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+.prompt {
+	direction: rtl;
+	display: inline;
+}
+
+
+#searchInput:focus {
+    width: 250px !important;
 }
