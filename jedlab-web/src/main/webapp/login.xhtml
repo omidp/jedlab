@@ -10,15 +10,12 @@
 		<link href="#{_ctx}/css/materialize.css" rel="stylesheet" />
 	</ui:define>
 
-	<ui:define name="body">
+	<ui:define name="body"> 
 
-		<div class="ui middle aligned equal width center aligned padded grid">
+		<div class="ui two column middle aligned very relaxed stackable grid w3-margin">
 
-			<div class="row" id="loginPanel">
 
-				<div class="one wide column"></div>
-
-				<div class="four wide column">
+				<div class="center aligned column ">
 					<div class="ui piled segment">
 						<h2 class="ui teal image header">
 							<div class="content">#{messages['Log_In_To_Account']}</div>
@@ -74,13 +71,10 @@
 
 				</div>
 
-				<div class="one wide column"></div>
+				<div class="ui vertical divider"></div>
 
-				<div class="ui vertical divider">#{messages['Or']}</div>
 
-				<div class="one wide column"></div>
-
-				<div class="four wide column">
+				<div class="center aligned column">
 					<div class="ui piled segment">
 						<h2 class="ui teal image header">
 							<div class="content">#{messages['Register']}</div>
@@ -120,9 +114,7 @@
 
 				</div>
 
-				<div class="one wide column"></div>
 
-			</div>
 		</div>
 
 		<script type="text/javascript">

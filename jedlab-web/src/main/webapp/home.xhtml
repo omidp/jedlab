@@ -5,284 +5,129 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:jedlab="http://tasktops.com/ui"
-	xmlns:c="http://java.sun.com/jstl/core">
-	<c:set var="_ctx" value="#{request.contextPath}" />
-	<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>JEDLAB | <h:outputText value="#{' '}" /> <h:outputText
-		value="#{messages['Page_Title']}" /></title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="keywords"
-	content="ویدیو , جاوا , جدلب , آموزش , برنامه نویسی , آموزشگاه , اندروید ,Java, Video, jedlab, Android, Iran, Training , Education , J2EE, Iranian Java Developers" />
-<meta name="description"
-	content="جدلب با ارائه آنلاین ویدیوهای آموزشی جاوا محلی است برای ارتقاء سطح دانش  شما" />
-<meta name="robots" content="NOODP" />
-<meta property="og:site_name" content="JEDLab" />
-<meta name="twitter:site" content="JEDLab" />
-<meta property="og:title"
-	content="JEDLab - ارائه دهنده ویدیوهای آنلاین آموزشی جاوا" />
-<meta property="og:locale" content="fa_IR" />
-<meta property="og:type" content="website" />
-<meta property="og:description"
-	content="جدلب با ارائه آنلاین ویدیوهای آموزشی جاوا محلی است برای ارتقاء سطح دانش  شما" />
-<meta property="og:url" content="http://www.jedlab.ir/" />
-<meta property="og:image" content="http://jedlab.ir/images/logo.png" />
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
 
-<link rel="icon" href="#{_ctx}/favicon.ico" type="image/x-icon" />
+	<ui:define name="body">
 
-<link href="#{_ctx}/css/icon.css" rel="stylesheet" />
-<link href="#{_ctx}/css/semantic.rtl.min.css" rel="stylesheet" />
-<link href="#{_ctx}/css/home.css" rel="stylesheet" />
+		<!-- Header -->
+		<div class="w3-white w3-center">
+			<div class="classroom-maximum">
 
-<script type="text/javascript" src="#{_ctx}/js/jquery.js"> </script>
+				<div class="main">
 
-</head>
-<body>
+					<div class="container">
 
-	<!-- Navbar -->
-	<ul class="w3-navbar w3-green w3-card-2 w3-top w3-left-align w3-large">
-		<li class="w3-hide-medium w3-hide-large w3-opennav w3-right"><a
-			class="w3-padding-large w3-hover-white w3-large w3-green"
-			href="javascript:void(0);" onclick="navViewport()"
-			title="Toggle Navigation Menu"><i class="icon-list"></i></a></li>
-		<li><s:link view="/home.xhtml" propagation="none"
-				includePageParams="false" styleClass="w3-padding-large w3-darkgreen">
-				<h:graphicImage value="/images/logo.png" alt="#{messages['JEDLAB']}"
-					height="30" />
-			</s:link></li>
-		<li class="w3-hide-small"><s:link propagation="none"
-				includePageParams="false" view="/home.xhtml"
-				styleClass="w3-padding-large w3-hover-white"
-				value="#{messages['Home']}">
-				<i class="icon-home"></i>
-			</s:link></li>
-		<li class="w3-hide-small"><s:link propagation="none"
-				includePageParams="false" rendered="#{!identity.loggedIn}"
-				view="/login.xhtml" styleClass="w3-padding-large w3-hover-white">
-				<h:outputText
-					value="#{messages['Sign_In']} / #{messages['Register']} " />
-				<i class="icon-user-tie"></i>
-			</s:link></li>
-		<li class="w3-hide-small"><s:link propagation="none"
-				includePageParams="false" view="/courseList.xhtml"
-				styleClass="w3-padding-large w3-hover-white"
-				value="#{messages['Course_List']}">
-				<i class="icon-books"></i>
-			</s:link></li>
+						<div class="scroller">
 
-		<li class="w3-hide-small w3-left">
-
-			<div class="right-float">
-				<jedlab:suggestion placeholder="#{messages['Search']}"
-					url="#{_ctx}/course.search" onSelect="redirectToResult"
-					value="#{courseQuery.course.name}" forceId="searchInput"
-					styleClass="prompt"></jedlab:suggestion>
-			</div>
-			<div class="left-float"
-				style="margin-top: 15px; margin-right: 5px; margin-left: 5px;">
-				<s:button type="image" image="#{_ctx}/images/reset.png"
-					style="display:inline;cursor: pointer;" rendered="#{not empty courseName}"
-					includePageParams="false" view="/courseList.xhtml"
-					propagation="none"></s:button>
+							<div class="scroller-inner"
+								style="transform: translate3d(0px, 0px, 0px);">
+								<section id="education-hero-new">
+									<div class="centered-container">
+										<img class="logo" src="#{_ctx}/images/hero_logo.png" alt="" />
+										<h1 class="title white-text locale-direction"></h1>
+										<p class="subtitle white-text border-top">
+											می خواهید برنامه نویسی شوید تا هر شرکتی آرزوی داشتن شما را
+											داشته باشد و یا کسب و کار نرم افزاری خود را ، راه اندازی کنید
+											؟ <br /> با ما همراه شوید
+										</p>
+										<s:link propagation="none" view="/login.xhtml"
+											includePageParams="false"
+											styleClass="classroom-button subtext-button hero-button">
+											<span class="hero-text">#{messages['Sign_In']}</span>
+										</s:link>
+									</div>
+								</section>
 
 
-				<div class="icon-search" onclick="doSearch();"
-					style="cursor: pointer; display: inline;"></div>
-			</div>
 
-		</li>
-
-	</ul>
-
-	<!-- Navbar on small screens -->
-	<div id="navDemo" class="w3-hide w3-hide-large w3-hide-medium w3-top"
-		style="margin-top: 51px">
-		<ul class="w3-navbar w3-right-align w3-large w3-black">
-			<li><s:link propagation="none" includePageParams="false"
-					view="/home.xhtml" styleClass="w3-padding-large"
-					value="#{messages['Home']}">
-					<i class="icon-home"></i>
-				</s:link></li>
-			<li><s:link propagation="none" includePageParams="false"
-					rendered="#{!identity.loggedIn}" view="/login.xhtml"
-					styleClass="w3-padding-large">
-					<h:outputText
-						value="#{messages['Sign_In']} / #{messages['Register']} " />
-					<i class="icon-user-tie"></i>
-				</s:link></li>
-			<li><s:link propagation="none" includePageParams="false"
-					view="/courseList.xhtml" styleClass="w3-padding-large"
-					value="#{messages['Course_List']}">
-					<i class="icon-books"></i>
-				</s:link></li>
-		</ul>
-	</div>
-
-	<!-- Header -->
-	<div class="w3-white w3-center w3-padding-top-48">
-		<div class="classroom-maximum">
-
-			<div class="main">
-
-				<div class="container">
-
-					<div class="scroller">
-
-						<div class="scroller-inner"
-							style="transform: translate3d(0px, 0px, 0px);">
-							<section id="education-hero-new">
-								<div class="centered-container">
-									<img class="logo" src="#{_ctx}/images/hero_logo.png" alt="" />
-									<h1 class="title white-text locale-direction"></h1>
-									<p class="subtitle white-text border-top">
-										می خواهید برنامه نویسی شوید تا هر شرکتی آرزوی داشتن شما را
-										داشته باشد و یا کسب و کار نرم افزاری خود را ، راه اندازی کنید
-										؟ <br /> با ما همراه شوید
-									</p>
-									<s:link propagation="none" view="/login.xhtml"
-										includePageParams="false"
-										styleClass="classroom-button subtext-button hero-button">
-										<span class="hero-text">#{messages['Sign_In']}</span>
-									</s:link>
-								</div>
-							</section>
-
-
+							</div>
 
 						</div>
 
 					</div>
 
 				</div>
+			</div>
+		</div>
+
+		<!-- First Grid -->
+		<div class="w3-row-padding w3-padding-tiny w3-container">
+			<div class="w3-content">
+				<div class="w3-third w3-center right-float">
+					<h:graphicImage value="/images/java_var.jpg" alt="تنوع مطالب جاوا"
+						styleClass="ui large image" />
+
+				</div>
+				<div class="w3-twothird left-float w3-padding-right">
+					<h1 class="right-float">تنوع مطالب</h1>
+					<h5 class="w3-padding-32"></h5>
+
+					<p class="w3-text-grey locale-direction">
+						در جدلب شما هر آنچه که برای ساخت یک نرم افزار نیاز دارید را می
+						آموزید شامل استفاده از موتور گردش کار ، گزارش ساز و استفاده از
+						فریم ورک های مختلف <br /> آموزش در جدلب <b> فقط تئوری نیست </b> و
+						شما وارد عمل می شوید
+					</p>
+				</div>
+
 
 			</div>
 		</div>
-	</div>
 
-	<!-- First Grid -->
-	<div class="w3-row-padding w3-padding-tiny w3-container">
-		<div class="w3-content">
-			<div class="w3-third w3-center right-float">
-				<h:graphicImage value="/images/java_var.jpg" alt="تنوع مطالب جاوا" 
-					styleClass="ui large image" />
+		<!-- Second Grid -->
+		<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+			<div class="w3-content">
+				<div class="w3-third w3-center">
+					<h:graphicImage value="/images/cash-payment-icon-ft.png"
+						styleClass="ui center aligned small circular image" />
 
-			</div>
-			<div class="w3-twothird left-float w3-padding-right">
-				<h1 class="right-float">تنوع مطالب</h1>
-				<h5 class="w3-padding-32"></h5>
+				</div>
 
-				<p class="w3-text-grey locale-direction">
-					در جدلب شما هر آنچه که برای ساخت یک نرم افزار نیاز دارید را می
-					آموزید شامل استفاده از موتور گردش کار ، گزارش ساز و استفاده از فریم
-					ورک های مختلف <br /> آموزش در جدلب <b> فقط تئوری نیست </b> و شما
-					وارد عمل می شوید
-				</p>
-			</div>
+				<div class="w3-twothird locale-direction">
+					<h1>صرفه جویی در زمان و هزینه</h1>
+					<h5 class="w3-padding-32"></h5>
 
-
-		</div>
-	</div>
-
-	<!-- Second Grid -->
-	<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-		<div class="w3-content">
-			<div class="w3-third w3-center">
-				<h:graphicImage value="/images/cash-payment-icon-ft.png"
-					styleClass="ui center aligned small circular image" />
-
-			</div>
-
-			<div class="w3-twothird locale-direction">
-				<h1>صرفه جویی در زمان و هزینه</h1>
-				<h5 class="w3-padding-32"></h5>
-
-				<p class="w3-text-grey">
-					بدلیل آنلاین بودن آموزش و همچنین عدم نیاز به رفت و آمد از اتلاف وقت
-					و انرژی شما جلوگیری می شود. <br /> بعلاوه بسیاری از دوره های
-					مقدماتی ما بصورت <b> رایگان </b> در اختیار شما قرار می گیرد <br />
-					همچنین مدیریت زمان با شماست و شما زمان آموزش خود را انتخاب می کنید
-				</p>
+					<p class="w3-text-grey">
+						بدلیل آنلاین بودن آموزش و همچنین عدم نیاز به رفت و آمد از اتلاف
+						وقت و انرژی شما جلوگیری می شود. <br /> بعلاوه بسیاری از دوره های
+						مقدماتی ما بصورت <b> رایگان </b> در اختیار شما قرار می گیرد <br />
+						همچنین مدیریت زمان با شماست و شما زمان آموزش خود را انتخاب می کنید
+					</p>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- Third Grid -->
-	<div class="w3-row-padding w3-padding-64 w3-container">
-		<div class="w3-content">
-			<div class="w3-third w3-center right-float">
-				<h:graphicImage value="/images/home_action.png"
-					styleClass="ui center aligned small circular image" />
+		<!-- Third Grid -->
+		<div class="w3-row-padding w3-padding-64 w3-container">
+			<div class="w3-content">
+				<div class="w3-third w3-center right-float">
+					<h:graphicImage value="/images/home_action.png"
+						styleClass="ui center aligned small circular image" />
+
+				</div>
+				<div
+					class="w3-twothird left-float  w3-padding-right locale-direction">
+					<h1>یادگیری موثر</h1>
+
+					<p class="w3-text-grey">
+						کلاس های جدلب یکنفره برگزار می شود ولی برای یادگیری موثرتر پرسش و
+						پاسخ بصورت گروهی است و شما می توانید مشکلات بقیه هم ببینید و از آن
+						درس بگیرید دوره های جدلب <b> بدون هیچ هزینه ای تکرار پذیر </b> است
+					</p>
+				</div>
 
 			</div>
-			<div
-				class="w3-twothird left-float  w3-padding-right locale-direction">
-				<h1>یادگیری موثر</h1>
-
-				<p class="w3-text-grey">
-					کلاس های جدلب یکنفره برگزار می شود ولی برای یادگیری موثرتر پرسش و
-					پاسخ بصورت گروهی است و شما می توانید مشکلات بقیه هم ببینید و از آن
-					درس بگیرید دوره های جدلب <b> بدون هیچ هزینه ای تکرار پذیر </b> است
-				</p>
-			</div>
-
-		</div>
-	</div>
-
-
-	<div class="w3-container w3-center w3-padding-64 start-now ">
-		<h1 class="w3-margin w3-xlarge">
-			<s:link view="/courseList.xhtml" propagation="none"
-				includePageParams="false" value=" همین حالا شروع کنید "
-				styleClass="rmUnderline" />
-		</h1>
-	</div>
-
-
-	<!-- Footer -->
-	<footer class="w3-container w3-black w3-center w3-opacity">
-		<div>
-			<h:outputText value="#{messages['Copy_Right']}" />
 		</div>
 
-		<ul class="site-footer-links">
-			<li><s:link includePageParams="false" propagation="none"
-					view="/contactus.xhtml">#{messages['Contact_Us']}</s:link></li>
-			<li><a href="#{_ctx}">|</a></li>
-			<li><s:link includePageParams="false" propagation="none"
-					view="/terms.xhtml">#{messages['Terms_Of_Use']}</s:link></li>
-			<li><a href="#{_ctx}">|</a></li>
-			<li><s:link includePageParams="false" propagation="none"
-					view="/privacy.xhtml">#{messages['Privacy']}</s:link></li>
-			<li><a href="#{_ctx}">|</a></li>
 
-		</ul>
+		<div class="w3-container w3-center w3-padding-64 start-now ">
+			<h1 class="w3-margin w3-xlarge">
+				<s:link view="/courseList.xhtml" propagation="none"
+					includePageParams="false" value=" همین حالا شروع کنید "
+					styleClass="rmUnderline" />
+			</h1>
+		</div>
 
 
-	</footer>
-
-
-	<script>
-// Used to toggle the menu on small screens when clicking on the menu button
-function navViewport() {
-    var x = document.getElementById("navDemo");
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-    } else { 
-        x.className = x.className.replace(" w3-show", "");
-    }
-}
-</script>
-
-
-
-
-	<script type="text/javascript" src="#{_ctx}/js/common.js"> </script>
-	<script type="text/javascript">
-//<![CDATA[
-jQuery.noConflict();
-//]]>
-</script>
-</body>
-	</html>
+	</ui:define>
 </ui:composition>

@@ -7,102 +7,109 @@
 	xmlns:c="http://java.sun.com/jstl/core">
 
 
-	<div class="row" id="layout-topbar">
-		<div class="col col-10">
-			<div class="ui secondary  menu">
-				<div id="search-bar">
-					
-					<div style="float: right;">					
-						<jedlab:suggestion placeholder="#{messages['Search']}" 
-							url="#{_ctx}/course.search" 
-							onSelect="redirectToResult"
-							value="#{courseQuery.course.name}"
-							forceId="searchInput"
-							style="direction:rtl;display:inline;"></jedlab:suggestion>
-					</div>	
-						 
-					<div style="float: left;margin-top: 20px;margin-right: 5px">
-						<s:button type="image" image="#{_ctx}/images/reset.png"
-						style="display:inline;" 
-						rendered="#{not empty courseName}"
-						includePageParams="false" view="/courseList.xhtml" propagation="none"></s:button>
-						
-						
-						<div class="icon-search" onclick="doSearch();" style="cursor: pointer;display: inline;"></div>
-					</div>
-						
-						<script>
-							
-							
-							function  doSearch(){ 
-								if(jQuery("#searchInput").val() != '')
-									location.href = window.location.origin + '#{_ctx}/courseList/'+jQuery("#searchInput").val(); 
-							}
-							
-							
-							function redirectToResult(event, ui)
-							{
-								location.href = window.location.origin + '#{_ctx}/course/'+ui.item.id;
-							}
-						</script>
-				</div>
-				<div class="right menu">
-					<s:link propagation="none" includePageParams="false"
-						rendered="#{!identity.loggedIn}" view="/login.xhtml"
-						styleClass="ui item locale-direction white">
-						<i class="icon-user-tie" style="color: #fff; margin-left: 5px;"></i>
-						<h:outputText
-							value="#{messages['Sign_In']} / #{messages['Register']} " />
-					</s:link>
-					
-					<s:link propagation="none" 
-						rendered="#{identity.loggedIn}" action="#{identity.logout()}"
-						styleClass="ui item locale-direction white">
-						<i class="icon-exit" style="color: #fff; margin-left: 5px;"></i>
-						<h:outputText
-							value="#{messages['Sign_Out']}" />
-					</s:link>
-					
-					<s:link propagation="none" includePageParams="false"
-						styleClass="ui item" value=" | ">
-					</s:link>
-					<s:link propagation="none" includePageParams="false"
-						view="/courseList.xhtml" styleClass="ui item white"
-						value="#{messages['Course_List']}"> 
-						<i class="icon-books" style="color: #fff; margin-left: 5px;"></i>
-					</s:link>
-					<s:link propagation="none" includePageParams="false"
-						styleClass="ui item" value=" | ">
-					</s:link>
-					<s:link propagation="none" includePageParams="false"
-						view="/home.xhtml" styleClass="ui item white"
-						value="#{messages['Home']}">
-						<i class="icon-home" style="color: #fff; margin-left: 5px;"></i>
-					</s:link>
-					<s:link propagation="none" 
-						styleClass="ui item white" rendered="#{identity.loggedIn}"
-						view="/member/userEdit.xhtml"
-						value="#{loginActionManager.currentUsername} #{messages['Welcome']}">
-						<i class="icon-user-tie" style="color: #fff; margin-left: 5px;"></i>
-					</s:link>
-				</div>
+	<!-- Navbar -->
+	<ul class="w3-navbar w3-green w3-card-2 w3-top w3-left-align w3-large">
+		<li class="w3-hide-medium w3-hide-large w3-opennav w3-right"><a
+			class="w3-padding-large w3-hover-white w3-large w3-green"
+			href="javascript:void(0);" onclick="navViewport()"
+			title="Toggle Navigation Menu"><i class="icon-list"></i></a></li>
+		<li><s:link view="/home.xhtml" propagation="none"
+				includePageParams="false" styleClass="w3-padding-large w3-darkgreen">
+				<h:graphicImage value="/images/logo.png" alt="#{messages['JEDLAB']}"
+					height="30" />
+			</s:link></li>
+		<li class="w3-hide-small"><s:link propagation="none"
+				includePageParams="false" view="/home.xhtml"
+				styleClass="w3-padding-large w3-hover-white"
+				value="#{messages['Home']}">
+				<i class="icon-home"></i>
+			</s:link></li>
+		<li class="w3-hide-small"><s:link propagation="none"
+				includePageParams="false" rendered="#{!identity.loggedIn}"
+				view="/login.xhtml" styleClass="w3-padding-large w3-hover-white">
+				<h:outputText
+					value="#{messages['Sign_In']} / #{messages['Register']} " />
+				<i class="icon-user-tie"></i>
+			</s:link></li>
+		<li class="w3-hide-small"><s:link propagation="none"
+				includePageParams="false" view="/courseList.xhtml"
+				styleClass="w3-padding-large w3-hover-white"
+				value="#{messages['Course_List']}">
+				<i class="icon-books"></i>
+			</s:link></li>
+
+		<li class="w3-hide-small w3-left" id="searchSection">
+
+			<div class="right-float">
+				<jedlab:suggestion placeholder="#{messages['Search']}"
+					url="#{_ctx}/course.search" onSelect="redirectToResult"
+					value="#{courseQuery.course.name}" forceId="searchInput"
+					styleClass="prompt"></jedlab:suggestion>
 			</div>
-		</div>
-		<div class="col col-2" id="logo">
-			<img class="ui tiny right floated image"
-				src="#{_ctx}/images/logo.png" />
-			<p id="slogan" >#{messages['JEDLAB']}</p>
-		</div>
+			<div class="left-float"
+				style="margin-top: 15px; margin-right: 5px; margin-left: 5px;">
+				<s:button type="image" image="#{_ctx}/images/reset.png"
+					style="display:inline;cursor: pointer;" rendered="#{not empty courseName}"
+					includePageParams="false" view="/courseList.xhtml"
+					propagation="none"></s:button>
+
+
+				<div class="icon-search" onclick="doSearch();"
+					style="cursor: pointer; display: inline;"></div>
+			</div>
+
+		</li>
+
+	</ul>
+
+	<!-- Navbar on small screens -->
+	<div id="navDemo" class="w3-hide w3-hide-large w3-hide-medium w3-top"
+		style="margin-top: 51px">
+		<ul class="w3-navbar w3-right-align w3-large w3-black">
+			<li><s:link propagation="none" includePageParams="false"
+					view="/home.xhtml" styleClass="w3-padding-large"
+					value="#{messages['Home']}">
+					<i class="icon-home"></i>
+				</s:link></li>
+			<li><s:link propagation="none" includePageParams="false"
+					rendered="#{!identity.loggedIn}" view="/login.xhtml"
+					styleClass="w3-padding-large">
+					<h:outputText
+						value="#{messages['Sign_In']} / #{messages['Register']} " />
+					<i class="icon-user-tie"></i>
+				</s:link></li>
+			<li><s:link propagation="none" includePageParams="false"
+					view="/courseList.xhtml" styleClass="w3-padding-large"
+					value="#{messages['Course_List']}">
+					<i class="icon-books"></i>
+				</s:link></li>
+		</ul>
 	</div>
 
 
 
+	<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function navViewport() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else { 
+        x.className = x.className.replace("w3-show", "");
+    }
+}
+
+function redirectToResult(event, ui)
+{
+	location.href = window.location.origin + '#{_ctx}/course/'+ui.item.id;
+}
+
+function doSearch()
+{
+	location.href = window.location.origin + '#{_ctx}/courseList/'+jQuery("#searchInput").val();
+}
+</script>
 
 
-	<script type="text/javascript">
-		jQuery(document).ready(function(){
-			
-		});
-	</script>
-
+	
 </ui:composition>

@@ -4,23 +4,27 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:s="http://jboss.com/products/seam/taglib">
 
-	<div id="footer">
-		<div class="row" style="margin-top: 10px;font-size: 12px;">			
-			<div class="col" style="text-align: center;"> <h:outputText value="#{messages['Copy_Right']}" /> </div>
-			<div class="col" style="text-align: center;">
-				<ul class="site-footer-links">
-					<li><s:link includePageParams="false" propagation="none" view="/contactus.xhtml">#{messages['Contact_Us']}</s:link></li>
-					<li><a href="#{_ctx}">|</a></li>
-					<li><s:link includePageParams="false" propagation="none" view="/terms.xhtml">#{messages['Terms_Of_Use']}</s:link></li>
-					<li><a href="#{_ctx}">|</a></li>
-					<li><s:link includePageParams="false" propagation="none" view="/privacy.xhtml">#{messages['Privacy']}</s:link></li>
-					<li><a href="#{_ctx}">|</a></li>
-					
-				</ul>
-				
-			</div>
+	<!-- Footer -->
+	<footer class="w3-container w3-black w3-center w3-opacity">
+		<div>
+			<h:outputText value="#{messages['Copy_Right']}" />
 		</div>
-	</div>
+
+		<ul class="site-footer-links">
+			<li><s:link includePageParams="false" propagation="none"
+					view="/contactus.xhtml">#{messages['Contact_Us']}</s:link></li>
+			<li><a href="#{_ctx}">|</a></li>
+			<li><s:link includePageParams="false" propagation="none"
+					view="/terms.xhtml">#{messages['Terms_Of_Use']}</s:link></li>
+			<li><a href="#{_ctx}">|</a></li>
+			<li><s:link includePageParams="false" propagation="none"
+					view="/privacy.xhtml">#{messages['Privacy']}</s:link></li>
+			<li><a href="#{_ctx}">|</a></li>
+
+		</ul>
+
+
+	</footer>
 
 
 </ui:composition>
