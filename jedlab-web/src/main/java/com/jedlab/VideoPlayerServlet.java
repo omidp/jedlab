@@ -123,7 +123,7 @@ public class VideoPlayerServlet extends HttpServlet
         //
         String filePath = chapter.getUrl();
         String res = req.getParameter("resolution");
-        filePath = getFileName(res, filePath);
+        filePath = getFileName(res, filePath, req.getParameter("mobile"));
         File file = new File(filePath);
         if (file.exists() == false)
             sendError(resp);
@@ -138,7 +138,7 @@ public class VideoPlayerServlet extends HttpServlet
 
     }
 
-    private String getFileName(String res, String origFilePath)
+    private String getFileName(String res, String origFilePath, String mobile)
     {
         String extension = origFilePath.substring(origFilePath.lastIndexOf("."));
         String fname = origFilePath.substring(0, origFilePath.lastIndexOf("."));
@@ -148,6 +148,11 @@ public class VideoPlayerServlet extends HttpServlet
                 fname = fname + "_medium";
             if ("small".equals(res))
                 fname = fname + "_small";
+        }
+        if (StringUtil.isNotEmpty(mobile))
+        {
+            if ("true".equals(mobile))
+                return fname + ".webm";
         }
         return fname + extension;
     }

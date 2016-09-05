@@ -80,7 +80,10 @@ body {
 				var t = '#{chapterHome.token}'
 				var loc = window.location.origin + "#{_ctx}/"+t+".play?resolution=#{resolution}";
 				myPlayer = this;
-				myPlayer.src({"type":"video/mp4", "src":loc});
+				if(common.isMobile())
+					myPlayer.src({"type":"video/webm", "src":loc+"&amp;mobile=true"});
+				else
+					myPlayer.src({"type":"video/mp4", "src":loc});
 				
 			});
 
