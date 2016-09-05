@@ -21,6 +21,7 @@ import com.jedlab.action.Constants;
 import com.jedlab.framework.CollectionUtil;
 import com.jedlab.framework.PageExceptionHandler;
 import com.jedlab.framework.StringUtil;
+import com.jedlab.framework.TxManager;
 import com.jedlab.framework.WebUtil;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
@@ -56,8 +57,11 @@ public class CourseHome extends EntityHome<Course>
     {
         if (isIdDefined())
         {
+            TxManager.beginTransaction();
+            TxManager.joinTransaction(getEntityManager());
             getEntityManager().createQuery("update Course c set c.viewCount = c.viewCount+1 where c.id = :courseId")
                     .setParameter("courseId", getCourseId()).executeUpdate();
+            getEntityManager().flush();
         }
     }
 
