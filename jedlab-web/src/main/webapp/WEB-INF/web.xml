@@ -142,6 +142,8 @@
 		<servlet-class>com.jedlab.CourseSearchServlet</servlet-class>
 	</servlet>
 	
+	
+	
 	<servlet-mapping>
 		<servlet-name>Video Image Loader</servlet-name>
 		<url-pattern>*.image</url-pattern>
@@ -167,6 +169,11 @@
     <exception-type>
           com.jedlab.framework.exceptions.RequestException
     </exception-type >
+    <location>/error.seam</location>
+</error-page>
+
+<error-page>
+    <error-code>404</error-code>
     <location>/error.seam</location>
 </error-page>
 

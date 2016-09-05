@@ -45,7 +45,7 @@
 							</p>
 						</div>
 						<div class="extra">
-							<div class="ui label">
+							<s:div styleClass="ui label" rendered="#{identity.loggedIn and !courseHome.instance.registered}">
 								<s:button value="#{messages['Enroll_To_View']}"
 									propagation="none" type="button" includePageParams="false"
 									action="#{courseHome.register()}"
@@ -53,12 +53,29 @@
 									styleClass="btn btn-green locale-font">
 									<f:param name="courseId" value="#{courseId}"></f:param>
 								</s:button>
-
-								<s:fragment rendered="#{!identity.loggedIn}">
-									<button type="button" class="btn btn-yellow locale-font"
+								
+							</s:div>
+							
+							<s:div styleClass="ui label" rendered="#{!identity.loggedIn}">
+							
+								<button type="button" class="btn btn-yellow locale-font"
 										onclick="redirectToLogin();" style="cursor: pointer;">#{messages['Login_To_View']}</button>
-								</s:fragment>
-							</div>
+							
+							</s:div>
+							
+							<s:fragment rendered="#{identity.loggedIn and courseHome.instance.registered}">
+								
+								<c:forEach items="#{courseHome.instance.tags}" var="_tag">
+								
+									<s:div styleClass="ui label">
+										<h:outputText value="#{_tag.name}" />
+									</s:div>
+									
+								</c:forEach>
+							
+							</s:fragment>
+							
+							
 						</div>
 					</div>
 				</div>

@@ -13,6 +13,7 @@ import javax.persistence.NoResultException;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.security.Identity;
 
@@ -53,7 +54,11 @@ public class CourseHome extends EntityHome<Course>
 
     public void load()
     {
-
+        if (isIdDefined())
+        {
+            getEntityManager().createQuery("update Course c set c.viewCount = c.viewCount+1 where c.id = :courseId")
+                    .setParameter("courseId", getCourseId()).executeUpdate();
+        }
     }
 
     private void wire()
@@ -171,6 +176,7 @@ public class CourseHome extends EntityHome<Course>
         return "notRegistered";
     }
 
+    @Transactional
     public String saveTags()
     {
         String tags = WebUtil.getParameterValue("tags");
@@ -208,6 +214,7 @@ public class CourseHome extends EntityHome<Course>
             }
             getStatusMessages().addFromResourceBundle("Created");
         }
+        getEntityManager().flush();
         return "persisted";
     }
 

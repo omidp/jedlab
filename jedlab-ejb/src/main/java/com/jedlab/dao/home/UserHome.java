@@ -4,6 +4,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.framework.HibernateEntityController;
 import org.jboss.seam.international.StatusMessage.Severity;
 import org.jboss.seam.international.StatusMessages;
@@ -11,6 +12,8 @@ import org.jboss.seam.log.Log;
 
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CacheManager;
+import com.jedlab.framework.StringUtil;
+import com.jedlab.framework.WebUtil;
 import com.jedlab.model.Member;
 
 @Name("userHome")
@@ -50,6 +53,22 @@ public class UserHome extends HibernateEntityController
     public Long getCurrentUserId()
     {
         return (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
+    }
+    
+    @Transactional
+    public void activateToggle()
+    {
+        String idParam = WebUtil.getParameterValue("memId");
+        if(StringUtil.isNotEmpty(idParam))
+        {
+            Member mem = (Member) getSession().get(Member.class, Long.parseLong(idParam));
+            if(mem.isActive())
+                mem.setActive(false);
+            else
+                mem.setActive(true);
+        }
+        getSession().flush();
+        getSession().clear();
     }
 
 }

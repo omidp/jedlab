@@ -30,7 +30,7 @@
 		
 		<s:link propagation="none"
 				rendered="#{identity.loggedIn}"
-				includePageParams="false" view="/dashboard.xhtml"
+				includePageParams="false" view="/member/dashboard.xhtml"
 				styleClass="w3-padding-large w3-hover-white"
 				value="#{messages['Home']}">
 				<i class="icon-home"></i>
@@ -107,11 +107,25 @@
 	<div id="navDemo" class="w3-hide w3-hide-large w3-hide-medium w3-top"
 		style="margin-top: 51px">
 		<ul class="w3-navbar w3-right-align w3-large w3-black">
-			<li><s:link propagation="none" includePageParams="false"
-					view="/home.xhtml" styleClass="w3-padding-large"
-					value="#{messages['Home']}">
-					<i class="icon-home"></i>
-				</s:link></li>
+			<li>
+			
+			<s:link propagation="none"
+				rendered="#{!identity.loggedIn}"
+				includePageParams="false" view="/home.xhtml"
+				styleClass="w3-padding-large"
+				value="#{messages['Home']}">
+				<i class="icon-home"></i>
+			</s:link>
+		
+			<s:link propagation="none"
+				rendered="#{identity.loggedIn}"
+				includePageParams="false" view="/member/dashboard.xhtml"
+				styleClass="w3-padding-large"
+				value="#{messages['Home']}">
+				<i class="icon-home"></i>
+			</s:link>	
+			
+			</li>
 			<li><s:link propagation="none" includePageParams="false"
 					rendered="#{!identity.loggedIn}" view="/login.xhtml"
 					styleClass="w3-padding-large">

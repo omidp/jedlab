@@ -93,11 +93,24 @@ public class Course extends BasePO
     @JoinTable(name = "course_tags", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags = new HashSet<Tag>();
 
+    @Column(name = "view_count", columnDefinition = " bigint DEFAULT 0")
+    private Long viewCount;
+
     @Transient
     private Long chapterCount;
 
     @Transient
     private boolean registered;
+
+    public Long getViewCount()
+    {
+        return viewCount;
+    }
+
+    public void setViewCount(Long viewCount)
+    {
+        this.viewCount = viewCount;
+    }
 
     public Set<Tag> getTags()
     {

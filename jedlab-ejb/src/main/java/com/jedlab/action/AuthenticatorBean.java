@@ -69,7 +69,10 @@ public class AuthenticatorBean implements Authenticator
                     .setParameter("uname", credentials.getUsername()).setParameter("email", credentials.getUsername()).setMaxResults(1)
                     .getSingleResult();
             if (m.isActive() == false)
+            {
+                StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Deactive_User");
                 return false;
+            }
             if ("admin".equals(credentials.getUsername()))
             {
                 identity.addRole(Constants.ROLE_ADMIN);
