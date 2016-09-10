@@ -7,56 +7,62 @@
 
 	<ui:define name="body">
 
-		<h:form>
-			<h:inputText value="#{adminCommentQuery.member.username}"
-				id="memberName" />
-			<h:commandButton action="#{webContext.redirectIt()}" value="Search" />
-		</h:form>
-		<h:form>
-			<h:dataTable value="#{adminCommentQuery.resultList}" var="_item"
-				styleClass="ui celled padded table"
-				width="100%" dir="rtl">
+		<div class="ui grid  w3-padding-top-48">
 
-				<h:column>
-					<f:facet name="header">Course</f:facet>
-					<h:outputText value="#{_item.course.name}" />
-				</h:column>
+			<div class="column">
 
-				<h:column>
-					<f:facet name="header">Member</f:facet>
-					<h:outputText value="#{_item.member.username}" />
-				</h:column>
+				<h:form>
+					<h:inputText value="#{adminCommentQuery.member.username}"
+						id="memberName" />
+					<h:commandButton action="#{webContext.redirectIt()}" value="Search" />
+				</h:form>
+				<h:form>
+					<h:dataTable value="#{adminCommentQuery.resultList}" var="_item"
+						styleClass="ui celled padded table" width="100%" dir="rtl">
 
-				<h:column>
-					<f:facet name="header">Member Email</f:facet>
-					<h:outputText value="#{_item.member.email}" />
-				</h:column>
+						<h:column>
+							<f:facet name="header">Course</f:facet>
+							<h:outputText value="#{_item.course.name}" />
+						</h:column>
 
-				<h:column>
-					<f:facet name="header">content</f:facet>
-					<h:inputTextarea value="#{_item.content}" cols="15" rows="9" />
-				</h:column>
+						<h:column>
+							<f:facet name="header">Member</f:facet>
+							<h:outputText value="#{_item.member.username}" />
+						</h:column>
 
-				<h:column>
-					<f:facet name="header">Action</f:facet>
-					<s:link value="Delete" styleClass="btn btn-red"
-						action="#{adminCommentQuery.delete()}" propagation="none"
-						includePageParams="false">
-						<f:param name="commentId" value="#{_item.id}"></f:param>
-					</s:link>
+						<h:column>
+							<f:facet name="header">Member Email</f:facet>
+							<h:outputText value="#{_item.member.email}" />
+						</h:column>
 
-					<h:commandButton action="#{commentHome.update()}" value="Update"
-						styleClass="btn btn-yellow" />
+						<h:column>
+							<f:facet name="header">content</f:facet>
+							<h:inputTextarea value="#{_item.content}" cols="15" rows="9" />
+						</h:column>
 
-				</h:column>
+						<h:column> 
+							<f:facet name="header">Action</f:facet>
+							<s:link value="Delete" styleClass="btn btn-red"
+								action="#{adminCommentQuery.delete()}" propagation="none"
+								includePageParams="false">
+								<f:param name="commentId" value="#{_item.id}"></f:param>
+							</s:link>
 
-			</h:dataTable>
+							<h:commandButton action="#{commentHome.update()}" value="Update"
+								styleClass="btn btn-yellow" />
 
-		</h:form>
+						</h:column>
 
-		<s:decorate template="/layout/seamPaging.xhtml">
-			<ui:param name="entityList" value="#{adminCommentQuery}" />
-		</s:decorate>
+					</h:dataTable>
+
+				</h:form>
+
+				<s:decorate template="/layout/seamPaging.xhtml">
+					<ui:param name="entityList" value="#{adminCommentQuery}" />
+				</s:decorate>
+
+			</div>
+		</div>
 
 	</ui:define>
 </ui:composition>

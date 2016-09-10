@@ -1226,6 +1226,10 @@ input[type=checkbox].w3-check:disabled+.w3-validate, input[type=radio].w3-radio:
 	margin: 24px !important
 }
 
+.w3-margin-bottom-xlarge{
+	margin-bootom: 32px !important
+}
+
 .w3-margin-0 {
 	margin: 0 !important
 }
@@ -4889,4 +4893,9 @@ input[type="button"] {
 
 .ui.vertical.divider::after {
     bottom: 66px;
+}
+
+footer > div {
+	clear: both;
+	width: 100%;
 }

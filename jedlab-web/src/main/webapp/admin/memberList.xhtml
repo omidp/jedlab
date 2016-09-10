@@ -6,39 +6,52 @@
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="body">
-		<div class="ui header">
-			Total users : <h:outputText value="#{memberQuery.resultCount}" />
+
+		<div class="ui grid  w3-padding-top-48">
+
+			<div class="column">
+
+				<div class="ui header">
+					Total users :
+					<h:outputText value="#{memberQuery.resultCount}" />
+				</div>
+				<h:form>
+					<h:dataTable value="#{memberQuery.resultList}" var="_item"
+						styleClass="ui celled padded table" width="100%" dir="rtl">
+
+						<h:column>
+							<f:facet name="header">username</f:facet>
+							<h:outputText value="#{_item.username}" />
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">email</f:facet>
+							<h:outputText value="#{_item.email}" />
+						</h:column>
+
+
+						<h:column>
+							<f:facet name="header">Action</f:facet>
+							<s:link value="#{_item.active ? 'deactive' : 'active'}"
+								action="#{userHome.activateToggle()}" propagation="none"
+								includePageParams="false">
+								<f:param name="memId" value="#{_item.id}"></f:param>
+							</s:link>
+						</h:column>
+
+					</h:dataTable>
+
+				</h:form>
+
+				<s:decorate template="/layout/seamPaging.xhtml">
+					<ui:param name="entityList" value="#{memberQuery}" />
+				</s:decorate>
+
+			</div>
+
 		</div>
-		<h:form>
-			<h:dataTable value="#{memberQuery.resultList}" var="_item"
-				styleClass="ui celled padded table"
-				width="100%" dir="rtl">
-
-				<h:column>
-					<f:facet name="header">username</f:facet>
-					<h:outputText value="#{_item.username}" />
-				</h:column>
-
-				<h:column>
-					<f:facet name="header">email</f:facet>
-					<h:outputText value="#{_item.email}" />
-				</h:column>
 
 
-				<h:column>
-					<f:facet name="header">Action</f:facet>
-					<s:link value="#{_item.active ? 'deactive' : 'active'}" action="#{userHome.activateToggle()}" propagation="none" includePageParams="false">
-						<f:param name="memId" value="#{_item.id}"></f:param>
-					</s:link>
-				</h:column>
-
-			</h:dataTable>
-
-		</h:form>
-
-		<s:decorate template="/layout/seamPaging.xhtml">
-			<ui:param name="entityList" value="#{memberQuery}" />
-		</s:decorate>
 
 	</ui:define>
 </ui:composition>
