@@ -88,20 +88,25 @@ public class VideoPlayerServlet extends HttpServlet
 
     private void doWork(HttpServletRequest req, HttpServletResponse resp) throws Exception
     {
-
         Identity identity = Identity.instance();
         if (identity.isLoggedIn() == false)
             throw new RequestException("not loggedin");
         Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
         if (uid == null)
             sendError(resp);
-        // only allowed partial content
-        String range = req.getHeader("Range");
-        if (StringUtil.isEmpty(range))
+        String userAgent = req.getHeader("User-Agent");
+        if (StringUtil.isEmpty(userAgent))
             sendError(resp);
-        Matcher matcher = pattern.matcher(range);
-        if (matcher.find() == false)
-            sendError(resp);
+        // only allowed partial content, exclude android to work on chrome
+        if (!userAgent.contains("Android") || !userAgent.contains("Android"))
+        {
+            String range = req.getHeader("Range");
+            if (StringUtil.isEmpty(range))
+                sendError(resp);
+            Matcher matcher = pattern.matcher(range);
+            if (matcher.find() == false)
+                sendError(resp);
+        }
         // Long r = Long.parseLong(matcher.group(1));
 
         Session sess = (Session) Component.getInstance("hibernateSession");

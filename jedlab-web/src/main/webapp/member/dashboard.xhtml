@@ -9,17 +9,20 @@
 
 		<s:fragment rendered="#{s:hasRole('Admin')}">
 
-			<s:link value="Course List" propagation="none" styleClass="btn btn-blue"
-				view="/courseList.xhtml" includePageParams="false"></s:link>
+			<s:link value="Course List" propagation="none"
+				styleClass="btn btn-blue" view="/courseList.xhtml"
+				includePageParams="false"></s:link>
 			<br />
 			<br />
-			<s:link value="Comment List" propagation="none" styleClass="btn btn-blue"
-				view="/admin/commentList.xhtml" includePageParams="false"></s:link>
-				
+			<s:link value="Comment List" propagation="none"
+				styleClass="btn btn-blue" view="/admin/commentList.xhtml"
+				includePageParams="false"></s:link>
+
 			<br />
 			<br />
-			<s:link value="Member List" propagation="none" styleClass="btn btn-blue"
-				view="/admin/memberList.xhtml" includePageParams="false"></s:link>	
+			<s:link value="Member List" propagation="none"
+				styleClass="btn btn-blue" view="/admin/memberList.xhtml"
+				includePageParams="false"></s:link>
 
 		</s:fragment>
 
@@ -32,33 +35,36 @@
 				<h:outputText value="#{messages['No_Member_Course']}" />
 			</s:div>
 
-			<s:div styleClass="ui relaxed divided list"
+			<s:div styleClass="ui items"
 				rendered="#{not empty memberCourseQuery.resultList}">
 				<c:forEach items="#{memberCourseQuery.resultList}" var="_item">
 
 					<div class="item">
-						<div style="float: right; width: 45px;">
-							<s:graphicImage value="#{_item.image}" style="width:35px"
+						<div class="image">
+							<s:graphicImage value="#{_item.image}"
 								rendered="#{_item.hasImage}"
-								styleClass="ui middle aligned tiny image">
-								<s:transformImageSize maintainRatio="true" height="35"></s:transformImageSize>
+								styleClass="ui middle aligned small image">
+
 							</s:graphicImage>
 							<s:graphicImage value="/images/no_video_photo.png"
-								style="width:35px" rendered="#{!_item.hasImage}"
-								styleClass="ui middle aligned tiny image">
-								<s:transformImageSize maintainRatio="true" height="35"></s:transformImageSize>
+								rendered="#{!_item.hasImage}"
+								styleClass="ui middle aligned small image">
+
 							</s:graphicImage>
 						</div>
-
-						<div style="float: right;">
+						<div class="content">
 							<s:link view="/course.xhtml" value="#{_item.name}"
 								propagation="none" includePageParams="false" styleClass="header">
 								<f:param name="courseId" value="#{_item.id}"></f:param>
 							</s:link>
-							<div class="description">#{_item.chapters.size()}
-								#{messages['Chapter']}</div>
+							<div class="meta">
+								<span></span>
+							</div>
+							<div class="description">
+								<p>#{_item.chapters.size()} #{messages['Chapter']}</p>
+							</div>
+							<div class="extra"></div>
 						</div>
-
 					</div>
 
 				</c:forEach>

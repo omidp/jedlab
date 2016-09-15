@@ -4,93 +4,86 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:c="http://java.sun.com/jstl/core" template="/layout/dialog.xhtml">
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
 
 	<ui:define name="head">
-
 		<link rel="stylesheet" href="#{_ctx}/css/video.css" />
 
 		<style type="text/css">
-body {
-	background-color: #000;
-}
 </style>
 	</ui:define>
 
 
 	<ui:define name="body">
 
-		<div class="w3-padding-small"
-			style="width: 100%; height: 100%; margin: 0 auto; background-color: #000; color: #fff; text-align: center;">
-			
-			<div style="height: 55px; padding: 10px;">
-				<s:button view="/course.xhtml" styleClass="btn btn-yellow"
-					propagation="none" value="#{messages['Back']}" style="display:inline;">
-					<f:param name="courseId" value="#{courseId}"></f:param>
-				</s:button>
+		<div class="ui vertical inverted sidebar thin menu left" id="settings">
 
-				<div id="video-drp">
-					<div class="ui compact menu" id="vidRes">
-						<div class="ui simple dropdown item">
-							#{messages['Video']} <i class="dropdown icon"></i>
-							<div class="menu">
-								<div class="item">
-									<s:link value="HD" propagation="none" onclick="redirect(this);" >
-										<f:param name="resolution" value=""></f:param>									
-									</s:link>
-								</div>								
-								<div class="item">
-									<s:link value="360" propagation="none"
-										onclick="redirect(this);" >
-										<f:param name="resolution" value="small"></f:param>
-									</s:link>
-								</div>
-							</div>
-						</div>
-					</div>
+			kdsklfjsjfdsklfdlkgfdlk
+			
+		</div>
+		
+	
+
+		<div class="ui stackable very relaxed center aligned grid container w3-padding-32">
+
+			<div class="row">
+				<div class="twelve wide column">
+				
+
+					<video id="my-video" controls="controls"
+						class="video-js vjs-default-skin" preload="auto"
+						style="width: 600px; max-width: 100%;height: 600px;"
+						poster="video.image?courseId=#{courseId}" data-setup='{"fluid": true}'>
+						<p class="vjs-no-js">To view this video please enable
+							JavaScript, and consider upgrading to a web browser</p>
+					</video>
+
+					<p></p>
+
 				</div>
 			</div>
-			
-			<div style="width: 100%;margin: 0 auto;" align="center">
-				<video id="my-video" controls="controls"
-					class="video-js vjs-default-skin" preload="auto" width="800"
-					height="580" poster="video.image?courseId=#{courseId}"
-					data-setup="{}">
-					<p class="vjs-no-js">To view this video please enable
-						JavaScript, and consider upgrading to a web browser</p>
-				</video>
-			</div>
-			
-			
+
+
 
 		</div>
 
+		<div
+			class="ui stackable very relaxed center aligned grid container w3-row-padding w3-padding-8">
+
+			<button type="button" onclick="settings();" class="btn btn-blue">#{messages['Settings']}</button>
+			
+		</div>
 
 
 		<script type="text/javascript">
-			window.HELP_IMPROVE_VIDEOJS = false;		 
+				window.HELP_IMPROVE_VIDEOJS = false;		 
 		</script>
 		<script src="#{_ctx}/js/video.js"></script>
 		<script>
-			jQuery(document).ready(function(){
-				jQuery('#vidRes').dropdown();
-			});
-		
-			videojs("my-video").ready(function(){
-				var t = '#{chapterHome.token}'
-				var loc = window.location.origin + "#{_ctx}/"+t+".play?resolution=#{resolution}";
-				myPlayer = this;
-				if(common.isMobile())
-					myPlayer.src({"type":"video/webm", "src":loc+"&amp;mobile=true"});
-				else
-					myPlayer.src({"type":"video/mp4", "src":loc});
-				
-			});
+				videojs("my-video").ready(function(){
+					var t = '#{chapterHome.token}'
+					var loc = window.location.origin + "#{_ctx}/"+t+".play?resolution=#{resolution}";
+					myPlayer = this;		
+					if(common.isMobile())
+						myPlayer.src({"type":"video/webm", "src":loc+"&amp;mobile=true"});
+					else			
+						myPlayer.src({"type":"video/mp4", "src":loc});					
+				});
 
-			function redirect(atag)
-			{
-				location.href = atag.href;
-			}
+				function redirect(atag)
+				{
+					location.href = atag.href;
+				}
+
+				jQuery(document).ready(function(){
+						//jQuery('#settings').sidebar('toggle');
+				});
+
+				function settings()
+				{
+					jQuery('#settings').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
+				}
+
 		</script>
 
 
