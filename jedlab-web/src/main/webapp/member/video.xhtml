@@ -29,15 +29,11 @@
 			<br />
 			<h:outputText value="#{chapterHome.duration}" />
 			<br />
-			<s:link value="360p" propagation="none" styleClass="360p"
+			<s:link value="360p" propagation="none" styleClass="360p clickableLink"
 				includePageParams="false" onclick="redirect(this);">
 				<f:param name="resolution" value="small"></f:param>
 			</s:link>
-			<s:button view="/course.xhtml" styleClass="btn btn-yellow"
-				includePageParams="false" propagation="none"
-				value="#{messages['Back']}" style="display:inline;">
-				<f:param name="courseId" value="#{courseId}"></f:param>
-			</s:button>
+			
 			<br />
 
 		</div>
@@ -79,6 +75,12 @@
 			class="ui stackable very relaxed center aligned grid container w3-row-padding w3-padding-8">
 
 			<button type="button" onclick="settings();" class="btn btn-blue">#{messages['Settings']}</button>
+			
+			<s:button view="/course.xhtml" styleClass="btn btn-yellow"
+				includePageParams="false" propagation="none"
+				value="#{messages['Back']}" style="display:inline;">
+				<f:param name="courseId" value="#{courseId}"></f:param>
+			</s:button>
 
 		</div>
 

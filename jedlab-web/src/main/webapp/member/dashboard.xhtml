@@ -26,7 +26,7 @@
 
 		</s:fragment>
 
-		<div class="memberCourse locale-direction">
+		<div class="locale-direction">
 
 			<h3 class="ui block header">#{messages['Register_Course_List']}</h3>
 
@@ -35,11 +35,11 @@
 				<h:outputText value="#{messages['No_Member_Course']}" />
 			</s:div>
 
-			<s:div styleClass="ui items"
+			<s:div styleClass="ui items memberCourse"
 				rendered="#{not empty memberCourseQuery.resultList}">
 				<c:forEach items="#{memberCourseQuery.resultList}" var="_item">
 
-					<div class="item">
+					<div class="item memberCourseItem">
 						<div class="image">
 							<s:graphicImage value="#{_item.image}"
 								rendered="#{_item.hasImage}"
@@ -54,7 +54,7 @@
 						</div>
 						<div class="content">
 							<s:link view="/course.xhtml" value="#{_item.name}"
-								propagation="none" includePageParams="false" styleClass="header">
+								propagation="none" includePageParams="false" styleClass="header clickableLink">
 								<f:param name="courseId" value="#{_item.id}"></f:param>
 							</s:link>
 							<div class="meta">

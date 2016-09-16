@@ -49,13 +49,15 @@
 <body id="home" class="">
  
 	<ui:insert name="sidebar"></ui:insert>
-
+	
+	<div class="pusher" style="min-height: 100%;">
 	<ui:include src="/layout/messages.xhtml" />
 
 	<ui:include src="/layout/header.xhtml" />
-	<div class="pusher wrapper w3-padding-top-48 w3-margin-bottom-xlarge">
-		<ui:include src="/WEB-INF/inc/breadcrumb.xhtml" />
+	<div class="wrapper w3-padding-top-48 w3-margin-bottom-xlarge">
+		<ui:include src="/WEB-INF/inc/breadcrumb.xhtml" />		
 		<ui:insert name="body"></ui:insert>
+	</div>
 	</div>
 	<ui:include src="/layout/footer.xhtml" />
 

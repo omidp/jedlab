@@ -58,20 +58,39 @@
 								<td><h:outputText value="#{_item.createdDate}"
 										converter="#{persianDateConverter}" /></td>
 								<td><s:link
-										rendered="#{identity.loggedIn and _item.registered}"	
-										propagation="none"
-										includePageParams="false"									
-										view="/member/video.xhtml">
-										<h:outputText value="#{messages['View']}" />
+										rendered="#{identity.loggedIn and _item.registered}"
+										propagation="none" includePageParams="false"
+										styleClass="clickableLink viewIcon" view="/member/video.xhtml">
+										<i class="icon-display"></i>
 										<f:param name="courseId" value="#{courseId}"></f:param>
 										<f:param name="chapterId" value="#{_item.id}"></f:param>
-									</s:link>
-								</td>	
+									</s:link></td>
 							</tr>
 						</c:forEach>
 
 					</tbody>
 				</table>
+
+				<s:fragment
+					rendered="#{identity.loggedIn and courseHome.instance.registered}">
+					<script>
+						jQuery(document).ready(function(){
+				
+							jQuery(".viewIcon").each(function( index ) {
+								jQuery(this).popup({
+									content : "#{messages['View']}"
+								});
+							});
+				
+						});
+						
+						
+					</script>
+
+
+
+
+				</s:fragment>
 
 
 			</s:fragment>
