@@ -8,7 +8,9 @@
 	xmlns:jedlab="http://tasktops.com/ui">
 
 	<s:fragment rendered="#{not empty jedLab.pageDescription}">
-		<nav id="breadcrumb-custom-separator" class="breadcrumb">
+
+		<div class="ui right aligned segment">
+			<nav id="breadcrumb-custom-separator" class="breadcrumb">
 			<ul>
 				<li><s:link value="#{messages['You_Are_Here']} : "
 						view="/member/dashboard.xhtml" propagation="none"
@@ -17,5 +19,10 @@
 						propagation="none" /></li>
 			</ul>
 		</nav>
+		</div>
+		
+
+		<div style="clear: both;" />
+
 	</s:fragment>
 </ui:composition>

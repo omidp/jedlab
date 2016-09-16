@@ -6,17 +6,66 @@
 
 	<div class="locale-direction" id="courseDetail">
 
-		<fieldset>
-			<legend>#{messages['Description']} #{messages['Course']}</legend>
 
-			<p>
-				<s:formattedText value="#{courseHome.instance.description}" rendered="#{not empty courseHome.instance.description}"></s:formattedText>
-				<h:outputText value="#{messages['Has_Not']}" rendered="#{empty courseHome.instance.description}"/>
-			</p>
-		</fieldset>
+		<div class="ui accordion" id="cdetailCourse">
+			<div class="active title">
+				<i class="dropdown icon"></i> #{messages['Description']}
+				#{messages['Course']}
+			</div>
+			<div class="active content">
+				<p>
+					<s:formattedText value="#{courseHome.instance.description}"
+						rendered="#{not empty courseHome.instance.description}"></s:formattedText>
+					<h:outputText value="#{messages['Has_Not']}"
+						rendered="#{empty courseHome.instance.description}" />
+				</p>
+			</div>
+
+			<div class="title">
+				<i class="dropdown icon"></i> #{messages['Requirment']}
+				#{messages['Course']}
+			</div>
+			<div class="content">
+				<p>
+					<s:formattedText value="#{courseHome.instance.requirement}"
+						rendered="#{not empty courseHome.instance.requirement}"></s:formattedText>
+					<h:outputText value="#{messages['Has_Not']}"
+						rendered="#{empty courseHome.instance.requirement}" />
+				</p>
+			</div>
+
+			<div class="title">
+				<i class="dropdown icon"></i> #{messages['Resources']}
+			</div>
+			<div class="content">
+				<p>
+					<s:formattedText value="#{courseHome.instance.resources}"
+						rendered="#{not empty courseHome.instance.resources}"></s:formattedText>
+					<h:outputText value="#{messages['Has_Not']}"
+						rendered="#{empty courseHome.instance.resources}" />
+				</p>
+			</div>
+
+
+		</div>
 		
+		<script>
+			jQuery(document).ready(function(){
+
+				jQuery('#cdetailCourse')
+				  .accordion({
+				    selector: {
+				      trigger: '.title .icon'
+				    }
+				  });
+				
+			});
+		</script>
+
+
+
 		<ui:include src="/WEB-INF/inc/instructor.xhtml" />
-		
+
 
 
 	</div>

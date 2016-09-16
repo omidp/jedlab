@@ -38,64 +38,41 @@
 			</s:div>
 			<s:fragment rendered="#{not empty courseHome.instance.chapters}">
 
-				<div style="padding: 5px; margin: 5px;">
-					<table class="ui single line table" dir="rtl">
-						<thead>
-							<tr>
-								<th>#{messages['Chapter_Name']}</th>
-								<th>#{messages['Duration']} (#{messages['Minutes']})</th>
-								<th>#{messages['Publish_Date']}</th>
-								<th>#{messages[' ']}</th>
+				<table class="ui table" dir="rtl">
+					<thead>
+						<tr>
+							<th>#{messages['Chapter_Name']}</th>
+							<th>#{messages['Duration']} (#{messages['Minutes']})</th>
+							<th>#{messages['Publish_Date']}</th>
+							<th>#{messages[' ']}</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<c:forEach var="_item" items="#{courseHome.instance.chapters}">
+							<tr class="#{_item.viewed ? 'viewed' :''}">
+								<td>
+									<h4 class="ui header">#{_item.name}</h4>
+								</td>
+								<td>#{_item.durationWithformat}</td>
+								<td><h:outputText value="#{_item.createdDate}"
+										converter="#{persianDateConverter}" /></td>
+								<td><s:link
+										rendered="#{identity.loggedIn and _item.registered}"	
+										propagation="none"
+										includePageParams="false"									
+										view="/member/video.xhtml">
+										<h:outputText value="#{messages['View']}" />
+										<f:param name="courseId" value="#{courseId}"></f:param>
+										<f:param name="chapterId" value="#{_item.id}"></f:param>
+									</s:link>
+								</td>	
 							</tr>
-						</thead>
-						<tbody>
+						</c:forEach>
 
-							<c:forEach var="_item" items="#{courseHome.instance.chapters}">
-								<tr class="#{_item.viewed ? 'viewed' :''}">
-									<td>
-										<h4 class="ui header">#{_item.name}</h4>
-									</td>
-									<td>#{_item.durationWithformat}</td>
-									<td><h:outputText value="#{_item.createdDate}"
-											converter="#{persianDateConverter}" /></td>
-									<td><s:fragment
-											rendered="#{identity.loggedIn and _item.registered}">
-											<button
-												class="clickable video-tag btn-small btn-blue btn-outline"
-												data-id="#{_item.id}">
-												<h:outputText value="#{messages['View']}" />
-											</button>
-										</s:fragment> #{' '}</td>
+					</tbody>
+				</table>
 
-								</tr>
-							</c:forEach>
-
-						</tbody>
-					</table>
-				</div>
-
-
-				<s:fragment
-					rendered="#{identity.loggedIn and courseHome.instance.registered}">
-					<script>
-		jQuery(document).ready(function(){
-
-			jQuery(".video-tag").each(function( index ) {
-				jQuery(this).click(function(){
-				  var chpId = jQuery(this).data("id");
-				  location.href = window.location.origin + "#{_ctx}/member/video.seam?chapterId="+chpId+"&amp;courseId=#{courseId}";
-				});
-			});
-
-		});
-		
-		
-		</script>
-
-
-
-
-				</s:fragment>
 
 			</s:fragment>
 

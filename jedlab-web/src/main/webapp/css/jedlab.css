@@ -2139,8 +2139,7 @@ nav ul, nav ol {
 }
 
 .breadcrumb {
-	font-size: 12px;
-	margin-bottom: 24px;
+	font-size: 12px;	
 	direction: rtl;
 }
 
@@ -5021,85 +5020,9 @@ footer > div {
   box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.05) inset, 0 0 0 1px rgba(0, 0, 0, 0.13) inset, 0 3px 5px rgba(0, 0, 0, 0.15) inset !important;
 }
 
-/*--------------
-  Sidebar Button
----------------*/
-
-#example .fixed.launch.button {
-  display: block;
-  position: fixed;
-  top: 4.5em;
-  left: 0px;
-
-  width: 55px;
-  height: auto;
-  white-space: nowrap;
-  overflow: hidden;
-  -webkit-transition:
-    0.3s width ease,
-    0.5s transform ease
-  ;
-  -moz-transition:
-    0.3s width ease,
-    0.5s transform ease
-  ;
-  -o-transition:
-    0.3s width ease,
-    0.5s transform ease
-  ;
-  -ms-transition:
-    0.3s width ease,
-    0.5s transform ease
-  ;
-  transition:
-    0.3s width ease,
-    0.5s transform ease
-  ;
+.ui.inverted.menu {
+    background: #dadada none repeat scroll 0 0;
+    border: 0 solid transparent;
+    box-shadow: none;
+    color: #565454;
 }
-#example .launch.button .icon {
-  margin-left: 0px;
-}
-
-
-#example .fixed.launch.button .text {
-  position: absolute;
-  white-space: nowrap;
-  top: auto;
-  /*left: 54px;*/
-  opacity: 0;
-  -webkit-transition:
-    0.3s opacity 0.3s
-  ;
-  -moz-transition:
-    0.3s opacity 0.3s
-  ;
-  -o-transition:
-    0.3s opacity 0.3s
-  ;
-  -ms-transition:
-    0.3s opacity 0.3s
-  ;
-  transition:
-    0.3s opacity 0.3s
-  ;
-}
-#example .fixed.launch.button:hover {
-  width: 130px;
-}
-#example .fixed.launch.button:hover .text {
-  opacity: 1;
-}
-
-/* Position Change */
-#example.pushable.left.overlay .fixed.launch.button {
-  transform: translate3d(0, 0, 0);
-}
-#example.pushable.overlay.left.pushed .fixed.launch.button {
-  transform: translate3d(260px, 0, 0);
-}
-
-/*
-div.videocontent{
-	width:80%;
-	max-width:640px;
-}*/

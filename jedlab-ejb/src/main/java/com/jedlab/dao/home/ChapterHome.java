@@ -179,8 +179,8 @@ public class ChapterHome extends EntityHome<Chapter>
     @Transactional
     public void generateVideoToken() throws UnsupportedEncodingException
     {
-        Long courseId = Long.parseLong(WebUtil.getParameterValue("courseId"));
-        Long chapterId = Long.parseLong(WebUtil.getParameterValue("chapterId"));
+        Long courseId = getCourse().getId();
+        Long chapterId = getChapterId();
         Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
         try
         {

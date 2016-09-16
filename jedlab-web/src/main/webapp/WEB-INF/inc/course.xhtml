@@ -90,34 +90,9 @@
 				<ui:include src="/WEB-INF/inc/courseDetail.xhtml" />
 			</jedlab:tabPanel>
 
-			<jedlab:tabPanel title="#{messages['Requirment']}">
-				<fieldset>
-					<legend>#{messages['Requirment']} #{messages['Course']}</legend>
-
-					<p>
-						<s:formattedText value="#{courseHome.instance.requirement}"
-							rendered="#{not empty courseHome.instance.requirement}"></s:formattedText>
-						<h:outputText value="#{messages['Has_Not']}"
-							rendered="#{empty courseHome.instance.requirement}" />
-					</p>
-				</fieldset>
-			</jedlab:tabPanel>
-
+			
 			<jedlab:tabPanel title="#{messages['Chapter_List']}">
 				<ui:include src="/WEB-INF/inc/chapterList.xhtml" />
-			</jedlab:tabPanel>
-
-			<jedlab:tabPanel title="#{messages['Resources']}">
-				<fieldset>
-					<legend>#{messages['Resources']}</legend>
-
-					<p>
-						<s:formattedText value="#{courseHome.instance.resources}"
-							rendered="#{not empty courseHome.instance.resources}"></s:formattedText>
-						<h:outputText value="#{messages['Has_Not']}"
-							rendered="#{empty courseHome.instance.resources}" />
-					</p>
-				</fieldset>
 			</jedlab:tabPanel>
 
 			<jedlab:tabPanel title="#{messages['Comment']}" useIframe="true"
