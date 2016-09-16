@@ -76,7 +76,7 @@
 			<button type="button" onclick="settings();" class="btn btn-blue">#{messages['Settings']}</button>
 			
 			<s:button view="/course.xhtml" styleClass="btn btn-yellow"
-				includePageParams="false" propagation="none"
+				includePageParams="false" propagation="none" onclick="dt();"
 				value="#{messages['Back']}" style="display:inline;">
 				<f:param name="courseId" value="#{courseId}"></f:param>
 			</s:button>
