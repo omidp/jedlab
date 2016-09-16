@@ -143,24 +143,23 @@ public class VideoPlayerServlet extends HttpServlet
 
     }
 
-    private String getFileName(String res, String origFilePath, String mobile)
+    private static String getFileName(String res, String origFilePath, String mobile)
     {
         String extension = origFilePath.substring(origFilePath.lastIndexOf("."));
-        String fname = origFilePath.substring(0, origFilePath.lastIndexOf("."));
-        if (StringUtil.isNotEmpty(res))
-        {
-            if ("medium".equals(res))
-                fname = fname + "_medium";
-            if ("small".equals(res))
-                fname = fname + "_small";
-        }
+        String fname = origFilePath.substring(origFilePath.lastIndexOf("/"), origFilePath.lastIndexOf("."));
+        String path = origFilePath.substring(0, origFilePath.lastIndexOf("/"));
         if (StringUtil.isNotEmpty(mobile))
         {
-            if ("true".equals(mobile))
-                return fname + ".webm";
+            extension = ".webm";
         }
-        return fname + extension;
+        if(StringUtil.isNotEmpty(res) && StringUtil.isEmpty(mobile))
+        {
+            path = path + File.separator + "small";
+        }
+        return path  + fname + extension;
     }
+    
+    
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException

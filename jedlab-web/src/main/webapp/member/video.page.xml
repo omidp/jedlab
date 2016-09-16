@@ -5,8 +5,8 @@
 
 	<rewrite pattern="/video/{courseId}/{chapterId}"/>
 
-	<param name="chapterId" value="#{chapterHome.chapterId}" required="true"/>
-	<param name="courseId" value="#{chapterHome.course.id}" required="true"/>
+	<param name="chapterId" value="#{chapterHome.chapterId}" />
+	<param name="courseId" value="#{chapterHome.course.id}" />
 	<param name="resolution" />
 	
 	<action execute="#{chapterHome.generateVideoToken()}" on-postback="false"/>

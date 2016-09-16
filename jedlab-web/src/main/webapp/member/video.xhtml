@@ -13,36 +13,55 @@
 </style>
 	</ui:define>
 
+	<ui:define name="sidebar">
+		<script>
+			jQuery(document).ready(function(){
+				if(common.isMobile())
+					jQuery(".360p").hide();
+			});
+		</script>
+
+		<div
+			class="ui vertical inverted sidebar thin menu left locale-direction w3-centered"
+			id="settings" style="text-align: center;">
+
+			<h:outputText value="#{chapterHome.course.name}" />
+			<br />
+			<h:outputText value="#{chapterHome.duration}" />
+			<br />
+			<s:link value="360p" propagation="none" styleClass="360p"
+				includePageParams="false" onclick="redirect(this);">
+				<f:param name="resolution" value="small"></f:param>
+			</s:link>
+			<s:button view="/course.xhtml" styleClass="btn btn-yellow"
+				includePageParams="false" propagation="none"
+				value="#{messages['Back']}" style="display:inline;">
+				<f:param name="courseId" value="#{courseId}"></f:param>
+			</s:button>
+			<br />
+
+		</div>
+	</ui:define>
+
 
 	<ui:define name="body">
 
-		<div class="ui vertical inverted sidebar thin menu left locale-direction w3-centered" id="settings" style="text-align: center;">
 
-			<h:outputText value="#{chapterHome.course.name}" /><br />
-			<h:outputText value="#{chapterHome.duration}" /><br />
-			<s:link value="360p" propagation="none"
-										onclick="redirect(this);" >
-					<f:param name="resolution" value="small"></f:param>
-			</s:link>
-			<s:button view="/course.xhtml" styleClass="btn btn-yellow"
-					propagation="none" value="#{messages['Back']}" style="display:inline;">
-					<f:param name="courseId" value="#{courseId}"></f:param>
-			</s:button><br />
-			
-		</div>
-		
-	
 
-		<div class="ui stackable very relaxed center aligned grid container w3-padding-32">
+
+
+		<div
+			class="ui stackable very relaxed center aligned grid container w3-padding-32">
 
 			<div class="row">
 				<div class="twelve wide column">
-				
+
 
 					<video id="my-video" controls="controls"
 						class="video-js vjs-default-skin" preload="auto"
-						style="width: 760px; max-width: 100%;height: 600px;"
-						poster="video.image?courseId=#{courseId}" data-setup='{"fluid": true}'>
+						style="width: 760px; max-width: 100%; height: 600px;"
+						poster="video.image?videoCourseId=#{courseId}"
+						data-setup='{"fluid": true}'>
 						<p class="vjs-no-js">To view this video please enable
 							JavaScript, and consider upgrading to a web browser</p>
 					</video>
@@ -60,7 +79,7 @@
 			class="ui stackable very relaxed center aligned grid container w3-row-padding w3-padding-8">
 
 			<button type="button" onclick="settings();" class="btn btn-blue">#{messages['Settings']}</button>
-			
+
 		</div>
 
 
@@ -94,6 +113,7 @@
 				}
 
 		</script>
+
 
 
 	</ui:define>

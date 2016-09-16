@@ -39,7 +39,7 @@ public class VideoImagePosterServlet extends HttpServlet
 
     private static void doWork(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        String courseId = req.getParameter("courseId");
+        String courseId = req.getParameter("videoCourseId");
         if (StringUtil.isEmpty(courseId))
         {
             return;
