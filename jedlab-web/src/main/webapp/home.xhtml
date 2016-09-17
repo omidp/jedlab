@@ -26,9 +26,9 @@
 										<img class="logo" src="#{_ctx}/images/hero_logo.png" alt="" />
 										<h1 class="title white-text locale-direction"></h1>
 										<p class="subtitle white-text border-top">
-											می خواهید برنامه نویسی شوید تا هر شرکتی آرزوی داشتن شما را
-											داشته باشد و یا کسب و کار نرم افزاری خود را ، راه اندازی کنید
-											؟ <br /> با ما همراه شوید
+											آیا می خواهید برنامه نویس حرفه ای جاوا شوید و مسیر کاری خود
+											را تغییر دهید ؟ <br /> آیا نمی دانید از کجا شروع کنید ؟ <br />
+											با ما همراه شوید
 										</p>
 										<s:link propagation="none" view="/login.xhtml"
 											includePageParams="false"
@@ -59,14 +59,15 @@
 
 				</div>
 				<div class="w3-twothird left-float w3-padding-right">
-					<h1 class="right-float">تنوع مطالب</h1>
+					<h1 class="right-float">تنوع مطالب جدلب</h1>
 					<h5 class="w3-padding-32"></h5>
 
-					<p class="w3-text-grey locale-direction">
-						در جدلب شما هر آنچه که برای ساخت یک نرم افزار نیاز دارید را می
-						آموزید شامل استفاده از موتور گردش کار ، گزارش ساز و استفاده از
-						فریم ورک های مختلف <br /> آموزش در جدلب <b> فقط تئوری نیست </b> و
-						شما وارد عمل می شوید
+					<p class="w3-text-grey w3-justify locale-direction">
+						جاوا در حال حاضر یکی از محبوب ترین زبان های برنامه نویسی است و کسب
+						و کارهای بسیاری بر روی موبایل و وب با بسترهای جاوا تولید می شود <br />
+						جدلب به شما <b> بسترهای مهم جاوا </b> که در صنعت استفاده شده و هر
+						آنچه که برای ساخت یک نرم افزار نیاز دارید را می آموزد <br />
+
 					</p>
 				</div>
 
@@ -85,13 +86,12 @@
 
 				<div class="w3-twothird locale-direction">
 					<h1>صرفه جویی در زمان و هزینه</h1>
-					<h5 class="w3-padding-32"></h5>
 
-					<p class="w3-text-grey">
-						بدلیل آنلاین بودن آموزش و همچنین عدم نیاز به رفت و آمد از اتلاف
-						وقت و انرژی شما جلوگیری می شود. <br /> بعلاوه بسیاری از دوره های
-						مقدماتی ما بصورت <b> رایگان </b> در اختیار شما قرار می گیرد <br />
-						همچنین مدیریت زمان با شماست و شما زمان آموزش خود را انتخاب می کنید
+
+					<p class="w3-text-grey w3-justify">
+						استفاده از آموزش های جدلب از <b> همه جا و در هر زمان </b> با
+						استفاده از موبایل و کامپیوتر شخصی ممکن است <br /> آموزش های جدلب
+						علاوه بر <b> تکرار پذیر بودن ، رایگان </b> هم هستند
 					</p>
 				</div>
 			</div>
@@ -100,21 +100,55 @@
 		<!-- Third Grid -->
 		<div class="w3-row-padding w3-padding-64 w3-container">
 			<div class="w3-content">
-				<div class="w3-third w3-center right-float">
-					<h:graphicImage value="/images/home_action.png"
-						styleClass="ui center aligned small circular image" />
 
-				</div>
-				<div
-					class="w3-twothird left-float  w3-padding-right locale-direction">
-					<h1>یادگیری موثر</h1>
 
-					<p class="w3-text-grey">
-						کلاس های جدلب یکنفره برگزار می شود ولی برای یادگیری موثرتر پرسش و
-						پاسخ بصورت گروهی است و شما می توانید مشکلات بقیه هم ببینید و از آن
-						درس بگیرید دوره های جدلب <b> بدون هیچ هزینه ای تکرار پذیر </b> است
-					</p>
+
+				<p class="w3-text-grey">
+				<div class="ui cards locale-direction">
+					<c:forEach items="#{homeAction.randomCourses}" var="_item">
+						<div class="card">
+							<div class="content">
+								<div class="header">
+									<h:outputText value="#{_item.name}" />
+								</div>
+							</div>
+							<div class="content">
+								<h4 class="ui sub header"></h4>
+								<div class="ui small feed">
+									<div class="event">
+										<div class="content">
+											<div class="summary">
+												#{messages['View_Count']} :
+												<h:outputText value="#{_item.viewCount}" />
+											</div>
+										</div>
+									</div>
+									<div class="event">
+										<div class="content">
+											<div class="summary">
+												<h:outputText value="#{messages['Free']}"
+													rendered="#{_item.free}" />
+												<h:outputText value="#{_item.price}"
+													rendered="#{!_item.free}" />
+											</div>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+							<div class="extra content">
+								<s:link view="/course.xhtml" value="#{messages['Detail_View']}"
+									propagation="none" includePageParams="false"
+									styleClass="btn btn-blue btn-outline right floated clickableLink white-hover"
+									style="font-weight: bold;">
+									<f:param name="courseId" value="#{_item.id}"></f:param>
+								</s:link>
+							</div>
+						</div>
+					</c:forEach>
 				</div>
+				</p>
 
 			</div>
 		</div>
@@ -126,7 +160,7 @@
 					includePageParams="false" value=" همین حالا شروع کنید "
 					styleClass="rmUnderline" />
 			</h1>
-			<a href="https://heapanalytics.com/?utm_source=badge"><img style="width:108px;height:41px" src="//heapanalytics.com/img/badgeLight.png" alt="Heap | Mobile and Web Analytics" /></a>
+
 		</div>
 
 

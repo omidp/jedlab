@@ -4673,3 +4673,7 @@ footer>div {
     box-shadow: none;
     color: #565454;
 }
+
+.white-hover:hover{
+	color: #fff !important;
+}
