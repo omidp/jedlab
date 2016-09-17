@@ -99,7 +99,7 @@ public class RegisterAction implements Serializable
         EntityManager em = (EntityManager) Component.getInstance("entityManager");
         try
         {
-            em.createQuery("select m from Member m where m.username = :uname").setParameter("uname", getInstance().getUsername()).setMaxResults(1)
+            em.createQuery("select m from Member m where lower(m.username) = lower(:uname)").setParameter("uname", getInstance().getUsername()).setMaxResults(1)
                     .getSingleResult();
             StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Username_Exists");
             return null;
@@ -141,7 +141,7 @@ public class RegisterAction implements Serializable
 
         try
         {
-            entityManager.createQuery("select m from Member m where m.email = :email").setParameter("email", user.getEmail())
+            entityManager.createQuery("select m from Member m where lower(m.email) = lower(:email)").setParameter("email", user.getEmail())
                     .setMaxResults(1).getSingleResult();
             StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Email_Exists");
             return null;
@@ -187,7 +187,7 @@ public class RegisterAction implements Serializable
     {
         try
         {
-            Member u = (Member) entityManager.createQuery("select u from Member u where u.email = :email")
+            Member u = (Member) entityManager.createQuery("select u from Member u where lower(u.email) = lower(:email)")
                     .setParameter("email", getInstance().getEmail()).setMaxResults(1).getSingleResult();
             if (u.getActivationCode() == null || u.getActivationCode().isEmpty())
             {
@@ -219,7 +219,7 @@ public class RegisterAction implements Serializable
     {
         try
         {
-            Member u = (Member) entityManager.createQuery("select u from Member u where u.email = :email")
+            Member u = (Member) entityManager.createQuery("select u from Member u where lower(u.email) = lower(:email)")
                     .setParameter("email", getInstance().getEmail()).setMaxResults(1).getSingleResult();
             if (u.isActive() == false)
             {

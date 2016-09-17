@@ -65,7 +65,7 @@ public class AuthenticatorBean implements Authenticator
                     return false;
                 }
             }
-            Member m = (Member) entityManager.createQuery("select m from Member m where m.username = :uname or m.email = :email")
+            Member m = (Member) entityManager.createQuery("select m from Member m where lower(m.username) = lower(:uname) or lower(m.email) = lower(:email)")
                     .setParameter("uname", credentials.getUsername()).setParameter("email", credentials.getUsername()).setMaxResults(1)
                     .getSingleResult();
             if (m.isActive() == false)
