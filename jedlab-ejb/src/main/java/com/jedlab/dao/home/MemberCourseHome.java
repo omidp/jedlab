@@ -1,6 +1,8 @@
 package com.jedlab.dao.home;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.Criteria;
@@ -10,11 +12,14 @@ import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.framework.HibernateEntityController;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.persistence.PersistenceContexts;
 
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CollectionUtil;
+import com.jedlab.framework.WebContext;
 import com.jedlab.framework.WebUtil;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
@@ -29,6 +34,16 @@ public class MemberCourseHome extends HibernateEntityController
     @RequestParameter
     private Long courseId;
 
+    public Long getCourseId()
+    {
+        return courseId;
+    }
+
+    public void setCourseId(Long courseId)
+    {
+        this.courseId = courseId;
+    }
+
     private Boolean memberRegisteredInCourse;
 
     public Boolean getMemberRegisteredInCourse()
@@ -38,7 +53,7 @@ public class MemberCourseHome extends HibernateEntityController
         if (courseId == null)
             courseId = Long.parseLong(WebUtil.getParameterValue("courseId"));
         Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
-        if(uid == null)
+        if (uid == null)
             return false;
         Criteria criteria = getSession().createCriteria(MemberCourse.class, "mc");
         criteria.add(Restrictions.eq("mc.member.id", uid));
@@ -77,6 +92,12 @@ public class MemberCourseHome extends HibernateEntityController
         }
         getSession().flush();
         return "registered";
+    }
+
+    public void redirectToCourse()
+    {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        FacesManager.instance().redirect(String.format("/course/%d", getCourseId()), parameters, false, false);
     }
 
 }

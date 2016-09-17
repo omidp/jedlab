@@ -7,12 +7,22 @@
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="head">
-		
+		<script type="text/javascript" src="http://sharecdn.social9.com/v2/js/opensocialshare.js"></script>
+		<script type="text/javascript" src="http://sharecdn.social9.com/v2/js/opensocialsharedefaulttheme.js"></script>
+		<link rel="stylesheet" type="text/css" href="http://sharecdn.social9.com/v2/css/os-share-widget-style.css"/>
 	</ui:define>
 
 	<ui:define name="body">
 		
 		<ui:include src="/WEB-INF/inc/course.xhtml" />
+		
+		<div style="top: 20%;position:fixed;" class='oss-widget-interface' data-share-url="#{courseHome.currentView}" data-share-title="#{courseHome.instance.name}"
+         data-share-description="#{courseHome.instance.description}"></div>
+		<script type="text/javascript">
+		var shareWidget = new OpenSocialShare();shareWidget.init({isHorizontalLayout: 0,widgetIconSize: "16",widgetStyle: "square",theme: 'OpenSocialShareDefaultTheme',providers: { top: ["GooglePlus","LinkedIn","Twitter"]}});shareWidget.injectInterface(".oss-widget-interface");shareWidget.setWidgetTheme(".oss-widget-interface");
+		var moreShareBtn = document.getElementsByClassName("more share-provider")[0];
+		moreShareBtn.style.visibility = 'hidden';
+		</script>
 
 	</ui:define>
 </ui:composition>

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
 	
-	 <rewrite pattern="/course/{courseId}" />
+	<rewrite pattern="/course/{courseId}" />
 	<param name="courseId" value="#{courseHome.courseId}" required="true"/>
 	<param name="courseId" value="#{chapterQuery.course.id}" />
 	

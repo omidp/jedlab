@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.faces.context.FacesContext;
 import javax.persistence.NoResultException;
 
 import org.jboss.seam.ScopeType;
@@ -15,6 +16,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.framework.EntityHome;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.security.Identity;
 
 import com.jedlab.action.Constants;
@@ -220,6 +222,21 @@ public class CourseHome extends EntityHome<Course>
         }
         getEntityManager().flush();
         return "persisted";
+    }
+    
+    private String currentView;
+    
+    public String getCurrentView()
+    {
+        if(currentView != null)
+            return currentView;
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        String viewId = Pages.getCurrentViewId();
+        String url = facesContext.getApplication().getViewHandler().getActionURL(facesContext, Pages.getCurrentViewId());
+        url = Pages.instance().encodeScheme(viewId, facesContext, url);
+        url = url.substring(0, url.lastIndexOf("/") + 1);
+        currentView = url + String.format("course/%d", getCourseId());
+        return currentView;
     }
 
 }
