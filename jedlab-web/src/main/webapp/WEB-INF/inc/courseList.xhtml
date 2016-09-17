@@ -109,7 +109,11 @@
 									#{messages['Publish_Date']} :
 									<h:outputText value="#{_item.createdDate}"
 										converter="#{persianDateConverter}" />
-									<br /> #{messages['Level']} :
+									<br />
+									#{messages['View_Count']} :
+									<h:outputText value="#{_item.viewCount}" />
+									<br />
+									 #{messages['Level']} :
 									<h:outputText value="#{_item.level.label}" />
 									<br />
 									<h:outputText value="#{messages['Free']}"
