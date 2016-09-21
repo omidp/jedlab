@@ -23,6 +23,7 @@ import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.security.Identity;
 
 import com.jedlab.action.Constants;
+import com.jedlab.framework.CacheManager;
 import com.jedlab.framework.MultipartFileSender;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.exceptions.RequestException;
@@ -113,12 +114,22 @@ public class VideoPlayerServlet extends HttpServlet
         String token = getToken(req.getRequestURL().toString());
         if (StringUtil.isEmpty(token))
             sendError(resp);
-        Criteria criteria = sess.createCriteria(VideoToken.class, "vt");
-        criteria.createCriteria("vt.chapter", "chap", Criteria.LEFT_JOIN);
-        criteria.add(Restrictions.eq("vt.memberId", uid));
-        criteria.add(Restrictions.eq("vt.token", token));
-        criteria.setMaxResults(1);
-        VideoToken vt = (VideoToken) criteria.uniqueResult();
+        Object cache = CacheManager.get("videoTokenCache");
+        VideoToken vt = null;
+        if (cache == null)
+        {
+            Criteria criteria = sess.createCriteria(VideoToken.class, "vt");
+            criteria.createCriteria("vt.chapter", "chap", Criteria.LEFT_JOIN);
+            criteria.add(Restrictions.eq("vt.memberId", uid));
+            criteria.add(Restrictions.eq("vt.token", token));
+            criteria.setMaxResults(1);
+            vt = (VideoToken) criteria.uniqueResult();
+            CacheManager.put("videoTokenCache", vt);
+        }
+        else
+        {
+            vt = (VideoToken) cache;
+        }
         if (vt == null)
         {
             sendError(resp);
@@ -152,14 +163,12 @@ public class VideoPlayerServlet extends HttpServlet
         {
             extension = ".webm";
         }
-        if(StringUtil.isNotEmpty(res) && StringUtil.isEmpty(mobile))
+        if (StringUtil.isNotEmpty(res) && StringUtil.isEmpty(mobile))
         {
             path = path + File.separator + "small";
         }
-        return path  + fname + extension;
+        return path + fname + extension;
     }
-    
-    
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException

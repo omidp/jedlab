@@ -16,6 +16,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.framework.EntityHome;
+import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.security.Identity;
 
@@ -127,7 +128,8 @@ public class CourseHome extends EntityHome<Course>
                         }
                     }
                 }
-                course.setRegistered(registerInCourse);
+                if (registerInCourse && registeredCourses.size() == chapters.size())
+                    course.setRegistered(registerInCourse);
             }
 
             return course;
@@ -151,15 +153,17 @@ public class CourseHome extends EntityHome<Course>
         }
         try
         {
-            Course course = (Course) getEntityManager()
-                    .createQuery("select c from Course c LEFT OUTER JOIN c.chapters chapters where c.id = :courseId")
-                    .setParameter("courseId", Long.parseLong(courseParamId)).getSingleResult();
+            Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
+            Long courseId = Long.parseLong(courseParamId);
+            Course course = getEntityManager().find(Course.class, courseId);
             if (course.isFree())
             {
-                List<Chapter> chapters = course.getChapters();
+                List<Chapter> chapters = getEntityManager()
+                        .createQuery(
+                                "select c from Chapter c  where c.course.id = :courseId AND c.id  NOT IN (select mc.chapter.id from MemberCourse mc where mc.course.id = c.course.id AND mc.member.id = :memId)")
+                        .setParameter("courseId", courseId).setParameter("memId", uid).getResultList();
                 if (CollectionUtil.isNotEmpty(chapters))
                 {
-                    Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
                     for (Chapter chapter : chapters)
                     {
                         MemberCourse mc = new MemberCourse();
@@ -177,7 +181,7 @@ public class CourseHome extends EntityHome<Course>
         }
         catch (NoResultException e)
         {
-            throw new PageExceptionHandler("emkane sabte nam vojod nadarad");
+            throw new PageExceptionHandler(StatusMessage.getBundleMessage("Enroll_Error", ""));
         }
         return "notRegistered";
     }
@@ -223,12 +227,12 @@ public class CourseHome extends EntityHome<Course>
         getEntityManager().flush();
         return "persisted";
     }
-    
+
     private String currentView;
-    
+
     public String getCurrentView()
     {
-        if(currentView != null)
+        if (currentView != null)
             return currentView;
         FacesContext facesContext = FacesContext.getCurrentInstance();
         String viewId = Pages.getCurrentViewId();

@@ -85,12 +85,12 @@
 
 
 		<script type="text/javascript">
-				window.HELP_IMPROVE_VIDEOJS = false;		 
+				window.HELP_IMPROVE_VIDEOJS = false;
+				var t = '#{chapterHome.token}';		 
 		</script>
 		<script src="#{_ctx}/js/video.js"></script>
 		<script>
-				videojs("my-video").ready(function(){
-					var t = '#{chapterHome.token}';
+				videojs("my-video").ready(function(){					
 					var loc = window.location.origin + "#{_ctx}/"+t+".play?resolution=#{resolution}";
 					myPlayer = this;		
 					if(common.isMobile())
@@ -108,7 +108,7 @@
 					});
 				
 				function dt(){
-					jQuery.post("#{_ctx}/destroy", {tk: '#{chapterHome.token}'}, function(data, status){});
+					jQuery.post("#{_ctx}/destroy", {tk: t}, function(data, status){});
 				}	
 				function redirect(atag)
 				{

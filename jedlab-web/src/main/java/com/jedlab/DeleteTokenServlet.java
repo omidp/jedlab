@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jedlab.framework.CacheManager;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TransactionalContextualHttpServletRequest;
 
@@ -34,6 +35,7 @@ public class DeleteTokenServlet extends HttpServlet
                 token = token.trim();
                 getEntityManager().createQuery("delete from VideoToken vt where vt.token = :token").setParameter("token", token)
                         .executeUpdate();
+                CacheManager.remove("videoTokenCache");
                 getEntityManager().flush();
             }
         }.run();

@@ -77,15 +77,15 @@
     created programmtically using CacheManager.add(String cacheName)
     -->
     <defaultCache
-            maxElementsInMemory="500000"
+            maxElementsInMemory="5000"
             eternal="false"
-            timeToIdleSeconds="6000"
-            timeToLiveSeconds="6000"
+            timeToIdleSeconds="1000"
+            timeToLiveSeconds="1000"
             overflowToDisk="false"
             memoryStoreEvictionPolicy="LRU"
             />
 
-            
+          
                
 
 </ehcache>

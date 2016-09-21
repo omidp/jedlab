@@ -57,14 +57,16 @@
 								<td>#{_item.durationWithformat}</td>
 								<td><h:outputText value="#{_item.createdDate}"
 										converter="#{persianDateConverter}" /></td>
-								<td><s:link
+								<td>
+								<s:link
 										rendered="#{identity.loggedIn and _item.registered}"
 										propagation="none" includePageParams="false"
 										styleClass="clickableLink viewIcon" view="/member/video.xhtml">
 										<i class="icon-display"></i>
 										<f:param name="courseId" value="#{courseId}"></f:param>
 										<f:param name="chapterId" value="#{_item.id}"></f:param>
-									</s:link></td>
+									</s:link>
+								</td>
 							</tr>
 						</c:forEach>
 

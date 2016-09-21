@@ -48,8 +48,7 @@ public class VideoImagePosterServlet extends HttpServlet
         EntityManager em = (EntityManager) Component.getInstance("entityManager");
         try
         {
-            Course c = (Course) em.createQuery("select c from Course c where c.id = :courseId")
-                    .setParameter("courseId", Long.parseLong(courseId)).setMaxResults(1).getSingleResult();
+            Course c = em.find(Course.class, Long.parseLong(courseId));
             if (c.getHasImage())
             {
                 byte[] image = c.getImage();

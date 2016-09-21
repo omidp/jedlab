@@ -9,8 +9,7 @@
 	<param name="courseId" value="#{chapterHome.course.id}" />
 	<param name="resolution" />
 	
-	<action execute="#{chapterHome.generateVideoToken()}" on-postback="false"/>
 	
-	<action execute="#{chapterHome.load()}" on-postback="false"/>
+	<action execute="#{chapterHome.load()}" />
 
 </page>
