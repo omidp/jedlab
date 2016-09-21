@@ -87,16 +87,14 @@
 		<script type="text/javascript">
 				window.HELP_IMPROVE_VIDEOJS = false;
 				var t = '#{chapterHome.token}';		 
+				var myPlayer;
+				var loc = window.location.origin + "#{_ctx}/"+t+".play?resolution=#{resolution}";
 		</script>
 		<script src="#{_ctx}/js/video.js"></script>
 		<script>
 				videojs("my-video").ready(function(){					
-					var loc = window.location.origin + "#{_ctx}/"+t+".play?resolution=#{resolution}";
 					myPlayer = this;		
-					if(common.isMobile())
-						myPlayer.src({"type":"video/webm", "src":loc+"&amp;mobile=true"});
-					else			
-						myPlayer.src({"type":"video/mp4", "src":loc});	
+						
 					myPlayer.on("ended", function(){ 
 							dt();      
 					    
@@ -117,6 +115,10 @@
 
 				jQuery(document).ready(function(){
 						//jQuery('#settings').sidebar('toggle');
+					if(common.isMobile())
+						myPlayer.src({"type":"video/webm", "src":loc+"&amp;mobile=true"});
+					else			
+						myPlayer.src({"type":"video/mp4", "src":loc});
 				});
 
 				function settings()
