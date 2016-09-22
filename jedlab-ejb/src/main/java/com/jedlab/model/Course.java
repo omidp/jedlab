@@ -20,6 +20,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -325,6 +326,12 @@ public class Course extends BasePO
     public boolean isHasChapter()
     {
         return chapterCount != null && chapterCount.longValue() > 0;
+    }
+    
+    @PrePersist
+    public void prePersist()
+    {
+        setViewCount(new Long(0));
     }
 
 }
