@@ -4677,3 +4677,24 @@ footer>div {
 .white-hover:hover{
 	color: #fff !important;
 }
+
+div.w3-accordion div.title{
+	background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: right;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+div.w3-accordion div.title:hover {
+    background-color: #ddd;
+}
+
+div.w3-accordion div.content{
+	margin-right: 5px !important;
+	padding-right: 5px !important;
+}

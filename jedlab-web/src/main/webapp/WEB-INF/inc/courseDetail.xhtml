@@ -7,7 +7,7 @@
 	<div class="locale-direction" id="courseDetail">
 
 
-		<div class="ui accordion" id="cdetailCourse">
+		<div class="ui accordion w3-accordion" id="cdetailCourse">
 			<div class="active title">
 				<i class="dropdown icon"></i> #{messages['Description']}
 				#{messages['Course']}
@@ -55,7 +55,7 @@
 				jQuery('#cdetailCourse')
 				  .accordion({
 				    selector: {
-				      trigger: '.title .icon'
+				      trigger: 'div.title'
 				    }
 				  });
 				
@@ -64,7 +64,7 @@
 
 
 
-		<ui:include src="/WEB-INF/inc/instructor.xhtml" />
+		
 
 
 

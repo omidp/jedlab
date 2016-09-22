@@ -42,6 +42,10 @@
 
 <script type="text/javascript" src="#{_ctx}/js/jquery.js"> </script>
 <script type="text/javascript" src="#{_ctx}/js/common.js"> </script>
+<script type="text/javascript">
+	var msg = "#{messages['English_Only']}";
+	jQuery(window).load(function(){common.englishOnly(msg);});
+</script>
 <ui:insert name="head" />
 
 

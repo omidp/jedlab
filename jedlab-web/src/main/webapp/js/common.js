@@ -45,6 +45,23 @@ var common = {
 		},
 		hideLoading : function() {
 			jQuery("#dimmerLoader").dimmer('hide');
+		},
+		englishOnly : function(message){
+			jQuery("input[type='password']").each(function(){  
+				var _self = jQuery(this);
+				_self.keyup(function(e){
+					if(jQuery.inArray(e.key,  _self.val().split('') ) !== -1){
+						var k = e.key;
+						if(k.charCodeAt() < 20 || k.charCodeAt() > 126)
+						{
+							alert(message);
+							jQuery(this).val("");
+						}
+					}
+				});
+				
+			});
+			
 		}
 };
 
