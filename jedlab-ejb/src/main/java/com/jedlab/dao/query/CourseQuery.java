@@ -54,7 +54,7 @@ public class CourseQuery extends PagingController<Course>
             criteria.setFirstResult(getFirstResult());
         if (getMaxResults() != null)
             criteria.setMaxResults(getMaxResults() + 1);
-        criteria.addOrder(Order.asc("viewCount").asc("createdDate"));
+        criteria.addOrder(Order.desc("createdDate"));
         resultList = criteria.list();
         addChpterCount(resultList);
         return truncResultList(resultList);
