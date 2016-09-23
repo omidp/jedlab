@@ -6,7 +6,7 @@
 
 	<m:from name="JEDLAB Team" address="noreply@jedlab.ir" />
 
-	<m:to name="#{member.email}">#{member.email}</m:to>
+	<m:to name="#{memberEmail}">#{memberEmail}</m:to>
 
 	<m:subject>JEDLab | #{messages['Recommended_Courses']}</m:subject>
 
@@ -112,7 +112,7 @@ p {
 }
 
 .bgBody {
-	background: #3f4040;
+	background: #fff;
 }
 </style>
 
@@ -127,9 +127,9 @@ p {
 }
 </script>
 
-	<div paddingwidth="0" paddingheight="0" class='bgBody' 
-	style="padding-top: 0; padding-bottom: 0; padding-top: 0; padding-bottom: 0; background-repeat: repeat; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased;" offset="0" toppadding="0" leftpadding="0">
-  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tableContent bgBody" align="center"  style='font-family:Tahoma, sans-serif;direction:rtl;' dir="rtl">
+		<div class='bgBody' 
+	style="padding-top: 0; padding-bottom: 0; padding-top: 0; padding-bottom: 0; background-repeat: repeat; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased;font-family:Tahoma;" >
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tableContent bgBody" align="center"  style='font-family:Tahoma, sans-serif;' dir="rtl">
     
     
   <tr>
@@ -137,24 +137,17 @@ p {
       
     <!-- =============== START HEADER =============== -->
       <div class='movableContent'>
-        <table width="600" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#fff" style='border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;'>
+        <table width="600" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#fff" 
+        style='border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;'>
           <tr><td height='20'></td></tr>
           <tr>
-            <td width='100%' align="left">
+            <td width='100%' align="center">
               <div class="contentEditableContainer contentImageEditable">
-                <div class="contentEditable" style="text-align:center;margin:0 auto;">                  
-                  <img src="http://www.jedlab.ir/images/logo.png" width="135" height='45' alt='Logo'  data-default="placeholder" />
+                <div class="contentEditable" style="text-align:center;margin:0 auto;">
+                  <img class="banner" src="http://www.jedlab.ir/images/jedlab_580_221.png" alt="Logo" title="Logo" width="580" height="221" border="0"  />
                 </div>
               </div>
-            </td>
-            <td width='20'></td>
-            <td width='180' align="right" valign="bottom" style='vertical-align: bottom;'>
-              <div class="contentEditableContainer contentTextEditable">
-                <div class="contentEditable">
-                  
-                </div>
-              </div>
-            </td>
+            </td>            
           </tr>
         </table>
       </div>
@@ -165,19 +158,19 @@ p {
           <tr>
             <td>
               <table width="600" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="2da4a8" style='border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;'>
-                <tr><td colspan="3" height='11'></td></tr>
+                
                 <tr>
-                  <td width='20'></td>
+                  
                   <td>
                     <div class="contentEditableContainer contentTextEditable">
                       <div class="contentEditable">
-                        <p style='font-size: 30px; text-align: center;color: #ffffff;line-height: 150%;'>#{messages['Recommended_Courses']}</p>
+                        <p style='font-size: 30px; text-align: center;color: #ffffff;line-height: 150%;font-family:Tahoma'>#{messages['Recommended_Courses']}</p>
                       </div>
                     </div>
                   </td>
-                  <td width='20'></td>
+                  
                 </tr>
-                <tr><td colspan="3" height='11'></td></tr>
+                
               </table>
             </td>
           </tr>
@@ -190,11 +183,12 @@ p {
     <!-- =============== END HEADER =============== -->
     <!-- =============== START BODY =============== -->
       <div class='movableContent'>
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" dir="rtl" style="font-family: Tahoma;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" dir="rtl" style="direction:rtl;">
           <tr><td height='20'></td></tr>
           <tr>
             <td>
-              <table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class='bgItem' style='border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;font-family: Tahoma;direction:rtl' dir="rtl">
+              <table width="600" border="0" cellspacing="0" cellpadding="0" align="center" class='bgItem' dir="rtl"
+              style='border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;direction:rtl;font-family:Tahoma'>
                 <tr><td colspan="5" height='30'></td></tr>
                 <ui:repeat var="_item" value="#{courses}">
                 <tr>
@@ -220,8 +214,13 @@ p {
                   </td>
                   <td width='20'></td>
                 </tr>
+                <tr width="100%">
+					<td colspan="5" height='30'><hr /></td>
+                </tr>
                 </ui:repeat>
-                <tr><td colspan="5" height='30'></td></tr>
+                <tr><td colspan="5" height='30'>
+                
+                </td></tr>
               </table>
             </td>
           </tr>
@@ -242,7 +241,7 @@ p {
        <div class='movableContent'>
         <table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td height='20'></td></tr></table>
         <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class='bgItem'>
-          <tr><td height='10' bgcolor="2da4a8"></td></tr>
+          <tr><td height='10' ></td></tr>
           <tr>
             <td>
               <table  width="600" border="0" cellspacing="0" cellpadding="0" align="center" >

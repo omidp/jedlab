@@ -28,22 +28,25 @@ public class SubscriptionAction extends HibernateEntityController
     private Renderer renderer;
 
     /**
-     * comma separated username
+     * comma separated email
      */
-    private String userNames;
+    private String emails;
     /**
      * comma separated coursename
      */
     private String courseNames;
 
-    public String getUserNames()
+
+    
+
+    public String getEmails()
     {
-        return userNames;
+        return emails;
     }
 
-    public void setUserNames(String userNames)
+    public void setEmails(String emails)
     {
-        this.userNames = userNames;
+        this.emails = emails;
     }
 
     public String getCourseNames()
@@ -58,32 +61,36 @@ public class SubscriptionAction extends HibernateEntityController
 
     public String notifyUsers()
     {
-        if (StringUtil.isEmpty(getCourseNames()) || StringUtil.isEmpty(getUserNames()))
+        if (StringUtil.isEmpty(getCourseNames()) || StringUtil.isEmpty(getEmails()))
             return null;
         List<String> courses = Arrays.asList(getCourseNames().trim().split(","));
         List<Course> courseList = getSession().createQuery("select c from Course c where c.name IN :names")
                 .setParameterList("names", courses).list();
         //
-        List<String> unames = Arrays.asList(getUserNames().trim().split(","));
-        List<Member> members = getSession().createQuery("select m from Member m where m.username IN :names")
-                .setParameterList("names", unames).list();
+        List<String> emails = Arrays.asList(getEmails().trim().split(","));
+//        List<Member> members = getSession().createQuery("select m from Member m where m.username IN :names")
+//                .setParameterList("names", unames).list();
         //
         if (CollectionUtil.isNotEmpty(courseList))
         {
-            for (Member member : members)
+            for (String email : emails)
             {
-                Events.instance().raiseAsynchronousEvent("com.jedlab.action.subscription.sendMail", courseList, member);
+                Events.instance().raiseAsynchronousEvent("com.jedlab.action.subscription.sendMail", courseList, email);
             }
         }
-        return null;
+        
+        return "sent";
     }
 
     @Observer("com.jedlab.action.subscription.sendMail")
-    public void sendEmail(List<Course> courseList, Member member)
+    public void sendEmail(List<Course> courseList, String memberEmail)
     {
-        Contexts.getConversationContext().set("courses", courseList);
-        Contexts.getConversationContext().set("member", member);
-        renderer.render("/mailTemplates/subscription.xhtml");
+        if(StringUtil.isNotEmpty(memberEmail))
+        {
+            Contexts.getConversationContext().set("courses", courseList);
+            Contexts.getConversationContext().set("memberEmail", memberEmail);
+            renderer.render("/mailTemplates/subscription.xhtml");
+        }
     }
 
 }
