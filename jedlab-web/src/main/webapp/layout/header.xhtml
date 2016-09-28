@@ -10,11 +10,11 @@
 	<!-- Navbar -->
 	<ul class="w3-navbar w3-green w3-card-2 w3-top w3-left-align w3-large">
 		<li class="w3-hide-medium w3-hide-large w3-opennav w3-right"><a
-			class="w3-padding-large w3-hover-white w3-large w3-green"
+			class="w3-padding-menu-item w3-hover-white w3-large w3-green"
 			href="javascript:void(0);" onclick="navViewport()"
 			title="Toggle Navigation Menu"><i class="icon-list"></i></a></li>
 		<li><s:link view="/home.xhtml" propagation="none"
-				includePageParams="false" styleClass="w3-padding-large w3-darkgreen">
+				includePageParams="false" styleClass="w3-padding-menu-item w3-darkgreen">
 				<h:graphicImage value="/images/logo.png" alt="#{messages['JEDLAB']}"
 					height="30" />
 			</s:link></li>
@@ -23,7 +23,7 @@
 		<s:link propagation="none"
 				rendered="#{!identity.loggedIn}"
 				includePageParams="false" view="/home.xhtml"
-				styleClass="w3-padding-large w3-hover-white"
+				styleClass="w3-padding-menu-item w3-hover-white"
 				value="#{messages['Home']}">
 				<i class="icon-home"></i>
 			</s:link>
@@ -31,7 +31,7 @@
 		<s:link propagation="none"
 				rendered="#{identity.loggedIn}"
 				includePageParams="false" view="/member/dashboard.xhtml"
-				styleClass="w3-padding-large w3-hover-white"
+				styleClass="w3-padding-menu-item w3-hover-white"
 				value="#{messages['Home']}">
 				<i class="icon-home"></i>
 			</s:link>	
@@ -41,10 +41,10 @@
 		<li class="w3-hide-small">
 		
 			<s:link propagation="none" 
-						styleClass="w3-padding-large w3-hover-white" rendered="#{identity.loggedIn}"
+						styleClass="w3-padding-menu-item w3-hover-white" rendered="#{identity.loggedIn}"
 						view="/member/userEdit.xhtml"
 						value="#{loginActionManager.currentUsername} #{messages['Welcome']}">
-						<i class="icon-user-tie" style="color: #fff; margin-left: 5px;"></i>
+						<i class="icon-user-tie"></i>
 					</s:link>
 			
 			
@@ -54,14 +54,14 @@
 			
 		<li class="w3-hide-small"><s:link propagation="none"
 				includePageParams="false" rendered="#{!identity.loggedIn}"
-				view="/login.xhtml" styleClass="w3-padding-large w3-hover-white">
+				view="/login.xhtml" styleClass="w3-padding-menu-item w3-hover-white">
 				<h:outputText
 					value="#{messages['Sign_In']} / #{messages['Register']} " />
 				<i class="icon-user-tie"></i>
 			</s:link></li>
 		<li class="w3-hide-small"><s:link propagation="none"
 				includePageParams="false" view="/courseList.xhtml"
-				styleClass="w3-padding-large w3-hover-white"
+				styleClass="w3-padding-menu-item w3-hover-white"
 				value="#{messages['Course_List']}">
 				<i class="icon-books"></i>
 			</s:link></li>
@@ -71,7 +71,7 @@
 			
 			<s:link propagation="none" 
 						rendered="#{identity.loggedIn}" action="#{identity.logout()}"
-						styleClass="w3-padding-large w3-hover-white">
+						styleClass="w3-padding-menu-item w3-hover-white">
 						<h:outputText
 							value="#{messages['Sign_Out']}" />
 						<i class="icon-exit"></i>
@@ -112,7 +112,7 @@
 			<s:link propagation="none"
 				rendered="#{!identity.loggedIn}"
 				includePageParams="false" view="/home.xhtml"
-				styleClass="w3-padding-large"
+				styleClass="w3-padding-menu-item"
 				value="#{messages['Home']}">
 				<i class="icon-home"></i>
 			</s:link>
@@ -120,7 +120,7 @@
 			<s:link propagation="none"
 				rendered="#{identity.loggedIn}"
 				includePageParams="false" view="/member/dashboard.xhtml"
-				styleClass="w3-padding-large"
+				styleClass="w3-padding-menu-item"
 				value="#{messages['Home']}">
 				<i class="icon-home"></i>
 			</s:link>	
@@ -128,20 +128,20 @@
 			</li>
 			<li><s:link propagation="none" includePageParams="false"
 					rendered="#{!identity.loggedIn}" view="/login.xhtml"
-					styleClass="w3-padding-large">
+					styleClass="w3-padding-menu-item">
 					<h:outputText
 						value="#{messages['Sign_In']} / #{messages['Register']} " />
 					<i class="icon-user-tie"></i>
 				</s:link></li>
 			<li><s:link propagation="none" includePageParams="false"
-					view="/courseList.xhtml" styleClass="w3-padding-large"
+					view="/courseList.xhtml" styleClass="w3-padding-menu-item"
 					value="#{messages['Course_List']}">
 					<i class="icon-books"></i>
 				</s:link></li>
 			<li>
 				<s:link propagation="none" 
 						rendered="#{identity.loggedIn}" action="#{identity.logout()}"
-						styleClass="w3-padding-large">
+						styleClass="w3-padding-menu-item">
 						<h:outputText
 							value="#{messages['Sign_Out']}" />
 						<i class="icon-exit"></i>

@@ -73,7 +73,7 @@ public class AuthenticatorBean implements Authenticator
                 StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Deactive_User");
                 return false;
             }
-            if ("admin".equals(credentials.getUsername()))
+            if ("admin".equalsIgnoreCase(credentials.getUsername()))
             {
                 identity.addRole(Constants.ROLE_ADMIN);
             }

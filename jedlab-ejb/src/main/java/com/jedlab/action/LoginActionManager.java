@@ -42,8 +42,8 @@ public class LoginActionManager extends EntityController
     @Transactional
     public void afterLogout()
     {
-        if (TxManager.isNoTransaction())
-            TxManager.joinTransaction(getEntityManager());
+        TxManager.beginTransaction();
+        TxManager.joinTransaction(getEntityManager());
         String currentUserName = (String) getSessionContext().get(Constants.CURRENT_USER_NAME);
         revokeOtherTokens(currentUserName);
         // CacheManager.removeAllSeamkaRegion();
@@ -52,8 +52,8 @@ public class LoginActionManager extends EntityController
     @Transactional
     public void revokeOtherTokens(String userName)
     {
-        if (TxManager.isNoTransaction())
-            TxManager.joinTransaction(getEntityManager());
+        TxManager.beginTransaction();
+        TxManager.joinTransaction(getEntityManager());
         Date lastUsed = DateUtil.addDate(new Date(), Calendar.MINUTE, -LoginActivity.TTL);
         getEntityManager().createNamedQuery(LoginActivity.UPDATE_LOGOUT_ALL_SAME_LOGEDIN_USERS).setParameter(1, userName)
                 .setParameter(2, lastUsed).executeUpdate();
@@ -125,19 +125,17 @@ public class LoginActionManager extends EntityController
         return la.getIpAddress().equals(WebContext.instance().getClientIP())
                 && la.getDevice().equals(WebContext.instance().getClientUserAgent());
     }
-    
-    
+
     public String getCurrentToken()
     {
         return (String) Contexts.getSessionContext().get(LoginActivity.TOKEN);
     }
-    
+
     public String getCurrentUsername()
     {
         return (String) Contexts.getSessionContext().get(Constants.CURRENT_USER_NAME);
     }
-    
-    
+
     public Long getCurrentUserId()
     {
         return (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);

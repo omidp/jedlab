@@ -87,6 +87,9 @@ public class Course extends BasePO
     @OrderBy(value = "DESC")
     private Date createdDate;
 
+    @Column(name = "is_sticky", columnDefinition = "boolean DEFAULT false")
+    private boolean sticky;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
     private List<Chapter> chapters = new ArrayList<>(0);
 
@@ -102,6 +105,16 @@ public class Course extends BasePO
 
     @Transient
     private boolean registered;
+
+    public boolean isSticky()
+    {
+        return sticky;
+    }
+
+    public void setSticky(boolean sticky)
+    {
+        this.sticky = sticky;
+    }
 
     public Long getViewCount()
     {
@@ -327,7 +340,7 @@ public class Course extends BasePO
     {
         return chapterCount != null && chapterCount.longValue() > 0;
     }
-    
+
     @PrePersist
     public void prePersist()
     {

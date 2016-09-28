@@ -1212,6 +1212,11 @@ input[type=radio].w3-radio:disabled+.w3-validate {
 .w3-padding-large {
     padding: 12px 24px !important
 }
+
+.w3-padding-menu-item {
+    padding: 12px 8px !important
+}
+
 .w3-padding-xlarge {
     padding: 16px 32px !important
 }

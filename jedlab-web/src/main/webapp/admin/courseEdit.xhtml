@@ -39,6 +39,10 @@
 				<h:outputLabel for="active">#{messages['Active']}</h:outputLabel>
 				<h:selectBooleanCheckbox value="#{courseHome.instance.active}"
 					id="active" />
+					
+					<h:outputLabel for="active">#{messages['Sticky']}</h:outputLabel>
+				<h:selectBooleanCheckbox value="#{courseHome.instance.sticky}"
+					id="sticky" />
 
 				<h:outputLabel for="desc">#{messages['Description']}</h:outputLabel>
 				<h:inputTextarea value="#{courseHome.instance.description}"

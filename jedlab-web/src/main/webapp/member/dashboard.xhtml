@@ -9,7 +9,10 @@
 
 		<s:fragment rendered="#{s:hasRole('Admin')}">
 
-			<div class="ui menu">
+	
+			<div class="ui vertical menu" >
+			
+				
 
 				<s:link value="Course List" propagation="none" styleClass="item"
 					view="/courseList.xhtml" includePageParams="false"></s:link>
@@ -75,6 +78,12 @@
 
 
 		</div>
+
+		<s:decorate template="/layout/seamPaging.xhtml"
+			rendered="#{not empty memberCourseQuery.resultList}">
+			<ui:param name="entityList" value="#{memberCourseQuery}" />
+		</s:decorate>
+
 
 	</ui:define>
 
