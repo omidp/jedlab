@@ -1,5 +1,8 @@
 package com.jedlab;
 
+import javax.servlet.http.HttpSession;
+
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Name;
@@ -47,6 +50,14 @@ public class JedLab extends HibernateEntityController
         if(desc == null)
             return null;
         return interpolate(desc);
+    }
+    
+    public String getSessionId()
+    {
+        HttpSession sess = (HttpSession) Component.getInstance("httpSession");
+        if(sess == null)
+            return "";
+        return sess.getId();
     }
 
 }

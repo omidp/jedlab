@@ -24,6 +24,7 @@ import org.jboss.seam.util.RandomStringUtils;
 
 import com.jedlab.action.Constants;
 import com.jedlab.framework.DateUtil;
+import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.PageExceptionHandler;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TxManager;
@@ -189,6 +190,8 @@ public class ChapterHome extends EntityHome<Chapter>
             Long courseId = getCourse().getId();
             Long chapterId = getChapterId();
             Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+            if(uid == null)
+                throw new ErrorPageExceptionHandler("user not found");
             try
             {
                 Chapter c = (Chapter) getEntityManager()
@@ -219,7 +222,7 @@ public class ChapterHome extends EntityHome<Chapter>
             }
             catch (NoResultException e)
             {
-                throw new PageExceptionHandler("ooops");
+                throw new ErrorPageExceptionHandler("course not found");
             }
         }
         return token;
