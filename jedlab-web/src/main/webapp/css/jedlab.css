@@ -442,7 +442,7 @@ ul.w3-ul li:last-child {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    z-index: 888888 !important;
+    z-index: 888 !important;
 }
 .w3-navbar li {
     float: right;
@@ -4291,7 +4291,7 @@ legend {
     border: none;
 }
 .clickableLink {
-    color: #4078c0 !important;
+    color: #4078c0 !important;    
 }
 .white a:hover {
     color: #fff !important;

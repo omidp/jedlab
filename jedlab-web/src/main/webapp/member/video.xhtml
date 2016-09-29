@@ -7,10 +7,13 @@
 	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
 
 	<ui:define name="head">
-		<link rel="stylesheet" href="#{_ctx}/css/video.css" />
 
-		<style type="text/css">
-</style>
+		<link rel="stylesheet" href="#{_ctx}/css/video.css" />
+		<link rel="stylesheet" href="#{_ctx}/css/silverTrack.css" />
+
+		<script type="text/javascript" src="#{_ctx}/js/jquery.silverTrack.js"> </script>
+
+
 	</ui:define>
 
 	<ui:define name="sidebar">
@@ -28,11 +31,12 @@
 			<br />
 			<h:outputText value="#{chapterHome.duration}" />
 			<br />
-			<s:link value="360p" propagation="none" styleClass="360p clickableLink"
-				includePageParams="false" onclick="redirect(this);">
+			<s:link value="360p" propagation="none"
+				styleClass="360p clickableLink" includePageParams="false"
+				onclick="redirect(this);">
 				<f:param name="resolution" value="small"></f:param>
 			</s:link>
-			
+
 			<br />
 
 		</div>
@@ -41,7 +45,28 @@
 
 	<ui:define name="body">
 
+		<script>
+    jQuery(function() {
+    	jQuery.responsiveHub({
+        layouts: {
+          480:  "phone",
+          481:  "small-tablet",
+          731:  "tablet",
+          981:  "web"
+        },
+        defaultLayout: "web"
+      });
+    });
+    
+    jQuery(document).ready(function(){
 
+    		  jQuery(".track.example-1 .slider-container").each(function() {
+    			  jQuery.silverTrackRecipes.create("basic", jQuery(this)).start();
+    		  });
+
+    			
+    });
+  </script>
 
 
 
@@ -73,15 +98,64 @@
 		<div
 			class="ui stackable very relaxed center aligned grid container w3-row-padding w3-padding-8">
 
-			<button type="button" onclick="settings();" class="btn btn-blue">#{messages['Settings']}</button>
+
+			<div class="track example-1">
+				<div class="inner">
+					<h2></h2>
+
+					<div class="view-port">
+						<div class="slider-container">
+							
+							
+							<c:forEach items="#{chapterHome.course.chapters}" var="_item">
+								<div class="item">								
+									<s:link rendered="#{identity.loggedIn}" propagation="none"
+										includePageParams="false" 
+										styleClass="clickableLink viewIcon" view="/member/video.xhtml">
+										<s:span>#{_item.name}</s:span>
+										<div class="owl-video-wrapper">
+
+											<div class="owl-video-play-icon"></div>
+											<p>
+												<f:param name="courseId" value="#{courseId}"></f:param>
+												<f:param name="chapterId" value="#{_item.id}"></f:param>
+											</p>
+										</div>
+									</s:link>
+								</div>
+							</c:forEach>
+							
+
+						</div>
+					</div>
+
+					<div class="bullet-pagination"></div>
+				</div>
+
+				<div class="pagination">
+					<a href="#" class="prev disabled"></a> <a href="#"
+						class="next disabled"></a>
+				</div>
+			</div>
+
+
 			
-			<s:button view="/course.xhtml" styleClass="btn btn-yellow"
+
+		</div>
+		
+		
+		<div
+			class="ui stackable very relaxed center aligned grid container w3-row-padding w3-padding-8">
+			
+			<button type="button" onclick="settings();" class="btn btn-blue w3-margin-right">#{messages['Settings']}</button>
+
+			<s:button view="/course.xhtml" styleClass="btn btn-yellow w3-margin-right"
 				includePageParams="false" propagation="none" onclick="dt();"
 				value="#{messages['Back']}" style="display:inline;">
 				<f:param name="courseId" value="#{courseId}"></f:param>
 			</s:button>
-
-		</div>
+			
+		</div>	
 
 
 		<script type="text/javascript">

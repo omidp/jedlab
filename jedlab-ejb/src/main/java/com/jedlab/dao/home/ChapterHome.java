@@ -6,9 +6,12 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -38,6 +41,9 @@ public class ChapterHome extends EntityHome<Chapter>
     private String duration;
 
     private Course course;
+
+    @In
+    Session hibernateSession;
 
     public void setChapterId(Long id)
     {
@@ -76,8 +82,15 @@ public class ChapterHome extends EntityHome<Chapter>
     public void load()
     {
         if (getCourse().getId() != null)
-            course = getEntityManager().find(Course.class, getCourse().getId());
-        if (isIdDefined())
+        {
+            Criteria criteria = hibernateSession.createCriteria(Course.class, "c");
+            criteria.createCriteria("c.chapters", "chap", Criteria.LEFT_JOIN);
+            criteria.add(Restrictions.idEq(getCourse().getId()));
+            // course = getEntityManager().find(Course.class,
+            // getCourse().getId());
+            course = (Course) criteria.uniqueResult();
+        }
+        if (isIdDefined() && course == null)
         {
             try
             {
