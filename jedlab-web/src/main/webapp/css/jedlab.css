@@ -441,7 +441,8 @@ ul.w3-ul li:last-child {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden
+    overflow: hidden;
+    z-index: 888888 !important;
 }
 .w3-navbar li {
     float: right;

@@ -7,97 +7,106 @@
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="body">
+		<fieldset>
+			<legend></legend>
+			<h:form id="courseForm">
+				<h:panelGrid columns="2" dir="rtl" style="width:100%;">
 
-		<h:form id="courseForm">
-			<h:panelGrid columns="2" dir="rtl" style="width:100%;">
-
-				<h:outputLabel for="cname">#{messages['Course_Name']}</h:outputLabel>
-				<h:inputText id="cname" value="#{courseHome.instance.name}" />
-
-
-				<h:outputLabel for="p">#{messages['Price']}</h:outputLabel>
-				<h:inputText id="p" value="#{courseHome.instance.price}">
-					<f:convertNumber />
-				</h:inputText>
-
-				<h:outputLabel for="lang">#{messages['Language']}</h:outputLabel>
-				<h:selectOneMenu value="#{courseHome.instance.language}" id="lang">
-					<s:selectItems value="#{courseLangs}" var="_item"
-						label="#{_item.label}"></s:selectItems>
-					<s:convertEnum></s:convertEnum>
-				</h:selectOneMenu>
+					<h:outputLabel for="cname">#{messages['Course_Name']}</h:outputLabel>
+					<h:inputText id="cname" value="#{courseHome.instance.name}" />
 
 
-				<h:outputLabel for="lvl">#{messages['Level']}</h:outputLabel>
-				<h:selectOneMenu value="#{courseHome.instance.level}" id="lvl">
-					<s:selectItems value="#{courseLevels}" var="_item"
-						label="#{_item.label}"></s:selectItems>
-					<s:convertEnum></s:convertEnum>
-				</h:selectOneMenu>
+					<h:outputLabel for="p">#{messages['Price']}</h:outputLabel>
+					<h:inputText id="p" value="#{courseHome.instance.price}">
+						<f:convertNumber />
+					</h:inputText>
+
+					<h:outputLabel for="lang">#{messages['Language']}</h:outputLabel>
+					<h:selectOneMenu value="#{courseHome.instance.language}" id="lang">
+						<s:selectItems value="#{courseLangs}" var="_item"
+							label="#{_item.label}"></s:selectItems>
+						<s:convertEnum></s:convertEnum>
+					</h:selectOneMenu>
 
 
-				<h:outputLabel for="active">#{messages['Active']}</h:outputLabel>
-				<h:selectBooleanCheckbox value="#{courseHome.instance.active}"
-					id="active" />
-					
+					<h:outputLabel for="lvl">#{messages['Level']}</h:outputLabel>
+					<h:selectOneMenu value="#{courseHome.instance.level}" id="lvl">
+						<s:selectItems value="#{courseLevels}" var="_item"
+							label="#{_item.label}"></s:selectItems>
+						<s:convertEnum></s:convertEnum>
+					</h:selectOneMenu>
+
+
+					<h:outputLabel for="active">#{messages['Active']}</h:outputLabel>
+					<h:selectBooleanCheckbox value="#{courseHome.instance.active}"
+						id="active" />
+
 					<h:outputLabel for="active">#{messages['Sticky']}</h:outputLabel>
-				<h:selectBooleanCheckbox value="#{courseHome.instance.sticky}"
-					id="sticky" />
+					<h:selectBooleanCheckbox value="#{courseHome.instance.sticky}"
+						id="sticky" />
 
-				<h:outputLabel for="desc">#{messages['Description']}</h:outputLabel>
-				<h:inputTextarea value="#{courseHome.instance.description}"
-					id="desc" />
+					<h:outputLabel for="desc">#{messages['Description']}</h:outputLabel>
+					<h:inputTextarea value="#{courseHome.instance.description}"
+						id="desc" />
 
-				<h:outputLabel for="desc">#{messages['Requirment']}</h:outputLabel>
-				<h:inputTextarea value="#{courseHome.instance.requirement}" id="req" />
+					<h:outputLabel for="desc">#{messages['Requirment']}</h:outputLabel>
+					<h:inputTextarea value="#{courseHome.instance.requirement}"
+						id="req" />
 
-				<h:outputLabel for="desc">#{messages['Resources']}</h:outputLabel>
-				<h:inputTextarea value="#{courseHome.instance.resources}" id="res" />
-
-
-				<h:outputLabel for="file">#{messages['Image']}</h:outputLabel>
-				<s:graphicImage value="#{courseHome.instance.image}"
-					style="width:150px;" rendered="#{courseHome.instance.hasImage}">
-					<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>
-				</s:graphicImage>
-				<h:outputText value="#{messages['Has_Not']}"
-					rendered="#{!courseHome.instance.hasImage}" />
+					<h:outputLabel for="desc">#{messages['Resources']}</h:outputLabel>
+					<h:inputTextarea value="#{courseHome.instance.resources}" id="res" />
 
 
-
-			</h:panelGrid>
+					<h:outputLabel for="file">#{messages['Image']}</h:outputLabel>
+					<s:graphicImage value="#{courseHome.instance.image}"
+						style="width:150px;" rendered="#{courseHome.instance.hasImage}">
+						<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>
+					</s:graphicImage>
+					<h:outputText value="#{messages['Has_Not']}"
+						rendered="#{!courseHome.instance.hasImage}" />
 
 
 
-			<h:commandButton id="save" value="#{messages['Save']}"
-				action="#{courseHome.persist()}" rendered="#{!courseHome.managed}" />
+				</h:panelGrid>
 
-			<h:commandButton id="update" value="#{messages['Update']}"
-				action="#{courseHome.update()}" rendered="#{courseHome.managed}" />
 
-		</h:form>
 
-		<hr />
+				<h:commandButton id="save" value="#{messages['Save']}"
+					action="#{courseHome.persist()}" rendered="#{!courseHome.managed}" />
 
-		<h:form enctype="multipart/form-data">
-			<h:panelGrid columns="2" dir="rtl" style="width:100%">
-				<h:outputLabel for="file">#{messages['Course_Image']}</h:outputLabel>
-				<s:fileUpload id="file" data="#{courseHome.instance.image}"
-					accept="images/*" />
-			</h:panelGrid>
-			<h:commandButton id="submit" value="#{messages['Save']}"
-				action="#{courseHome.update()}" />
-		</h:form>
+				<h:commandButton id="update" value="#{messages['Update']}"
+					action="#{courseHome.update()}" rendered="#{courseHome.managed}" />
+
+			</h:form>
+		</fieldset>
 
 		<hr />
 
+		<fieldset>
+			<legend></legend>
+
+			<h:form enctype="multipart/form-data">
+				<h:panelGrid columns="2" dir="rtl" style="width:100%">
+					<h:outputLabel for="file">#{messages['Course_Image']}</h:outputLabel>
+					<s:fileUpload id="file" data="#{courseHome.instance.image}"
+						accept="images/*" />
+				</h:panelGrid>
+				<h:commandButton id="submit" value="#{messages['Save']}"
+					action="#{courseHome.update()}" />
+			</h:form>
+		</fieldset>
 
 
-		<h:form id="tagform">
+		<hr />
+
+
+
+		<fieldset>
+			<legend></legend>
+			<h:form id="tagform">
 				<h:outputLabel for="file">#{messages['Tag']}</h:outputLabel>
 				<div class="ui multiple search selection dropdown" id="selectTag">
-					<input type="hidden" name="tags" /> 
-					<i class="dropdown icon"></i>
+					<input type="hidden" name="tags" /> <i class="dropdown icon"></i>
 					<div class="default text">Tags</div>
 					<div class="menu">
 						<c:forEach var="_ti" items="#{tagQuery.resultList}">
@@ -107,7 +116,11 @@
 
 				</div>
 
-			<script>
+				<h:commandButton id="submit" value="#{messages['Save']}"
+					action="#{courseHome.saveTags()}" />
+			</h:form>
+		</fieldset>
+		<script>
 			jQuery(document).ready(function(){
 
 				jQuery('#selectTag')
@@ -117,9 +130,6 @@
 			
 			});
 		</script>
-			<h:commandButton id="submit" value="#{messages['Save']}"
-				action="#{courseHome.saveTags()}" />
-		</h:form>
 
 		<hr />
 

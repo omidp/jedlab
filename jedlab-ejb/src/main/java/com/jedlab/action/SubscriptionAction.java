@@ -36,9 +36,6 @@ public class SubscriptionAction extends HibernateEntityController
      */
     private String courseNames;
 
-
-    
-
     public String getEmails()
     {
         return emails;
@@ -63,13 +60,14 @@ public class SubscriptionAction extends HibernateEntityController
     {
         if (StringUtil.isEmpty(getCourseNames()) || StringUtil.isEmpty(getEmails()))
             return null;
-        List<String> courses = Arrays.asList(getCourseNames().trim().split(","));
+        List<String> courses = Arrays.asList(getCourseNames().trim().split("\\r?\\n"));
         List<Course> courseList = getSession().createQuery("select c from Course c where c.name IN :names")
                 .setParameterList("names", courses).list();
         //
-        List<String> emails = Arrays.asList(getEmails().trim().split(","));
-//        List<Member> members = getSession().createQuery("select m from Member m where m.username IN :names")
-//                .setParameterList("names", unames).list();
+        List<String> emails = Arrays.asList(getEmails().trim().split("\\r?\\n"));
+        // List<Member> members =
+        // getSession().createQuery("select m from Member m where m.username IN :names")
+        // .setParameterList("names", unames).list();
         //
         if (CollectionUtil.isNotEmpty(courseList))
         {
@@ -78,14 +76,16 @@ public class SubscriptionAction extends HibernateEntityController
                 Events.instance().raiseAsynchronousEvent("com.jedlab.action.subscription.sendMail", courseList, email);
             }
         }
-        
+
+        getStatusMessages().addFromResourceBundle("Email_Sent_Successfull");
+
         return "sent";
     }
 
     @Observer("com.jedlab.action.subscription.sendMail")
     public void sendEmail(List<Course> courseList, String memberEmail)
     {
-        if(StringUtil.isNotEmpty(memberEmail))
+        if (StringUtil.isNotEmpty(memberEmail))
         {
             Contexts.getConversationContext().set("courses", courseList);
             Contexts.getConversationContext().set("memberEmail", memberEmail);

@@ -8,22 +8,31 @@
 
 	<ui:define name="body">
 
-<div style="margin-top: 20px; margin-right: 10px"
-		class="locale-direction">
-		<h:form id="notifierForm">
-		<h:panelGrid columns="2">
-		<h:outputText value="comma separated emails" />
-		<h:inputTextarea value="#{subscription.emails}" cols="35" rows="8" required="true"/>
-		
-		<h:outputText value="comma separated courseName" />
-		<h:inputTextarea value="#{subscription.courseNames}" cols="35" rows="8" required="true"/>
-		
-		</h:panelGrid>
-		
-		<h:commandButton action="#{subscription.notifyUsers()}" value="Notify users" />
-		
-		</h:form>
-</div>
+	<fieldset>
+		<legend></legend>
+		<div style="margin-top: 20px; margin-right: 10px"
+			class="locale-direction">
+			<h:form id="notifierForm">
+				<h:panelGrid columns="2">
+					<h:outputText value="emails (separated by new line)" />
+					<h:inputTextarea value="#{subscription.emails}" cols="35" rows="8"
+						style="direction:rtl;text-align:left"
+						required="true" />
+
+					<h:outputText value="courseName (separated by new line)" />
+					<h:inputTextarea value="#{subscription.courseNames}" cols="35"
+						rows="8" required="true" />
+
+				</h:panelGrid>
+
+				<h:commandButton action="#{subscription.notifyUsers()}"
+					styleClass="btn btn-blue"
+					value="Notify users" />
+
+			</h:form>
+		</div>
+	</fieldset>
+
 
 
 	</ui:define>

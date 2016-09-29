@@ -1,61 +1,66 @@
 <!DOCTYPE html>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:s="http://jboss.com/products/seam/taglib"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html" 
-    template="/layout/layout.xhtml">
-    
-    <ui:define name="head">
-    	<style>
-    		input[type="text"]
-    		{
-    			width: 500px;
-    		}
-    	</style>
-    </ui:define>
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
-<ui:define name="body">
+	<ui:define name="head">
+		<style>
+input[type="text"] {
+	width: 500px;
+}
+</style>
+	</ui:define>
 
-    <h:form id="chapterForm">
-    
-                <h:panelGrid columns="2" dir="rtl" style="width:100%">
-                	
-                	<h:outputLabel for="coursename">#{messages['Course_Name']}</h:outputLabel>
-                    <h:outputLabel id="coursename"
-                              value="#{chapterHome.course.name}"/>
-                
-                    <h:outputLabel for="cname">#{messages['Chapter_Name']}</h:outputLabel>
-                    <h:inputText id="cname"
-                              value="#{chapterHome.instance.name}"/>
-                              
-                    <h:outputLabel for="t">#{messages['Duration']}</h:outputLabel>
-                    <h:inputText id="t"
-                                value="#{chapterHome.duration}">
-                                
-                    </h:inputText>            
-                                
-                  
+	<ui:define name="body">
+
+		<fieldset>
+			<legend></legend>
+			<h:form id="chapterForm">
+
+				<h:panelGrid columns="2" dir="rtl" style="width:100%">
+
+					<h:outputLabel for="coursename">#{messages['Course_Name']}</h:outputLabel>
+					<h:outputLabel id="coursename" value="#{chapterHome.course.name}" />
+
+					<h:outputLabel for="cname">#{messages['Chapter_Name']}</h:outputLabel>
+					<h:inputText id="cname" value="#{chapterHome.instance.name}" />
+
+					<h:outputLabel for="t">#{messages['Duration']}</h:outputLabel>
+					<h:inputText id="t" value="#{chapterHome.duration}" style="direction:ltr;text-align:left">
+
+					</h:inputText>
+
+
 					<h:outputLabel for="p">#{messages['Path']}</h:outputLabel>
-                    <h:inputText id="p"
-                                value="#{chapterHome.instance.url}">
-                    </h:inputText>
-                    
-                        	
-                    
-                 
-                </h:panelGrid>
+					<h:inputText id="p" value="#{chapterHome.instance.url}" style="direction:ltr;text-align:left">
+					</h:inputText>
 
-        
 
-            <h:commandButton id="save" value="#{messages['Save']}" action="#{chapterHome.persist()}" rendered="#{!chapterHome.managed}"/>
-            
-            <h:commandButton id="update" value="#{messages['Update']}" action="#{chapterHome.update()}" rendered="#{chapterHome.managed}"/>
-            
-            
-            <s:button propagation="none" includePageParams="false" view="/courseList.xhtml" value="#{messages['Back']}"></s:button>
 
-    </h:form>
 
- </ui:define>
+				</h:panelGrid>
+
+ 
+
+				<h:commandButton id="save" value="#{messages['Save']}"
+					styleClass="btn btn-yellow"
+					action="#{chapterHome.persist()}"
+					rendered="#{!chapterHome.managed}" />
+
+				<h:commandButton id="update" value="#{messages['Update']}"
+					styleClass="btn btn-blue"
+					action="#{chapterHome.update()}" rendered="#{chapterHome.managed}" />
+
+
+				<s:button propagation="none" includePageParams="false"
+					styleClass="btn btn-red"
+					view="/courseList.xhtml" value="#{messages['Back']}"></s:button>
+
+			</h:form>
+		</fieldset>
+
+
+	</ui:define>
 </ui:composition>
