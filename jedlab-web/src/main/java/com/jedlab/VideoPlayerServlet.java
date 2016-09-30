@@ -92,23 +92,21 @@ public class VideoPlayerServlet extends HttpServlet
         String userAgent = req.getHeader("User-Agent");
         if (StringUtil.isEmpty(userAgent))
             sendError(resp);
-        // only allowed partial content, exclude android to work on chrome
+        // 
         Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
-        if (userAgent.contains("Android") == false)
-        {
-            Identity identity = Identity.instance();
-            if (identity.isLoggedIn() == false)
-                throw new RequestException("not loggedin");
-            if (uid == null)
-                sendError(resp);
-            String range = req.getHeader("Range");
-            if (StringUtil.isEmpty(range))
-                sendError(resp);
-            Matcher matcher = pattern.matcher(range);
-            if (matcher.find() == false)
-                sendError(resp);
-        }
-        // Long r = Long.parseLong(matcher.group(1));
+        if(uid == null)
+            sendError(resp);
+        Identity identity = Identity.instance();
+        if (identity.isLoggedIn() == false)
+            sendError(resp);
+        if (uid == null)
+            sendError(resp);
+        String range = req.getHeader("Range");
+        if (StringUtil.isEmpty(range))
+            sendError(resp);
+        Matcher matcher = pattern.matcher(range);
+        if (matcher.find() == false)
+            sendError(resp);
 
         Session sess = (Session) Component.getInstance("hibernateSession");
         String token = getToken(req.getRequestURL().toString());
@@ -144,13 +142,6 @@ public class VideoPlayerServlet extends HttpServlet
         if (file.exists() == false)
             sendError(resp);
         MultipartFileSender.fromFile(file).with(req).with(resp).with(expire).serveResource();
-        // PersistenceContexts.instance().changeFlushMode(FlushModeType.MANUAL);
-        // if (r >= file.length())
-        // {
-        // sess.createQuery("delete from VideoToken vt where vt.id = :vtId").setParameter("vtId",
-        // vt.getId()).executeUpdate();
-        // sess.flush();
-        // }
 
     }
 
