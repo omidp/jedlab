@@ -76,8 +76,8 @@
 				<div class="ui link cards">
 
 					<c:forEach items="#{courseQuery.resultList}" var="_item">
-						<div class="card" onclick="gotoCourse(#{_item.id});">
-							<div class="image">
+						<div class="card">
+							<div class="image" onclick="gotoCourse(#{_item.id});">
 
 								<s:graphicImage value="#{_item.image}" style="height:250px;"
 									rendered="#{_item.hasImage}">
@@ -90,7 +90,7 @@
 								</s:graphicImage>
 
 							</div>
-							<div class="content">
+							<div class="content" style="cursor: default;">
 								<div class="header">
 
 									<s:link propagation="none" includePageParams="false"

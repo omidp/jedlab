@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url>
+  <loc>http://jedlab.ir/</loc>
+  <lastmod>2016-09-30T09:09:30+00:00</lastmod>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://jedlab.ir/home.seam</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://jedlab.ir/courseList</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://jedlab.ir/login</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://jedlab.ir/recoverPassword</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://jedlab.ir/recoverActivationLink</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://jedlab.ir/contactus</loc>
+  <changefreq>weekly</changefreq>  
+</url>
+<url>
+  <loc>http://jedlab.ir/terms</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://jedlab.ir/privacy</loc>
+  <changefreq>weekly</changefreq>
+</url>
+</urlset>
