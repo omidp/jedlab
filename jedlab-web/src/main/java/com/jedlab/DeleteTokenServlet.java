@@ -35,7 +35,7 @@ public class DeleteTokenServlet extends HttpServlet
                 token = token.trim();
                 getEntityManager().createQuery("delete from VideoToken vt where vt.token = :token").setParameter("token", token)
                         .executeUpdate();
-                CacheManager.remove("videoTokenCache");
+                CacheManager.remove(token);
                 getEntityManager().flush();
             }
         }.run();

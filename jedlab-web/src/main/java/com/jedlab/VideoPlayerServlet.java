@@ -112,7 +112,7 @@ public class VideoPlayerServlet extends HttpServlet
         String token = getToken(req.getRequestURL().toString());
         if (StringUtil.isEmpty(token))
             sendError(resp);
-        Object cache = CacheManager.get("videoTokenCache");
+        Object cache = CacheManager.get(token);
         VideoToken vt = null;
         if (cache == null)
         {
@@ -122,7 +122,7 @@ public class VideoPlayerServlet extends HttpServlet
             criteria.add(Restrictions.eq("vt.token", token));
             criteria.setMaxResults(1);
             vt = (VideoToken) criteria.uniqueResult();
-            CacheManager.put("videoTokenCache", vt);
+            CacheManager.put(token, vt);
         }
         else
         {
