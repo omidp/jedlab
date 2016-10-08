@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?uqtf4y');
-  src:  url('fonts/icomoon.eot?uqtf4y#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?uqtf4y') format('truetype'),
-    url('fonts/icomoon.woff?uqtf4y') format('woff'),
-    url('fonts/icomoon.svg?uqtf4y#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?cc1y25');
+  src:  url('fonts/icomoon.eot?cc1y25#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?cc1y25') format('truetype'),
+    url('fonts/icomoon.woff?cc1y25') format('woff'),
+    url('fonts/icomoon.svg?cc1y25#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -293,6 +293,9 @@
 }
 .icon-twitter:before {
   content: "\e957";
+}
+.icon-rss2:before {
+  content: "\e961";
 }
 .icon-github:before {
   content: "\e958";

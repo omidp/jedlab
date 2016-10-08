@@ -31,6 +31,10 @@
 		<rewrite pattern="/partners"/>		
 	</page>
 	
+	<page view-id="/rss.xhtml">		
+		<rewrite pattern="/rss"/>		
+	</page>
+	
 	<page view-id="/privacy.xhtml">		
 		<rewrite pattern="/privacy"/>		
 	</page>

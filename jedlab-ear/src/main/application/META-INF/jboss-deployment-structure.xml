@@ -26,6 +26,7 @@
             </exclusions>  
             <dependencies>  
               <module name="javax.faces.api" slot="1.2"/>  
+              <module name="com.sun.xml.bind" />
               <module name="com.sun.jsf-impl" slot="1.2"/>  
             </dependencies>  
       </sub-deployment>   
