@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<style>
+.wrap {
+	margin: 0 auto;
+	max-width: 100%;
+	padding: 0 20px;
+	position: relative;
+	width: 50rem;
+	overflow: auto;
+}
+p{
+text-align: justify;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div style="margin: 50px; height: 100%" class="locale-direction">
+
+
+			<div class="wrap">
+
+				<div class="ui segment">
+					<a href="http://javacup.ir" target="_blank">
+					<img class="ui centered medium image"
+						src="#{_ctx}/images/javacup_logo.png" />
+					</a>	
+					<p>
+					انجمن جاواکاپ، گروهی است که برای تقویت فعالان حوزه تولید نرم‌افزار مرتبط با جاوا راه‌اندازی شده است.
+					 جاواکاپ با کمک به کارآفرینان، کارفرمایان
+					  و برنامه‌نویسان در ایران می‌کوشد تا رونق، کیفیت و رضایت بیشتری در حوزه نرم‌افزارهای مبتنی بر جاوا فراهم آید. هدف انجمن جاواکاپ، گسترش کمی و ارتقای کیفی صنعت جاوا در ایران است
+					</p>
+					<p></p>
+					<a href="http://javabyab.com" target="_blank">
+					<img class="ui small centered image"
+						src="#{_ctx}/images/javabyab-logo.png" />
+					</a>	
+					<p>
+						
+						جواب یاب یک سرویس رایگان سوال و جواب (پرسش و پاسخ) فارسی زبان است که با به اشتراک گذاری دانش و تجربیات کاربران خود در قالب سوال و جواب به همگان این امکان را می دهد
+						 که از یک مجموعه وسیع از سوال های متنوع و جواب های دقیق بهره ببرند، این سایت همچنین بستری برای پرسیدن سوال های کاربران در زمینه های مختلف فراهم آورده است
+						  که به آنها این امکان را می دهد با مطرح کردن سوال های خود در زمینه های گوناگون جواب های دقیق و متنوعی دریافت کنند.
+					
+					</p>
+				</div>
+
+
+			</div>
+
+
+
+		</div>
+
+	</ui:define>
+</ui:composition>
