@@ -14,7 +14,8 @@
 						  http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.3.xsd
 						  http://jboss.com/products/seam/core 
 						  http://jboss.com/products/seam/core-2.3.xsd                  
-						  http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.3.xsd                  
+						  http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.3.xsd
+						  http://jboss.com/products/seam/resteasy http://jboss.com/products/seam/resteasy-2.3.xsd                  
 						  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.3.xsd                  
 						  http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.3.xsd                  
 						  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.3.xsd                  
@@ -40,10 +41,6 @@
 	<!-- <transaction:entity-transaction entity-manager="#{entityManager}"></transaction:entity-transaction> -->
 	<component class="org.jboss.seam.transaction.EjbSynchronizations" jndi-name="java:app/jboss-seam-2.2.3/EjbSynchronizations"/>
 	
-	<!-- <resteasy:application resource-path-prefix="/api" >
-        
-    </resteasy:application> -->
-    
     
 	<!-- Make sure this URL pattern is the same as that used by the Faces Servlet -->
 	<web:ajax4jsf-filter disabled="true"></web:ajax4jsf-filter>
@@ -97,8 +94,8 @@
 	</event>
 	
 	
-	<!-- <mail:mail-session host="mailtrap.io" port="2525" username="5c2004fb6d747b" password="c2cfab3fb3d9c0"  /> -->
-	 <mail:mail-session host="smtp.mailgun.org" port="2525" username="postmaster@jedlab.ir" password="3a6743d8bf86926761e103d86858bdbe"  /> 
+	<!--  <mail:mail-session host="mailtrap.io" port="2525" username="5c2004fb6d747b" password="c2cfab3fb3d9c0"  /> -->
+	 <mail:mail-session host="smtp.mailgun.org" port="2525" username="postmaster@jedlab.ir" password="3a6743d8bf86926761e103d86858bdbe"  />  
 	
 	
 	<!--<bpm:jbpm>
@@ -139,4 +136,9 @@
 	
 	<!-- Caching -->
 	<cache:eh-cache-provider configuration="ehcache.xml"></cache:eh-cache-provider>
+	
+	<resteasy:application resource-path-prefix="/api" >
+        
+    </resteasy:application>
+	
 </components>

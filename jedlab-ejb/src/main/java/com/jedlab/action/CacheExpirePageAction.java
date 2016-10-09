@@ -27,7 +27,7 @@ import org.jboss.seam.web.AbstractFilter;
 public class CacheExpirePageAction extends AbstractFilter
 {
 
-    private static final Pattern pattern = Pattern.compile("images|resource|css|js|image|img|resources|javascript");
+    private static final Pattern pattern = Pattern.compile("images|resource|css|js|image|img|resources|javascript|play");
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException

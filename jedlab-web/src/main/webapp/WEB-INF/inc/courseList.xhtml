@@ -132,11 +132,10 @@
 								</div>
 							</div>
 							<div class="extra content white">
-								<s:link view="/course.xhtml" value="#{messages['Detail_View']}"
+								<s:link view="/seam/resource/api/c/#{_item.name}" value="#{messages['Detail_View']}"
 									propagation="none" includePageParams="false"
 									styleClass="btn btn-blue btn-outline right floated clickableLink cItem_#{_item.id}"
-									style="font-weight: bold;">
-									<f:param name="courseId" value="#{_item.id}"></f:param>
+									style="font-weight: bold;">									
 								</s:link>
 							</div>
 						</div>
