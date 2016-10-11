@@ -45,7 +45,8 @@ public class Rss
             Entry entry = new Entry();
             entry.setAuthor("JEDLab");
             entry.setLink(String.format("http://jedlab.ir/course/%s", course.getId()));
-            entry.setPublished(course.getCreatedDate());
+            //PubDate under <feed> level is not supported
+            //entry.setPublished(course.getCreatedDate());
             entry.setSummary(course.getDescription());
             entry.setTitle(course.getName());
             entry.setUid(UUID.randomUUID().toString());
@@ -57,7 +58,7 @@ public class Rss
             @Override
             public int compare(Entry o1, Entry o2)
             {
-                return o2.getPublished().compareTo(o1.getPublished());
+                return o2.getUpdated().compareTo(o1.getUpdated());
             }
         });
         feed.setEntries(entries);

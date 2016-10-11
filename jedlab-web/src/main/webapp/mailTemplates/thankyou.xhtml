@@ -1,273 +1,324 @@
 <m:message xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:m="http://jboss.com/products/seam/mail"       
-    xmlns:h="http://java.sun.com/jsf/html"
-    charset="UTF-8">
+	xmlns:m="http://jboss.com/products/seam/mail"
+	xmlns:h="http://java.sun.com/jsf/html" charset="UTF-8">
 
-    <m:from name="JEDLAB Team" address="noreply@jedlab.ir" />
+	<m:from name="JEDLAB Team" address="noreply@jedlab.ir" />
 
-    <m:to name="#{user.email}">#{user.email}</m:to>
+	<m:to name="#{user.email}">#{user.email}</m:to>
 
-    <m:subject>JEDLab | Java Education Development Lab</m:subject>
-
-	
-
-    <m:body>
-    	<style type="text/css">
-
-		#outlook a {padding:0;}
-		body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
-		.ExternalClass {width:100%;}
-		.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
-		#backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
-		img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
-		a img {border:none;display:inline-block;}
-		.image_fix {display:block;}
-		
-		h1, h2, h3, h4, h5, h6 {color: black !important;}
-
-		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: blue !important;}
-
-		h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
-			color: red !important; 
-		}
-
-		h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
-			color: purple !important; 
-		}
-
-		table td {border-collapse: collapse;}
-
-		table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
-
-		a {color: #000;}
-
-		@media only screen and (max-device-width: 480px) {
-
-			a[href^="tel"], a[href^="sms"] {
-				text-decoration: none;
-				color: black; /* or whatever your want */
-				pointer-events: none;
-				cursor: default;
-			}
-
-			.mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
-				text-decoration: default;
-				color: orange !important; /* or whatever your want */
-				pointer-events: auto;
-				cursor: default;
-			}
-		}
+	<m:subject>JEDLab | Java Education Development Lab</m:subject>
 
 
-		@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-			a[href^="tel"], a[href^="sms"] {
-				text-decoration: none;
-				color: blue; /* or whatever your want */
-				pointer-events: none;
-				cursor: default;
-			}
 
-			.mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
-				text-decoration: default;
-				color: orange !important;
-				pointer-events: auto;
-				cursor: default;
-			}
-		}
+	<m:body>
+		<style type="text/css">
+#outlook a {
+	padding: 0;
+}
 
-		p {
-			margin:0;
-			color:#555;
-			font-family:Tahoma, Helvetica, Arial, sans-serif;
-			font-size:16px;
-			line-height:160%;
-		}
-		a.link2{
-			text-decoration:none;
-			font-family:Helvetica, Arial, sans-serif;
-			font-size:16px;
-			color:#fff;
-			border-radius:4px;
-		}
-		h2{
-			color:#181818;
-			font-family:Helvetica, Arial, sans-serif;
-			font-size:22px;
-			font-weight: normal;
-		}
+.ReadMsgBody {
+	width: 100%;
+}
 
-		.bgItem{
-			background:#F4A81C;
-		}
-		.bgBody{
-			background:#ffffff;
-		}
-	.contentEditable{
-		direction:rtl;
-		font-family:Tahoma;
+.ExternalClass {
+	width: 100%;
+}
+
+.ExternalClass * {
+	line-height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+}
+
+table, td {
+	border-collapse: collapse;
+	mso-table-lspace: 0pt;
+	mso-table-rspace: 0pt;
+}
+
+img {
+	border: 0;
+	height: auto;
+	line-height: 100%;
+	outline: none;
+	text-decoration: none;
+	-ms-interpolation-mode: bicubic;
+}
+
+p {
+	display: block;
+	margin: 13px 0;
+}
+</style>
+		<!--[if !mso]><!-->
+		<style type="text/css">
+@media only screen and (max-width:480px) { @
+	-ms-viewport {
+		width: 320px;
 	}
+	@
+	viewport {
+		width: 320px;
+	}
+}
+</style>
+		<!--<![endif]-->
+		<!--[if mso]>
+<xml>
+  <o:OfficeDocumentSettings>
+    <o:AllowPNG/>
+    <o:PixelsPerInch>96</o:PixelsPerInch>
+  </o:OfficeDocumentSettings>
+</xml>
+<![endif]-->
 
-	</style>
-    	<table cellpadding="0" width="100%" cellspacing="0" border="0" id="backgroundTable" class='bgBody'>
-		<tr>
-			<td>
-
-				<!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
-
-				<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="border-collapse:collapse;">
-					<tr>
-						<td class='movableContentContainer'>
-							
-							<div class='movableContent'>
-								<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
-									<tr height="40">
-										<td width="200">#{' '}</td>
-										<td width="200">#{' '}</td>
-										<td width="200">#{' '}</td>
-									</tr>
-									<tr>
-										<td width="200" valign="top">#{' '}</td>
-										<td width="200" valign="top" align="center">
-											<div class="contentEditableContainer contentTextEditable">
-												<div class="contentEditable" >
-													<img src="http://www.jedlab.ir/images/logo.png" width="135" height='45' alt='Logo'  data-default="placeholder" />
-												</div>
-											</div>
-										</td>
-										<td width="200" valign="top">#{' '}</td>
-									</tr>
-									<tr height="25">
-										<td width="200">#{' '}</td>
-										<td width="200">#{' '}</td>
-										<td width="200">#{' '}</td>
-									</tr>
-								</table>
-							</div>
-
-							<div class='movableContent'>
-								<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
-									<tr>
-										<td width="100%" colspan="3" align="center" style="padding-bottom:10px;padding-top:25px;">
-											<div class="contentEditableContainer contentTextEditable">
-												<div class="contentEditable" >
-													<h2 >#{user.username} عزیز</h2>
-												</div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td width="100">#{' '}</td>
-										<td width="400" align="center" style="padding-bottom:5px;">
-											<div class="contentEditableContainer contentTextEditable">
-												<div class="contentEditable" >
-													<p >ممنون از اینکه جدلب را انتخاب کردید ،امیدواریم مطالب ارائه شده برایتان مفید باشد</p>
-												</div>
-											</div>
-										</td>
-										<td width="100">#{' '}</td>
-									</tr>
-								</table>
-							</div>
-
-							<div class='movableContent'>
-								<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
-									<tr>
-										<td width="100">#{' '}</td>
-										<td width="400" align="center" style="padding-top:25px;padding-bottom:115px;">
-											<table cellpadding="0" cellspacing="0" border="0" align="center" width="200" height="50">
-												<tr>
-													<td bgcolor="#ED006F" align="center" style="border-radius:4px;" width="200" height="50">
-														<div class="contentEditableContainer contentTextEditable">
-															<div class="contentEditable" >
-																<a target='_blank' href="http://www.jedlab.ir/courseList.seam"
-																	style="text-decoration:none;font-family:Yekan, Tahoma, Arial, sans-serif;font-size:16px;color:#fff;border-radius:4px;" 
-																	class='link2'>مشاهده لیست دوره ها</a>
-															</div>
-														</div>
-
-													</td>
-												</tr>
-											</table>
-										</td>
-										<td width="100">#{' '}</td>
-									</tr>
-								</table>
-							</div>
-
-
-							<div class='movableContent'>
-								<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="border-collapse:collapse;">
-									<tr>
-										<td style="color:#fff;background:#F4A81C;" class='bgItem'>
-											<table cellpadding="0" style="border-collapse:collapse;" cellspacing="0" border="0" align="center" width="600">
-												<tr>
-													
-													<td width="100%" valign="top" style="padding-top:20px;padding-bottom:20px;">
-														<br/>
-														<div class="contentEditableContainer contentTextEditable">
-															<div class="contentEditable" >
-																<div style="font-size:23px;font-family:Yekan,Tahoma, Arial, sans-serif;color:#fff;"> درباره جدلب</div>
-															</div>
-														</div>
-														
-														<div class="contentEditableContainer contentTextEditable">
-															<div class="contentEditable"  
-															style="padding:20px 10px 0 0;margin:0;font-family:Helvetica, Arial, sans-serif;font-size:15px;line-height:150%;">
-																<p style='color:#FFEECE;text-align: justify;'>
-جدلب برای تقويت حوزه توليد نرم‌افزار ، مرتبط با تکنولوژی های جاوا راه‌اندازی شده است. جدلب با کمک به کارآفرينان و برنامه‌نويسان در ايران می‌کوشد تا کيفيت و رضايت بيشتری در حوزه نرم‌افزارهای مبتنی بر جاوا فراهم آورد. هدف جدلب ارتقای صنعت جاوا در ایران است</p>
-															</div>
-														</div>
-
-													</td>
-												</tr>
-											</table>
-										</td>
-									</tr>
-								</table>
-							</div>
-
-							
-
-							<div class='movableContent'>
-								<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
-									<tr>
-										<td width="100%" colspan="2" style="padding-top:65px;">
-											<hr style="height:1px;border:none;color:#333;background-color:#ddd;" />
-										</td>
-									</tr>
-									<tr>
-										<td width="60%" height="70" valign="middle" style="padding-bottom:20px;">
-											<div class="contentEditableContainer contentTextEditable">
-												<div class="contentEditable" >
-													<span style="font-size:13px;color:#181818;font-family:Tahoma, Arial, sans-serif;line-height:200%;">ارسال شده توسط تیم جدلب</span>
-													<br/>
-													<span style="font-size:11px;color:#555;font-family:Helvetica, Arial, sans-serif;line-height:200%;"></span>
-													<br/>
-								                    <span style="font-size:13px;color:#181818;font-family:Helvetica, Arial, sans-serif;line-height:200%;"></span>
-													<br/>
-													<span style="font-size:13px;color:#181818;font-family:Helvetica, Arial, sans-serif;line-height:200%;">
-														</span>
-												</div>
-											</div>
-										</td>
-										<td width="40%" height="70" align="right" valign="top" style="padding-bottom:20px;">
-											
-										</td>
-									</tr>
-								</table>
-							</div>
-
-						</td>
-					</tr>
+		<!--[if !mso]><!-->
+		<link href="http://jedlab.ir/css/mt_font.css" rel="stylesheet"
+			type="text/css" />
+		<style type="text/css">
+@import url(http://jedlab.ir/css/mt_font.css);
+</style>
+		<!--<![endif]-->
+		<style type="text/css">
+@media only screen and (min-width:480px) {
+	.mj-column-per-100, * [aria-labelledby="mj-column-per-100"] {
+		width: 100% !important;
+	}
+	.mj-column-px-600, * [aria-labelledby="mj-column-px-600"] {
+		width: 600px !important;
+	}
+}
+</style>
+		<div>
+			<!--[if mso | IE]>
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" align="center" style="width:600px;">
+        <tr>
+          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+      <![endif]-->
+			<div style="margin: 0 auto; max-width: 600px; background: #4b89dc;">
+				<table role="presentation" cellpadding="0" cellspacing="0"
+					style="font-size: 0px; width: 100%; background: #4b89dc;"
+					align="center" border="0">
+					<tbody>
+						<tr>
+							<td
+								style="text-align: center; vertical-align: top; font-size: 0px; padding: 20px 0px;">
+								<!--[if mso | IE]>
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
+      <![endif]-->
+								<div aria-labelledby="mj-column-px-600" class="mj-column-px-600"
+									style="vertical-align: top; display: inline-block; font-size: 13px; text-align: left; width: 100%;">
+									<table role="presentation" cellpadding="0" cellspacing="0"
+										width="100%" border="0">
+										<tbody>
+											<tr>
+												<td
+													style="word-break: break-word; font-size: 0px; padding: 10px 25px;"
+													align="center"><table role="presentation"
+														cellpadding="0" cellspacing="0"
+														style="border-collapse: collapse; border-spacing: 0px;"
+														align="center" border="0">
+														<tbody>
+															<tr>
+																<td style="width: 135px;"><img alt="" title=""
+																	height="45px" src="http://jedlab.ir/images/logo.png"
+																	style="border: none; border-radius:; display: block; outline: none; text-decoration: none; width: 100%; height: 45px;"
+																	width="135" /></td>
+															</tr>
+														</tbody>
+													</table></td>
+											</tr>
+											<tr>
+												<td
+													style="word-break: break-word; font-size: 0px; padding: 10px 25px;"
+													align="center"><div
+														style="cursor: auto; color: #fff; font-family: Yekan, Tahoma; font-size: 12px; line-height: 22px;">با
+														جدلب ، برنامه نویس حرفه ای جاوا شوید</div></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!--[if mso | IE]>
+      </td></tr></table>
+      <![endif]-->
+							</td>
+						</tr>
+					</tbody>
 				</table>
-<!-- END BODY -->
+			</div>
+			<!--[if mso | IE]>
+      </td></tr></table>
+      <![endif]-->
+			<!--[if mso | IE]>
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" align="center" style="width:600px;">
+        <tr>
+          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+      <![endif]-->
+			<div style="margin: 0 auto; max-width: 600px; background: #344b61;">
+				<table role="presentation" cellpadding="0" cellspacing="0"
+					style="font-size: 0px; width: 100%; background: #344b61;"
+					align="center" border="0">
+					<tbody>
+						<tr>
+							<td
+								style="text-align: center; vertical-align: top; font-size: 0px; padding: 20px 0px;">
+								<!--[if mso | IE]>
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
+      <![endif]-->
+								<div aria-labelledby="mj-column-per-100"
+									class="mj-column-per-100"
+									style="vertical-align: top; display: inline-block; font-size: 13px; text-align: left; width: 100%;">
+									<table role="presentation" cellpadding="0" cellspacing="0"
+										width="100%" border="0">
+										<tbody>
+											<tr>
+												<td style="word-break: break-word; font-size: 0px;"
+													align="center"><div>
+														<div class="mj-inline-links"
+															style="width: 100%; text-align: center;">
+															<!--[if gte mso 9]>
+  			  <table role="presentation" border="0" cellpadding="0" cellspacing="0" align="center">
+            <tr>
+  		  <![endif]-->
+															<!--[if gte mso 9]>
+          <td style="padding: 15px 10px">
+        <![endif]-->
+															<a href="https://jedlab.ir/home"
+																style="display: inline-block; text-decoration: none; text-transform: uppercase; color: #ffffff; font-family: Yekan, Tahoma; font-size: 13px; font-weight: normal; line-height: 22px; padding: 15px 10px;">بازدید
+																از سایت</a>
+															<!--[if gte mso 9]>
+          </td>
+        <![endif]-->
+															<!--[if gte mso 9]>
+          <td style="padding: 15px 10px">
+        <![endif]-->
+															<a href="https://jedlab.ir/login"
+																style="display: inline-block; text-decoration: none; text-transform: uppercase; color: #ffffff; font-family: Yekan, Tahoma; font-size: 13px; font-weight: normal; line-height: 22px; padding: 15px 10px;">ثبت
+																نام</a>
+															<!--[if gte mso 9]>
+          </td>
+        <![endif]-->
+															<!--[if gte mso 9]>
+          <td style="padding: 15px 10px">
+        <![endif]-->
+															<a href="https://jedlab.ir/courseList"
+																style="display: inline-block; text-decoration: none; text-transform: uppercase; color: #ffffff; font-family: Yekan, Tahoma; font-size: 13px; font-weight: normal; line-height: 22px; padding: 15px 10px;">لیست
+																دوره ها</a>
+															<!--[if gte mso 9]>
+          </td>
+        <![endif]-->
+															<!--[if gte mso 9]>
+            </tr>
+          </table>
+        <![endif]-->
+														</div>
+													</div></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!--[if mso | IE]>
+      </td></tr></table>
+      <![endif]-->
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!--[if mso | IE]>
+      </td></tr></table>
+      <![endif]-->
+			<!--[if mso | IE]>
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" align="center" style="width:600px;">
+        <tr>
+          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+      <![endif]-->
+			<div style="margin: 0 auto; max-width: 600px;">
+				<table role="presentation" cellpadding="0" cellspacing="0"
+					style="font-size: 0px; width: 100%;" align="center" border="0">
+					<tbody>
+						<tr>
+							<td
+								style="text-align: center; vertical-align: top; font-size: 0px; padding: 20px 0px;">
+								<!--[if mso | IE]>
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
+      <![endif]-->
+								<div aria-labelledby="mj-column-per-100"
+									class="mj-column-per-100"
+									style="vertical-align: top; display: inline-block; font-size: 13px; text-align: left; width: 100%;">
+									<table role="presentation" cellpadding="0" cellspacing="0"
+										width="100%" border="0">
+										<tbody>
+											<tr>
+												<td
+													style="word-break: break-word; font-size: 0px; padding: 10px 25px;"
+													align="center"><div
+														style="cursor: auto; color: #000000; font-family: Yekan, Tahoma; font-size: 13px; line-height: 22px;">
+														<h2>#{user.username},</h2>
+														<p
+															style="color: #666666; direction: rtl; font-family: Yekan, Tahoma; text-align: right">
+															از اینکه جدلب را انتخاب کردید ،متشکریم . <br /> هدف از
+															راه اندازی جدلب تولید ، ارتقا و تقویت نرم افزارهای جاوا
+															می باشد . لذا میکوشد ، جهت افزایش هر چه بیشتر کیفیت ،
+															رضایت و جلب نظر کاربران نرم افزارهای مبتنی بر جاوا با
+															ارائه آموزش های کاربردی از مقدماتی تا پیشرفته شما را
+															همیاری نماید . <br /> امیدواریم مطالب ارائه شده برایتان
+															مفید باشد
+														</p>
+													</div></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!--[if mso | IE]>
+      </td></tr></table>
+      <![endif]-->
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!--[if mso | IE]>
+      </td></tr></table>
+      <![endif]-->
+			<!--[if mso | IE]>
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" align="center" style="width:600px;">
+        <tr>
+          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
+      <![endif]-->
+			<div style="margin: 0 auto; max-width: 600px; background: #CECECE;">
+				<table role="presentation" cellpadding="0" cellspacing="0"
+					style="font-size: 0px; width: 100%; background: #CECECE;"
+					align="center" border="0">
+					<tbody>
+						<tr>
+							<td
+								style="text-align: center; vertical-align: top; font-size: 0px; padding: 20px 0px;">
+								<!--[if mso | IE]>
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:undefined;width:600px;">
+      <![endif]-->
+								<div
+									style="cursor: auto; color: #898585; font-family: Yekan, Tahoma; font-size: 12px; line-height: 22px;">ارسال
+									شده توسط تیم جدلب</div>
+								<!--[if mso | IE]>
+      </td></tr></table>
+      <![endif]-->
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!--[if mso | IE]>
+      </td></tr></table>
+      <![endif]-->
+		</div>
+	</m:body>
 
-			</td>
-		</tr>
-	</table>
 
-    </m:body>
-
-    
 
 </m:message>
