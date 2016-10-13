@@ -91,7 +91,75 @@
 			<version>0.4.6</version>
 		</dependency>
 
+<dependency>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports-fonts</artifactId>
+				<version>5.0.0</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-beanutils</groupId>
+						<artifactId>commons-beanutils</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-collections</groupId>
+						<artifactId>commons-collections</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
+			<dependency>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports</artifactId>
+				<version>5.0.0</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>bctsp-jdk14</artifactId>
+						<groupId>org.bouncycastle</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>itext</artifactId>
+						<groupId>com.lowagie</groupId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.geronimo.specs</groupId>
+						<artifactId>geronimo-stax-api_1.0_spec</artifactId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jackson-databind</artifactId>
+						<groupId>com.fasterxml.jackson.core</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jackson-core</artifactId>
+						<groupId>com.fasterxml.jackson.core</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>jackson-annotations</artifactId>
+						<groupId>com.fasterxml.jackson.core</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>ar.com.fdvs</groupId>
+				<artifactId>DynamicJasper</artifactId>
+				<version>5.0.2</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-beanutils</groupId>
+						<artifactId>commons-beanutils</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-collections</groupId>
+						<artifactId>commons-collections</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
+			<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-jci-eclipse</artifactId>
+			<version>1.1</version>
+		</dependency>
 			
 
 			<dependency>

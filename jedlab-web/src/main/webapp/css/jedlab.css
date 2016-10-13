@@ -1586,6 +1586,12 @@ input[type=radio].w3-radio:disabled+.w3-validate {
 }
 /* Start of colors */
 
+.w3-dark,
+.w3-hover-dark:hover {
+    color: #fff !important;
+    background: #333333 none repeat scroll 0 0 !important;
+}
+
 .w3-amber,
 .w3-hover-amber:hover {
     color: #000 !important;
@@ -2938,18 +2944,18 @@ span.desc {
 /* =Notifications
 -----------------------------------------------------------------------------*/
 
-.message {
+.messages {
     color: #ffffff;
     font-family: 'Yekan';
     direction: rtl;
     text-align: center;
 }
-.message li {
+.messages li {
     padding: 7px 15px;
     text-align: center;
     margin-bottom: .65em;
 }
-.message li.infomsg {
+.messages li.infomsg {
     direction: rtl;
     border-radius: 3px;
     list-style: disc inside url("../images/msginfo.png");
@@ -2957,7 +2963,7 @@ span.desc {
     border: 1px solid rgba(96, 174, 77, 0.15);
     color: #60ae4d;
 }
-.message li.errormsg {
+.messages li.errormsg {
     direction: rtl;
     border-radius: 3px;
     background-color: rgba(243, 66, 72, 0.15);
@@ -2965,7 +2971,7 @@ span.desc {
     color: #f34248;
     list-style: disc inside url("../images/msgerror.png");
 }
-.message li.warnmsg {
+.messages li.warnmsg {
     direction: rtl;
     border-radius: 3px;
     background-color: rgba(254, 212, 67, 0.15);

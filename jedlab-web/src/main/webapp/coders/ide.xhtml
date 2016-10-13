@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<script type="text/javascript" src="#{_ctx}/js/codemirror.js"> </script>
+		<link href="#{_ctx}/css/codemirror.css" rel="stylesheet" />
+		<script type="text/javascript" src="#{_ctx}/js/addon/javascript.js"> </script>
+		<script type="text/javascript" src="#{_ctx}/js/addon/clike.js"> </script>
+		<script type="text/javascript" src="#{_ctx}/js/addon/activeline.js"> </script>
+		<script type="text/javascript" src="#{_ctx}/js/addon/matchbrackets.js"> </script>
+		<script type="text/javascript" src="#{_ctx}/js/addon/closebrackets.js"> </script>
+		<link href="#{_ctx}/css/eclipse.css" rel="stylesheet" />
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div class="w3-padding-large"></div>
+
+		<h:form id="formCode">
+
+			<div class="row w3-padding-small locale-direction">
+				<div class="col col-12">
+					<h:outputText value="#{ideAction.question.title}" />
+					<h:outputText value="#{ideAction.question.description}" />
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col col-12"> 
+					<s:div styleClass="ui error message"
+						rendered="#{not empty ideAction.problems}">
+						<div class="header">Errors :</div>
+						<ul class="list">
+							<c:forEach items="#{ideAction.problems}" var="_p">
+								<li><h:outputText value="#{_p.message}" /></li>
+							</c:forEach>
+						</ul>
+					</s:div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col col-12">
+					<h:inputTextarea id="code" value="#{ideAction.code}">
+
+					</h:inputTextarea>
+				</div>
+
+			</div>
+
+			<div class="row w3-dark w3-padding-small w3-margin">
+				<div class="col col-12">
+					<div class="ui accordion" id="testCaseAccord">
+
+						<c:forEach items="#{ideAction.question.testcases}" var="_tc"
+							varStatus="_st" begin="0"
+							end="#{ideAction.question.testcases.size()}" step="1">
+							<div class="title w3-dark">
+								<i class="dropdown icon"></i> Test Case #{_st.index+1}
+							</div>
+							<div class="content">
+								<div class="ui item">
+									<div class="content">
+										<div class="header" style="color: #f0e68c">InputParams</div>
+										<div class="description">
+											<c:forEach items="#{_tc.inputParams}" var="_input">
+												<h:outputText value="#{_input}" />
+											</c:forEach>
+										</div>
+									</div>
+								</div>
+
+								<div class="ui item">
+									<div class="content">
+										<div class="header" style="color: #f0e68c">Output</div>
+										<div class="description">
+											<h:outputText value="#{_tc.result}" />
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</c:forEach>
+					</div>
+
+					<script>
+			jQuery(document).ready(function(){
+
+				jQuery('#testCaseAccord')
+				  .accordion({
+				    selector: {
+				      trigger: 'div.title'
+				    }
+				  });
+				
+			});
+		</script>
+
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col col-12">
+					<h:commandButton value="#{messages['Compile']}"
+						action="#{ideAction.compile()}" styleClass="btn btn-blue"
+						id="codeBtn" />
+
+
+					<h:commandButton value="#{messages['Execute']}"
+						action="#{ideAction.execute()}" styleClass="btn btn-red"
+						id="codeBtnExec" />
+				</div>
+			</div>
+
+
+		</h:form>
+
+
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(document).ready(function(){
+				
+			});
+
+			editor = CodeMirror.fromTextArea(document.getElementById("formCode:code"), {
+			    lineNumbers: true,
+			    styleActiveLine: true,
+			    matchBrackets: true,
+			    theme:"eclipse",
+			    mode: "text/x-java",
+			      extraKeys: {
+			        "F12": function(cm) {
+			          cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+			          editor.refresh();
+			        },
+			        "F11": function() {
+			            if ((document.fullScreenElement && document.fullScreenElement !== null) || 
+			                (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+			              if (document.documentElement.requestFullScreen) {
+			                document.documentElement.requestFullScreen();
+			              } else if (document.documentElement.mozRequestFullScreen) {
+			                document.documentElement.mozRequestFullScreen();
+			              } else if (document.documentElement.webkitRequestFullScreen) {
+			                document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
+			              }
+			            }
+			            else {
+			              if (document.cancelFullScreen) {
+			                document.cancelFullScreen();
+			              } else if (document.mozCancelFullScreen) {
+			                document.mozCancelFullScreen();
+			              } else if (document.webkitCancelFullScreen) {
+			                document.webkitCancelFullScreen();
+			              }
+			            }
+			            editor.refresh();
+			        },
+			        "F4": function() {
+			          //openApplet();
+			        },
+			        "F3": function() {
+			          //getImportPaste();
+			        },
+			        "F2": function() {
+			          // document.forms[0].submit();
+			          //postForCompile();
+			        }
+			      }
+			    });
+				//]]>
+		</script>
+
+	</ui:define>
+
+</ui:composition>
