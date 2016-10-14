@@ -42,8 +42,8 @@ public class JavaCommandLine
         OutputStream os = null;
         try
         {
-            // CommandLine cmdLine = chrootCmd();
-            CommandLine cmdLine = defaultCmd();
+             CommandLine cmdLine = chrootCmd();
+            //CommandLine cmdLine = defaultCmd();
             DefaultExecutor executor = new DefaultExecutor();
             executor.setWorkingDirectory(new File(sourceDir));
             ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000);
