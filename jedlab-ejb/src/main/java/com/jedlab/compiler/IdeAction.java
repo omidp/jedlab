@@ -48,7 +48,7 @@ public class IdeAction extends EntityController
     @Logger
     Log log;
 
-    private static final String sourceDir = Env.getJailHome() + File.separator + "java_source" + File.separator;
+    private static final String sourceDir = Env.getJailHome() + File.separator;
 
     private String code;
 
