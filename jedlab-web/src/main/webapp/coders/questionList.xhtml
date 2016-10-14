@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div class="w3-padding-small">
+
+
+			<table class="ui unstackable table" dir="rtl">
+
+				<thead>
+					<tr>
+						<th>#{messages['Title']}</th>
+						<th>#{messages['description']}</th>
+						<th>#{messages['points']}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="#{questionQuery.resultList}" var="_q">
+
+						<tr>
+							<td><s:link value="#{_q.title}" propagation="none"
+									styleClass="clickableLink" rendered="#{!s:hasRole('Admin')}"
+									includePageParams="false" view="/coders/ide.xhtml">
+									<f:param name="qId" value="#{_q.id}"></f:param>
+								</s:link> <s:fragment rendered="#{s:hasRole('Admin')}">
+
+									<s:link value="#{_q.title}" propagation="none"
+										styleClass="clickableLink" rendered="#{s:hasRole('Admin')}"
+										includePageParams="false" view="/admin/questionEdit.xhtml">
+										<f:param name="qId" value="#{_q.id}"></f:param>
+									</s:link><br />
+
+									<s:link value="#{messages['Add_Testcase']}" propagation="none"
+										styleClass="clickableLink" rendered="#{s:hasRole('Admin')}"
+										includePageParams="false" view="/admin/testCaseEdit.xhtml">
+										<f:param name="qId" value="#{_q.id}"></f:param>
+									</s:link>
+
+								</s:fragment></td>
+							<td>#{_q.description}</td>
+							<td>#{_q.points}</td>
+						</tr>
+
+
+					</c:forEach>
+				</tbody>
+
+			</table>
+
+
+		</div>
+
+		<s:decorate template="/layout/seamPaging.xhtml">
+			<ui:param name="entityList" value="#{questionQuery}" />
+		</s:decorate>
+
+
+	</ui:define>
+
+</ui:composition>

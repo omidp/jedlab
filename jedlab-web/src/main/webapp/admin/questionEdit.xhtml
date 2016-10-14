@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+	
+	</ui:define>
+
+	<ui:define name="body">
+
+		<fieldset>
+			<legend></legend>
+			<h:form id="qForm">
+
+				<h:panelGrid columns="2" dir="rtl" style="width:100%">
+
+					<h:outputLabel for="qtitle">#{messages['Title']}</h:outputLabel>
+					<h:inputText id="qtitle" value="#{questionHome.instance.title}" />
+
+					<h:outputLabel for="qdescription">#{messages['Description']}</h:outputLabel>
+					<h:inputText id="qdescription" value="#{questionHome.instance.description}" />
+
+					<h:outputLabel for="p">#{messages['points']}</h:outputLabel>
+					<h:inputText id="p" value="#{questionHome.instance.points}">
+
+					</h:inputText>
+
+
+
+				</h:panelGrid>
+				
+				
+				<h:dataTable rendered="#{questionHome.managed}" value="#{questionHome.instance.testcases}" var="_tc">
+					
+					<h:column>
+						<f:facet name="header">Test case name</f:facet>
+						<s:link value="#{_tc.result}" propagation="none"
+							styleClass="clickableLink" 
+							includePageParams="false" view="/admin/testCaseEdit.xhtml">
+							<f:param name="tcId" value="#{_tc.id}"></f:param>
+							<f:param name="qId" value="#{qId}"></f:param>
+						</s:link>
+					</h:column>
+				
+				</h:dataTable>
+
+ 
+
+				<h:commandButton id="save" value="#{messages['Save']}"
+					styleClass="btn btn-yellow w3-margin"
+					action="#{questionHome.persist()}"
+					rendered="#{!questionHome.managed}" />
+
+				<h:commandButton id="update" value="#{messages['Update']}"
+					styleClass="btn btn-blue w3-margin"
+					action="#{questionHome.update()}" rendered="#{questionHome.managed}" />
+
+
+				<s:button propagation="none" includePageParams="false"
+					styleClass="btn btn-red w3-margin"
+					view="/coders/questionList.xhtml" value="#{messages['Back']}"></s:button>
+
+			</h:form>
+		</fieldset>
+
+
+	</ui:define>
+</ui:composition>

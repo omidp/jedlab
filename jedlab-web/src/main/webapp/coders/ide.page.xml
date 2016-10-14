@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	
+	login-required="true"
 	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
-	<param name="qId" required="true"/>
+	<param name="qId" value="#{ideAction.questionId}" required="true"/>
 	<begin-conversation flush-mode="manual" join="true"/>
 	
 	<action execute="#{ideAction.load()}"/>
+	
+	<navigation from-action="#{ideAction.execute()}">
+		<end-conversation />
+		<rule if-outcome="executed">
+			<redirect view-id="/coders/questionList.xhtml"></redirect>
+		</rule>
+	</navigation>
 	
 </page>

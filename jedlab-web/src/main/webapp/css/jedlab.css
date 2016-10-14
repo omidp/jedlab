@@ -1199,6 +1199,9 @@ input[type=radio].w3-radio:disabled+.w3-validate {
     margin-top: 16px !important;
     margin-bottom: 16px !important
 }
+.w3-padding-left {
+    padding-left: 16px !important
+}
 .w3-padding-tiny {
     padding: 2px 4px !important
 }
@@ -1944,6 +1947,12 @@ input[type=radio].w3-radio:disabled+.w3-validate {
 .w3-hover-border-white:hover {
     border-color: #fff !important
 }
+
+.w3-border-bottom-white,
+.w3-hover-bottom-border-white:hover {
+    border-top: 1px solid #fff;
+}
+
 .w3-border-black,
 .w3-hover-border-black:hover {
     border-color: #000 !important

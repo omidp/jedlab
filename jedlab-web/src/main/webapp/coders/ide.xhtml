@@ -25,18 +25,26 @@
 
 			<div class="row w3-padding-small locale-direction">
 				<div class="col col-12">
-					<h:outputText value="#{ideAction.question.title}" />
-					<h:outputText value="#{ideAction.question.description}" />
+					<h2 class="ui header">
+						<div class="content">
+							<h:outputText value="#{ideAction.question.title}" />
+							<div class="sub header">
+								<h:outputText value="#{ideAction.question.description}" />
+							</div>
+						</div>
+					</h2>
+
+
 				</div>
 			</div>
 
 
 			<div class="row">
-				<div class="col col-12"> 
+				<div class="col col-12">
 					<s:div styleClass="ui error message"
 						rendered="#{not empty ideAction.problems}">
 						<div class="header">Errors :</div>
-						<ul class="list">
+						<ul class="list locale-direction">
 							<c:forEach items="#{ideAction.problems}" var="_p">
 								<li><h:outputText value="#{_p.message}" /></li>
 							</c:forEach>
@@ -62,13 +70,13 @@
 						<c:forEach items="#{ideAction.question.testcases}" var="_tc"
 							varStatus="_st" begin="0"
 							end="#{ideAction.question.testcases.size()}" step="1">
-							<div class="title w3-dark">
+							<div class="title w3-dark w3-border-bottom-white">
 								<i class="dropdown icon"></i> Test Case #{_st.index+1}
 							</div>
-							<div class="content">
+							<div class="content w3-margin-left">
 								<div class="ui item">
 									<div class="content">
-										<div class="header" style="color: #f0e68c">InputParams</div>
+										<div class="header" style="color: #f0e68c">#{messages['Input_Params']}</div>
 										<div class="description">
 											<c:forEach items="#{_tc.inputParams}" var="_input">
 												<h:outputText value="#{_input}" />
@@ -79,7 +87,7 @@
 
 								<div class="ui item">
 									<div class="content">
-										<div class="header" style="color: #f0e68c">Output</div>
+										<div class="header" style="color: #f0e68c">#{messages['Result']}</div>
 										<div class="description">
 											<h:outputText value="#{_tc.result}" />
 										</div>
@@ -111,24 +119,31 @@
 			<div class="row">
 				<div class="col col-12">
 					<h:commandButton value="#{messages['Compile']}"
-						action="#{ideAction.compile()}" styleClass="btn btn-blue"
+						action="#{ideAction.compile()}" styleClass="btn btn-yellow w3-margin"
 						id="codeBtn" />
 
 
 					<h:commandButton value="#{messages['Execute']}"
-						action="#{ideAction.execute()}" styleClass="btn btn-red"
+						action="#{ideAction.execute()}" styleClass="btn btn-blue w3-margin"
 						id="codeBtnExec" />
+						
+					<s:button propagation="none" includePageParams="false"
+					styleClass="btn btn-red w3-margin"
+					view="/coders/questionList.xhtml" value="#{messages['Let_Go']}"></s:button>
+						
 				</div>
 			</div>
 
 
 		</h:form>
-
+ 
 
 		<script type="text/javascript">
 		//<![CDATA[
 			jQuery(document).ready(function(){
-				
+				var browserHeight = document.documentElement.clientHeight;
+		        editor.getWrapperElement().style.height = (browserHeight-(310+10))+'px';
+		        editor.refresh();
 			});
 
 			editor = CodeMirror.fromTextArea(document.getElementById("formCode:code"), {

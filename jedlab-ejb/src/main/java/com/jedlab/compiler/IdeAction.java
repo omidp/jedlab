@@ -30,11 +30,15 @@ import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.log.Log;
 
 import com.jedlab.Env;
+import com.jedlab.JedLab;
+import com.jedlab.action.Constants;
 import com.jedlab.compiler.JavaCommandLine.ProcessVO;
 import com.jedlab.framework.CollectionUtil;
-import com.jedlab.framework.StringUtil;
+import com.jedlab.model.Member;
+import com.jedlab.model.MemberQuestion;
 import com.jedlab.model.Question;
 import com.jedlab.model.TestCase;
+import com.jedlab.model.MemberQuestion.QuestionStatus;
 
 @Name("ideAction")
 @Scope(ScopeType.CONVERSATION)
@@ -44,11 +48,30 @@ public class IdeAction extends EntityController
     @Logger
     Log log;
 
+    private static final String sourceDir = Env.getJailHome() + File.separator + "java_source" + File.separator;
+
     private String code;
 
     private Question question;
 
     private List<Problem> problems = new ArrayList<>();
+
+    private Long questionId;
+
+    public Long getQuestionId()
+    {
+        return questionId;
+    }
+
+    public void setQuestionId(Long questionId)
+    {
+        this.questionId = questionId;
+    }
+
+    public IdeAction()
+    {
+
+    }
 
     @Create
     public void init()
@@ -56,9 +79,8 @@ public class IdeAction extends EntityController
         code = "//*******************************************************************\r\n" + "// NOTE: please Change the ClassName\r\n"
                 + "//*******************************************************************\r\n\r\n"
                 + "import java.lang.Math; // headers MUST be above the first class\r\n\r\n"
-                + "// one class needs to have a main() method\r\n" + "public class ClassName\r\n" + "{\r\n\r\n"
+                + "// a class needs to have a main() method\r\n" + "public class ClassName\r\n" + "{\r\n\r\n"
                 + "  public static void main(String[] args)\r\n" + "  {\r\n" + "      \r\n" + "  }\r\n" + "\r\n" + "}";
-        problems = new ArrayList<>();
     }
 
     public void load()
@@ -66,8 +88,8 @@ public class IdeAction extends EntityController
         try
         {
             question = (Question) getEntityManager()
-                    .createQuery("select q from Question q LEFT OUTER JOIN q.testcases tc where q.id = :qid").setParameter("qid", 1L)
-                    .getSingleResult();
+                    .createQuery("select q from Question q LEFT OUTER JOIN q.testcases tc where q.id = :qid")
+                    .setParameter("qid", getQuestionId()).getSingleResult();
         }
         catch (NoResultException e)
         {
@@ -100,12 +122,17 @@ public class IdeAction extends EntityController
     {
         try
         {
+            problems = new ArrayList<>();
             JavaFile javaFile = new JavaFile(getCode()).make();
             compilation(javaFile);
         }
         catch (CompilerException e)
         {
             problems.add(new Problem(e.getMessage()));
+        }
+        if(CollectionUtil.isEmpty(problems))
+        {
+            getStatusMessages().addFromResourceBundle("Compile_Successful");
         }
         return null;
     }
@@ -114,6 +141,7 @@ public class IdeAction extends EntityController
     {
         try
         {
+
             // FileUtils.deleteDirectory();
             //
             JavaRuntimeCompiler runtimeCompiler = new JavaRuntimeCompiler(javaFile.getFileName(), javaFile.getDirectory()).compile();
@@ -134,14 +162,15 @@ public class IdeAction extends EntityController
 
     public String execute()
     {
-        
+
         try
         {
+            problems = new ArrayList<>();
             JavaFile javaFile = new JavaFile(getCode()).make();
             compilation(javaFile);
             //
             List<TestCase> testcases = question.getTestcases();
-            int i=0;
+            int i = 0;
             for (TestCase testCase : testcases)
             {
                 i++;
@@ -164,7 +193,7 @@ public class IdeAction extends EntityController
                     problems.add(new Problem(cause.getMessage()));
                 }
             }
-            if(CollectionUtil.isNotEmpty(problems))
+            if (CollectionUtil.isNotEmpty(problems))
             {
                 return null;
             }
@@ -174,11 +203,19 @@ public class IdeAction extends EntityController
             problems.add(new Problem(e.getMessage()));
             return null;
         }
-        if(CollectionUtil.isNotEmpty(problems))
+        if (CollectionUtil.isNotEmpty(problems))
         {
             return null;
         }
-
+        MemberQuestion mq = new MemberQuestion();
+        Member m = new Member();
+        m.setId((Long)getSessionContext().get(Constants.CURRENT_USER_ID));
+        mq.setMember(m);
+        mq.setQuestion(question);
+        mq.setStatus(QuestionStatus.RESOLVED);
+        getEntityManager().persist(mq);
+        getEntityManager().flush();
+        getStatusMessages().addFromResourceBundle("Problem_Solved");
         return "executed";
     }
 
@@ -244,7 +281,10 @@ public class IdeAction extends EntityController
             {
                 String fname = RandomStringUtils.randomAlphabetic(10);
                 // TODO: add user id as folder name
-                String sourceDir = Env.getJailHome();
+
+                File dir = new File(sourceDir);
+                if (dir.exists() == false)
+                    dir.mkdirs();
                 Pattern pattern = Pattern
                         .compile("\\s*(public|private)\\s+class\\s+(\\w+)\\s+((extends\\s+\\w+)|(implements\\s+\\w+( ,\\w+)*))?\\s*\\{");
                 Matcher m = pattern.matcher(code);

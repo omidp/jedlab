@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+	
+	</ui:define>
+
+	<ui:define name="body">
+
+		<fieldset>
+			<legend></legend>
+			<h:form id="tcForm">
+
+				<h:panelGrid columns="2" dir="rtl" style="width:100%">
+
+					<h:outputLabel for="qTitle">#{messages['Question']}</h:outputLabel>
+					<h:outputLabel id="qTitle" value="#{testCaseHome.question.title}" />
+					
+					<h:outputLabel for="inputPar">#{messages['Input_Params']}</h:outputLabel>
+					<h:inputTextarea value="#{testCaseHome.inputParams}" cols="35" rows="8" id="inputPar"
+						style="direction:rtl;text-align:left"
+						required="true" />
+
+					<h:outputLabel for="res">#{messages['Result']}</h:outputLabel>
+					<h:inputText id="res" value="#{testCaseHome.instance.result}" />
+
+
+
+				</h:panelGrid>
+
+ 
+
+				<h:commandButton id="save" value="#{messages['Save']}"
+					styleClass="btn btn-yellow"
+					action="#{testCaseHome.persist()}"
+					rendered="#{!testCaseHome.managed}" />
+
+				<h:commandButton id="update" value="#{messages['Update']}"
+					styleClass="btn btn-blue"
+					action="#{testCaseHome.update()}" rendered="#{testCaseHome.managed}" />
+
+
+				<s:button propagation="none" includePageParams="false"
+					styleClass="btn btn-red"
+					view="/coders/questionList.xhtml" value="#{messages['Back']}"></s:button>
+
+			</h:form>
+		</fieldset>
+
+
+	</ui:define>
+</ui:composition>

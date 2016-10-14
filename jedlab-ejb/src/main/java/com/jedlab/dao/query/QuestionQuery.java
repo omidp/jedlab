@@ -16,7 +16,7 @@ import com.jedlab.model.Question;
 public class QuestionQuery extends PagingEntityQuery<Question>
 {
 
-    private static final String EJBQL = "select q from Question q LEFT OUTER JOIN q.testcases tc";
+    private static final String EJBQL = "select q from Question q";
 
     private static final String[] RESTRICTIONS = { };
 

@@ -24,10 +24,10 @@ public class MemberQuestion extends BasePO
 
     public enum QuestionStatus
     {
-        RESOLVED, FAILED;
+        FAILED, RESOLVED;
     }
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "question_status")
     private QuestionStatus status;
 
