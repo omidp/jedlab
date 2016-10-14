@@ -80,8 +80,8 @@ public class JavaCommandLine
 //        cmdLine.addArgument("/root/jail");
         cmdLine.addArgument(Env.getJailHome());
         cmdLine.addArgument("/java/jdk8/bin/java");
-        cmdLine.addArgument("-cp");
-        cmdLine.addArgument(sourceDir);
+//        cmdLine.addArgument("-cp");
+//        cmdLine.addArgument(sourceDir);
         cmdLine.addArgument(fileName);
         if(CollectionUtil.isNotEmpty(programArgs))
         {
