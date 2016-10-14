@@ -109,7 +109,7 @@ public class JavaCommandLine
                     }
 
                 }
-            }, 15000);
+            }, 10000);
 
         }
 
