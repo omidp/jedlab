@@ -3,8 +3,11 @@ package com.jedlab.compiler;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Logger;
 
 import org.apache.commons.exec.CommandLine;
@@ -12,13 +15,11 @@ import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.exec.ExecuteWatchdog;
-import org.apache.commons.exec.LogOutputStream;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
 
 import com.jedlab.Env;
 import com.jedlab.framework.CollectionUtil;
-import com.jedlab.model.TestCase;
 
 public class JavaCommandLine
 {
@@ -42,8 +43,8 @@ public class JavaCommandLine
         OutputStream os = null;
         try
         {
-             CommandLine cmdLine = chrootCmd();
-            //CommandLine cmdLine = defaultCmd();
+            CommandLine cmdLine = chrootCmd();
+            // CommandLine cmdLine = defaultCmd();
             DefaultExecutor executor = new DefaultExecutor();
             executor.setWorkingDirectory(new File(sourceDir));
             ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000);
@@ -54,6 +55,7 @@ public class JavaCommandLine
             executor.setStreamHandler(psh);
 
             executor.execute(cmdLine, resultHandler);
+            new ProcessKiller(watchdog, fileName).start();
             resultHandler.waitFor();
             // if (resultHandler.hasResult())
             // {
@@ -74,16 +76,55 @@ public class JavaCommandLine
 
     }
 
+    public static class ProcessKiller
+    {
+        private final ExecuteWatchdog wd;
+        private String fileName;
+
+        public ProcessKiller(ExecuteWatchdog wd, String fileName)
+        {
+            this.wd = wd;
+            this.fileName = fileName;
+        }
+
+        public void start()
+        {
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+
+                @Override
+                public void run()
+                {
+                    CommandLine cmdLine = CommandLine.parse(Env.getJailHome() + File.separator + "killJava.sh " + fileName);
+                    DefaultExecutor executor = new DefaultExecutor();
+                    try
+                    {
+                        int exitValue = executor.execute(cmdLine);
+                    }
+                    catch (ExecuteException e)
+                    {
+                    }
+                    catch (IOException e)
+                    {
+                    }
+
+                }
+            }, 15000);
+
+        }
+
+    }
+
     private CommandLine chrootCmd()
     {
         CommandLine cmdLine = new CommandLine("chroot");
-//        cmdLine.addArgument("/root/jail");
+        // cmdLine.addArgument("/root/jail");
         cmdLine.addArgument(Env.getJailHome());
         cmdLine.addArgument("/java/jdk8/bin/java");
-//        cmdLine.addArgument("-cp");
-//        cmdLine.addArgument(sourceDir);
+        // cmdLine.addArgument("-cp");
+        // cmdLine.addArgument(sourceDir);
         cmdLine.addArgument(fileName);
-        if(CollectionUtil.isNotEmpty(programArgs))
+        if (CollectionUtil.isNotEmpty(programArgs))
         {
             for (String arg : programArgs)
             {
@@ -99,7 +140,7 @@ public class JavaCommandLine
         cmdLine.addArgument("-cp");
         cmdLine.addArgument(sourceDir);
         cmdLine.addArgument(fileName);
-        if(CollectionUtil.isNotEmpty(programArgs))
+        if (CollectionUtil.isNotEmpty(programArgs))
         {
             for (String arg : programArgs)
             {
