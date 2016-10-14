@@ -1,7 +1,11 @@
 package com.jedlab.compiler;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +17,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 
 import org.apache.commons.exec.ExecuteException;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.jci.compilers.CompilationResult;
 import org.apache.commons.jci.compilers.JavaCompiler;
 import org.apache.commons.jci.compilers.JavaCompilerFactory;
@@ -81,7 +86,8 @@ public class IdeAction extends EntityController
         code = "//*******************************************************************\r\n" + "// NOTE: please Change the ClassName\r\n"
                 + "//*******************************************************************\r\n\r\n"
                 + "import java.lang.Math; // headers MUST be above the first class\r\n\r\n"
-                + "// a class needs to have a main() method\r\n" + String.format("public class ClassName%s\r\n", RandomStringUtils.randomAlphabetic(3)) + "{\r\n\r\n"
+                + "// a class needs to have a main() method\r\n"
+                + String.format("public class ClassName%s\r\n", RandomStringUtils.randomAlphabetic(3)) + "{\r\n\r\n"
                 + "  public static void main(String[] args)\r\n" + "  {\r\n" + "      \r\n" + "  }\r\n" + "\r\n" + "}";
     }
 
@@ -132,7 +138,7 @@ public class IdeAction extends EntityController
         {
             problems.add(new Problem(e.getMessage()));
         }
-        if(CollectionUtil.isEmpty(problems))
+        if (CollectionUtil.isEmpty(problems))
         {
             getStatusMessages().addFromResourceBundle("Compile_Successful");
         }
@@ -215,7 +221,7 @@ public class IdeAction extends EntityController
         TxManager.joinTransaction(getEntityManager());
         MemberQuestion mq = new MemberQuestion();
         Member m = new Member();
-        m.setId((Long)getSessionContext().get(Constants.CURRENT_USER_ID));
+        m.setId((Long) getSessionContext().get(Constants.CURRENT_USER_ID));
         mq.setMember(m);
         mq.setQuestion(question);
         mq.setStatus(QuestionStatus.RESOLVED);
@@ -283,6 +289,8 @@ public class IdeAction extends EntityController
 
         public JavaFile make()
         {
+            OutputStream os = null;
+            OutputStreamWriter osw = null;
             try
             {
                 String fname = RandomStringUtils.randomAlphabetic(10);
@@ -310,15 +318,22 @@ public class IdeAction extends EntityController
                 }
                 String fileName = sourceDir + String.format("%s.java", fname);
                 File f = new File(fileName);
-                if (f.exists() == false)
-                    f.createNewFile();
-                Files.write(f.toPath(), code.getBytes("UTF-8"));
+                os = new FileOutputStream(f);
+                osw = new OutputStreamWriter(os, "UTF-8");
+                osw.write(code);
+                osw.flush();
+                os.flush();
                 this.fileName = fname;
                 this.directory = sourceDir;
             }
             catch (Exception e)
             {
                 throw new CompilerException(e);
+            }
+            finally
+            {
+                IOUtils.closeQuietly(os);
+                IOUtils.closeQuietly(osw);
             }
             return this;
         }
