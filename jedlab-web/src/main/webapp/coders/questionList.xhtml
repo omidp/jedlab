@@ -20,6 +20,12 @@
 				rendered="#{s:hasRole('Admin')}"
 				view="/admin/questionEdit.xhtml"></s:button>
 			
+			<s:div rendered="#{empty questionQuery.resultList}" styleClass="ui block header w3-center">
+				<h:outputText value="#{messages['Empty_Code_List']}" />
+			</s:div>	
+				
+			<s:fragment rendered="#{not empty questionQuery.resultList}">	
+			
 			<table class="ui unstackable table" dir="rtl">
 
 				<thead>
@@ -61,6 +67,8 @@
 				</tbody>
 
 			</table>
+			
+			</s:fragment>
 
 
 		</div>

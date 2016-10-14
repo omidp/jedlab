@@ -9,10 +9,10 @@
 
 		<s:fragment rendered="#{s:hasRole('Admin')}">
 
-	
-			<div class="ui vertical menu" >
-			
-				
+
+			<div class="ui vertical menu">
+
+
 
 				<s:link value="Course List" propagation="none" styleClass="item"
 					view="/courseList.xhtml" includePageParams="false"></s:link>
@@ -26,11 +26,10 @@
 				<s:link value="Subscription Notify" propagation="none"
 					styleClass="item" view="/admin/subscription.xhtml"
 					includePageParams="false"></s:link>
-					
-					
-				<s:link value="Question List" propagation="none"
-					styleClass="item" view="/coders/questionList.xhtml"
-					includePageParams="false"></s:link>	
+
+
+				<s:link value="Question List" propagation="none" styleClass="item"
+					view="/coders/questionList.xhtml" includePageParams="false"></s:link>
 
 			</div>
 
@@ -38,56 +37,147 @@
 
 		<div class="locale-direction">
 
-			<h3 class="ui block header">#{messages['Register_Course_List']}</h3>
+			<div class="ui stackable two column grid">
+				<div class="column">
 
-			<s:div styleClass="well"
-				rendered="#{empty memberCourseQuery.resultList}">
-				<h:outputText value="#{messages['No_Member_Course']}" />
-			</s:div>
+					<h3 class="ui block header">#{messages['Register_Course_List']}</h3>
 
-			<s:div styleClass="ui items memberCourse"
-				rendered="#{not empty memberCourseQuery.resultList}">
-				<c:forEach items="#{memberCourseQuery.resultList}" var="_item">
+					<s:div styleClass="well"
+						rendered="#{empty memberCourseQuery.resultList}">
+						<h:outputText value="#{messages['No_Member_Course']}" />
+					</s:div>
 
-					<div class="item memberCourseItem">
-						<div class="image">
-							<s:graphicImage value="#{_item.image}"
-								rendered="#{_item.hasImage}"
-								styleClass="ui middle aligned small image">
+					<s:div styleClass="ui items memberCourse"
+						rendered="#{not empty memberCourseQuery.resultList}">
+						<c:forEach items="#{memberCourseQuery.resultList}" var="_item">
 
-							</s:graphicImage>
-							<s:graphicImage value="/images/no_video_photo.png"
-								rendered="#{!_item.hasImage}"
-								styleClass="ui middle aligned small image">
+							<div class="item memberCourseItem">
+								<div class="image">
+									<s:graphicImage value="#{_item.image}"
+										rendered="#{_item.hasImage}"
+										styleClass="ui middle aligned small image">
 
-							</s:graphicImage>
-						</div>
-						<div class="content">
-							<s:link view="/course.xhtml" value="#{_item.name}"
-								propagation="none" includePageParams="false"
-								styleClass="header clickableLink">
-								<f:param name="courseId" value="#{_item.id}"></f:param>
+									</s:graphicImage>
+									<s:graphicImage value="/images/no_video_photo.png"
+										rendered="#{!_item.hasImage}"
+										styleClass="ui middle aligned small image">
+
+									</s:graphicImage>
+								</div>
+								<div class="content">
+									<s:link view="/course.xhtml" value="#{_item.name}"
+										propagation="none" includePageParams="false"
+										styleClass="header clickableLink">
+										<f:param name="courseId" value="#{_item.id}"></f:param>
+									</s:link>
+									<div class="meta">
+										<span></span>
+									</div>
+									<div class="description">
+										<p></p>
+									</div>
+									<div class="extra"></div>
+								</div>
+							</div>
+
+						</c:forEach>
+					</s:div>
+
+					<s:decorate template="/layout/seamPaging.xhtml"
+						rendered="#{not empty memberCourseQuery.resultList}">
+						<ui:param name="entityList" value="#{memberCourseQuery}" />
+					</s:decorate>
+
+				</div>
+				<div class="column">
+					<h3 class="ui block header">#{messages['Solved_Question_List']}</h3>
+					<s:fragment rendered="#{empty memberQuestionQuery.resultList}">
+						<h3 class="ui block header">#{messages['Empty_Question_List']}</h3>
+					</s:fragment>
+					<s:fragment rendered="#{not empty memberQuestionQuery.resultList}">
+						<table class="ui unstackable table" dir="rtl">
+
+							<thead>
+								<tr>
+									<th>#{messages['Title']}</th>
+									<th>#{messages['description']}</th>
+									<th>#{messages['points']}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="#{memberQuestionQuery.resultList}" var="_mq">
+
+									<tr>
+										<td>#{_mq.question.title}</td>
+										<td>#{_mq.question.description}</td>
+										<td>#{_mq.question.points}</td>
+									</tr>
+
+
+								</c:forEach>
+							</tbody>
+
+						</table>
+
+
+						<c:set var="_pCount"
+							value="#{memberQuestionQuery.pageCount == 0 ? 1 : memberQuestionQuery.pageCount}" />
+						<div class="pagination">
+
+							<s:link styleClass="page"
+								rendered="#{memberQuestionQuery.previousExists}"
+								value="#{messages.First_Page}" id="fr">
+								<f:param name="fr" value="0" />
+								<f:param name="pn" value="0" />
 							</s:link>
-							<div class="meta">
-								<span></span>
-							</div>
-							<div class="description">
-								<p>#{_item.chapters.size()} #{messages['Chapter']}</p>
-							</div>
-							<div class="extra"></div>
-						</div>
-					</div>
 
-				</c:forEach>
-			</s:div>
+							<s:link styleClass="page"
+								rendered="#{memberQuestionQuery.previousExists}"
+								value="#{messages.Previous_Page}" id="pp">
+								<f:param name="fr"
+									value="#{memberQuestionQuery.previousFirstResult}" />
+								<f:param name="pn" value="#{memberQuestionQuery.pageNumber-1}" />
+							</s:link>
+
+
+							<s:span styleClass="page" style="direction:rtl;"
+								rendered="#{memberQuestionQuery.nextExists or memberQuestionQuery.previousExists}">
+								<h:outputText value="#{memberQuestionQuery.pageNumber + 1}" /> #{messages['Of']} <h:outputText
+									value="#{_pCount}" />
+							</s:span>
+
+
+							<s:link styleClass="page"
+								rendered="#{memberQuestionQuery.nextExists}"
+								value="#{messages.Next_Page}" id="np">
+								<f:param name="fr"
+									value="#{memberQuestionQuery.nextFirstResult}" />
+								<f:param name="pn" value="#{memberQuestionQuery.pageNumber+1}" />
+							</s:link>
+
+							<s:link styleClass="page"
+								rendered="#memberQuestionQuery.nextExists}"
+								value="#{messages.Last_Page}" id="lp">
+								<f:param name="fr"
+									value="#{memberQuestionQuery.lastFirstResult}" />
+								<f:param name="pn" value="#{memberQuestionQuery.pageCount-1}" />
+							</s:link>
+
+						</div>
+
+					</s:fragment>
+
+
+				</div>
+			</div>
+
+
+
 
 
 		</div>
 
-		<s:decorate template="/layout/seamPaging.xhtml"
-			rendered="#{not empty memberCourseQuery.resultList}">
-			<ui:param name="entityList" value="#{memberCourseQuery}" />
-		</s:decorate>
+
 
 
 	</ui:define>

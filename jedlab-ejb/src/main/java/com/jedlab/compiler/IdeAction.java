@@ -25,6 +25,7 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.framework.EntityController;
 import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.log.Log;
@@ -34,6 +35,7 @@ import com.jedlab.JedLab;
 import com.jedlab.action.Constants;
 import com.jedlab.compiler.JavaCommandLine.ProcessVO;
 import com.jedlab.framework.CollectionUtil;
+import com.jedlab.framework.TxManager;
 import com.jedlab.model.Member;
 import com.jedlab.model.MemberQuestion;
 import com.jedlab.model.Question;
@@ -160,6 +162,7 @@ public class IdeAction extends EntityController
 
     }
 
+    @Transactional
     public String execute()
     {
 
@@ -207,6 +210,9 @@ public class IdeAction extends EntityController
         {
             return null;
         }
+        //
+        TxManager.beginTransaction();
+        TxManager.joinTransaction(getEntityManager());
         MemberQuestion mq = new MemberQuestion();
         Member m = new Member();
         m.setId((Long)getSessionContext().get(Constants.CURRENT_USER_ID));
