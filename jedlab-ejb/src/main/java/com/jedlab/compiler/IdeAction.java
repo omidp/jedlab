@@ -79,7 +79,7 @@ public class IdeAction extends EntityController
         code = "//*******************************************************************\r\n" + "// NOTE: please Change the ClassName\r\n"
                 + "//*******************************************************************\r\n\r\n"
                 + "import java.lang.Math; // headers MUST be above the first class\r\n\r\n"
-                + "// a class needs to have a main() method\r\n" + "public class ClassName\r\n" + "{\r\n\r\n"
+                + "// a class needs to have a main() method\r\n" + String.format("public class ClassName%s\r\n", RandomStringUtils.randomAlphabetic(3)) + "{\r\n\r\n"
                 + "  public static void main(String[] args)\r\n" + "  {\r\n" + "      \r\n" + "  }\r\n" + "\r\n" + "}";
     }
 
