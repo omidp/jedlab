@@ -18,13 +18,15 @@
 				<h:panelGrid columns="2" dir="rtl" style="width:100%">
 
 					<h:outputLabel for="qtitle">#{messages['Title']}</h:outputLabel>
-					<h:inputText id="qtitle" value="#{questionHome.instance.title}" />
+					<h:inputText id="qtitle" value="#{questionHome.instance.title}" required="true"/>
 
 					<h:outputLabel for="qdescription">#{messages['Description']}</h:outputLabel>
-					<h:inputText id="qdescription" value="#{questionHome.instance.description}" />
+					<h:inputTextarea cols="35" rows="8"
+						required="true" 
+						id="qdescription" value="#{questionHome.instance.description}" />
 
 					<h:outputLabel for="p">#{messages['points']}</h:outputLabel>
-					<h:inputText id="p" value="#{questionHome.instance.points}">
+					<h:inputText id="p" value="#{questionHome.instance.points}" required="true">
 
 					</h:inputText>
 

@@ -13,8 +13,13 @@
 	<ui:define name="body">
 
 		<div class="w3-padding-small">
-
-
+			
+			
+			<s:button value="#{messages['Create']}" 
+				propagation="none" includePageParams="false" 
+				rendered="#{s:hasRole('Admin')}"
+				view="/admin/questionEdit.xhtml"></s:button>
+			
 			<table class="ui unstackable table" dir="rtl">
 
 				<thead>
