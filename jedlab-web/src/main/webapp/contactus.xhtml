@@ -20,7 +20,8 @@
 پاسخ شما از طریق ایمیل به اطلاع شما خواهد رسید.
 			</p>
 			
-			<h:form styleClass="form">
+			<h:form styleClass="form" id="contactForm">
+				
 				<fieldset>
 					<legend>#{messages['Contact_Us']}</legend> 
 
@@ -39,11 +40,22 @@
 						<label><s:span styleClass="red">*</s:span> #{' '} #{messages['Content_Text']}</label>
 						<h:inputTextarea value="#{contactusAction.contactus.content}" rows="5" required="true"/>
 					</div>
+					
+					<div class="form-item">
+						<label><s:span styleClass="red">*</s:span> #{' '} #{messages['Captcha_Response']}</label>
+						<h:graphicImage id="capthaImg" style="float: left;"
+												value="/seam/resource/captcha?#{currentDate.time}" /><br />
+						<h:inputText id="verifyCaptcha" required="true"
+											value="#{captcha.response}" />
+					</div>
 
 					<div class="form-item end">
 						<h:commandButton  value="#{messages['Send']}"
 							action="#{contactusAction.contact()}" 
-							styleClass="btn btn-blue"/>
+							id="btnSend"
+							styleClass="btn btn-blue">
+							<s:defaultAction></s:defaultAction>
+						</h:commandButton>	
 					</div>
 				</fieldset>
 			</h:form>
