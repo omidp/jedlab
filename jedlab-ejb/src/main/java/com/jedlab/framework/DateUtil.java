@@ -13,12 +13,14 @@ public class DateUtil
 
     public static String getDuration(Date duration)
     {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(duration);
+        Calendar helper = getCalendarInstance();
+        helper.setTime(duration);
+        Calendar cal = getCalendarInstance();
+        cal.set(Calendar.HOUR, helper.get(Calendar.HOUR));
+        cal.set(Calendar.MINUTE, helper.get(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, helper.get(Calendar.SECOND));
         //
         Calendar endCal = getCalendarInstance();
-        endCal.set(Calendar.MINUTE, 0);
-        endCal.set(Calendar.SECOND, 0);
         long millis = cal.getTimeInMillis() - endCal.getTimeInMillis();
         return String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(millis), TimeUnit.MILLISECONDS.toSeconds(millis)
                 - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
@@ -44,6 +46,9 @@ public class DateUtil
         cal.set(Calendar.MONTH, 1);
         cal.set(Calendar.DATE, 1);
         cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
         return cal;
     }
 
