@@ -71,7 +71,14 @@
 				styleClass="w3-padding-menu-item w3-hover-white"
 				value="#{messages['Java_Challenge']}">
 				<i class="icon-book"></i>
-			</s:link></li>	
+			</s:link></li>
+			
+		<li class="w3-hide-small"><s:link propagation="none"
+				includePageParams="false" view="/gistList.xhtml"
+				styleClass="w3-padding-menu-item w3-hover-white"
+				value="#{messages['Gist']}">
+				<i class="icon-file-text"></i>
+			</s:link></li>		
 			
 			 
 		<li class="w3-hide-small">
@@ -145,6 +152,11 @@
 					value="#{messages['Course_List']}">
 					<i class="icon-books"></i>
 				</s:link></li>
+			<li><s:link propagation="none" includePageParams="false"
+					view="/gistList.xhtml" styleClass="w3-padding-menu-item"
+					value="#{messages['Gist']}">
+					<i class="icon-file-text"></i>
+				</s:link></li>	
 			<li>
 				<s:link propagation="none" 
 						rendered="#{identity.loggedIn}" action="#{identity.logout()}"

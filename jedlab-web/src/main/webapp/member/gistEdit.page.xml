@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	login-required="true"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+	
+	
+	
+	<description>
+		#{messages['Gist']}
+	</description>
+	
+	<begin-conversation join="true" flush-mode="manual"/>
+	
+	<param name="gistId" value="#{gistHome.gistId}"/>
+	
+	<action execute="#{gistHome.load()}"/>
+	
+	<navigation from-action="#{gistHome.update()}">
+		<rule if-outcome="updated">
+			<end-conversation/>
+			<redirect view-id="/gistList.xhtml"></redirect>
+		</rule>
+	</navigation>
+	
+	<navigation from-action="#{gistHome.persist()}">
+		<rule if-outcome="persisted">
+			<end-conversation/>
+			<redirect view-id="/gistList.xhtml"></redirect>
+		</rule>
+	</navigation>
+	
+	<navigation from-action="#{gistHome.remove()}">
+		<rule if-outcome="removed">
+			<end-conversation/>
+			<redirect view-id="/gistList.xhtml"></redirect>
+		</rule>
+	</navigation>
+
+</page>

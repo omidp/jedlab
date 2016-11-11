@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<link href="#{_ctx}/css/pygments.css" rel="stylesheet" />
+	</ui:define>
+
+	<ui:define name="body">
+
+
+		<div class="gist-welcome gist-banner text-center">
+			<div class="container">
+				<h1>#{messages['Share_Your_Code']}</h1>
+			</div>
+			<s:button includePageParams="false" propagation="none"
+				value="#{messages['Create']} #{messages['Sample']} #{messages['Code']}"
+				view="/member/gistEdit.xhtml" styleClass="btn btn-blue"></s:button>
+		</div>
+
+
+		<div style="margin: 20px; height: 100%;" class="locale-direction">
+
+			<div class="item">
+
+				<div class="right floated content"></div>
+
+				<div class="content">
+					<span class="header">#{gistHome.instance.member.username}</span>
+					<div class="description">
+						#{messages['Created_At']} <b>#{gistHome.instance.socialDate}</b>
+					</div>
+				</div>
+			</div>
+
+
+			<h:outputText value="#{gistHome.instance.content}" escape="false"
+				style="direction:ltr;" styleClass="w3-input" />
+				
+				
+			<s:button propagation="none" includePageParams="false"
+					styleClass="btn btn-red w3-margin"
+					view="/gistList.xhtml" value="#{messages['Back']}"></s:button>	
+
+		</div>
+
+
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,71 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		
+	</ui:define>
+
+	<ui:define name="body">
+		<div style="margin: 50px; height: 100%;" class="locale-direction">
+			<h:form styleClass="form" id="formCode">
+
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Gist_Desc']}</ui:define>
+					<h:inputText value="#{gistHome.instance.description}" styleClass="w3-input"
+						required="true" />
+				</s:decorate>
+
+ 
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Gist_File_Name']}</ui:define>
+					<h:inputText value="#{gistHome.instance.fileName}" 
+						dir="ltr" style="direction:ltr;" styleClass="w3-input"/>
+				</s:decorate>
+ 
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Code']}</ui:define>  					
+					<h:inputTextarea rows="12"						
+						value="#{gistHome.instance.origContent}" id="code"	style="direction:ltr;"					
+						required="true" dir="ltr"/>	
+				</s:decorate>
+
+				<label class="form-item checkbox"> <h:selectBooleanCheckbox
+						value="#{gistHome.instance.privateGist}" dir="rtl" /> 
+					#{messages['Private_Gist']}
+				</label>
+
+
+				<div class="form-item">
+
+					<h:commandButton value="#{messages['Save']}"
+						styleClass="btn btn-blue w3-margin" action="#{gistHome.persist()}"
+						rendered="#{!gistHome.managed}" />
+
+					<h:commandButton value="#{messages['Update']}"
+						styleClass="btn btn-yellow w3-margin" action="#{gistHome.update()}"
+						rendered="#{gistHome.managed}" />
+						
+						
+					<h:commandButton value="#{messages['Remove']}"
+						styleClass="btn btn-red w3-margin" action="#{gistHome.remove()}"
+						rendered="#{gistHome.managed}" />	
+						
+				  <s:button propagation="none" includePageParams="false"
+					styleClass="btn btn-red w3-margin"
+					view="/gistList.xhtml" value="#{messages['Back']}"></s:button>
+
+				</div>
+
+			</h:form>
+
+		</div>
+		
+		
+
+	</ui:define>
+</ui:composition>

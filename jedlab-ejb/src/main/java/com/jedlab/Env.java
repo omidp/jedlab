@@ -25,6 +25,7 @@ public final class Env
     public static final String JBOSS7_DATA_HOME = System.getProperty("jboss.server.data.dir");
     public static final String OS = System.getProperty("os.name");
     public static final String TEMP_DIR = System.getProperty("java.io.tmpdir");
+    public static final String USER_HOME = System.getProperty("user.home");
 
     private static Properties prop = new Properties();
 
@@ -67,6 +68,12 @@ public final class Env
     public static String getJailHome()
     {
         return prop.getProperty("JAIL_HOME");
+    }
+    
+    
+    public static String getGistHome()
+    {
+        return prop.getProperty("GIST_HOME");
     }
     
 }

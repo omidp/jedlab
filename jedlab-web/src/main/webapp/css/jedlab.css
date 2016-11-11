@@ -4894,3 +4894,17 @@ div.w3-accordion div.content{
   color: #FFFFFF;
   text-shadow: none;
 }
+
+
+.gist-banner {
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 30%, #fff), linear-gradient(70deg, #e0f1ff 32%, #fffae3);
+    border-bottom-color: #fff;
+    color: #234766;
+    margin-top: 0;
+}
+.gist-welcome {
+    padding: 40px 0;
+}
+.text-center {
+    text-align: center !important;
+}
