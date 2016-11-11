@@ -17,13 +17,14 @@
 				<s:decorate template="/layout/simpleEdit.xhtml">
 					<ui:define name="label">#{messages['Gist_Desc']}</ui:define>
 					<h:inputText value="#{gistHome.instance.description}" styleClass="w3-input"
+						maxlength="160"
 						required="true" />
 				</s:decorate>
 
  
 				<s:decorate template="/layout/simpleEdit.xhtml">
 					<ui:define name="label">#{messages['Gist_File_Name']}</ui:define>
-					<h:inputText value="#{gistHome.instance.fileName}" 
+					<h:inputText value="#{gistHome.instance.fileName}" maxlength="50"
 						dir="ltr" style="direction:ltr;" styleClass="w3-input"/>
 				</s:decorate>
  
@@ -42,9 +43,11 @@
 
 				<div class="form-item">
 
-					<h:commandButton value="#{messages['Save']}"
+					<h:commandButton value="#{messages['Save']}" id="btnSave"
 						styleClass="btn btn-blue w3-margin" action="#{gistHome.persist()}"
-						rendered="#{!gistHome.managed}" />
+						rendered="#{!gistHome.managed}">
+						<s:defaultAction></s:defaultAction>
+					</h:commandButton>	
 
 					<h:commandButton value="#{messages['Update']}"
 						styleClass="btn btn-yellow w3-margin" action="#{gistHome.update()}"
@@ -56,7 +59,7 @@
 						rendered="#{gistHome.managed}" />	
 						
 				  <s:button propagation="none" includePageParams="false"
-					styleClass="btn btn-red w3-margin"
+					styleClass="btn btn-red btn-outline w3-margin"
 					view="/gistList.xhtml" value="#{messages['Back']}"></s:button>
 
 				</div>

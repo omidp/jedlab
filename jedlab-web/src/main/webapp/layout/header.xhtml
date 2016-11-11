@@ -96,7 +96,7 @@
 		<li class="w3-hide-small w3-left" id="searchSection">
 
 			<div class="right-float">
-				<jedlab:suggestion placeholder="#{messages['Search']}"
+				<jedlab:suggestion placeholder="#{messages['Search']} #{messages['Course']}"
 					url="#{_ctx}/course.search" onSelect="redirectToResult"
 					value="#{courseQuery.course.name}" forceId="searchInput"
 					styleClass="prompt"></jedlab:suggestion>

@@ -6,6 +6,8 @@
 	<param name="firstResult" value="#{gistQuery.firstResult}"/>
 	<param name="pageNumber" value="#{gistQuery.pageNumber}"/>
 	
+	<param name="searchPattern" value="#{gistQuery.searchPattern}" />
+	
 	
    
 </page>

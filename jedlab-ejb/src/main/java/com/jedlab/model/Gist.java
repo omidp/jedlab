@@ -16,16 +16,42 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.apache.solr.analysis.LowerCaseFilterFactory;
+import org.apache.solr.analysis.NGramFilterFactory;
+import org.apache.solr.analysis.PersianNormalizationFilterFactory;
+import org.apache.solr.analysis.SnowballPorterFilterFactory;
+import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.AnalyzerDefs;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Fields;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 import org.hibernate.validator.constraints.Length;
 import org.jboss.seam.contexts.Contexts;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import com.jedlab.action.Constants;
-import com.jedlab.framework.StringUtil;
 
 @Entity
 @Table(name = "gist", schema = "public")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Indexed
+@AnalyzerDefs({
+        @AnalyzerDef(name = "en", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = { @Parameter(name = "language", value = "English") }) }),
+        @AnalyzerDef(name = "fa", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = { @TokenFilterDef(factory = PersianNormalizationFilterFactory.class) }),
+        @AnalyzerDef(name = "ngrams", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory = NGramFilterFactory.class, params = { @Parameter(name = "minGramSize", value = "3"),
+                        @Parameter(name = "maxGramSize", value = "3") }) }) })
 public class Gist extends BasePO
 {
 
@@ -39,14 +65,16 @@ public class Gist extends BasePO
     @NotNull
     @Length(min = 2)
     private String content;
-    
+
     @Column(name = "orig_content", nullable = false)
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @NotNull
     @Length(min = 2)
+    @Fields({ @Field(name = "title:en", analyzer = @Analyzer(definition = "en")),
+            @Field(name = "title:ngrams", analyzer = @Analyzer(definition = "ngrams")) })
     private String origContent;
-    
+
     @Column(name = "short_content", nullable = false)
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -68,6 +96,8 @@ public class Gist extends BasePO
     private Member member;
 
     @Column(name = "description")
+    @Fields({ @Field(name = "description:en", analyzer = @Analyzer(definition = "en")),
+        @Field(name = "description:fa", analyzer = @Analyzer(definition = "fa")) })
     private String description;
 
     public String getContent()
@@ -129,7 +159,7 @@ public class Gist extends BasePO
     {
         this.member = member;
     }
-    
+
     @Transient
     public String getSocialDate()
     {

@@ -25,7 +25,34 @@
 
 		<div style="margin: 20px; height: 100%;" class="locale-direction">
 
+			<h:form styleClass="form" id="srchCode">
+
+				<s:decorate template="/layout/simpleEdit.xhtml" id="fieldCode">
+					<ui:define name="label">#{messages['Search']} #{messages['Code']}</ui:define>
+
+					<h:inputText dir="ltr" value="#{gistQuery.searchPattern}"
+						style="direction:ltr;display:inline;width:95%" id="searchPattern" />
+						
+					<s:button type="image" image="#{_ctx}/images/reset.png"
+						style="display:inline;cursor: pointer;"
+						rendered="#{not empty searchPattern}" includePageParams="false"
+						view="/gistList.xhtml" propagation="none"></s:button>
+
+				</s:decorate>
+
+				<h:commandButton action="#{gistQuery.redirect()}" value="Search"
+					style="display:none;" id="btnSrch">
+					<s:defaultAction></s:defaultAction>
+				</h:commandButton>
+
+			</h:form>
+			
+			<s:div rendered="#{empty gistQuery.resultList}" styleClass="ui block header">
+				<h:outputText value="#{messages['No_Result']}" />
+			</s:div>
+
 			<div class="ui middle aligned divided list">
+
 
 				<c:forEach items="#{gistQuery.resultList}" var="_item">
 					<div class="item">
@@ -35,6 +62,9 @@
 						<div class="content">
 							<span class="header">#{_item.member.username}</span>
 							<div class="description">
+								#{_item.description}
+							</div>
+							<div class="meta">
 								#{messages['Created_At']} <b>#{_item.socialDate}</b>
 							</div>
 						</div>
@@ -48,29 +78,26 @@
 							<div class="content">
 								<div class="center">
 									<s:button propagation="none" includePageParams="false"
-										styleClass="btn btn-green w3-margin" 
-										view="/gist.xhtml"
+										styleClass="btn btn-green w3-margin" view="/gist.xhtml"
 										value="#{messages['View']} #{messages['Code']}">
 										<f:param name="gId" value="#{_item.id}"></f:param>
 									</s:button>
-									
+
 									<s:button propagation="none" includePageParams="false"
-										styleClass="btn btn-yellow w3-margin" 
-										view="/member/gistEdit.xhtml"
-										rendered="#{_item.owner}"
+										styleClass="btn btn-yellow w3-margin"
+										view="/member/gistEdit.xhtml" rendered="#{_item.owner}"
 										value="#{messages['Edit']} #{messages['Code']}">
 										<f:param name="gistId" value="#{_item.id}"></f:param>
 									</s:button>
-									
-									
+
+
 									<s:button propagation="none" includePageParams="false"
-										styleClass="btn btn-yellow w3-margin" 
+										styleClass="btn btn-yellow w3-margin"
 										action="#{gistHome.deleteById()}"
-										rendered="#{s:hasRole('Admin')}"
-										value="#{messages['Delete']}">
+										rendered="#{s:hasRole('Admin')}" value="#{messages['Delete']}">
 										<f:param name="gistId" value="#{_item.id}"></f:param>
 									</s:button>
-									
+
 								</div>
 							</div>
 						</div>
@@ -81,7 +108,14 @@
 
 			</div>
 
+			<s:decorate template="/layout/seamPaging.xhtml"
+				rendered="#{empty searchPattern}">
+				<ui:param name="entityList" value="#{gistQuery}" />
+			</s:decorate>
+
 		</div>
+
+
 
 		<script>
 			jQuery(document).ready(function(){
@@ -90,6 +124,8 @@
 				  .dimmer({
 				    on: 'hover'
 				  });
+				var srchMsg = "#{messages['Search']} #{messages['Code']}";
+				jQuery("#srchCode\\:fieldCode\\:searchPattern").attr('placeholder', "Search Code");  
 
 			});
 		</script>
