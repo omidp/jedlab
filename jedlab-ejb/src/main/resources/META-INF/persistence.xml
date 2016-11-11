@@ -27,6 +27,13 @@
 				value="org.hibernate.ejb.event.EJB3PostDeleteEventListener,org.hibernate.envers.event.AuditEventListener" />
 		 <property name="org.hibernate.envers.revision_on_collection_change" value="false" />
 		 <property name="org.hibernate.envers.store_data_at_delete" value="true" />
+		 
+		 
+		 <!-- use a file system based index -->
+         <property name="hibernate.search.default.directory_provider" 
+                  value="org.hibernate.search.store.FSDirectoryProvider"/>
+         <!-- directory where the indexes will be stored -->
+         <property name="hibernate.search.default.indexBase" value="./gistindexes"/>
 		 	
       </properties>
    </persistence-unit>
