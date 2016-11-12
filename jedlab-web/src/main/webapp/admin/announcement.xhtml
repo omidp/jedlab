@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="body">
+
+	<fieldset>
+		<legend></legend>
+		<div style="margin-top: 20px; margin-right: 10px;width: 100%"
+			class="locale-direction">
+			<h:form id="notifierForm"> 
+				<h:panelGrid columns="2" width="100%">
+					
+						
+					<h:outputText value="email subject" />
+					<h:inputText value="#{announcementAction.subject}" required="true" styleClass="w3-input"/>	
+
+					<h:outputText value="email content" />
+					<h:inputTextarea value="#{announcementAction.content}" cols="35" styleClass="w3-input"
+						rows="8" required="true" />
+
+				</h:panelGrid>
+
+				<h:commandButton action="#{announcementAction.notifyUsers()}"
+					styleClass="btn btn-blue"
+					value="Notify users" />
+
+			</h:form>
+		</div>
+	</fieldset>
+
+
+
+	</ui:define>
+</ui:composition>

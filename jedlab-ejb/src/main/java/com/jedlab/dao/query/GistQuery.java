@@ -79,6 +79,7 @@ public class GistQuery extends PagingController<Gist>
                 criteria.setFirstResult(getFirstResult());
             if (getMaxResults() != null)
                 criteria.setMaxResults(getMaxResults() + 1);
+            criteria.addOrder(Order.desc("createdDate"));
             resultList = criteria.list();
             return truncResultList(resultList);
         }
