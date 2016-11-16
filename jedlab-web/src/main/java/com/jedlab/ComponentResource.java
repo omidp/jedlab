@@ -35,6 +35,8 @@ public abstract class ComponentResource extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        //max-age=86400 1 day
+        response.setHeader("max-age", "86400");
         URL resourceUrl = getURL();
         long latestTimestamp = -1;
         long timestamp = getFileTimestamp(resourceUrl);
