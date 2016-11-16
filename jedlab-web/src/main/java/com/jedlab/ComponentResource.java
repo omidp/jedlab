@@ -35,8 +35,6 @@ public abstract class ComponentResource extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        //max-age=86400 1 day
-        response.setHeader("max-age", "86400");
         URL resourceUrl = getURL();
         long latestTimestamp = -1;
         long timestamp = getFileTimestamp(resourceUrl);
@@ -62,6 +60,7 @@ public abstract class ComponentResource extends HttpServlet
             }
         }
         response.setDateHeader("Last-Modified", lastModified != -1 ? lastModified : this.startupTime);
+        //Cache-Control max-age=86400 1 day
         response.setHeader("Cache-Control", "must-revalidate");
         InputStream in = null;
         OutputStream outputStream = null;
@@ -92,6 +91,7 @@ public abstract class ComponentResource extends HttpServlet
             IOUtils.closeQuietly(in);
             IOUtils.closeQuietly(outputStream);
         }
+        response.setHeader("Cache-Control", "max-age=86400");
     }
 
     protected long getFileTimestamp(URL url)
