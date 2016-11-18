@@ -37,19 +37,24 @@
 			</s:link>	
 			
 			</li>
+			
+		<s:fragment rendered="#{identity.loggedIn}">
 		
 		<li class="w3-hide-small">
 		
 			<s:link propagation="none" 
-						styleClass="w3-padding-menu-item w3-hover-white" rendered="#{identity.loggedIn}"
+						styleClass="w3-padding-menu-item w3-hover-white" 
 						view="/member/userEdit.xhtml"
 						value="#{loginActionManager.currentUsername} #{messages['Welcome']}">
 						<i class="icon-user-tie"></i>
-					</s:link>
+			</s:link>
 			
 			
 		
 		</li>	
+		
+		</s:fragment>	
+		
 			
 			
 		<li class="w3-hide-small"><s:link propagation="none"
@@ -66,19 +71,33 @@
 				<i class="icon-books"></i>
 			</s:link></li>
 			
-		<li class="w3-hide-small"><s:link propagation="none"
-				includePageParams="false" view="/coders/questionList.xhtml"
-				styleClass="w3-padding-menu-item w3-hover-white"
+			
+		<li class="w3-hide-small w3-dropdown-hover">
+			<a title="Be Java Champ" class="w3-padding-menu-item w3-hover-white" href="javascript:void(0);">
+				<h:outputText value="#{messages['Be_Java']}" />
+				<i class="icon-circle-down"></i> 
+			</a>
+		
+		<div class="w3-dropdown-content w3-white w3-card-4">
+			
+			<s:link propagation="none"
+				includePageParams="false" view="/coders/questionList.xhtml"				
 				value="#{messages['Java_Challenge']}">
 				<i class="icon-book"></i>
-			</s:link></li>
+			</s:link>
 			
-		<li class="w3-hide-small"><s:link propagation="none"
+			<s:link propagation="none"
 				includePageParams="false" view="/gistList.xhtml"
-				styleClass="w3-padding-menu-item w3-hover-white"
+				
 				value="#{messages['Gist']}">
 				<i class="icon-file-text"></i>
-			</s:link></li>		
+			</s:link>
+		
+		</div>
+		
+		</li>	
+			
+			
 			
 			 
 		<li class="w3-hide-small">

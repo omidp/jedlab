@@ -441,7 +441,7 @@ ul.w3-ul li:last-child {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    /*overflow: hidden;*/
     z-index: 888 !important;
 }
 .w3-navbar li {
@@ -472,7 +472,8 @@ ul.w3-ul li:last-child {
 .w3-dropdown-content a,
 .w3-accordion-content a,
 .w3-dropnav a {
-    text-decoration: none !important
+    text-decoration: none !important;
+    text-align: right;
 }
 .w3-navbar .w3-opennav.w3-right {
     float: right !important
@@ -704,7 +705,7 @@ ul.w3-ul li:last-child {
 }
 .w3-dropdown-hover:hover .w3-dropdown-content {
     display: block;
-    z-index: 1
+    z-index: 1;
 }
 .w3-dropdown-content {
     cursor: auto;
