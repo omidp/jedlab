@@ -6,60 +6,91 @@
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="head">
-		
+
 	</ui:define>
 
 	<ui:define name="body">
 
 		<div
-			style="margin:50px;height: 100%;"
-			class="locale-direction">
-			
-			<p>
-				جهت ارسال درخواست پشتیبانی، فرم زیر را تکمیل نمایید.
-پاسخ شما از طریق ایمیل به اطلاع شما خواهد رسید.
-			</p>
-			
-			<h:form styleClass="form" id="contactForm">
-				
-				<fieldset>
-					<legend>#{messages['Contact_Us']}</legend> 
+			class="ui two column top aligned very relaxed stackable grid w3-margin">
 
-					<div class="form-item">							
-						<label><s:span styleClass="red">*</s:span> #{' '} #{messages['Email']} #{messages['You']}</label>
-						<h:inputText value="#{contactusAction.contactus.email}" required="true">
-						</h:inputText>
-					</div>
-					
-					<div class="form-item">
-						<label><s:span styleClass="red">*</s:span> #{' '} #{messages['Title']}</label>
-						<h:inputText value="#{contactusAction.contactus.title}" required="true" />
-					</div>
+			<div class="right aligned column locale-direction">
 
-					<div class="form-item">
-						<label><s:span styleClass="red">*</s:span> #{' '} #{messages['Content_Text']}</label>
-						<h:inputTextarea value="#{contactusAction.contactus.content}" rows="5" required="true"/>
-					</div>
-					
-					<div class="form-item">
-						<label><s:span styleClass="red">*</s:span> #{' '} #{messages['Captcha_Response']}</label>
-						<h:graphicImage id="capthaImg" style="float: left;"
-												value="/seam/resource/captcha?#{currentDate.time}" /><br />
-						<h:inputText id="verifyCaptcha" required="true"
-											value="#{captcha.response}" />
-					</div>
+				<div class="w3-panel w3-blue-grey">
+					<h3>نشانی :</h3>
+					<p>
+						 تهران ، خ باقرخان مقابل خ قریب ، پ ۲۱ ، ط اول
+					</p>
+					<h3>تلفن تماس :</h3>
+					<p>
+						۰۹۱۲۸۰۱۶۸۰۴
+					</p>
+					<h3>ایمیل :</h3>
+					<p>
+						info@jedlab.ir
+					</p>
+				</div>
 
-					<div class="form-item end">
-						<h:commandButton  value="#{messages['Send']}"
-							action="#{contactusAction.contact()}" 
-							id="btnSend"
-							styleClass="btn btn-blue">
-							<s:defaultAction></s:defaultAction>
-						</h:commandButton>	
-					</div>
-				</fieldset>
-			</h:form>
+
+			</div>
+
+			<div class="ui vertical divider"></div>
+
+			<div class="right aligned column">
+
+				<p>جهت ارسال درخواست پشتیبانی، فرم زیر را تکمیل نمایید. پاسخ شما
+					از طریق ایمیل به اطلاع شما خواهد رسید.</p>
+
+				<h:form styleClass="form" id="contactForm">
+
+					<fieldset>
+						<legend>#{messages['Contact_Us']}</legend>
+
+						<div class="form-item">
+							<label><s:span styleClass="red">*</s:span> #{' '}
+								#{messages['Email']} #{messages['You']}</label>
+							<h:inputText value="#{contactusAction.contactus.email}"
+								required="true">
+							</h:inputText>
+						</div>
+
+						<div class="form-item">
+							<label><s:span styleClass="red">*</s:span> #{' '}
+								#{messages['Title']}</label>
+							<h:inputText value="#{contactusAction.contactus.title}"
+								required="true" />
+						</div>
+
+						<div class="form-item">
+							<label><s:span styleClass="red">*</s:span> #{' '}
+								#{messages['Content_Text']}</label>
+							<h:inputTextarea value="#{contactusAction.contactus.content}"
+								rows="5" required="true" />
+						</div>
+
+						<div class="form-item">
+							<label><s:span styleClass="red">*</s:span> #{' '}
+								#{messages['Captcha_Response']}</label>
+							<h:graphicImage id="capthaImg" style="float: left;"
+								value="/seam/resource/captcha?#{currentDate.time}" />
+							<br />
+							<h:inputText id="verifyCaptcha" required="true"
+								value="#{captcha.response}" />
+						</div>
+
+						<div class="form-item end">
+							<h:commandButton value="#{messages['Send']}"
+								action="#{contactusAction.contact()}" id="btnSend"
+								styleClass="btn btn-blue">
+								<s:defaultAction></s:defaultAction>
+							</h:commandButton>
+						</div>
+					</fieldset>
+				</h:form>
+
+			</div>
+
+
 		</div>
-
 	</ui:define>
 </ui:composition>

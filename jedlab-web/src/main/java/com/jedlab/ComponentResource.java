@@ -61,7 +61,8 @@ public abstract class ComponentResource extends HttpServlet
         }
         response.setDateHeader("Last-Modified", lastModified != -1 ? lastModified : this.startupTime);
         //Cache-Control max-age=86400 1 day
-        response.setHeader("Cache-Control", "must-revalidate");
+//        response.setHeader("Cache-Control", "must-revalidate");
+        response.setHeader("Cache-Control", "max-age=86400");
         InputStream in = null;
         OutputStream outputStream = null;
         try
@@ -91,7 +92,6 @@ public abstract class ComponentResource extends HttpServlet
             IOUtils.closeQuietly(in);
             IOUtils.closeQuietly(outputStream);
         }
-        response.setHeader("Cache-Control", "max-age=86400");
     }
 
     protected long getFileTimestamp(URL url)
