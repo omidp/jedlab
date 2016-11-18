@@ -48,7 +48,7 @@
 	<!-- <web:authentication-filter url-pattern="*.play" auth-type="basic" realm="seamApp"/>-->
 	<web:rewrite-filter view-mapping="*.seam"/>
 	
-	<web:hot-deploy-filter url-pattern="*.seam" />
+	<web:hot-deploy-filter installed="false" disabled="true"  url-pattern="*.seam" />
 	<web:multipart-filter create-temp-files="true"
 		max-request-size="10000000" url-pattern="*.seam" />
 	<web:character-encoding-filter encoding="UTF-8"
