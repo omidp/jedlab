@@ -27,6 +27,10 @@
 		<rewrite pattern="/terms"/>		
 	</page>
 	
+	<page view-id="/aboutus.xhtml">		
+		<rewrite pattern="/about"/>		
+	</page>
+	
 	<page view-id="/partners.xhtml">		
 		<rewrite pattern="/partners"/>		
 	</page>
