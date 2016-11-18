@@ -4909,3 +4909,31 @@ div.w3-accordion div.content{
 .text-center {
     text-align: center !important;
 }
+
+/* =Profile
+-----------------------------------------------------------------------------*/
+.edit-profile .avatar-wrapper {
+	height: 164px;
+	overflow: hidden;
+	position: relative;
+	width: 164px;
+}
+
+.avatar-wrapper #change-picture, .avatar-wrapper .change-picture {
+	background: rgba(12, 13, 14, 0.6) none repeat scroll 0 0;
+	border: 0 none;
+	border-radius: 0 0 3px 3px;
+	color: #fff;
+	text-align: center;
+	transition: background 0.3s ease 0s;
+}
+
+#change-picture {
+	display: block;
+}
+
+.avatar {
+	width: 164px;	
+	overflow: hidden;
+	margin: 0 auto;
+}

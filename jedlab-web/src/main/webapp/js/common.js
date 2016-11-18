@@ -46,6 +46,16 @@ var common = {
 		hideLoading : function() {
 			jQuery("#dimmerLoader").dimmer('hide');
 		},
+		initUploader : function(uploader) {
+			if ('files' in uploader) {
+				if (uploader.files.length == 0) {
+					return "select image";
+				} else {
+					var file = uploader.files[0];
+					return file.name;
+				}
+			}
+		},
 		englishOnly : function(message){
 			jQuery("input[type='password']").each(function(){  
 				var _self = jQuery(this);
