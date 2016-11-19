@@ -26,12 +26,40 @@
 						<div class="avatar-wrapper">
 							<div class="avatar"></div>
 						</div>
+						
+						<h:form enctype="multipart/form-data" id="profileImageForm">
+							<div class="ui top left attached red label" id="delImage"
+								style="cursor: pointer;"
+								data-content="#{messages['Delete_Image']}">
+								<i class="icon-cancel-circle" />
+							</div>
+							<a id="imgLink" class="ui centered medium image"
+								style="cursor: pointer;margin-left:15px;margin-bottom:10px;"> <s:fragment
+									rendered="#{!userHome.student.hasImage}">
+									<h:graphicImage value="/images/image-text.png" />
+
+								</s:fragment> <s:graphicImage value="#{userHome.student.image}"
+									rendered="#{userHome.student.hasImage}">
+									<s:transformImageSize height="164" width="164"></s:transformImageSize>
+								</s:graphicImage>
+
+							</a>
+							<a id="change-picture" style="cursor: pointer;">#{messages['Change_Picture']} (#{messages['File_Size_Info']})</a>
+							<div style="display: none;">
+								<s:fileUpload id="file" data="#{userHome.uploadImage}"
+									onchange="onUploaderChange();" accept="images/*" 
+									fileSize="#{userHome.fileSize}" />
+								<h:commandButton action="#{userHome.update()}"
+									value="#{messages['Update']}" id="btnImageUpdate"
+									styleClass="ui primary button"></h:commandButton>
+							</div>
+						</h:form>
 
 						<h:form id="profileForm" styleClass="ui large form"
 							style="margin-top:12px;">
 
 							<s:decorate id="emailField" template="/layout/edit.xhtml">
-								<h:inputText value="#{userHome.user.email}" required="true" />
+								<h:inputText value="#{userHome.user.email}" required="true" disabled="true"/>
 								<ui:define name="label">
 									#{messages['Email']}
 								</ui:define>
@@ -148,10 +176,28 @@
 		</script>
 
 		<script>
-		jQuery(document).ready(function(){
-			Materialize.updateTextFields();
-		});
-	</script>
+			jQuery(document).ready(function(){
+				Materialize.updateTextFields();
+				jQuery('#delImage').popup();
+				jQuery("#imgLink").click(function(){
+					jQuery("#profileImageForm\\:file").click();
+				});
+				var txt = common.initUploader(document.getElementById("profileImageForm:file"));
+				jQuery("#change-picture").html("#{messages['Select_Image']}");
+				jQuery("#change-picture").click(function(){
+					jQuery("#profileImageForm\\:file").click();
+				});
+			});
+			function onUploaderChange()
+			{
+				var txt = common.initUploader(document.getElementById("profileImageForm:file"));
+				//jQuery("#imgDesc").html(txt);
+				jQuery("#profileImageForm\\:btnImageUpdate").click();
+			}
+			jQuery("#delImage").click(function(){
+				jQuery("#profileImageForm\\:btnImageUpdate").click();
+			});
+		</script>
 
 
 	</ui:define>

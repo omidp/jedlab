@@ -32,8 +32,10 @@ import org.jboss.seam.security.management.PasswordHash;
 import com.jedlab.framework.CryptoUtil;
 import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.PageExceptionHandler;
+import com.jedlab.framework.ReflectionUtil;
 import com.jedlab.framework.WebContext;
 import com.jedlab.model.Member;
+import com.jedlab.model.Student;
 
 @Name("registerAction")
 @Scope(ScopeType.CONVERSATION)
@@ -153,7 +155,9 @@ public class RegisterAction implements Serializable
         {
             user.setActive(Boolean.FALSE);
             user.setActivationCode(RandomStringUtils.randomAlphanumeric(45));
-            entityManager.persist(user);
+            Student std = ReflectionUtil.cloneBean(user, Student.class);
+            entityManager.persist(std);
+            user.setId(std.getId());
             entityManager.flush();
             if (user.getId() != null)
             {

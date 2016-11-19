@@ -4,3 +4,5 @@ VALUES (1, true, 'admin@jedlab.ir', '2016-08-05 22:56:39.198418', 'jQ5SHBmn6FuvN
 
 ALTER TABLE member_course
   ADD CONSTRAINT member_course_chapter_id_course_id_member_id_key UNIQUE(chapter_id, course_id, member_id);
+  
+  insert into student(member_id) select id from member;

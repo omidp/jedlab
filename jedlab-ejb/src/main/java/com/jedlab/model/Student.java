@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.jboss.seam.international.StatusMessage;
@@ -26,7 +27,7 @@ public class Student extends Member
     private String lastName;
 
     @Column(name = "age")
-    private int age;
+    private Integer age;
 
     @Lob
     @Type(type = "org.hibernate.type.BinaryType")
@@ -107,14 +108,50 @@ public class Student extends Member
         this.lastName = lastName;
     }
 
-    public int getAge()
+    public Integer getAge()
     {
         return age;
     }
 
-    public void setAge(int age)
+    public void setAge(Integer age)
     {
         this.age = age;
+    }
+
+    @Transient
+    public boolean getHasImage()
+    {
+        return getImage() != null && getImage().length > 0;
+    }
+
+    public byte[] getImage()
+    {
+        return image;
+    }
+
+    public void setImage(byte[] image)
+    {
+        this.image = image;
+    }
+
+    public Gender getGender()
+    {
+        return gender;
+    }
+
+    public void setGender(Gender gender)
+    {
+        this.gender = gender;
+    }
+
+    public Privacy getPrivacy()
+    {
+        return privacy;
+    }
+
+    public void setPrivacy(Privacy privacy)
+    {
+        this.privacy = privacy;
     }
 
 }
