@@ -39,7 +39,7 @@ public class IEFilter implements Filter
                 request.getRequestDispatcher("noie.html").forward(request, response);
                 return;
             }
-            if (agent.indexOf("Trident") > 0)
+            if (agent.indexOf("Edge") > 0)
             {
                 // ie
                 request.getRequestDispatcher("noie.html").forward(request, response);
