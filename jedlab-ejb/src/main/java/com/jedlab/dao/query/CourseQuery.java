@@ -45,7 +45,7 @@ public class CourseQuery extends PagingController<Course>
             refresh();
         }
         if (resultList != null)
-            return resultList;
+            return truncResultList(resultList);
         Criteria criteria = getSession().createCriteria(Course.class, "c");
         applyFilter(criteria);
         addToValueParams("#{courseQuery.course.name}");

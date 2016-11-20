@@ -45,7 +45,7 @@ public class QuestionQuery extends PagingController<Question>
             refresh();
         }
         if (resultList != null)
-            return resultList;
+            return truncResultList(resultList);
         Criteria criteria = getSession().createCriteria(Question.class, "q");
         if (Identity.instance().isLoggedIn())
         {

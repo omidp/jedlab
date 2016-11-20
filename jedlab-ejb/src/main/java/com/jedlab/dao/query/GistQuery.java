@@ -70,7 +70,7 @@ public class GistQuery extends PagingController<Gist>
             refresh();
         }
         if (resultList != null)
-            return resultList;
+            return truncResultList(resultList);
         if(StringUtil.isEmpty(getSearchPattern()))
         {
             Criteria criteria = getSession().createCriteria(Gist.class, "g");

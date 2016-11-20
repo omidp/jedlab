@@ -37,7 +37,7 @@ public class MemberCourseQuery extends PagingController<Course>
     public List<Course> getResultList()
     {
         if (resultList != null)
-            return resultList;
+            return truncResultList(resultList);
         Criteria criteria = createCriteria();
         if (getFirstResult() != null)
             criteria.setFirstResult(getFirstResult());
