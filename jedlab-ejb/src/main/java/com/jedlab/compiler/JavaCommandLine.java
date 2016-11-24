@@ -24,8 +24,6 @@ import com.jedlab.framework.CollectionUtil;
 public class JavaCommandLine
 {
 
-    private static final String USER_HOME = System.getProperty("user.home");
-
     private String sourceDir;
     private String fileName;
     private List<String> programArgs;
@@ -43,14 +41,17 @@ public class JavaCommandLine
         OutputStream os = null;
         try
         {
-            CommandLine cmdLine = chrootCmd();
-            // CommandLine cmdLine = defaultCmd();
+            CommandLine cmdLine = null;
+            if (Env.isDevMode())
+                cmdLine = defaultCmd();
+            else
+                cmdLine = chrootCmd();
             DefaultExecutor executor = new DefaultExecutor();
             executor.setWorkingDirectory(new File(sourceDir));
             ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000);
             CompilerResultHandler resultHandler = new CompilerResultHandler(watchdog);
             out = new ByteArrayOutputStream();
-            os = new FileOutputStream(new File(USER_HOME + File.separator + "compiler_error.txt"));
+            os = new FileOutputStream(new File(Env.USER_HOME + File.separator + "compiler_error.txt"));
             PumpStreamHandler psh = new PumpStreamHandler(out, os);
             executor.setStreamHandler(psh);
 

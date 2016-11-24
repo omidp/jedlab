@@ -1,12 +1,11 @@
 package com.jedlab.compiler;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,14 +15,12 @@ import java.util.regex.Pattern;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
+import org.apache.commons.exec.ExecuteWatchdog;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.jci.compilers.CompilationResult;
-import org.apache.commons.jci.compilers.JavaCompiler;
-import org.apache.commons.jci.compilers.JavaCompilerFactory;
-import org.apache.commons.jci.problems.CompilationProblem;
-import org.apache.commons.jci.readers.FileResourceReader;
-import org.apache.commons.jci.stores.FileResourceStore;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -36,16 +33,17 @@ import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.log.Log;
 
 import com.jedlab.Env;
-import com.jedlab.JedLab;
 import com.jedlab.action.Constants;
+import com.jedlab.compiler.JavaCommandLine.CompilerResultHandler;
 import com.jedlab.compiler.JavaCommandLine.ProcessVO;
 import com.jedlab.framework.CollectionUtil;
+import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TxManager;
 import com.jedlab.model.Member;
 import com.jedlab.model.MemberQuestion;
+import com.jedlab.model.MemberQuestion.QuestionStatus;
 import com.jedlab.model.Question;
 import com.jedlab.model.TestCase;
-import com.jedlab.model.MemberQuestion.QuestionStatus;
 
 @Name("ideAction")
 @Scope(ScopeType.CONVERSATION)
@@ -83,14 +81,15 @@ public class IdeAction extends EntityController
     @Create
     public void init()
     {
-        code = "//*******************************************************************\r\n" + "// NOTE: please Change the ClassName\r\n"
+        code = "//*******************************************************************\r\n"
+                + "// NOTE: please Change the ClassName\r\n"
                 + "//*******************************************************************\r\n\r\n"
                 + "import java.lang.Math; // headers MUST be above the first class\r\n\r\n"
                 + "// a class needs to have a main() method\r\n"
                 // + String.format("public class ClassName%s\r\n",
                 // RandomStringUtils.randomAlphabetic(3)) + "{\r\n\r\n"
-                + "public class ClassName\r\n" + "{\r\n\r\n"
-                + "  public static void main(String[] args)\r\n" + "  {\r\n" + "      \r\n" + "  }\r\n" + "\r\n" + "}";
+                + "public class ClassName\r\n" + "{\r\n\r\n" + "  public static void main(String[] args)\r\n" + "  {\r\n" + "      \r\n"
+                + "  }\r\n" + "\r\n" + "}";
     }
 
     public void load()
@@ -155,12 +154,13 @@ public class IdeAction extends EntityController
             // FileUtils.deleteDirectory();
             //
             JavaRuntimeCompiler runtimeCompiler = new JavaRuntimeCompiler(javaFile.getFileName(), javaFile.getDirectory()).compile();
-            if (CollectionUtil.isNotEmpty(runtimeCompiler.getCompileErrors()))
+            ProcessVO processVO = runtimeCompiler.getProcessVO();
+            if (processVO != null)
             {
-                for (CompilationProblem p : runtimeCompiler.getCompileErrors())
-                {
-                    problems.add(new Problem(p.getMessage()));
-                }
+                if (StringUtil.isNotEmpty(processVO.getOutput()))
+                    problems.add(new Problem(processVO.getOutput()));
+                if (processVO.getCause() != null && processVO.getCause().getExitValue() == 1)
+                    problems.add(new Problem(StatusMessage.getBundleMessage("Compile_Error", "Compile_Error")));
             }
         }
         catch (CompilerException ce)
@@ -237,7 +237,7 @@ public class IdeAction extends EntityController
     {
         private String fileName;
         private String sourceDir;
-        List<CompilationProblem> compileErrors;
+        private ProcessVO processVO;
 
         public JavaRuntimeCompiler(String fileName, String sourceDir)
         {
@@ -247,20 +247,58 @@ public class IdeAction extends EntityController
 
         public JavaRuntimeCompiler compile()
         {
-            JavaCompiler compiler = new JavaCompilerFactory().createCompiler("eclipse");
-            CompilationResult result = compiler.compile(new String[] { String.format("%s.java", fileName) }, new FileResourceReader(
-                    new File(sourceDir)), new FileResourceStore(new File(sourceDir)));
-            if (result.getErrors().length > 0)
+            ByteArrayOutputStream out = null;
+            OutputStream os = null;
+            try
             {
-                compileErrors = new ArrayList<>();
-                compileErrors = Arrays.asList(result.getErrors());
+                CommandLine cmdLine = null;
+                if (Env.isDevMode())
+                {
+                    cmdLine = new CommandLine("javac");
+                    cmdLine.addArgument("-cp");
+                    cmdLine.addArgument(sourceDir);
+                    cmdLine.addArgument(String.format("%s.java", fileName));
+                }
+                else
+                {
+                    cmdLine = new CommandLine("chroot");
+                    cmdLine.addArgument(Env.getJailHome());
+                    cmdLine.addArgument("/java/jdk8/bin/javac");
+                    cmdLine.addArgument(String.format("%s.java", fileName));
+                }
+                //
+                DefaultExecutor executor = new DefaultExecutor();
+                executor.setWorkingDirectory(new File(sourceDir));
+                ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000);
+                CompilerResultHandler resultHandler = new CompilerResultHandler(watchdog);
+                out = new ByteArrayOutputStream();
+                os = new FileOutputStream(new File(Env.USER_HOME + File.separator + "compiler_error.txt"));
+                PumpStreamHandler psh = new PumpStreamHandler(out, os);
+                executor.setStreamHandler(psh);
+
+                executor.execute(cmdLine, resultHandler);
+                resultHandler.waitFor();
+                ExecuteException ee = resultHandler.getException();
+                processVO = new ProcessVO(new String(out.toByteArray(), "UTF-8").replaceAll("\n", "").replaceAll("\r", "").trim(), ee);
+            }
+            catch (IOException e)
+            {
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                IOUtils.closeQuietly(out);
+                IOUtils.closeQuietly(os);
             }
             return this;
         }
 
-        public List<CompilationProblem> getCompileErrors()
+        public ProcessVO getProcessVO()
         {
-            return compileErrors;
+            return processVO;
         }
 
     }

@@ -67,7 +67,15 @@ public final class Env
     
     public static String getJailHome()
     {
-        return prop.getProperty("JAIL_HOME");
+        if(isDevMode())
+            return prop.getProperty("DEV_JAIL_HOME");
+        else
+            return prop.getProperty("PROD_JAIL_HOME");
+    }
+    
+    public static boolean isDevMode()
+    {
+        return Boolean.valueOf(prop.getProperty("devmode"));
     }
     
     

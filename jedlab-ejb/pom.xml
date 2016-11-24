@@ -42,10 +42,10 @@
 			<version>3.2.5.Final</version>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-jci-eclipse</artifactId>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
