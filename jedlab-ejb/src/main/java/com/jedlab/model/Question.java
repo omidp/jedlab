@@ -55,6 +55,9 @@ public class Question extends BasePO
     @Column(name = "attempt_count")
     private int attemptCount;
 
+    @Transient
+    private long userCount;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
     private List<TestCase> testcases = new ArrayList<>(0);
 
@@ -66,6 +69,16 @@ public class Question extends BasePO
     public void setTestcases(List<TestCase> testcases)
     {
         this.testcases = testcases;
+    }
+
+    public long getUserCount()
+    {
+        return userCount;
+    }
+
+    public void setUserCount(long userCount)
+    {
+        this.userCount = userCount;
     }
 
     public Date getCreatedDate()

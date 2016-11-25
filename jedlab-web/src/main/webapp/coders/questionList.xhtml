@@ -25,21 +25,21 @@
 			</s:div>	
 				
 			<s:fragment rendered="#{not empty questionQuery.resultList}">	
+			<script type="text/javascript">
+				jQuery(document).ready(function(){
+
+					jQuery("body").addClass("w3-light-grey");
+
+				});
+			</script>
 			
-			<table class="ui unstackable table" dir="rtl">
-
-				<thead>
-					<tr>
-						<th>#{messages['Title']}</th>
-						<th>#{messages['description']}</th>
-						<th>#{messages['points']}</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="#{questionQuery.resultList}" var="_q">
-
-						<tr>
-							<td><s:link value="#{_q.title}" propagation="none"
+				
+				<c:forEach items="#{questionQuery.resultList}" var="_q">
+					
+					
+					<div class="w3-container w3-card-2 w3-white w3-margin-bottom  locale-direction">
+											<h5 class="w3-opacity">
+												<b><s:link value="#{_q.title}" propagation="none"
 									styleClass="clickableLink" rendered="#{!s:hasRole('Admin')}"
 									includePageParams="false" view="/coders/ide.xhtml">
 									<f:param name="qId" value="#{_q.id}"></f:param>
@@ -57,25 +57,31 @@
 										<f:param name="qId" value="#{_q.id}"></f:param>
 									</s:link>
 
-								</s:fragment></td>
-							<td>#{_q.description}</td>
-							<td>#{_q.points}</td>
-						</tr>
-
-
-					</c:forEach>
-				</tbody>
-
-			</table>
+								</s:fragment></b>
+											</h5>
+											<h6 class="w3-text-teal">					
+												<span class="w3-tag w3-teal w3-round">#{_q.points} #{messages['points']}</span>
+												<br />
+												<h:outputText value="#{interpolator.interpolate(messages['Q_User_Solved_Cnt'], _q.userCount)}" />				
+											</h6>
+											<p>
+												<h:outputText value="#{_q.description}" />
+											</p>
+											<hr />
+					</div>
+				
+				
+				</c:forEach>
+				
 			
+				<s:decorate template="/layout/seamPaging.xhtml">
+					<ui:param name="entityList" value="#{questionQuery}" />
+				</s:decorate>
 			</s:fragment>
 
 
 		</div>
 
-		<s:decorate template="/layout/seamPaging.xhtml">
-			<ui:param name="entityList" value="#{questionQuery}" />
-		</s:decorate>
 
 
 	</ui:define>

@@ -16,6 +16,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.Identity;
 
 import com.jedlab.action.Constants;
+import com.jedlab.framework.CollectionUtil;
 import com.jedlab.framework.PagingController;
 import com.jedlab.framework.PagingEntityQuery;
 import com.jedlab.model.Chapter;
@@ -59,7 +60,32 @@ public class QuestionQuery extends PagingController<Question>
         if (getMaxResults() != null)
             criteria.setMaxResults(getMaxResults() + 1);
         resultList = criteria.list();
+        addUserSolvedCount(resultList);
         return truncResultList(resultList);
+    }
+
+    private void addUserSolvedCount(List<Question> qList)
+    {
+        if(CollectionUtil.isNotEmpty(qList))
+        {
+            Criteria criteria = getSession().createCriteria(MemberQuestion.class, "mq");        
+            criteria.setProjection(Projections.projectionList().add(Projections.count("question"))
+                    .add(Projections.groupProperty("question")));
+            criteria.add(Restrictions.in("question", qList));
+            List<Object[]> obj = criteria.list();
+            for (Object[] items : obj)
+            {
+                Long userSolvedCount = Long.parseLong(String.valueOf(items[0]));
+                Question q = (Question) items[1];
+                for (Question item : qList)
+                {
+                    if(q.getId().longValue() == item.getId().longValue())
+                    {
+                        item.setUserCount(userSolvedCount);
+                    }
+                }
+            }
+        }
     }
 
     @Override
