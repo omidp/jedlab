@@ -64,6 +64,14 @@
 	
 								<div class="w3-container">
 									<h5 class="w3-opacity">
+										<s:graphicImage value="#{_item.image}"
+										rendered="#{_item.hasImage}" width="85px" height="40px"
+										styleClass="ui middle aligned tiny image">
+
+									</s:graphicImage>
+									<s:graphicImage value="/images/no_video_photo.png"
+										rendered="#{!_item.hasImage}"
+										styleClass="ui middle aligned small image"></s:graphicImage>
 										<b><s:link view="/course.xhtml" value="#{_item.name}"
 											propagation="none" includePageParams="false"
 											styleClass="header clickableLink">
