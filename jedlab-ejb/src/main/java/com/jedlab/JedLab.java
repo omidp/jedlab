@@ -7,13 +7,17 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.framework.HibernateEntityController;
 import org.jboss.seam.navigation.Pages;
 
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CacheManager;
+import com.jedlab.framework.WebContext;
 import com.jedlab.model.Course.Language;
 import com.jedlab.model.Course.Level;
+import com.jedlab.model.Student.Gender;
+import com.jedlab.model.Student.Privacy;
 import com.jedlab.model.Member;
 
 @Name("jedLab")
@@ -43,6 +47,18 @@ public class JedLab extends HibernateEntityController
     {
         return Language.values();
     }
+    
+    @Factory("genders")
+    public Gender[] genders()
+    {
+        return Gender.values();
+    }
+    
+    @Factory("privacies")
+    public Privacy[] privacies()
+    {
+        return Privacy.values();
+    }
 
     public String getPageDescription()
     {
@@ -58,6 +74,23 @@ public class JedLab extends HibernateEntityController
         if(sess == null)
             return "";
         return sess.getId();
+    }
+    
+    public static JedLab instance()
+    {
+        if (!Contexts.isConversationContextActive())
+        {
+            throw new IllegalStateException("No active conversation context");
+        }
+
+        JedLab instance = (JedLab) Component.getInstance(JedLab.class, ScopeType.CONVERSATION);
+
+        if (instance == null)
+        {
+            throw new IllegalStateException("No JedLab could be created");
+        }
+
+        return instance;
     }
 
 }

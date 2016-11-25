@@ -4,6 +4,7 @@
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jedlab="http://tasktops.com/ui"
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="head">
@@ -13,121 +14,127 @@
 
 	<ui:define name="body">
 
-		<div class="ui two column middle aligned very relaxed stackable grid w3-margin">
 
-				<div class="center aligned column locale-dir"
-					id="profilePanel">
+		<jedlab:tabs>
 
-					<h3 class="ui block header">#{messages['Profile_Information']}</h3>
-					<div class="ui borderless segment">
-						<div class="ui top right attached label">
-							<h:outputText value="#{jedLab.currentUser.username}" />
-						</div>
-						<div class="avatar-wrapper">
-							<div class="avatar"></div>
-						</div>
-						
-						<h:form enctype="multipart/form-data" id="profileImageForm">
-							<div class="ui top left attached red label" id="delImage"
-								style="cursor: pointer;"
-								data-content="#{messages['Delete_Image']}">
-								<i class="icon-cancel-circle" />
+			<jedlab:tabPanel title="#{messages['General_Info']}">
+				<div
+					class="ui two column middle aligned very relaxed stackable grid w3-margin">
+
+					<div class="center aligned column locale-dir" id="profilePanel">
+
+						<h3 class="ui block header">#{messages['Profile_Information']}</h3>
+						<div class="ui borderless segment">
+							<div class="ui top right attached label">
+								<h:outputText value="#{jedLab.currentUser.username}" />
 							</div>
-							<a id="imgLink" class="ui centered medium image"
-								style="cursor: pointer;margin-left:15px;margin-bottom:10px;"> <s:fragment
-									rendered="#{!userHome.student.hasImage}">
-									<h:graphicImage value="/images/image-text.png" />
-
-								</s:fragment> <s:graphicImage value="#{userHome.student.image}"
-									rendered="#{userHome.student.hasImage}">
-									<s:transformImageSize height="164" width="164"></s:transformImageSize>
-								</s:graphicImage>
-
-							</a>
-							<a id="change-picture" style="cursor: pointer;">#{messages['Change_Picture']} (#{messages['File_Size_Info']})</a>
-							<div style="display: none;">
-								<s:fileUpload id="file" data="#{userHome.uploadImage}"
-									onchange="onUploaderChange();" accept="images/*" 
-									fileSize="#{userHome.fileSize}" />
-								<h:commandButton action="#{userHome.update()}"
-									value="#{messages['Update']}" id="btnImageUpdate"
-									styleClass="ui primary button"></h:commandButton>
+							<div class="avatar-wrapper">
+								<div class="avatar"></div>
 							</div>
-						</h:form>
 
-						<h:form id="profileForm" styleClass="ui large form"
-							style="margin-top:12px;">
+							<h:form enctype="multipart/form-data" id="profileImageForm">
+								<div class="ui top left attached red label" id="delImage"
+									style="cursor: pointer;"
+									data-content="#{messages['Delete_Image']}">
+									<i class="icon-cancel-circle" />
+								</div>
+								<a id="imgLink" class="ui centered medium image"
+									style="cursor: pointer; margin-left: 15px; margin-bottom: 10px;">
+									<s:fragment rendered="#{!userHome.student.hasImage}">
+										<h:graphicImage value="/images/image-text.png" />
 
-							<s:decorate id="emailField" template="/layout/edit.xhtml">
-								<h:inputText value="#{userHome.user.email}" required="true" disabled="true"/>
-								<ui:define name="label">
+									</s:fragment> <s:graphicImage value="#{userHome.student.image}"
+										rendered="#{userHome.student.hasImage}">
+										<s:transformImageSize height="164" width="164"></s:transformImageSize>
+									</s:graphicImage>
+
+								</a>
+								<a id="change-picture" style="cursor: pointer;">#{messages['Change_Picture']}
+									(#{messages['File_Size_Info']})</a>
+								<div style="display: none;">
+									<s:fileUpload id="file" data="#{userHome.uploadImage}"
+										onchange="onUploaderChange();" accept="images/*"
+										fileSize="#{userHome.fileSize}" />
+									<h:commandButton action="#{userHome.update()}"
+										value="#{messages['Update']}" id="btnImageUpdate"
+										styleClass="ui primary button"></h:commandButton>
+								</div>
+							</h:form>
+
+							<h:form id="profileForm" styleClass="ui large form"
+								style="margin-top:12px;">
+
+								<s:decorate id="emailField" template="/layout/edit.xhtml">
+									<h:inputText value="#{userHome.user.email}" required="true"
+										disabled="true" />
+									<ui:define name="label">
 									#{messages['Email']}
 								</ui:define>
+								</s:decorate>
+
+
+								<div class="actionButtons">
+									<h:commandButton action="#{userHome.update()}"
+										value="#{messages['Update']}" id="btnUpdate"
+										styleClass="btn btn-blue">
+									</h:commandButton>
+								</div>
+							</h:form>
+
+						</div>
+					</div>
+
+					<div class="ui vertical divider"></div>
+
+					<div class="center aligned column locale-dir"
+						id="changePasswordPanel">
+
+						<h3 class="ui block header">#{messages['Change_Password']}</h3>
+						<div class="ui borderless segment">
+
+
+							<s:decorate id="currentPassField" template="/layout/edit.xhtml">
+								<h:inputSecret id="currentPassInp" required="true" />
+								<ui:define name="label">
+								#{messages['Current_Password']}
+							</ui:define>
 							</s:decorate>
 
+							<s:decorate id="NewPassField" template="/layout/edit.xhtml">
+								<h:inputSecret id="passInp" required="true" />
+								<ui:define name="label">
+								#{messages['New_Password']}
+							</ui:define>
+							</s:decorate>
 
-							<div class="actionButtons">
-								<h:commandButton action="#{userHome.update()}"
-									value="#{messages['Update']}" id="btnUpdate"
-									styleClass="btn btn-blue">
-								</h:commandButton>
-							</div>
-						</h:form>
+							<s:decorate id="RptNewPassField" template="/layout/edit.xhtml">
+								<h:inputSecret id="confirmPassInp" required="true" />
+								<ui:define name="label">
+								#{messages['Repeat']} #{' '} #{messages['New_Password']}
+							</ui:define>
+							</s:decorate>
+
+							<h:form id="changePasswdForm">
+								<h:inputHidden value="#{changePasswordAction.currentPassword}"
+									id="currentPass" required="true" />
+								<h:inputHidden value="#{changePasswordAction.password}"
+									id="pass" required="true" />
+								<h:inputHidden value="#{changePasswordAction.confirmPassword}"
+									id="confirmPass" required="true" />
+								<div class="actionButtons">
+									<h:commandButton
+										action="#{changePasswordAction.changePassword()}"
+										value="#{messages['Change_Password']}" id="btnChangePass"
+										styleClass="btn btn-blue">
+									</h:commandButton>
+								</div>
+							</h:form>
+
+						</div>
 
 					</div>
 				</div>
-
-				<div class="ui vertical divider"></div>
-				
-				<div class="center aligned column locale-dir"
-					id="changePasswordPanel">
-
-					<h3 class="ui block header">#{messages['Change_Password']}</h3>
-					<div class="ui borderless segment">
-
-
-						<s:decorate id="currentPassField" template="/layout/edit.xhtml">
-							<h:inputSecret id="currentPassInp" required="true" />
-							<ui:define name="label">
-								#{messages['Current_Password']}
-							</ui:define>
-						</s:decorate>
-
-						<s:decorate id="NewPassField" template="/layout/edit.xhtml">
-							<h:inputSecret id="passInp" required="true" />
-							<ui:define name="label">
-								#{messages['New_Password']}
-							</ui:define>
-						</s:decorate>
-
-						<s:decorate id="RptNewPassField" template="/layout/edit.xhtml">
-							<h:inputSecret id="confirmPassInp" required="true" />
-							<ui:define name="label">
-								#{messages['Repeat']} #{' '} #{messages['New_Password']}
-							</ui:define>
-						</s:decorate>
-
-						<h:form id="changePasswdForm">
-							<h:inputHidden value="#{changePasswordAction.currentPassword}"
-								id="currentPass" required="true" />
-							<h:inputHidden value="#{changePasswordAction.password}" id="pass"
-								required="true" />
-							<h:inputHidden value="#{changePasswordAction.confirmPassword}"
-								id="confirmPass" required="true" />
-							<div class="actionButtons">
-								<h:commandButton
-									action="#{changePasswordAction.changePassword()}"
-									value="#{messages['Change_Password']}" id="btnChangePass"
-									styleClass="btn btn-blue">
-								</h:commandButton>
-							</div>
-						</h:form>
-
-					</div>
-
-			</div>
-		</div>
-		<script>
+				<script>
 		//<![CDATA[
 			jQuery(document).ready(function(){
 				
@@ -175,7 +182,7 @@
 			//]]>
 		</script>
 
-		<script>
+				<script>
 			jQuery(document).ready(function(){
 				Materialize.updateTextFields();
 				jQuery('#delImage').popup();
@@ -198,6 +205,74 @@
 				jQuery("#profileImageForm\\:btnImageUpdate").click();
 			});
 		</script>
+
+			</jedlab:tabPanel>
+
+			<jedlab:tabPanel title="#{messages['Profile_Detail']}">
+				<div style="margin: 50px; height: 100%;" class="locale-direction">
+					<h:form styleClass="form" id="formprofileDetail">
+
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['First_Name']}</ui:define>
+							<h:inputText value="#{userHome.student.firstName}"
+								styleClass="w3-input" maxlength="160" required="false" />
+						</s:decorate>
+
+
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['Last_Name']}</ui:define>
+							<h:inputText value="#{userHome.student.lastName}" maxlength="50"
+								dir="ltr" style="direction:ltr;" styleClass="w3-input" />
+						</s:decorate>
+
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['Age']}</ui:define>
+							<h:inputText value="#{userHome.student.age}"
+								styleClass="w3-input" maxlength="2" required="false" converter="javax.faces.Integer">
+								
+							</h:inputText>	
+						</s:decorate>
+
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['Gender']}</ui:define>
+							<div class="input-field col s12 m6">
+							<h:selectOneMenu value="#{userHome.student.gender}" styleClass="browser-default">
+								<s:selectItems value="#{genders}" var="_g" label="#{_g.label}" noSelectionLabel="-- #{messages['Please_Select']} --"></s:selectItems>
+								<s:convertEnum></s:convertEnum>
+							</h:selectOneMenu>	
+							</div>
+						</s:decorate>
+						
+						
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['Privacy']}</ui:define>
+							<div class="input-field col s12 m6">
+							<h:selectOneMenu value="#{userHome.student.privacy}" styleClass="browser-default">
+								<s:selectItems value="#{privacies}" var="_p" label="#{_p.label}" noSelectionLabel="-- #{messages['Please_Select']} --"></s:selectItems>
+								<s:convertEnum></s:convertEnum>
+							</h:selectOneMenu>	
+							</div>
+						</s:decorate>
+
+
+						<div class="form-item">
+
+							<h:commandButton value="#{messages['Save']}" id="btnSave"
+								styleClass="btn btn-blue w3-margin"
+								action="#{userHome.update()}" > 
+
+							</h:commandButton>
+
+							
+						</div>
+
+					</h:form>
+
+				</div>
+			</jedlab:tabPanel>
+
+		</jedlab:tabs>
+
 
 
 	</ui:define>

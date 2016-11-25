@@ -4937,3 +4937,7 @@ div.w3-accordion div.content{
 	overflow: hidden;
 	margin: 0 auto;
 }
+
+.browser-default{
+	font-family: Yekan, Tahoma !important;
+}

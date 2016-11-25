@@ -12,7 +12,10 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.international.StatusMessage;
+
+import com.jedlab.framework.StringUtil;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "member_id")
@@ -152,6 +155,19 @@ public class Student extends Member
     public void setPrivacy(Privacy privacy)
     {
         this.privacy = privacy;
+    }
+
+    @Transient
+    public String getFullname()
+    {
+        if (StringUtil.isNotEmpty(getFirstName()) && StringUtil.isNotEmpty(getLastName()))
+            return getFirstName() + " " + getLastName();
+        else if (StringUtil.isNotEmpty(getFirstName()))
+            return getFirstName();
+        else if (StringUtil.isNotEmpty(getLastName()))
+            return getLastName();
+        else
+            return "";
     }
 
 }

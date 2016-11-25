@@ -7,125 +7,118 @@
 
 	<ui:define name="body">
 
-		<s:fragment rendered="#{s:hasRole('Admin')}">
-
-
-			<div class="ui vertical menu">
-
-
-
-				<s:link value="Course List" propagation="none" styleClass="item"
-					view="/courseList.xhtml" includePageParams="false"></s:link>
-
-				<s:link value="Comment List" propagation="none" styleClass="item"
-					view="/admin/commentList.xhtml" includePageParams="false"></s:link>
-
-				<s:link value="Member List" propagation="none" styleClass="item"
-					view="/admin/memberList.xhtml" includePageParams="false"></s:link>
-
-				<s:link value="Subscription Notify" propagation="none"
-					styleClass="item" view="/admin/subscription.xhtml"
-					includePageParams="false"></s:link>
+		<div class="w3-content w3-margin-top" style="max-width:1400px;">
+			
+			<div class="w3-row-padding">
+				
+				<div class="w3-third">
 					
-					
-				<s:link value="Announcement Notify" propagation="none"
-					styleClass="item" view="/admin/announcement.xhtml"
-					includePageParams="false"></s:link>	
-
-
-				<s:link value="Question List" propagation="none" styleClass="item"
-					view="/coders/questionList.xhtml" includePageParams="false"></s:link>
-
-			</div>
-
-		</s:fragment>
-
-		<div class="locale-direction">
-
-			<div class="ui stackable two column grid">
-				<div class="column">
-
-					<h3 class="ui block header">#{messages['Register_Course_List']}</h3>
-
-					<s:div styleClass="well"
-						rendered="#{empty memberCourseQuery.resultList}">
-						<h:outputText value="#{messages['No_Member_Course']}" />
-					</s:div>
-
-					<s:div styleClass="ui items memberCourse"
-						rendered="#{not empty memberCourseQuery.resultList}">
-						<c:forEach items="#{memberCourseQuery.resultList}" var="_item">
-
-							<div class="item memberCourseItem">
-								<div class="image">
-									<s:graphicImage value="#{_item.image}"
-										rendered="#{_item.hasImage}"
-										styleClass="ui middle aligned small image">
-
-									</s:graphicImage>
-									<s:graphicImage value="/images/no_video_photo.png"
-										rendered="#{!_item.hasImage}"
-										styleClass="ui middle aligned small image">
-
-									</s:graphicImage>
-								</div>
-								<div class="content">
-									<s:link view="/course.xhtml" value="#{_item.name}"
-										propagation="none" includePageParams="false"
-										styleClass="header clickableLink">
-										<f:param name="courseId" value="#{_item.id}"></f:param>
-									</s:link>
-									<div class="meta">
-										<span></span>
-									</div>
-									<div class="description">
-										<p></p>
-									</div>
-									<div class="extra"></div>
-								</div>
+					<div class="w3-white w3-text-grey w3-card-4">
+						<div class="w3-display-container">
+							<s:graphicImage value="#{userHome.userThumbnailImage}"
+								rendered="#{userHome.student.hasImage}" 
+								style="width:100%" alt="#{jedLab.currentUser.username} avatar"></s:graphicImage>
+							<h:graphicImage value="/images/image-text.png" rendered="#{!userHome.student.hasImage}" style="width:100%"/>	
+							<div class="w3-display-bottomleft w3-container w3-text-black">
+								<h2>
+								  <h:outputText value="#{userHome.student.fullname}" rendered="#{not empty userHome.student.fullname}"/>
+								  <s:link value="#{messages['Edit']}" view="/member/userEdit.xhtml"
+								  	propagation="none"
+								  	includePageParams="false"  							  	
+								  	rendered="#{empty userHome.student.fullname}"/>	
+								</h2>
 							</div>
-
-						</c:forEach>
-					</s:div>
-
-					<s:decorate template="/layout/seamPaging.xhtml"
-						rendered="#{not empty memberCourseQuery.resultList}">
-						<ui:param name="entityList" value="#{memberCourseQuery}" />
-					</s:decorate>
-
+						</div>
+						
+						<div class="w3-container">
+							
+							<p>
+								<i class="icon-mail w3-margin-right w3-large w3-text-teal"/>
+								<h:outputText value="#{userHome.student.email}" />
+							</p>
+							
+							<p>
+								<i class="icon-user w3-margin-right w3-large w3-text-teal"/>
+								<h:outputText value="#{userHome.student.username}" />
+							</p>
+							
+							
+						</div>
+						
+					</div>
+					<br />
 				</div>
-				<div class="column">
-					<h3 class="ui block header">#{messages['Solved_Question_List']}</h3>
-					<s:fragment rendered="#{empty memberQuestionQuery.resultList}">
-						<h3 class="ui block header">#{messages['Empty_Question_List']}</h3>
-					</s:fragment>
-					<s:fragment rendered="#{not empty memberQuestionQuery.resultList}">
-						<table class="ui unstackable table" dir="rtl">
+				 
+				<div class="w3-twothird locale-direction">
+					
+					<div class="w3-container w3-card-2 w3-white w3-margin-bottom">
 
-							<thead>
-								<tr>
-									<th>#{messages['Title']}</th>
-									<th>#{messages['description']}</th>
-									<th>#{messages['points']}</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach items="#{memberQuestionQuery.resultList}" var="_mq">
+						<h2 class="w3-text-grey w3-padding-16">
+							<i class="icon-books w3-margin-left w3-xxlarge w3-text-teal"></i>
+							<h:outputText value="#{messages['Register_Course_List']}" rendered="#{not empty memberCourseQuery.resultList}" />
+							<h:outputText value="#{messages['No_Member_Course']}" rendered="#{empty memberCourseQuery.resultList}" /> 
+						</h2>
 
-									<tr>
-										<td>#{_mq.question.title}</td>
-										<td>#{_mq.question.description}</td>
-										<td>#{_mq.question.points}</td>
-									</tr>
-
-
-								</c:forEach>
-							</tbody>
-
-						</table>
-
-
-						<c:set var="_pCount"
+						<s:fragment rendered="#{not empty memberCourseQuery.resultList}">
+							<c:forEach items="#{memberCourseQuery.resultList}" var="_item">
+	
+								<div class="w3-container">
+									<h5 class="w3-opacity">
+										<b><s:link view="/course.xhtml" value="#{_item.name}"
+											propagation="none" includePageParams="false"
+											styleClass="header clickableLink">
+											<f:param name="courseId" value="#{_item.id}"></f:param>
+										</s:link></b>
+									</h5>
+									<h6 class="w3-text-teal">									
+										<span class="w3-tag w3-teal w3-round">#{_item.chapterCount} #{messages['Chapter']}</span>
+									</h6>
+									<p>
+										<h:outputText value="#{_item.description}" />
+									</p>
+									<hr />
+								</div>
+							
+							</c:forEach>
+						</s:fragment>
+						
+						
+						<s:decorate template="/layout/seamPaging.xhtml"
+							rendered="#{not empty memberCourseQuery.resultList}">
+							<ui:param name="entityList" value="#{memberCourseQuery}" />
+						</s:decorate>
+						
+					</div>
+					
+					<div class="w3-container w3-card-2 w3-white">
+						<h2 class="w3-text-grey w3-padding-16">
+							<i class="icon-book w3-margin-left w3-xxlarge w3-text-teal"></i>
+							<h:outputText value="#{messages['Solved_Question_List']}" rendered="#{not empty memberQuestionQuery.resultList}" />
+							<h:outputText value="#{messages['Empty_Question_List']}" rendered="#{empty memberQuestionQuery.resultList}" /> 
+						</h2>
+						<s:fragment rendered="#{not empty memberQuestionQuery.resultList}">
+						
+							<c:forEach items="#{memberQuestionQuery.resultList}" var="_mq">
+								<div class="w3-container">
+											<h5 class="w3-opacity">
+												<b><s:link value="#{_mq.question.title}" propagation="none"
+														styleClass="clickableLink" rendered="#{!s:hasRole('Admin')}"
+														includePageParams="false" view="/coders/ide.xhtml">
+														<f:param name="qId" value="#{_q.id}"></f:param>
+													</s:link></b>
+											</h5>
+											<h6 class="w3-text-teal">									
+												<span class="w3-tag w3-teal w3-round">#{_mq.question.points} #{messages['points']}</span>
+											</h6>
+											<p>
+												<h:outputText value="#{_mq.question.description}" />
+											</p>
+											<hr />
+								</div>
+							</c:forEach>
+							
+							
+							<c:set var="_pCount"
 							value="#{memberQuestionQuery.pageCount == 0 ? 1 : memberQuestionQuery.pageCount}" />
 						<div class="pagination">
 
@@ -169,20 +162,25 @@
 							</s:link>
 
 						</div>
-
-					</s:fragment>
-
-
+							
+							
+							
+						</s:fragment>
+						
+						
+					</div>
+					
 				</div>
+			
 			</div>
-
-
-
-
-
+			
 		</div>
-
-
+		
+		<script>
+			jQuery(document).ready(function(){
+				jQuery("body").addClass("w3-light-grey");
+			});
+		</script>
 
 
 	</ui:define>

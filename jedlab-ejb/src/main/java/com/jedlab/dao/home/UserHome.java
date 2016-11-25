@@ -17,6 +17,7 @@ import org.jboss.seam.international.StatusMessage.Severity;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
 
+import com.jedlab.JedLab;
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CacheManager;
 import com.jedlab.framework.ReflectionUtil;
@@ -59,7 +60,7 @@ public class UserHome extends HibernateEntityController
     }
 
     public Student getStudent()
-    {
+    {        
         return student;
     }
 
@@ -76,7 +77,7 @@ public class UserHome extends HibernateEntityController
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try
         {
-            Thumbnails.of(bis).size(32, 32).toOutputStream(bos);
+            Thumbnails.of(bis).size(446, 446).toOutputStream(bos);
             userThumbnailImage = bos.toByteArray();
         }
         catch (IOException e)

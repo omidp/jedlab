@@ -11,6 +11,8 @@
 		#{messages['Dashboard']}
 	</description>
 	
+	<action execute="#{userHome.load()}"/>
+	
 	<param name="firstResult" value="#{memberCourseQuery.firstResult}"/>
 	<param name="pageNumber" value="#{memberCourseQuery.pageNumber}"/>
 	

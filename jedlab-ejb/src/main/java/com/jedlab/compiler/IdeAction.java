@@ -59,6 +59,8 @@ public class IdeAction extends EntityController
 
     private Question question;
 
+    private boolean solved;
+
     private List<Problem> problems = new ArrayList<>();
 
     private Long questionId;
@@ -71,6 +73,11 @@ public class IdeAction extends EntityController
     public void setQuestionId(Long questionId)
     {
         this.questionId = questionId;
+    }
+
+    public boolean isSolved()
+    {
+        return solved;
     }
 
     public IdeAction()
@@ -94,6 +101,7 @@ public class IdeAction extends EntityController
 
     public void load()
     {
+        Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
         try
         {
             question = (Question) getEntityManager()
@@ -103,6 +111,16 @@ public class IdeAction extends EntityController
         catch (NoResultException e)
         {
             throw new EntityNotFoundException();
+        }
+        try
+        {
+            Long cnt = (Long) getEntityManager()
+                    .createQuery("select count(mq) from MemberQuestion mq where mq.member.id = :memId AND mq.question.id =:qid")
+                    .setParameter("memId", uid).setParameter("qid", getQuestionId()).getSingleResult();
+            solved = cnt > 0;
+        }
+        catch (NoResultException e)
+        {
         }
     }
 
@@ -219,17 +237,20 @@ public class IdeAction extends EntityController
             return null;
         }
         //
-        TxManager.beginTransaction();
-        TxManager.joinTransaction(getEntityManager());
-        MemberQuestion mq = new MemberQuestion();
-        Member m = new Member();
-        m.setId((Long) getSessionContext().get(Constants.CURRENT_USER_ID));
-        mq.setMember(m);
-        mq.setQuestion(question);
-        mq.setStatus(QuestionStatus.RESOLVED);
-        getEntityManager().persist(mq);
-        getEntityManager().flush();
-        getStatusMessages().addFromResourceBundle("Problem_Solved");
+        if(solved == false)
+        {
+            TxManager.beginTransaction();
+            TxManager.joinTransaction(getEntityManager());
+            MemberQuestion mq = new MemberQuestion();
+            Member m = new Member();
+            m.setId((Long) getSessionContext().get(Constants.CURRENT_USER_ID));
+            mq.setMember(m);
+            mq.setQuestion(question);
+            mq.setStatus(QuestionStatus.RESOLVED);
+            getEntityManager().persist(mq);
+            getEntityManager().flush();
+            getStatusMessages().addFromResourceBundle("Problem_Solved");
+        }
         return "executed";
     }
 
