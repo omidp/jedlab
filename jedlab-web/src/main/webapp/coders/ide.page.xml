@@ -15,4 +15,11 @@
 		</rule>
 	</navigation>
 	
+	<navigation from-action="#{ideAction.share()}">
+		<end-conversation />
+		<rule if-outcome="executed">
+			<redirect view-id="/gistList.xhtml"></redirect>
+		</rule>
+	</navigation>
+	
 </page>

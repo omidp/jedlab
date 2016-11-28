@@ -24,6 +24,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -36,9 +37,11 @@ import com.jedlab.Env;
 import com.jedlab.action.Constants;
 import com.jedlab.compiler.JavaCommandLine.CompilerResultHandler;
 import com.jedlab.compiler.JavaCommandLine.ProcessVO;
+import com.jedlab.dao.home.GistHome;
 import com.jedlab.framework.CollectionUtil;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TxManager;
+import com.jedlab.model.Gist;
 import com.jedlab.model.Member;
 import com.jedlab.model.MemberQuestion;
 import com.jedlab.model.MemberQuestion.QuestionStatus;
@@ -52,6 +55,9 @@ public class IdeAction extends EntityController
 
     @Logger
     Log log;
+    
+    @In(create=true)
+    GistHome gistHome;
 
     private static final String sourceDir = Env.getJailHome() + File.separator;
 
@@ -252,6 +258,28 @@ public class IdeAction extends EntityController
             getStatusMessages().addFromResourceBundle("Problem_Solved");
         }
         return "executed";
+    }
+    
+    @Transactional
+    public String share()
+    {
+        String executed = execute();
+        
+        if("executed".equals(executed))
+        {
+            Gist g = new Gist();
+            g.setOrigContent(getCode());
+            g.setDescription(getQuestion().getTitle());
+            g.setPrivateGist(false);
+            Member m = new Member();
+            m.setId((Long) getSessionContext().get(Constants.CURRENT_USER_ID));
+            g.setMember(m);
+            g.setFileName(org.jboss.seam.util.RandomStringUtils.randomAlphabetic(10));
+            gistHome.setInstance(g);
+            gistHome.persist();
+        }
+        
+        return executed;
     }
 
     public static class JavaRuntimeCompiler
