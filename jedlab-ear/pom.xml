@@ -172,6 +172,7 @@
 							<excludes>
 								<exclude>video.css</exclude>
 								<exclude>video.js</exclude>
+								<exclude>w2ui.js</exclude>
 							</excludes>
 						</configuration>
 						<executions>
