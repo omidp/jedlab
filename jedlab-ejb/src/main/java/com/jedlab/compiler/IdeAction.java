@@ -310,10 +310,14 @@ public class IdeAction extends EntityController
                 }
                 else
                 {
-                    cmdLine = new CommandLine("chroot");
-                    cmdLine.addArgument(Env.getJailHome());
-                    cmdLine.addArgument("/java/jdk8/bin/javac");
+                    cmdLine = new CommandLine("/opt/jdk8/bin/javac");
+                    cmdLine.addArgument("-cp");
+                    cmdLine.addArgument(sourceDir);
                     cmdLine.addArgument(String.format("%s.java", fileName));
+//                    cmdLine = new CommandLine("chroot");
+//                    cmdLine.addArgument(Env.getJailHome());
+//                    cmdLine.addArgument("/java/jdk8/bin/javac");
+//                    cmdLine.addArgument(String.format("%s.java", fileName));
                 }
                 //
                 DefaultExecutor executor = new DefaultExecutor();
