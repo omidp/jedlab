@@ -45,57 +45,62 @@
 
 			<s:fragment rendered="#{identity.loggedIn}">
 				<div id="commentPanel">
-					<h:form class="form" id="cmForm" style="margin-right: 25px;">
-						<div>
-							<div class="form-item">
-								<label style="font-weight: bolder; font-size: 14px;"> </label>
-								<h:inputTextarea value="#{commentHome.instance.content}" required="true"
-									styleClass="width-50" style="width:50%;" cols="15" rows="6" />
-								<div class="desc"></div>
-							</div>
-							<input type="hidden" name="replyId" id="replyId" /> <input
-								name="courseId" value="#{courseId}" id="courseId" type="hidden" />
-						</div>
-						<div style="padding-bottom: 10px;">
-							<h:commandButton styleClass="btn btn-green btn-outline"
-								id="commentBtn" value="#{messages['Send']} #{messages['Reply']}"
-								action="#{commentHome.persist()}" />
-						</div>
-						<div id="contentHelper" class="locale-direction"
-							style="display: none; width: 550px;">
-							<div class="header"></div>
-							<ul class="list">
-								<li>#{messages['Comment_Tip_1']}</li>
-								<li>#{messages['Comment_Tip_2']}</li>
-								<li>#{messages['Comment_Tip_3']}</li>
-								<li>#{messages['Comment_Tip_4']}</li>
-								<li>#{messages['Comment_Tip_5']}</li>
-								<li>#{messages['Comment_Tip_6']}</li>
-								<li>#{messages['Comment_Tip_7']}</li>
-								<li>#{messages['Comment_Tip_8']}</li>
-							</ul>
-						</div>
-					</h:form>
-				</div>
+					<div class="ui segments">
+						<div class="ui segment">
 
+							<h:form class="form" id="cmForm" style="margin-right: 25px;">
+								<div>
+									<div class="form-item">
+										<label style="font-weight: bolder; font-size: 14px;">
+										</label>
+										<h:inputTextarea value="#{commentHome.instance.content}"
+											required="true" styleClass="width-50" style="width:50%;"
+											cols="15" rows="6" />
+										<div class="desc"></div>
+									</div>
+									<input type="hidden" name="replyId" id="replyId" /> <input
+										name="courseId" value="#{courseId}" id="courseId"
+										type="hidden" />
+								</div>
+								<div style="padding-bottom: 10px;">
+									<h:commandButton styleClass="btn btn-green btn-outline"
+										id="commentBtn"
+										value="#{messages['Send']} #{messages['Reply']}"
+										action="#{commentHome.persist()}" />
+								</div>
+							</h:form>
+						</div>
+						<div class="ui secondary segment">
+							<span id="commentHelp">#{messages['Help']}</span>
+						</div>
+					</div>
+				</div>
 
 				<script>
 					jQuery(document).ready(function(){
 
-						jQuery('#cmForm\\:commentBtn')
-						  .popup({
-						    inline   : true,
-						    popup: jQuery("#contentHelper"),
-						    hoverable: true,
-						    position : 'bottom center',
-						    delay: {						      
-						      hide: 800
-						    }
-						  }); 	
-						
+						jQuery("#commentHelp").click(function(){
+							jQuery("#cmModal").modal('setting', 'closable', true).modal({ blurring: true}).modal('show');
+						});
 						
 					});
 				</script>
+
+				<div class="ui modal" id="cmModal">
+					<div class="header locale-direction"></div>
+					<div class="content locale-direction">
+						<ul class="list locale-direction" style="text-align: right">
+							<li>#{messages['Comment_Tip_1']}</li>
+							<li>#{messages['Comment_Tip_2']}</li>
+							<li>#{messages['Comment_Tip_3']}</li>
+							<li>#{messages['Comment_Tip_4']}</li>
+							<li>#{messages['Comment_Tip_5']}</li>
+							<li>#{messages['Comment_Tip_6']}</li>
+							<li>#{messages['Comment_Tip_7']}</li>
+							<li>#{messages['Comment_Tip_8']}</li>
+						</ul>
+					</div>
+				</div>
 
 			</s:fragment>
 
