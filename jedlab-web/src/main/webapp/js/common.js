@@ -2,11 +2,11 @@ var common = {
 		
 		notification : function(msg, severity) {
 			common.removeNotification();
-			var msgTemplate = "<ul id='messages' class='message'><li class=%SEVERITY%>%CONTENT%</li>";
+			var msgTemplate = "<ul id='messages' class='messages'><li class=%SEVERITY%>%CONTENT%</li>";
 			var render = msgTemplate.replace(/%CONTENT%/, msg).replace(
 					/%SEVERITY%/, severity);
 			jQuery(".alert-box").append(render);
-			jQuery("ul.message li").click(function() {
+			jQuery("ul.messages li").click(function() {
 				jQuery(this).hide('drop', {}, 1000).fadeOut();
 			});
 		},

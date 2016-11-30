@@ -16,6 +16,8 @@ import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.international.StatusMessage.Severity;
 import org.jboss.seam.international.StatusMessages;
 
+import com.jedlab.framework.RegexUtil;
+
 @Name("contactusAction")
 @Scope(ScopeType.EVENT)
 public class ContactusAction implements Serializable
@@ -23,8 +25,7 @@ public class ContactusAction implements Serializable
 
     private Contatcus contactus = new Contatcus();
 
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
-            Pattern.CASE_INSENSITIVE);
+  
 
     @In(create = true)
     Renderer renderer;
@@ -36,7 +37,7 @@ public class ContactusAction implements Serializable
 
     public String contact()
     {
-        if(validate(contactus.getEmail()) == false)
+        if(isValidEmail(contactus.getEmail()) == false)
         {
             StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Invalid_Email");
             return null;
@@ -59,9 +60,9 @@ public class ContactusAction implements Serializable
         renderer.render("/mailTemplates/contactus.xhtml");
     }
 
-    public boolean validate(String emailStr)
+    public boolean isValidEmail(String emailStr)
     {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        Matcher matcher = RegexUtil.VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
 

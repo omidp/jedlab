@@ -3,6 +3,8 @@ package com.jedlab.action;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
@@ -29,10 +31,12 @@ import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.PasswordHash;
 
+import com.jedlab.action.ContactusAction.Contatcus;
 import com.jedlab.framework.CryptoUtil;
 import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.PageExceptionHandler;
 import com.jedlab.framework.ReflectionUtil;
+import com.jedlab.framework.RegexUtil;
 import com.jedlab.framework.WebContext;
 import com.jedlab.model.Member;
 import com.jedlab.model.Student;
@@ -109,6 +113,13 @@ public class RegisterAction implements Serializable
         catch (NoResultException e)
         {
         }
+        //validate username
+        if(isValidUsername(getInstance().getUsername()) == false)
+        {            
+            return null;
+        }
+//        getInstance().setUsername(getInstance().getUsername().toLowerCase());
+        //validate password
         String tempPasswd = getInstance().getPassword();
         if (getConfirmPasswd().equals(tempPasswd) == false)
         {
@@ -129,6 +140,36 @@ public class RegisterAction implements Serializable
         identity.login();
         return "confirmed";
     }
+    
+    
+    private boolean isValidUsername(String username)
+    {
+        boolean ok = true;
+        Matcher matcher = RegexUtil.VALID_EMAIL_ADDRESS_REGEX.matcher(username);
+        boolean isEmail = matcher.find();
+        if(isEmail)
+        {
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Invalid_Username_Email");
+            ok = false;
+        }
+        matcher = RegexUtil.ENGLISHCHARACTER.matcher(username);
+        boolean isEnglish = matcher.find();
+        if(!isEnglish)
+        {
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Invalid_Username_Unicode");
+            ok = false;
+        }
+        matcher = RegexUtil.ONLYDIGITS.matcher(username);
+        boolean isOnlyDigit = matcher.find();
+        if(isOnlyDigit)
+        {
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Invalid_Username_Digit");
+            ok = false;
+        }
+        return ok;
+    }
+    
+   
 
     @Observer(Constants.SEND_THANK_YOU_MAIL)
     public void sendThankYouEmail(Member registeredUser)

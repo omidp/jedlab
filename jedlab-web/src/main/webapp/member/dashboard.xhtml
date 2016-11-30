@@ -77,6 +77,12 @@
 								<h:outputText value="#{userHome.student.username}" />
 							</p>
 							
+							<p>
+								<h:form rendered="false">
+									<h:commandButton  value="#{messages['Build_Resume']}" styleClass="btn btn-blue"/>
+								</h:form>
+							</p>
+							
 							
 						</div>
 						
@@ -91,7 +97,11 @@
 						<h2 class="w3-text-grey w3-padding-16">
 							<i class="icon-books w3-margin-left w3-xxlarge w3-text-teal"></i>
 							<h:outputText value="#{messages['Register_Course_List']}" rendered="#{not empty memberCourseQuery.resultList}" />
-							<h:outputText value="#{messages['No_Member_Course']}" rendered="#{empty memberCourseQuery.resultList}" /> 
+							<s:link value="#{messages['No_Member_Course']}"
+								propagation="none"
+								includePageParams="false"
+								view="/courseList.xhtml" 
+								rendered="#{empty memberCourseQuery.resultList}" /> 
 						</h2>
 
 						<s:fragment rendered="#{not empty memberCourseQuery.resultList}">
@@ -137,7 +147,9 @@
 						<h2 class="w3-text-grey w3-padding-16">
 							<i class="icon-book w3-margin-left w3-xxlarge w3-text-teal"></i>
 							<h:outputText value="#{messages['Solved_Question_List']}" rendered="#{not empty memberQuestionQuery.resultList}" />
-							<h:outputText value="#{messages['Empty_Question_List']}" rendered="#{empty memberQuestionQuery.resultList}" /> 
+							<s:link propagation="none" includePageParams="false"
+								view="/coders/questionList.xhtml" 
+								value="#{messages['Empty_Question_List']}" rendered="#{empty memberQuestionQuery.resultList}" /> 
 						</h2>
 						<s:fragment rendered="#{not empty memberQuestionQuery.resultList}">
 						
