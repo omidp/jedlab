@@ -72,7 +72,7 @@
 			<s:fragment rendered="#{not empty courseQuery.resultList}">
 				
 				
-
+				
 				<div class="ui link cards">
 
 					<c:forEach items="#{courseQuery.resultList}" var="_item">
@@ -109,10 +109,7 @@
 									#{messages['Publish_Date']} :
 									<h:outputText value="#{_item.createdDate}"
 										converter="#{persianDateConverter}" />
-									<br />
-									#{messages['View_Count']} :
-									<h:outputText value="#{_item.viewCount}" />
-									<br />
+									<br />									
 									 #{messages['Level']} :
 									<h:outputText value="#{_item.level.label}" />
 									<br />
@@ -132,11 +129,22 @@
 								</div>
 							</div>
 							<div class="extra content white">
+								<div style="float:left"> 
+									<div class="ui label">
+										  <i class="icon-eye"></i>
+										  <div class="detail">
+										  	<h:outputText value="#{_item.viewCount}" />
+										  </div>
+									</div>
+									
+								</div>
+								<div style="float:right">
 								<s:link view="/seam/resource/api/c/#{_item.name}" value="#{messages['Detail_View']}"
 									propagation="none" includePageParams="false"
-									styleClass="btn btn-blue btn-outline right floated clickableLink cItem_#{_item.id}"
+									styleClass="ui label clickableLink cItem_#{_item.id}"
 									style="font-weight: bold;">									
 								</s:link>
+								</div>
 							</div>
 						</div>
 					</c:forEach>

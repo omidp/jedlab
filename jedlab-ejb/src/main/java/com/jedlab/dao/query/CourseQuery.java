@@ -35,6 +35,7 @@ public class CourseQuery extends PagingController<Course>
         setMaxResults(9);
         addToExpressions("#{courseQuery.course.name}");
         addToExpressions("#{courseQuery.course.id}");
+        addToExpressions("#{courseQuery.course.level}");
     }
 
     @Override
@@ -50,6 +51,7 @@ public class CourseQuery extends PagingController<Course>
         applyFilter(criteria);
         addToValueParams("#{courseQuery.course.name}");
         addToValueParams("#{courseQuery.course.id}");
+        addToValueParams("#{courseQuery.course.level}");
         if (getFirstResult() != null)
             criteria.setFirstResult(getFirstResult());
         if (getMaxResults() != null)
@@ -90,6 +92,8 @@ public class CourseQuery extends PagingController<Course>
             criteria.add(Restrictions.eq("active", true));
         if(StringUtil.isNotEmpty(getCourse().getName()))
             criteria.add(Restrictions.ilike("name", getCourse().getName(), MatchMode.ANYWHERE));
+        if(getCourse().getLevel() != null)
+            criteria.add(Restrictions.eq("level", getCourse().getLevel()));
     }
 
     private void refresh()

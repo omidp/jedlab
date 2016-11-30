@@ -15,5 +15,6 @@
 	<param name="pageNumber" value="#{courseQuery.pageNumber}"/>
 	
 	<param name="courseName" value="#{courseQuery.course.name}"/>
+	<param name="level" value="#{courseQuery.course.level}"/>
    
 </page>

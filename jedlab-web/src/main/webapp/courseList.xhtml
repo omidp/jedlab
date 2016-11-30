@@ -5,11 +5,49 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
-	<ui:define name="head">
-		
+	<ui:define name="filter">
+		<div
+			style="margin-top: 13px; margin-left: 5px; width: 20px; float: left; cursor: pointer;"
+			id="srchFilter">
+			<i class="icon-filter" />
+		</div>
+		<script>
+			jQuery(document).ready(function(){
+
+				jQuery('#srchFilter').click(function(){
+					jQuery('#filterModal').modal('show');
+				});
+			
+			});
+		</script>  
+		<div class="ui modal" id="filterModal">
+			<div class="header locale-direction w3-right-align">#{messages['Filter']}</div>
+			<div class="content locale-direction w3-right-align">
+				<h:form  styleClass="form">
+					<fieldset>
+						<legend></legend>
+						<div class="form-item">
+							<label>
+								#{messages['Level']}</label>
+							<h:selectOneMenu value="#{courseQuery.course.level}">
+								<s:selectItems value="#{courseLevels}" var="_level" label="#{_level.label}" noSelectionLabel="-- --"></s:selectItems>
+								<s:convertEnum></s:convertEnum>
+							</h:selectOneMenu>
+						</div>
+					</fieldset>	
+					<div class="form-item end">
+					<h:commandButton value="#{messages['Search']}"
+						styleClass="btn btn-green" 
+						action="#{webContext.redirectIt()}" />
+					</div>	
+				</h:form>
+			</div>
+		</div>
 	</ui:define>
-	
-	
+
+
+
+
 
 	<ui:define name="body">
 
