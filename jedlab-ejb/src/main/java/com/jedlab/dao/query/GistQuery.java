@@ -15,6 +15,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
@@ -42,7 +43,7 @@ public class GistQuery extends PagingController<Gist>
 
     @In
     private FullTextEntityManager entityManager;
-    
+
     private List<Gist> resultList;
     private Long resultCount;
     private String searchPattern;
@@ -71,7 +72,7 @@ public class GistQuery extends PagingController<Gist>
         }
         if (resultList != null)
             return truncResultList(resultList);
-        if(StringUtil.isEmpty(getSearchPattern()))
+        if (StringUtil.isEmpty(getSearchPattern()))
         {
             Criteria criteria = getSession().createCriteria(Gist.class, "g");
             applyFilter(criteria);
@@ -85,13 +86,19 @@ public class GistQuery extends PagingController<Gist>
         }
         else
         {
-            resultList = entityManager.createFullTextQuery(getFullTextSearch(), Gist.class).setMaxResults(100).getResultList();
-            setMaxResults(100);
-            return resultList;
+            // resultList =
+            // entityManager.createFullTextQuery(getFullTextSearch(),
+            // Gist.class).setMaxResults(100).getResultList();
+            FullTextQuery fullTextQuery = entityManager.createFullTextQuery(getFullTextSearch(), Gist.class);
+            if (getFirstResult() != null)
+                fullTextQuery.setFirstResult(getFirstResult());
+            if (getMaxResults() != null)
+                fullTextQuery.setMaxResults(getMaxResults() + 1);
+            resultList = fullTextQuery.getResultList();
+            return truncResultList(resultList);
         }
     }
-    
-    
+
     private Query getFullTextSearch()
     {
         QueryBuilder queryBuilder = entityManager.getSearchFactory().buildQueryBuilder().forEntity(Gist.class).get();
@@ -109,7 +116,7 @@ public class GistQuery extends PagingController<Gist>
         // Combine them for best results:
         Query fullTextQuery = queryBuilder.bool().should(queryUsingEnglishStemmer).should(queryUsingNGrams)
                 .should(queryUsingPersianStemmer).createQuery();
-        
+
         return fullTextQuery;
 
     }
@@ -149,10 +156,19 @@ public class GistQuery extends PagingController<Gist>
         }
         if (resultCount != null)
             return resultCount;
-        Criteria criteria = getSession().createCriteria(Gist.class, "g");
-        applyFilter(criteria);
-        criteria.setProjection(Projections.rowCount());
-        resultCount = (Long) criteria.uniqueResult();
+        if (StringUtil.isEmpty(getSearchPattern()))
+        {
+            Criteria criteria = getSession().createCriteria(Gist.class, "g");
+            applyFilter(criteria);
+            criteria.setProjection(Projections.rowCount());
+            resultCount = (Long) criteria.uniqueResult();
+        }
+        else
+        {
+            FullTextQuery fullTextQuery = entityManager.createFullTextQuery(getFullTextSearch(), Gist.class);
+            //fullTextQuery.setProjection("origContent", "description");
+            resultCount = new Long(fullTextQuery.getResultSize());
+        }
         return resultCount;
     }
 
@@ -161,7 +177,7 @@ public class GistQuery extends PagingController<Gist>
     {
         return resultList != null && getMaxResults() != null && resultList.size() > getMaxResults();
     }
-    
+
     public void redirect()
     {
         FacesContext context = FacesContext.getCurrentInstance();

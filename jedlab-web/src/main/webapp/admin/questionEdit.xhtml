@@ -27,8 +27,10 @@
 
 					<h:outputLabel for="p">#{messages['points']}</h:outputLabel>
 					<h:inputText id="p" value="#{questionHome.instance.points}" required="true">
-
 					</h:inputText>
+					
+					<h:outputLabel for="qactive">#{messages['Active']}</h:outputLabel>
+					<h:selectBooleanCheckbox id="qactive" value="#{questionHome.instance.active}" />
 
 
 

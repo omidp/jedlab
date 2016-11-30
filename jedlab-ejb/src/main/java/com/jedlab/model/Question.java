@@ -55,11 +55,24 @@ public class Question extends BasePO
     @Column(name = "attempt_count")
     private int attemptCount;
 
+    @Column(name = "is_active")
+    private boolean active;
+
     @Transient
     private long userCount;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
     private List<TestCase> testcases = new ArrayList<>(0);
+
+    public boolean isActive()
+    {
+        return active;
+    }
+
+    public void setActive(boolean active)
+    {
+        this.active = active;
+    }
 
     public List<TestCase> getTestcases()
     {

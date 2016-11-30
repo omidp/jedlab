@@ -48,13 +48,7 @@ public class QuestionQuery extends PagingController<Question>
         if (resultList != null)
             return truncResultList(resultList);
         Criteria criteria = getSession().createCriteria(Question.class, "q");
-        if (Identity.instance().isLoggedIn())
-        {
-            DetachedCriteria dc = DetachedCriteria.forClass(MemberQuestion.class, "mq");
-            dc.add(Restrictions.eq("mq.member.id", (Long)Contexts.getSessionContext().get(Constants.CURRENT_USER_ID)));
-            dc.setProjection(Projections.property("mq.question.id"));
-            criteria.add(Subqueries.propertyNotIn("id", dc));
-        }
+        applyFilter(criteria);
         if (getFirstResult() != null)
             criteria.setFirstResult(getFirstResult());
         if (getMaxResults() != null)
@@ -106,8 +100,17 @@ public class QuestionQuery extends PagingController<Question>
 
     private void applyFilter(Criteria criteria)
     {
-        // TODO Auto-generated method stub
-
+        if (Identity.instance().isLoggedIn())
+        {
+            DetachedCriteria dc = DetachedCriteria.forClass(MemberQuestion.class, "mq");
+            dc.add(Restrictions.eq("mq.member.id", (Long)Contexts.getSessionContext().get(Constants.CURRENT_USER_ID)));
+            dc.setProjection(Projections.property("mq.question.id"));
+            criteria.add(Subqueries.propertyNotIn("id", dc));
+        }
+        if(Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
+        {
+            criteria.add(Restrictions.eq("q.active", true));
+        }
     }
 
     private void refresh()
