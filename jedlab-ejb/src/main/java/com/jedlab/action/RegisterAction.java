@@ -105,21 +105,21 @@ public class RegisterAction implements Serializable
         EntityManager em = (EntityManager) Component.getInstance("entityManager");
         try
         {
-            em.createQuery("select m from Member m where lower(m.username) = lower(:uname)").setParameter("uname", getInstance().getUsername()).setMaxResults(1)
-                    .getSingleResult();
+            em.createQuery("select m from Member m where lower(m.username) = lower(:uname)")
+                    .setParameter("uname", getInstance().getUsername()).setMaxResults(1).getSingleResult();
             StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Username_Exists");
             return null;
         }
         catch (NoResultException e)
         {
         }
-        //validate username
-        if(isValidUsername(getInstance().getUsername()) == false)
-        {            
+        // validate username
+        if (isValidUsername(getInstance().getUsername()) == false)
+        {
             return null;
         }
-//        getInstance().setUsername(getInstance().getUsername().toLowerCase());
-        //validate password
+        // getInstance().setUsername(getInstance().getUsername().toLowerCase());
+        // validate password
         String tempPasswd = getInstance().getPassword();
         if (getConfirmPasswd().equals(tempPasswd) == false)
         {
@@ -140,36 +140,27 @@ public class RegisterAction implements Serializable
         identity.login();
         return "confirmed";
     }
-    
-    
-    private boolean isValidUsername(String username)
+
+    private static boolean isValidUsername(String username)
     {
         boolean ok = true;
         Matcher matcher = RegexUtil.VALID_EMAIL_ADDRESS_REGEX.matcher(username);
         boolean isEmail = matcher.find();
-        if(isEmail)
+        if (isEmail)
         {
-            StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Invalid_Username_Email");
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Invalid_Username_Email");
             ok = false;
         }
         matcher = RegexUtil.ENGLISHCHARACTER.matcher(username);
         boolean isEnglish = matcher.find();
-        if(!isEnglish)
+        if (!isEnglish)
         {
-            StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Invalid_Username_Unicode");
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Invalid_Username_Unicode");
             ok = false;
         }
-        matcher = RegexUtil.ONLYDIGITS.matcher(username);
-        boolean isOnlyDigit = matcher.find();
-        if(isOnlyDigit)
-        {
-            StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Invalid_Username_Digit");
-            ok = false;
-        }
+
         return ok;
     }
-    
-   
 
     @Observer(Constants.SEND_THANK_YOU_MAIL)
     public void sendThankYouEmail(Member registeredUser)
@@ -186,7 +177,7 @@ public class RegisterAction implements Serializable
         {
             entityManager.createQuery("select m from Member m where lower(m.email) = lower(:email)").setParameter("email", user.getEmail())
                     .setMaxResults(1).getSingleResult();
-            StatusMessages.instance().addFromResourceBundle(Severity.ERROR,"Email_Exists");
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Email_Exists");
             return null;
         }
         catch (NoResultException e)
@@ -299,10 +290,10 @@ public class RegisterAction implements Serializable
         Contexts.getConversationContext().set("recoverPassLink", recoverPassLink);
         renderer.render("/mailTemplates/resetpassword.xhtml");
     }
-    
+
     public void sendToDashboard()
     {
-        if(Identity.instance().isLoggedIn())
+        if (Identity.instance().isLoggedIn())
         {
             Map<String, Object> parameters = new HashMap<String, Object>();
             FacesManager.instance().redirect("/member/dashboard.xhtml", parameters, false, false);
