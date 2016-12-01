@@ -74,6 +74,7 @@ public class PasswordAction implements Serializable
         }
         catch (NoResultException e)
         {
+            throw new ErrorPageExceptionHandler("invalid code");
         }
     }
 
@@ -86,9 +87,11 @@ public class PasswordAction implements Serializable
         }
         String passwd = CryptoUtil.decodeBase64(getPassword());
         String passwordKey = PasswordHash.instance().generateSaltedHash(passwd, user.getUsername(), "md5");
-        entityManager.createQuery("update Member u set u.password = :passwd where u.id = :userId").setParameter("passwd", passwordKey)
+        entityManager.createQuery("update Member u set u.password = :passwd, u.recoverPasswordCode = null where u.id = :userId").setParameter("passwd", passwordKey)
                 .setParameter("userId", user.getId()).executeUpdate();
         entityManager.flush();
+        entityManager.refresh(user);
+        StatusMessages.instance().addFromResourceBundle("Password_Changed");
         return "reset";
     }
 
