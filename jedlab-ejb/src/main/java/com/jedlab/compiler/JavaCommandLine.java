@@ -55,8 +55,8 @@ public class JavaCommandLine
             PumpStreamHandler psh = new PumpStreamHandler(out, os);
             executor.setStreamHandler(psh);
 
-            executor.execute(cmdLine, resultHandler);
             new ProcessKiller(watchdog, fileName).start();
+            executor.execute(cmdLine, resultHandler);
             resultHandler.waitFor();
             // if (resultHandler.hasResult())
             // {
@@ -110,7 +110,7 @@ public class JavaCommandLine
                     }
 
                 }
-            }, 10000);
+            }, 6000);
 
         }
 
@@ -122,8 +122,10 @@ public class JavaCommandLine
         // cmdLine.addArgument("/root/jail");
         cmdLine.addArgument(Env.getJailHome());
         cmdLine.addArgument("/java/jdk8/bin/java");
-        // cmdLine.addArgument("-cp");
-        // cmdLine.addArgument(sourceDir);
+        cmdLine.addArgument("-Djava.security.manager");
+        cmdLine.addArgument(String.format("-Djava.security.policy=%sjava.policy", Env.getJailHome()));
+        cmdLine.addArgument("-Xmx512m");
+        cmdLine.addArgument("-Xms256m");
         cmdLine.addArgument(fileName);
         if (CollectionUtil.isNotEmpty(programArgs))
         {
