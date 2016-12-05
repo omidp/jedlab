@@ -33,7 +33,7 @@
 						  http://jboss.com/products/seam/pdf 
 						  http://jboss.com/products/seam/pdf-2.3.xsd
 						  http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.3.xsd">
-	<core:init jndi-pattern="java:app/jedlab-ejb/#{ejbName}" debug="false" distributable="false"/>
+	<core:init jndi-pattern="java:app/jedlab-ejb/#{ejbName}" debug="false" distributable="true"/>
 	<core:manager concurrent-request-timeout="2000"
 		conversation-id-parameter="cid" conversation-timeout="1600000"
 		parent-conversation-id-parameter="pid"/>
@@ -138,7 +138,7 @@
 	<!-- Caching -->
 	<cache:eh-cache-provider configuration="ehcache.xml"></cache:eh-cache-provider>
 	
-	<resteasy:application resource-path-prefix="/api" >
+	<resteasy:application resource-path-prefix="/api" destroy-session-after-request="false" >
         
     </resteasy:application>
 	
