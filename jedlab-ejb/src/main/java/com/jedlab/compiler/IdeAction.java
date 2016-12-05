@@ -197,7 +197,7 @@ public class IdeAction extends EntityController
     @Transactional
     public String execute()
     {
-
+        log.info("user {0}, run code {1}", getSessionContext().get(Constants.CURRENT_USER_NAME), getCode());
         try
         {
             problems = new ArrayList<>();
