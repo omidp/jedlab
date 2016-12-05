@@ -12,6 +12,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.omidbiz.core.axon.internal.IgnoreElement;
+
 import com.jedlab.framework.DateUtil;
 
 @Entity
@@ -107,6 +109,7 @@ public class Chapter extends BasePO implements Comparable<Chapter>
         this.duration = duration;
     }
 
+    @IgnoreElement
     public String getUrl()
     {
         return url;

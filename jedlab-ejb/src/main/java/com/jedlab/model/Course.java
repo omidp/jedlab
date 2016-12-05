@@ -29,6 +29,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.jboss.seam.international.StatusMessage;
+import org.omidbiz.core.axon.internal.IgnoreElement;
 
 @Entity
 @Table(name = "course", schema = "public")
@@ -42,7 +43,7 @@ public class Course extends BasePO
     @Lob
     @Type(type = "org.hibernate.type.BinaryType")
     @Column(name = "image", length = 2147483647)
-    @Basic(fetch = FetchType.LAZY)
+    @Basic(fetch = FetchType.LAZY)    
     private byte[] image;
 
     @Column(name = "price", nullable = false)
@@ -126,6 +127,7 @@ public class Course extends BasePO
         this.viewCount = viewCount;
     }
 
+    @IgnoreElement
     public Set<Tag> getTags()
     {
         return tags;
@@ -186,6 +188,7 @@ public class Course extends BasePO
         this.experience = experience;
     }
 
+    @IgnoreElement
     public List<Chapter> getChapters()
     {
         return chapters;
@@ -263,6 +266,7 @@ public class Course extends BasePO
         this.name = name;
     }
 
+    @IgnoreElement
     public byte[] getImage()
     {
         return image;
@@ -324,6 +328,7 @@ public class Course extends BasePO
     }
 
     @Transient
+    @IgnoreElement
     public boolean getHasImage()
     {
         return getImage() != null && getImage().length > 0;

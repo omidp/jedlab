@@ -27,23 +27,27 @@ public class IEFilter implements Filter
         if (request instanceof HttpServletRequest)
         {
             String agent = ((HttpServletRequest) request).getHeader("User-Agent");
-            if (StringUtil.isEmpty(agent))
+            // if (StringUtil.isEmpty(agent))
+            // {
+            // request.getRequestDispatcher("noie.html").forward(request,
+            // response);
+            // return;
+            // }
+            if (StringUtil.isNotEmpty(agent))
             {
-                request.getRequestDispatcher("noie.html").forward(request, response);
-                return;
-            }
-            int indexOf = agent.indexOf("MSIE");
-            if (indexOf > 0)
-            {
-                // ie
-                request.getRequestDispatcher("noie.html").forward(request, response);
-                return;
-            }
-            if (agent.indexOf("Edge") > 0)
-            {
-                // ie
-                request.getRequestDispatcher("noie.html").forward(request, response);
-                return;
+                int indexOf = agent.indexOf("MSIE");
+                if (indexOf > 0)
+                {
+                    // ie
+                    request.getRequestDispatcher("noie.html").forward(request, response);
+                    return;
+                }
+                if (agent.indexOf("Edge") > 0)
+                {
+                    // ie
+                    request.getRequestDispatcher("noie.html").forward(request, response);
+                    return;
+                }
             }
         }
 

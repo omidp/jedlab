@@ -173,6 +173,16 @@
 		<servlet-name>Username Check Availibility</servlet-name>
 		<servlet-class>com.jedlab.CheckUsernameAvailibilityServlet</servlet-class>
 	</servlet>
+	
+	 <filter>
+        <filter-name>Auth Filter</filter-name>
+        <filter-class>com.jedlab.rest.AuthFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Auth Filter</filter-name>
+        <url-pattern>/seam/resource/rest/auth/*</url-pattern>
+	</filter-mapping>
 
 <error-page>
     <exception-type>

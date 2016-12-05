@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -17,6 +19,8 @@ import org.apache.commons.io.IOUtils;
 import org.omidbiz.core.axon.Axon;
 import org.omidbiz.core.axon.filters.RecursionControlFilter;
 import org.omidbiz.core.axon.hibernate.AxonBuilder;
+
+import com.jedlab.model.Course;
 
 /**
  * @author Omid Pourhadi
@@ -54,5 +58,7 @@ public class JsonWriterProvider implements MessageBodyWriter<Object>
         IOUtils.write(json.getBytes("UTF-8"), entityStream);
         IOUtils.closeQuietly(entityStream);
     }
+    
+    
 
 }
