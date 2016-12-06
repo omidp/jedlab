@@ -137,11 +137,18 @@
 										  </div>
 									</div>
 									
+									<div class="ui label">
+										  <i class="icon-star-full"></i>
+										  <div class="detail">
+										  	<h:outputText value="#{_item.registeredUserCount}" />
+										  </div>
+									</div>
+									
 								</div>
-								<div style="float:right">
-								<s:link view="/seam/resource/api/c/#{_item.name}" value="#{messages['Detail_View']}"
+								<div style="float:right"> 
+								<s:link view="/seam/resource/api/c/#{_item.name}" value="#{messages['Detail']}"
 									propagation="none" includePageParams="false"
-									styleClass="ui label clickableLink cItem_#{_item.id}"
+									styleClass="ui label clickableLink cItem_#{_item.id}" 
 									style="font-weight: bold;">									
 								</s:link>
 								</div>

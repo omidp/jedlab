@@ -87,14 +87,16 @@
 	<div style="padding: 5px; margin: 5px;margin-bottom: 65px;">
 
 		<jedlab:tabs scrollWidth="100%" keepState="true">
+
+			<jedlab:tabPanel title="#{messages['Chapter_List']}">
+				<ui:include src="/WEB-INF/inc/chapterList.xhtml" />
+			</jedlab:tabPanel>
+
 			<jedlab:tabPanel title="#{messages['Detail']}">
 				<ui:include src="/WEB-INF/inc/courseDetail.xhtml" />
 			</jedlab:tabPanel>
 
 			
-			<jedlab:tabPanel title="#{messages['Chapter_List']}">
-				<ui:include src="/WEB-INF/inc/chapterList.xhtml" />
-			</jedlab:tabPanel>
 
 			<jedlab:tabPanel title="#{messages['Comment']}" useIframe="true"
 				join="false" includePageParams="false"

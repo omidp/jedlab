@@ -43,7 +43,7 @@ public class Course extends BasePO
     @Lob
     @Type(type = "org.hibernate.type.BinaryType")
     @Column(name = "image", length = 2147483647)
-    @Basic(fetch = FetchType.LAZY)    
+    @Basic(fetch = FetchType.LAZY)
     private byte[] image;
 
     @Column(name = "price", nullable = false)
@@ -106,6 +106,19 @@ public class Course extends BasePO
 
     @Transient
     private boolean registered;
+
+    @Transient
+    private long registeredUserCount;
+
+    public long getRegisteredUserCount()
+    {
+        return registeredUserCount;
+    }
+
+    public void setRegisteredUserCount(long registeredUserCount)
+    {
+        this.registeredUserCount = registeredUserCount;
+    }
 
     public boolean isSticky()
     {

@@ -75,7 +75,7 @@ public class QuestionQuery extends PagingController<Question>
                 {
                     if(q.getId().longValue() == item.getId().longValue())
                     {
-                        item.setUserCount(userSolvedCount);
+                        item.setUserCount(userSolvedCount == null ? new Long(0) : userSolvedCount.longValue());
                     }
                 }
             }

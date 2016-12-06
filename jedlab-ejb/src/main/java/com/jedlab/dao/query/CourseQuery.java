@@ -18,6 +18,9 @@ import com.jedlab.framework.PagingController;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
+import com.jedlab.model.MemberCourse;
+import com.jedlab.model.MemberQuestion;
+import com.jedlab.model.Question;
 
 @Name("courseQuery")
 @Scope(ScopeType.CONVERSATION)
@@ -59,7 +62,32 @@ public class CourseQuery extends PagingController<Course>
         criteria.addOrder(Order.desc("sticky")).addOrder(Order.desc("createdDate"));
         resultList = criteria.list();
         addChpterCount(resultList);
+        addRegisteredUserCount(resultList);
         return truncResultList(resultList);
+    }
+
+    private void addRegisteredUserCount(List<Course> courseList)
+    {
+        if(CollectionUtil.isNotEmpty(courseList))
+        {
+            Criteria criteria = getSession().createCriteria(MemberCourse.class, "mc");        
+            criteria.setProjection(Projections.projectionList().add(Projections.countDistinct("member"))
+                    .add(Projections.groupProperty("course")));
+//            criteria.add(Restrictions.in("course", courseList));
+            List<Object[]> obj = criteria.list();
+            for (Object[] items : obj)
+            {
+                Long userCount = Long.parseLong(String.valueOf(items[0]));
+                Course q = (Course) items[1];
+                for (Course item : courseList)
+                {
+                    if(q.getId().longValue() == item.getId().longValue())
+                    {
+                        item.setRegisteredUserCount(userCount == null ? new Long(0) : userCount.longValue());
+                    }
+                }
+            }
+        }
     }
 
     private void addChpterCount(List<Course> courseList)
