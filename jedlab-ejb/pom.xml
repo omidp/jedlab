@@ -80,10 +80,10 @@
 			<artifactId>activation</artifactId>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.jboss.seam</groupId>
 			<artifactId>jboss-seam-resteasy</artifactId>
