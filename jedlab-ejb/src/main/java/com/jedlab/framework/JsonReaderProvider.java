@@ -19,6 +19,10 @@ import javax.ws.rs.ext.Provider;
 
 import org.apache.commons.io.IOUtils;
 import org.jboss.seam.Component;
+import org.jboss.seam.core.Expressions;
+import org.omidbiz.core.axon.Axon;
+import org.omidbiz.core.axon.filters.RecursionControlFilter;
+import org.omidbiz.core.axon.hibernate.AxonBuilder;
 
 import com.jedlab.model.EntityModel;
 
@@ -50,7 +54,8 @@ public class JsonReaderProvider implements MessageBodyReader<Object>
         StringWriter w = new StringWriter();
         IOUtils.copy(entityStream, w, "UTF-8");
         String content = java.net.URLDecoder.decode(w.toString(), "UTF-8");
-        Object object = JsonWriterProvider.axon.toObject(content, type, null);
+        final Axon axon = (Axon) Expressions.instance().createValueExpression("#{axon}").getValue();
+        Object object = axon.toObject(content, type, null);
         if (request != null && "PUT".equals(request.getMethod()))
         {
             if(object instanceof EntityModel)
@@ -58,7 +63,7 @@ public class JsonReaderProvider implements MessageBodyReader<Object>
                 EntityModel em = (EntityModel) object;
                 EntityManager entityManager =  (EntityManager) Component.getInstance("entityManager");
                 Object updateModel = entityManager.find(type, em.getId());
-                return JsonWriterProvider.axon.toObject(content, type, updateModel);
+                return axon.toObject(content, type, updateModel);
             }
         }
         IOUtils.closeQuietly(w);

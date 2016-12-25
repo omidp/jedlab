@@ -174,6 +174,8 @@
 		<servlet-class>com.jedlab.CheckUsernameAvailibilityServlet</servlet-class>
 	</servlet>
 	
+
+	
 	 <filter>
         <filter-name>Auth Filter</filter-name>
         <filter-class>com.jedlab.rest.AuthFilter</filter-class>

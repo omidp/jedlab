@@ -101,6 +101,9 @@ public class Course extends BasePO
     @Column(name = "view_count", columnDefinition = " bigint DEFAULT 0")
     private Long viewCount;
 
+    @Column(name = "download_price", columnDefinition = " bigint DEFAULT 0")
+    private Integer downloadPrice;
+
     @Transient
     private Long chapterCount;
 
@@ -109,6 +112,16 @@ public class Course extends BasePO
 
     @Transient
     private long registeredUserCount;
+
+    public Integer getDownloadPrice()
+    {
+        return downloadPrice;
+    }
+
+    public void setDownloadPrice(Integer downloadPrice)
+    {
+        this.downloadPrice = downloadPrice;
+    }
 
     public long getRegisteredUserCount()
     {

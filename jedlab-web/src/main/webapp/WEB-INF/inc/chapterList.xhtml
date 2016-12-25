@@ -65,7 +65,15 @@
 										<i class="icon-display"></i>
 										<f:param name="courseId" value="#{courseId}"></f:param>
 										<f:param name="chapterId" value="#{_item.id}"></f:param>
-									</s:link>
+								</s:link>
+								#{' '}
+								<s:link
+										rendered="#{identity.loggedIn and _item.registered and _item.canDownload}"
+										propagation="none" includePageParams="false"
+										styleClass="clickableLink viewDownloadIcon" view="/seam/resource/api/chapters/download/#{_item.id}/#{loginActionManager.currentUserId}">
+										<i class="icon-download2"></i>										
+								</s:link>
+								
 								</td>
 							</tr>
 						</c:forEach>
@@ -81,6 +89,12 @@
 							jQuery(".viewIcon").each(function( index ) {
 								jQuery(this).popup({
 									content : "#{messages['View']}"
+								});
+							});
+
+							jQuery(".viewDownloadIcon").each(function( index ) {
+								jQuery(this).popup({
+									content : "#{messages['Download']}"
 								});
 							});
 				

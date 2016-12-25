@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<style>
+.title {
+	color: #00adbc;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div class="ui container">
+			<div
+				class="ui middle aligned equal width center aligned padded grid w3-margin">
+
+				<div class="row centerContent">
+
+
+					<div class="column">
+						<div class="ui piled segment" id="content">
+
+							<s:fragment rendered="#{payment.paid}">
+							<p class="title">
+								شما قبلا این هزینه را پرداخت کرده اید
+								</p>
+								<table class="ui table" dir="rtl">
+									<thead>
+										<tr>
+											<th>#{messages['Description']}</th>
+											<th>#{messages['Amount']}</th>
+											<th>#{messages['Res_No']}</th>
+											<th>#{messages['Date']}</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<h4 class="ui header">#{payment.paidInvoice.description}</h4>
+											</td>
+											<td>#{payment.paidInvoice.paymentAmount}</td>
+											<td>#{payment.paidInvoice.resNo}</td>
+											<td><h:outputText
+													value="#{payment.paidInvoice.createdDate}"
+													converter="#{persianDateConverter}" /></td>
+										</tr>
+
+									</tbody>
+								</table>
+
+
+							</s:fragment>
+
+							<s:fragment rendered="#{!payment.paid}">
+
+								<p>در حال پردازش و ارسال به صفحه بانک ، لطفا منتظر شوید</p>
+
+								<script>
+												jQuery(document).ready(function(){
+								
+													jQuery("#shkForm").submit();
+								
+												});
+								</script>
+
+								<div style="display: none;">
+									<form method="post"
+										action="https://sep.shaparak.ir/Payment.aspx" id="shkForm">
+										<input name="Amount" id="Amount"
+											value="#{payment.paymentVO.amount}" /> <br /> <input
+											name="ResNum" id="ResNum" value="#{payment.paymentVO.resNum}" />
+										<br /> <input name="MID" id="MID"
+											value="#{payment.paymentVO.merchantId}" /> <br /> <input
+											name="RedirectURL" id="RedirectURL"
+											value="#{payment.paymentVO.redirectUrl}" />
+										<button type="submit">Submit</button>
+									</form>
+								</div>
+
+							</s:fragment>
+
+
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+	</ui:define>
+
+</ui:composition>

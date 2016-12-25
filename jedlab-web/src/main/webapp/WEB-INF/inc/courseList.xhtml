@@ -115,7 +115,11 @@
 									<br />
 									<h:outputText value="#{messages['Free']}"
 										rendered="#{_item.free}" />
-									<h:outputText value="#{_item.price}" rendered="#{!_item.free}" />
+									<s:fragment rendered="#{!_item.free}">
+										<h:outputText value="#{_item.price}"  converter="#{bigDecimalConverter}">
+										</h:outputText>
+										<h:outputText value="#{messages['Toman']}" />
+									</s:fragment>
 								</div>
 								<div class="description">
 
@@ -137,12 +141,14 @@
 										  </div>
 									</div>
 									
-									<div class="ui label">
-										  <i class="icon-star-full"></i>
-										  <div class="detail">
-										  	<h:outputText value="#{_item.registeredUserCount}" />
-										  </div>
-									</div>
+									<s:fragment rendered="#{_item.free}">
+										<div class="ui label">
+											  <i class="icon-star-full"></i>
+											  <div class="detail">
+											  	<h:outputText value="#{_item.registeredUserCount}" />
+											  </div>
+										</div>
+									</s:fragment>
 									
 								</div>
 								<div style="float:right"> 

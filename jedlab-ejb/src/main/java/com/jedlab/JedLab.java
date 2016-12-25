@@ -10,15 +10,20 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.framework.HibernateEntityController;
 import org.jboss.seam.navigation.Pages;
+import org.omidbiz.core.axon.Axon;
+import org.omidbiz.core.axon.filters.RecursionControlFilter;
+import org.omidbiz.core.axon.hibernate.AxonBuilder;
 
+import com.github.scribejava.apis.GitHubApi;
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CacheManager;
-import com.jedlab.framework.WebContext;
 import com.jedlab.model.Course.Language;
 import com.jedlab.model.Course.Level;
+import com.jedlab.model.Member;
 import com.jedlab.model.Student.Gender;
 import com.jedlab.model.Student.Privacy;
-import com.jedlab.model.Member;
 
 @Name("jedLab")
 @Scope(ScopeType.CONVERSATION)
@@ -47,35 +52,48 @@ public class JedLab extends HibernateEntityController
     {
         return Language.values();
     }
-    
+
     @Factory("genders")
     public Gender[] genders()
     {
         return Gender.values();
     }
-    
+
     @Factory("privacies")
     public Privacy[] privacies()
     {
         return Privacy.values();
     }
 
+    @Factory(value = "axon", scope = ScopeType.EVENT)
+    public Axon axon()
+    {
+        return new AxonBuilder().addFilter(new RecursionControlFilter()).create();
+    }
+    
+    @Factory(value = "githubOAuth", scope = ScopeType.EVENT)
+    public OAuth20Service githubOAuth()
+    {
+        return new ServiceBuilder().apiKey(Env.getGithubKey())
+                .apiSecret(Env.getGithubSecret()).callback(Env.getGithubCallback()).build(GitHubApi.instance());
+    }
+
     public String getPageDescription()
     {
         String desc = Pages.instance().getDescription(Pages.getCurrentViewId());
-        if(desc == null)
+        if (desc == null)
             return null;
         return interpolate(desc);
     }
-    
+
     public String getSessionId()
     {
         HttpSession sess = (HttpSession) Component.getInstance("httpSession");
-        if(sess == null)
+        if (sess == null)
             return "";
         return sess.getId();
     }
-    
+
     public static JedLab instance()
     {
         if (!Contexts.isConversationContextActive())

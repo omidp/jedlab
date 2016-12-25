@@ -158,6 +158,20 @@ public class ChapterHome extends EntityHome<Chapter>
         for (BigInteger memId : memberIds)
         {
             MemberCourse mc = new MemberCourse();
+            try
+            {
+
+                // TODO:performance improvement
+                MemberCourse memCourse = (MemberCourse) getEntityManager()
+                        .createQuery("select mc from MemberCourse mc where mc.member.id =:memId AND mc.course.id = :courseId")
+                        .setParameter("memId", memId.longValue()).setParameter("courseId", getCourse().getId()).setMaxResults(1)
+                        .getSingleResult();
+                mc.setCanDownload(memCourse.isCanDownload());
+                mc.setPaid(memCourse.isPaid());
+            }
+            catch (NoResultException e)
+            {
+            }
             mc.setCourse(getCourse());
             mc.setChapter(getInstance());
             //
@@ -190,7 +204,7 @@ public class ChapterHome extends EntityHome<Chapter>
             Long courseId = getCourse().getId();
             Long chapterId = getChapterId();
             Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
-            if(uid == null)
+            if (uid == null)
                 throw new ErrorPageExceptionHandler("user not found");
             try
             {

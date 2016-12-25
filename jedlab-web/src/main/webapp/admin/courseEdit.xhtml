@@ -20,6 +20,10 @@
 					<h:inputText id="p" value="#{courseHome.instance.price}">
 						<f:convertNumber />
 					</h:inputText>
+					
+					<h:outputLabel for="dlPrice">#{messages['Download_Price']}</h:outputLabel>
+					<h:inputText id="dlPrice" value="#{courseHome.instance.downloadPrice}" converter="javax.faces.Integer">
+					</h:inputText>
 
 					<h:outputLabel for="lang">#{messages['Language']}</h:outputLabel>
 					<h:selectOneMenu value="#{courseHome.instance.language}" id="lang">

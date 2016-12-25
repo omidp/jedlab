@@ -16,6 +16,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import org.apache.commons.io.IOUtils;
+import org.jboss.seam.core.Expressions;
 import org.omidbiz.core.axon.Axon;
 import org.omidbiz.core.axon.filters.RecursionControlFilter;
 import org.omidbiz.core.axon.hibernate.AxonBuilder;
@@ -33,7 +34,7 @@ import com.jedlab.model.Course;
 public class JsonWriterProvider implements MessageBodyWriter<Object>
 {
 
-    public static final Axon axon = new AxonBuilder().addFilter(new RecursionControlFilter()).create();
+    
     
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
@@ -54,6 +55,7 @@ public class JsonWriterProvider implements MessageBodyWriter<Object>
     public void writeTo(Object t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
             MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException
     {
+        final Axon axon = (Axon) Expressions.instance().createValueExpression("#{axon}").getValue();
         String json = axon.toJson(t);
         IOUtils.write(json.getBytes("UTF-8"), entityStream);
         IOUtils.closeQuietly(entityStream);

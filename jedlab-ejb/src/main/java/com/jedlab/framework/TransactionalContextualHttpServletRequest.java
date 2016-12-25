@@ -78,6 +78,6 @@ public abstract class TransactionalContextualHttpServletRequest extends Contextu
         return (Session) entityManager.getDelegate();
     }
 
-    protected abstract void workInTransaction();
+    protected abstract void workInTransaction() throws Exception;
 
 }

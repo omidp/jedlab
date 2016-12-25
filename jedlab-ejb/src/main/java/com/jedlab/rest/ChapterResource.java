@@ -56,12 +56,14 @@ public class ChapterResource implements Serializable
     @Context
     HttpServletRequest request;
 
-    @Path("/download/{chapterId}")
+    @Path("/download/{chapterId}/{userId}")
     @GET
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response downloadChapterById(@PathParam("chapterId") Long chapterId)
-    {        
+    public Response downloadChapterById(@PathParam("chapterId") Long chapterId, @PathParam("userId") Long userId)
+    {
         Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+        if (uid == null)
+            uid = userId;
         if (uid == null)
             return Response.status(Status.BAD_REQUEST).build();
         InputStream is = null;
@@ -73,71 +75,41 @@ public class ChapterResource implements Serializable
                     .setParameter("memId", uid).setParameter("chapterId", chapterId).setMaxResults(1).getSingleResult();
 
             Chapter chapter = mc.getChapter();
-            if (mc.isPaid() == false)
-                return Response.ok(StatusMessage.getBundleMessage("NOT_PAID","NOT_PAID")).build();
+            Course course = mc.getCourse();
+            if (course.isFree() && !mc.isCanDownload())
+                return Response.ok(StatusMessage.getBundleMessage("NOT_PAID", "NOT_PAID")).build();
+            if (!course.isFree() && !mc.isPaid())
+                return Response.ok(StatusMessage.getBundleMessage("NOT_PAID", "NOT_PAID")).build();
             File file = new File(chapter.getUrl());
+            if (file.exists() == false)
+                Response.serverError().build();
             is = new FileInputStream(file);
             StreamingOutput output = new StreamBuilder(is);
             ResponseBuilder rb = Response.ok(output);
+            String name = course.getName().concat("_").concat(chapter.getName()).concat(".mp4");
             if (isInternetExplorer(request))
-                rb.header("Content-Disposition", "attachment, filename=\"" + URLEncoder.encode(chapter.getName().concat(".mp4"), "utf-8")
-                        + "\"");
+                rb.header("Content-Disposition", "attachment, filename=\"" + URLEncoder.encode(name, "utf-8") + "\"");
             else
-                rb.header("Content-Disposition",
-                        "attachment, filename=\"" + MimeUtility.encodeWord(chapter.getName().concat(".mp4"), "UTF-8", "Q") + "\"");
+                rb.header("Content-Disposition", "attachment, filename=\"" + MimeUtility.encodeWord(name, "UTF-8", "Q") + "\"");
             return rb.header("Content-Length", file.length()).header("Content-Type", "video/mp4").build();
         }
         catch (NoResultException | FileNotFoundException | UnsupportedEncodingException e)
         {
             return Response.status(Status.BAD_REQUEST).build();
-        }        
+        }
         finally
         {
             // IOUtils.closeQuietly(is);
         }
 
     }
-    
+
     @Path("/auth/{chapterId}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findChapterById(@PathParam("chapterId") Long chapterId)
-    {        
-        Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
-        if (uid == null)
-            return Response.status(Status.BAD_REQUEST).build();
-        InputStream is = null;
-        try
-        {
-            MemberCourse mc = (MemberCourse) entityManager
-                    .createQuery(
-                            "select mc from MemberCourse mc LEFT JOIN mc.chapter chap LEFT JOIN mc.course c where mc.member.id = :memId AND chap.id = :chapterId")
-                    .setParameter("memId", uid).setParameter("chapterId", chapterId).setMaxResults(1).getSingleResult();
-
-            Chapter chapter = mc.getChapter();
-            Course course = mc.getCourse();
-            if (course.isFree() == false && mc.isPaid() == false)
-                return Response.ok(StatusMessage.getBundleMessage("NOT_PAID","NOT_PAID")).build();
-            File file = new File(chapter.getUrl());
-            is = new FileInputStream(file);
-            StreamingOutput output = new StreamBuilder(is);
-            ResponseBuilder rb = Response.ok(output);
-            if (isInternetExplorer(request))
-                rb.header("Content-Disposition", "attachment, filename=\"" + URLEncoder.encode(chapter.getName().concat(".mp4"), "utf-8")
-                        + "\"");
-            else
-                rb.header("Content-Disposition",
-                        "attachment, filename=\"" + MimeUtility.encodeWord(chapter.getName().concat(".mp4"), "UTF-8", "Q") + "\"");
-            return rb.header("Content-Length", file.length()).header("Content-Type", "video/mp4").build();
-        }
-        catch (NoResultException | FileNotFoundException | UnsupportedEncodingException e)
-        {
-            return Response.status(Status.BAD_REQUEST).build();
-        }        
-        finally
-        {
-            // IOUtils.closeQuietly(is);
-        }
+    {
+        return Response.ok().build();
 
     }
 
@@ -160,8 +132,8 @@ public class ChapterResource implements Serializable
         public void write(OutputStream output) throws IOException, WebApplicationException
         {
             // buffer size set to 10MB
-//            int bufferSize = 1024 * 1024 * 10;
-            //buffer size set to 3MB
+            // int bufferSize = 1024 * 1024 * 10;
+            // buffer size set to 3MB
             int bufferSize = 1024 * 30;
             int buffer = 1;
             int rs = is.read();

@@ -40,8 +40,11 @@
 								<br />
 								<h:outputText value="#{messages['Free']}"
 									rendered="#{courseHome.instance.free}" />
-								<h:outputText value="#{_item.price}"
-									rendered="#{!courseHome.instance.free}" />
+								<s:fragment rendered="#{!courseHome.instance.free}">
+										<h:outputText value="#{courseHome.instance.price}"  converter="#{bigDecimalConverter}">
+										</h:outputText>
+										<h:outputText value="#{messages['Toman']}" />
+								</s:fragment>
 							</p>
 						</div>
 						<div class="extra">
@@ -64,7 +67,16 @@
 							
 							</s:div>
 							
+							<s:fragment rendered="#{identity.loggedIn and courseHome.instance.registered and courseHome.instance.free}">
+								<button type="button"
+									onclick="redirectToPaymentGateway();"																												
+									class="btn btn-green locale-font">
+									<h:outputText value="#{messages['Get_Download_Link']} #{courseHome.instance.downloadPrice} #{messages['Toman']}" />									
+								</button>
+								<br />
+							</s:fragment>	
 							<s:fragment rendered="#{identity.loggedIn and courseHome.instance.registered}">
+								
 								
 								<c:forEach items="#{courseHome.instance.tags}" var="_tag">
 								
@@ -72,7 +84,7 @@
 										<h:outputText value="#{_tag.name}" />
 									</s:div>
 									
-								</c:forEach>
+								</c:forEach> 
 							
 							</s:fragment>
 							
@@ -115,6 +127,11 @@
 	function redirectToLogin()
 	{
 		window.top.location.href = window.location.origin +"#{_ctx}/member/course.seam?courseId=#{courseId}"; 
+	}
+	function redirectToPaymentGateway()
+	{
+		common.showLoading();
+		window.top.location.href = window.location.origin +"#{_ctx}/payment.seam?courseId=#{courseId}"; 
 	}
 	</script>
 

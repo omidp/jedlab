@@ -49,6 +49,34 @@ public class Chapter extends BasePO implements Comparable<Chapter>
     @Transient
     private boolean viewed;
 
+    @Transient
+    private boolean canDownload;
+
+    @Transient
+    private boolean paid;
+
+    @IgnoreElement
+    public boolean isPaid()
+    {
+        return paid;
+    }
+
+    public void setPaid(boolean paid)
+    {
+        this.paid = paid;
+    }
+
+    @IgnoreElement
+    public boolean isCanDownload()
+    {
+        return canDownload;
+    }
+
+    public void setCanDownload(boolean canDownload)
+    {
+        this.canDownload = canDownload;
+    }
+
     public Integer getSequence()
     {
         return sequence;
@@ -59,6 +87,7 @@ public class Chapter extends BasePO implements Comparable<Chapter>
         this.sequence = sequence;
     }
 
+    @IgnoreElement
     public boolean isViewed()
     {
         return viewed;
@@ -69,6 +98,7 @@ public class Chapter extends BasePO implements Comparable<Chapter>
         this.viewed = viewed;
     }
 
+    @IgnoreElement
     public boolean isRegistered()
     {
         return registered;
@@ -141,7 +171,7 @@ public class Chapter extends BasePO implements Comparable<Chapter>
     @Override
     public int compareTo(Chapter o)
     {
-        if(getSequence() == null)
+        if (getSequence() == null)
             return 0;
         return getSequence().compareTo(o.getSequence());
     }

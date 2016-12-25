@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -32,6 +34,7 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.PasswordHash;
 
 import com.jedlab.action.ContactusAction.Contatcus;
+import com.jedlab.framework.CookieUtil;
 import com.jedlab.framework.CryptoUtil;
 import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.PageExceptionHandler;
@@ -134,14 +137,21 @@ public class RegisterAction implements Serializable
         entityManager.flush();
         StatusMessages.instance().addFromResourceBundle("Register_Completed");
         Events.instance().raiseAsynchronousEvent(Constants.SEND_THANK_YOU_MAIL, getInstance());
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpServletResponse res = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        Cookie c = CookieUtil.findCookieByName(req, "captchaRequired");
+        if(c != null)
+            CookieUtil.removeCookie(res, c);
         Identity identity = Identity.instance();
         identity.getCredentials().setUsername(getInstance().getUsername());
         identity.getCredentials().setPassword(CryptoUtil.encodeBase64(tempPasswd));
         identity.login();
         return "confirmed";
     }
+    
+   
 
-    private static boolean isValidUsername(String username)
+    private boolean isValidUsername(String username)
     {
         boolean ok = true;
         Matcher matcher = RegexUtil.VALID_EMAIL_ADDRESS_REGEX.matcher(username);

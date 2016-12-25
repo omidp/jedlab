@@ -84,4 +84,29 @@ public final class Env
         return prop.getProperty("GIST_HOME");
     }
     
+    public static String getMerchantId()
+    {
+        return prop.getProperty("MERCHANTID");
+    }
+    
+    public static String getMerchantPass()
+    {
+        return prop.getProperty("MPASS");
+    }
+    
+    public static String getGithubKey()
+    {
+        return prop.getProperty("GITHUB_KEY");
+    }
+    
+    public static String getGithubSecret()
+    {
+        return prop.getProperty("GITHUB_SECRET");
+    }
+    
+    public static String getGithubCallback()
+    {
+        return prop.getProperty("GITHUB_CALLBACK");
+    }
+    
 }

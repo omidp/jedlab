@@ -107,6 +107,13 @@ public class CourseHome extends EntityHome<Course>
                     Chapter chapter = memberCourse.getChapter();
                     if (memberCourse.isViewed())
                         chapter.setViewed(true);
+                    if(memberCourse.isCanDownload())
+                        chapter.setCanDownload(true);
+                    if(memberCourse.isPaid())
+                    {
+                        chapter.setPaid(true);
+                        chapter.setCanDownload(true);
+                    }
                     registeredCourses.add(chapter);
                 }
                 // /
@@ -178,10 +185,14 @@ public class CourseHome extends EntityHome<Course>
                 }
                 return "registered";
             }
+            else
+            {
+                return "redirectToPaymentGateway";
+            }
         }
         catch (NoResultException e)
         {
-            throw new PageExceptionHandler(StatusMessage.getBundleMessage("Enroll_Error", ""));
+            //throw new PageExceptionHandler(StatusMessage.getBundleMessage("Enroll_Error", ""));
         }
         return "notRegistered";
     }

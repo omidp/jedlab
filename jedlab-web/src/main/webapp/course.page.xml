@@ -17,8 +17,10 @@
 				<param name="courseId" value="#{courseId}"/>
 			</redirect>
 		</rule>
-		<rule if-outcome="gotoBank">
-			
+		<rule if-outcome="redirectToPaymentGateway">
+			<redirect view-id="/payment.xhtml" include-page-params="false">
+				<param name="courseId" value="#{courseId}"/>
+			</redirect>
 		</rule>
 		<rule if-outcome="notRegistered">
 			<redirect view-id="/member/course.xhtml" include-page-params="false">

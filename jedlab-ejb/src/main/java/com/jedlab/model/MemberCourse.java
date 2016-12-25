@@ -35,10 +35,23 @@ public class MemberCourse extends BasePO
     @Column(name = "is_paid", columnDefinition = "boolean DEFAULT false")
     private boolean paid;
 
+    @Column(name = "can_download", columnDefinition = "boolean DEFAULT false")
+    private boolean canDownload;
+
     @Column(name = "created_date", updatable = false, insertable = false, columnDefinition = " timestamp with time zone DEFAULT now()")
     @Temporal(TemporalType.TIMESTAMP)
     @org.hibernate.annotations.Generated(org.hibernate.annotations.GenerationTime.INSERT)
     private Date createdDate;
+
+    public boolean isCanDownload()
+    {
+        return canDownload;
+    }
+
+    public void setCanDownload(boolean canDownload)
+    {
+        this.canDownload = canDownload;
+    }
 
     public Date getCreatedDate()
     {

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
+
+<ui:define name="head">
+		<style>
+.title {
+	color: #00adbc;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="body">
+		
+		<div class="ui container">
+			<div
+				class="ui middle aligned equal width center aligned padded grid w3-margin">
+
+				<div class="row centerContent">
+
+
+					<div class="column">
+						<div class="ui piled segment" id="content">
+							<h1 class="title"><h:outputText value="#{paidInvoice.errorMessage}" /></h1>
+							
+							<p>
+								
+							</p>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	
+
+	</ui:define>
+
+</ui:composition>
