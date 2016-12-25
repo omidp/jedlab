@@ -53,7 +53,7 @@
 		max-request-size="10000000" url-pattern="*.seam" />
 	<web:character-encoding-filter encoding="UTF-8"
 		override-client="true" url-pattern="*.seam" />
-	<web:session invalidate-on-scheme-change="true"/>
+	<web:session invalidate-on-scheme-change="false"/>
 	<persistence:managed-persistence-context auto-create="true" name="entityManager">
         <persistence:persistence-unit-jndi-name>java:/jedlabEntityManagerFactory</persistence:persistence-unit-jndi-name>
     </persistence:managed-persistence-context>
