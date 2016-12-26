@@ -3,8 +3,12 @@ package com.jedlab.action;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.faces.context.FacesContext;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jboss.seam.ScopeType;
@@ -14,13 +18,17 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.framework.EntityController;
+import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 
+import com.jedlab.framework.CacheManager;
+import com.jedlab.framework.CookieUtil;
 import com.jedlab.framework.DateUtil;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TxManager;
 import com.jedlab.framework.WebContext;
 import com.jedlab.model.LoginActivity;
+import com.jedlab.model.Member;
 
 @Name("loginActionManager")
 @Scope(ScopeType.EVENT)
@@ -47,6 +55,31 @@ public class LoginActionManager extends EntityController
         String currentUserName = (String) getSessionContext().get(Constants.CURRENT_USER_NAME);
         revokeOtherTokens(currentUserName);
         // CacheManager.removeAllSeamkaRegion();
+    }
+    
+    @Observer(value = Identity.EVENT_LOGIN_SUCCESSFUL)
+    @Transactional
+    public void afterLogin()
+    {
+        TxManager.beginTransaction();
+        TxManager.joinTransaction(getEntityManager());
+        Credentials credentials = Identity.instance().getCredentials();
+        String uname = credentials.getUsername();       
+        Member m = (Member) getEntityManager()
+                .createQuery("select m from Member m where lower(m.username) = lower(:uname) or lower(m.email) = lower(:email)")
+                .setParameter("uname", credentials.getUsername()).setParameter("email", credentials.getUsername()).setMaxResults(1)
+                .getSingleResult();
+        LoginActivity la = addActivity(m.getUsername());
+        Contexts.getSessionContext().set(Constants.CURRENT_USER_ID, m.getId());
+        Contexts.getSessionContext().set(Constants.CURRENT_USER_NAME, m.getUsername());
+        Contexts.getSessionContext().set(LoginActivity.TOKEN, la.getToken());
+        CacheManager.put(Constants.CURRENT_USER, m);
+        //
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        Cookie cookie = CookieUtil.findCookieByName(req, "captchaRequired");
+        if (cookie != null)
+            CookieUtil.removeCookie(response, cookie);
     }
 
     @Transactional

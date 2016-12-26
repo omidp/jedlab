@@ -25,3 +25,18 @@ ALTER TABLE public.course ALTER COLUMN download_price SET NOT NULL;
 
 ALTER TABLE public.invoice
   ADD CONSTRAINT invoice_member_id_course_id_key UNIQUE(member_id, course_id);
+  
+  
+  -- DROP INDEX public.member_user_name_idx;
+
+CREATE INDEX member_user_name_idx
+  ON public.member
+  USING btree
+  (user_name COLLATE pg_catalog."default");
+
+  -- DROP INDEX public.member_email_address_idx;
+
+CREATE INDEX member_email_address_idx
+  ON public.member
+  USING btree
+  (email_address COLLATE pg_catalog."default");

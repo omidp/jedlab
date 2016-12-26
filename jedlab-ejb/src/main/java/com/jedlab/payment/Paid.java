@@ -27,7 +27,7 @@ import org.jboss.seam.log.Log;
 import com.jedlab.Env;
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CollectionUtil;
-import com.jedlab.framework.PageExceptionHandler;
+import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TxManager;
 import com.jedlab.model.Chapter;
@@ -117,13 +117,13 @@ public class Paid extends EntityController
                 {
                     log.info("purchase canceled because invoice not found with state " + state + " for user_id : " + uid
                             + " and course_id : " + String.valueOf(courseId));
-                    throw new PageExceptionHandler(this.errorMessage);
+                    throw new ErrorPageExceptionHandler(this.errorMessage);
                 }
                 if (this.courseId == null || uid == null)
                 {
                     log.info("purchase canceled because course not found with state " + state + " for user_id : " + uid
                             + " and course_id : " + String.valueOf(courseId));
-                    throw new PageExceptionHandler(this.errorMessage);
+                    throw new ErrorPageExceptionHandler(this.errorMessage);
                 }
                 if (uid == null)
                     uid = invoice.getMember().getId();

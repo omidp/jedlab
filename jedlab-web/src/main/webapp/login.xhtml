@@ -104,6 +104,21 @@
 
 
 						</h:form>
+						
+						<br />
+						<button class="btn btn-github" id="btnGithub">
+							<i class="icon-github"></i> Connect with Github
+						</button>
+						
+						<script>
+							jQuery(document).ready(function(){
+
+								jQuery("#btnGithub").click(function(){
+									window.top.location.href = window.location.origin +"#{_ctx}/oauth/github"; 
+								});
+
+							});
+						</script>
 
 					</div>
 					<div class="ui bottom attached warning message locale-direction">

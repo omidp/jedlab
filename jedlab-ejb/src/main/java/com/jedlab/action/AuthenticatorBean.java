@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.captcha.Captcha;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.international.StatusMessage.Severity;
@@ -47,7 +48,7 @@ public class AuthenticatorBean implements Authenticator
 
     public boolean isCaptchaRequired()
     {
-        if(FacesContext.getCurrentInstance() == null)
+        if (FacesContext.getCurrentInstance() == null)
             return false;
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         return CookieUtil.findCookieByName(req, "captchaRequired") != null;
@@ -67,7 +68,8 @@ public class AuthenticatorBean implements Authenticator
                     return false;
                 }
             }
-            Member m = (Member) entityManager.createQuery("select m from Member m where lower(m.username) = lower(:uname) or lower(m.email) = lower(:email)")
+            Member m = (Member) entityManager
+                    .createQuery("select m from Member m where lower(m.username) = lower(:uname) or lower(m.email) = lower(:email)")
                     .setParameter("uname", credentials.getUsername()).setParameter("email", credentials.getUsername()).setMaxResults(1)
                     .getSingleResult();
             if (m.isActive() == false)
@@ -83,18 +85,6 @@ public class AuthenticatorBean implements Authenticator
             String passwordKey = PasswordHash.instance().generateSaltedHash(pass, m.getUsername(), "md5");
             if (passwordKey.equals(m.getPassword()))
             {
-                LoginActivity la = loginActionManager.addActivity(m.getUsername());
-                Contexts.getSessionContext().set(Constants.CURRENT_USER_ID, m.getId());
-                Contexts.getSessionContext().set(Constants.CURRENT_USER_NAME, m.getUsername());
-                Contexts.getSessionContext().set(LoginActivity.TOKEN, la.getToken());
-                CacheManager.put(Constants.CURRENT_USER, m);
-                //
-                HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-                Cookie cookie = CookieUtil.findCookieByName(req, "captchaRequired");
-                if(cookie != null)
-                    CookieUtil.removeCookie(response, cookie);
-                //
                 return true;
             }
             // check token
@@ -119,6 +109,8 @@ public class AuthenticatorBean implements Authenticator
         addCaptchaCookie();
         return false;
     }
+
+    
 
     private void addCaptchaCookie()
     {

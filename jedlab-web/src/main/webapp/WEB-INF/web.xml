@@ -174,7 +174,18 @@
 		<servlet-class>com.jedlab.CheckUsernameAvailibilityServlet</servlet-class>
 	</servlet>
 	
-
+	<servlet>
+	  	<servlet-name>GithubOAuth</servlet-name>
+	  	<display-name>GithubOAuth</display-name>
+	  	<description></description>
+	  	<servlet-class>com.jedlab.oauth.GithubOAuth</servlet-class>
+    </servlet>
+    
+     <servlet-mapping>
+	  	<servlet-name>GithubOAuth</servlet-name>
+	  	<url-pattern>/oauth/github</url-pattern>
+     </servlet-mapping>
+     
 	
 	 <filter>
         <filter-name>Auth Filter</filter-name>

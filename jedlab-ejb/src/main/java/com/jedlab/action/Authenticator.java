@@ -9,5 +9,6 @@ public interface Authenticator
     boolean authenticate();
 
     public boolean isCaptchaRequired();
+    
 
 }
