@@ -2992,11 +2992,22 @@ span.desc {
     color: #c09501;
 }
 .alert-box {
-    position: absolute;
+     position: absolute;
+    right: 0;
     top: 45px;
-    width: 100%;
+    width: 30%;
     z-index: 10000000;
 }
+
+@media ( max-width: 500px) {
+    .mobile .container {
+        font-size: 1.2em
+    }
+    .alert-box{
+    	width: 100%;
+    }
+}
+
 .locale-direction {
     direction: rtl;
 }
@@ -3060,7 +3071,7 @@ span.desc {
 @media ( min-width: 500px) {
     .mobile .container {
         font-size: 1.2em
-    }
+    } 
 }
 .white-text {
     color: #fff
@@ -4940,4 +4951,56 @@ div.w3-accordion div.content{
 
 .browser-default{
 	font-family: Yekan, Tahoma !important;
+}
+
+
+
+.btn{
+    border: none;
+    outline: 0;
+    overflow:hidden;
+    position: relative;
+    border-radius: 3px;
+    position: relative;
+    padding: 12px 30px;
+    margin: 10px 1px;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    color: #FFF;
+    will-change: box-shadow, transform;
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 2px 0 rgba(153, 153, 153, 0.14), 0 3px 1px -2px rgba(153, 153, 153, 0.2), 0 1px 5px 0 rgba(153, 153, 153, 0.12);
+}
+.btn .fa{
+  font-size: 14px;
+  margin-right: 5px;
+}
+.btn-twitter{
+  background-color: #55ACEE;
+}
+.btn-facebook{
+  background-color: #3B5998;
+}
+.btn-gplus{
+  background-color: #DD4B39;
+}
+.btn-linkedin{
+  background-color: #0976B4;
+}
+.btn-pinterest{
+  background-color: #CC2127;
+}
+.btn-youtube{
+  background-color: #E52D27;
+}
+
+.btn-github{
+  background-color: #333333;
+}
+
+
+.btn:hover{
+box-shadow: 0 14px 26px -12px rgba(0, 0, 0, 0.2), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.1);
 }

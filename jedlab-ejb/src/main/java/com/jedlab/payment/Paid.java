@@ -8,14 +8,17 @@ import java.util.Map;
 import javax.persistence.NoResultException;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.FacesManager;
+import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.framework.EntityController;
 import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessages;
@@ -43,6 +46,9 @@ public class Paid extends EntityController
 
     @Logger
     Log log;
+    
+    @In(create = true)
+    private Renderer renderer;
 
     @RequestParameter(value = "c")
     private Long courseId;
@@ -131,7 +137,6 @@ public class Paid extends EntityController
                 double invoiceAmt = invoice.getPaymentAmount().doubleValue() * 10;
                 log.info("invoice amount : " + invoiceAmt);
                 log.info("bank amount : " + amt);
-                // convert toman to rial
                 if (invoiceAmt == amt)
                 {
                     // payment is ok
@@ -172,7 +177,7 @@ public class Paid extends EntityController
                     getEntityManager().flush();
                     this.errorMessage = StatusMessage.getBundleMessage("Payment_Successful", "");
                     StatusMessages.instance().addFromResourceBundle("Payment_Successful");
-                    Events.instance().raiseAsynchronousEvent("sendPaymentEmail", this.course, invoice, invoice.getMember().getUsername());
+                    Events.instance().raiseAsynchronousEvent("sendPaymentEmail", this.course, invoice, invoice.getMember());
                     Map<String, Object> params = new HashMap<String, Object>();
                     params.put("courseId", this.courseId);
                     FacesManager.instance().redirect("/course.seam", params, false, false);
@@ -198,9 +203,9 @@ public class Paid extends EntityController
     }
 
     @Observer("sendPaymentEmail")
-    public void sendPaymentEmail(Course course, Invoice invoice, String username)
+    public void sendPaymentEmail(Course course, Invoice invoice, Member member)
     {
-        getConversationContext().set("username", username);
+        getConversationContext().set("username", member.getUsername());
         StringBuilder content = new StringBuilder();
         String thankYou = interpolate(StatusMessage.getBundleMessage("Paid_Thank_You", ""), invoice.getResNo(), invoice.getPaymentAmount()
                 .doubleValue());
@@ -214,6 +219,9 @@ public class Paid extends EntityController
         String t = StatusMessage.getBundleMessage("Thank_You_Paid", "");
         content.append(t);
         getConversationContext().set("content", content.toString());
+        Contexts.getConversationContext().set("subject", interpolate(StatusMessage.getBundleMessage("Receipt", ""), invoice.getResNo()));
+        Contexts.getConversationContext().set("memberEmail", member.getEmail());
+        renderer.render("/mailTemplates/announcement.xhtml");
     }
 
     private void processError(int amt)
