@@ -6,12 +6,34 @@
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="head">
-		
+		<style>
+#content h1 {
+	color: #00aaab;
+	font-size: 36px;
+	font-weight: 600;
+	margin-bottom: 40px;
+}
+</style>
 	</ui:define>
 
 	<ui:define name="body">
 
-		
+		<div class="ui container">
+			<div
+				class="ui middle aligned equal width center aligned padded grid w3-margin">
 
+				<div class="row centerContent">
+
+
+					<div class="column">
+						<div class="ui piled segment" id="content">							
+							<h:outputText value="#{githubOAuthCallback.errorMessage}" />
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
 	</ui:define>
 </ui:composition>

@@ -18,6 +18,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.framework.EntityController;
+import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.persistence.PersistenceContexts;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.PasswordHash;
@@ -61,6 +62,7 @@ public class GithubOAuthCallback extends EntityController
     @Transactional
     public void load() throws IOException
     {
+        this.errorMessage = StatusMessage.getBundleMessage("Github_Success", "");
         TxManager.beginTransaction();
         TxManager.joinTransaction(getEntityManager());
         PersistenceContexts.instance().changeFlushMode(FlushModeType.MANUAL);
@@ -76,17 +78,17 @@ public class GithubOAuthCallback extends EntityController
             {
                 JSONObject json = new JSONObject(resp.getBody());
                 String username = json.getString("login");
-                if (StringUtil.isNotEmpty(username))
+                String email = json.getString("email");
+                if (StringUtil.isNotEmpty(username) && StringUtil.isNotEmpty(email))
                 {
-                    String email = json.getString("email");
                     HttpServletResponse res = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
                     Cookie c = CookieUtil.findCookieByName(httpRequest, "captchaRequired");
                     if (c != null)
                         CookieUtil.removeCookie(res, c);
                     try
                     {
-                        Student st = (Student) getEntityManager().createQuery("select s from Student s where s.username = :username")
-                                .setParameter("username", username).setMaxResults(1).getSingleResult();
+                        Student st = (Student) getEntityManager().createQuery("select s from Student s where s.email = :email")
+                                .setParameter("email", email).setMaxResults(1).getSingleResult();
                         if (st.isActive())
                         {
                             Identity identity = Identity.instance();
@@ -95,6 +97,10 @@ public class GithubOAuthCallback extends EntityController
                             if (Events.exists())
                                 Events.instance().raiseEvent(Identity.EVENT_LOGIN_SUCCESSFUL);
                             identity.login();
+                        }
+                        else
+                        {
+                            this.errorMessage = StatusMessage.getBundleMessage("Deactive_User", "");
                         }
                     }
                     catch (NoResultException e)
@@ -115,7 +121,14 @@ public class GithubOAuthCallback extends EntityController
                         identity.login();
                     }
                 }
-
+                else
+                {
+                    this.errorMessage = StatusMessage.getBundleMessage("Github_Error", "");
+                }
+            }
+            else
+            {
+                this.errorMessage = StatusMessage.getBundleMessage("Github_Error", "");
             }
         }
     }
