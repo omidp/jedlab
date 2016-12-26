@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<style>
+.title {
+	color: #00adbc;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="body">
+
+
+	<s:fragment rendered="#{not empty invoiceQuery.resultList}">
+		<table class="ui table" dir="rtl">
+			<thead>
+				<tr>
+					<th>#{messages['Description']}</th>
+					<th>#{messages['Amount']} (#{messages['Toman']})</th>
+					<th>#{messages['Res_No']}</th>
+					<th>#{messages['Date']}</th>
+					<th>#{messages['Payment_Status']}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="#{invoiceQuery.resultList}" var="_item">
+					<tr>
+						<td>
+							<h4 class="ui header">#{_item.description}</h4>
+						</td>
+						<td><h:outputText value="#{_item.paymentAmount}"
+								converter="#{bigDecimalConverter}" /></td>
+						<td>#{_item.resNo}</td>
+						<td><h:outputText value="#{_item.createdDate}"
+								converter="#{persianDateConverter}" /></td>
+						<td>
+							<s:span rendered="#{_item.paid}" styleClass="icon-checkmark" style="color:#38CC33"></s:span>
+							<s:span rendered="#{!_item.paid}" styleClass="icon-cross" style="color:#F90925"></s:span>
+						</td>		
+					</tr>
+				</c:forEach>
+
+			</tbody>
+		</table>
+		
+		<s:decorate template="/layout/seamPaging.xhtml">
+			<ui:param name="entityList" value="#{invoiceQuery}" />
+		</s:decorate>
+		
+		</s:fragment>
+		
+		<s:fragment rendered="#{empty invoiceQuery.resultList}">
+			<div class="ui container">
+			<div
+				class="ui middle aligned equal width center aligned padded grid w3-margin">
+
+				<div class="row centerContent">
+
+
+					<div class="column">
+						<div class="ui piled segment" id="content">
+							<h1 class="title">فاکتوری وجود ندارد</h1>
+							
+							<p>
+								
+							</p>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</s:fragment>
+
+	</ui:define>
+</ui:composition>

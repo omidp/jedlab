@@ -47,6 +47,8 @@ public class AuthenticatorBean implements Authenticator
 
     public boolean isCaptchaRequired()
     {
+        if(FacesContext.getCurrentInstance() == null)
+            return false;
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         return CookieUtil.findCookieByName(req, "captchaRequired") != null;
     }

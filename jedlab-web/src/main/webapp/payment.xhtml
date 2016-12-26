@@ -34,7 +34,7 @@
 									<thead>
 										<tr>
 											<th>#{messages['Description']}</th>
-											<th>#{messages['Amount']}</th>
+											<th>#{messages['Amount']} (#{messages['Toman']})</th>
 											<th>#{messages['Res_No']}</th>
 											<th>#{messages['Date']}</th>
 										</tr>
@@ -44,7 +44,9 @@
 											<td>
 												<h4 class="ui header">#{payment.paidInvoice.description}</h4>
 											</td>
-											<td>#{payment.paidInvoice.paymentAmount}</td>
+											<td>
+												<h:outputText value="#{payment.paidInvoice.paymentAmount}" converter="#{bigDecimalConverter}" />
+												</td>
 											<td>#{payment.paidInvoice.resNo}</td>
 											<td><h:outputText
 													value="#{payment.paidInvoice.createdDate}"

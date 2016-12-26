@@ -1,5 +1,6 @@
 package com.jedlab.payment;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +10,15 @@ import javax.persistence.NoResultException;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.framework.EntityController;
 import org.jboss.seam.international.StatusMessage;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
 
 import com.jedlab.Env;
@@ -78,7 +82,7 @@ public class Paid extends EntityController
         else
         {
             // user canceled payment
-            if(this.courseId != null)
+            if (this.courseId != null)
             {
                 Map<String, Object> params = new HashMap<String, Object>();
                 params.put("courseId", this.courseId);
@@ -94,12 +98,13 @@ public class Paid extends EntityController
     private void processPayment()
     {
         this.errorMessage = StatusMessage.getBundleMessage("Payment_Error", "");
-        Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
+        Long userId = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
         if ("OK".equals(state))
         {
             // everything is ok
             try
             {
+                Long uid = userId;
                 Invoice invoice = (Invoice) getEntityManager().createQuery("select i from Invoice i where i.resNo = :resNo")
                         .setParameter("resNo", resNum).setMaxResults(1).getSingleResult();
                 if (invoice == null)
@@ -114,6 +119,8 @@ public class Paid extends EntityController
                             + " and course_id : " + String.valueOf(courseId));
                     throw new PageExceptionHandler(this.errorMessage);
                 }
+                if (uid == null)
+                    uid = invoice.getMember().getId();
                 this.course = (Course) getEntityManager().createQuery("select c from Course c where c.id = :courseId")
                         .setParameter("courseId", this.courseId).setMaxResults(1).getSingleResult();
                 //
@@ -121,7 +128,11 @@ public class Paid extends EntityController
                 SSLUtilities.trustAllHttpsCertificates();
                 PaymentIFBindingSoap pay = new PaymentIFBinding().getPaymentIFBindingSoap();
                 double amt = pay.verifyTransaction(refNum, Env.getMerchantId());
-                if (invoice.getPaymentAmount().doubleValue() == amt)
+                double invoiceAmt = invoice.getPaymentAmount().doubleValue() * 10;
+                log.info("invoice amount : " + invoiceAmt);
+                log.info("bank amount : " + amt);
+                // convert toman to rial
+                if (invoiceAmt == amt)
                 {
                     // payment is ok
                     invoice.setPaid(true);
@@ -156,10 +167,12 @@ public class Paid extends EntityController
                                 mc.setMember(m);
                                 getEntityManager().persist(mc);
                             }
-                        }                        
+                        }
                     }
                     getEntityManager().flush();
                     this.errorMessage = StatusMessage.getBundleMessage("Payment_Successful", "");
+                    StatusMessages.instance().addFromResourceBundle("Payment_Successful");
+                    Events.instance().raiseAsynchronousEvent("sendPaymentEmail", this.course, invoice, invoice.getMember().getUsername());
                     Map<String, Object> params = new HashMap<String, Object>();
                     params.put("courseId", this.courseId);
                     FacesManager.instance().redirect("/course.seam", params, false, false);
@@ -174,14 +187,33 @@ public class Paid extends EntityController
             }
             catch (NoResultException e)
             {
-                log.info("purchase canceled because invoice not found with state " + state + " for user_id : " + uid + " and course_id : "
-                        + String.valueOf(courseId));
+                log.info("purchase canceled because invoice not found with state " + state + " for user_id : " + userId
+                        + " and course_id : " + String.valueOf(courseId));
             }
         }
         else
         {
-            log.info("purchase canceled with state " + state + " for user_id : " + uid + " and course_id : " + String.valueOf(courseId));
+            log.info("purchase canceled with state " + state + " for user_id : " + userId + " and course_id : " + String.valueOf(courseId));
         }
+    }
+
+    @Observer("sendPaymentEmail")
+    public void sendPaymentEmail(Course course, Invoice invoice, String username)
+    {
+        getConversationContext().set("username", username);
+        StringBuilder content = new StringBuilder();
+        String thankYou = interpolate(StatusMessage.getBundleMessage("Paid_Thank_You", ""), invoice.getResNo(), invoice.getPaymentAmount()
+                .doubleValue());
+        content.append(thankYou).append("<br />");
+        if (course.isFree())
+        {
+            String dlMsg = interpolate(StatusMessage.getBundleMessage("Paid_Link_Email_Content", ""), course.getName());
+            content.append(dlMsg).append("<br />");
+            ;
+        }
+        String t = StatusMessage.getBundleMessage("Thank_You_Paid", "");
+        content.append(t);
+        getConversationContext().set("content", content.toString());
     }
 
     private void processError(int amt)

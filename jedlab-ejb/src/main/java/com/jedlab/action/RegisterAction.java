@@ -94,6 +94,11 @@ public class RegisterAction implements Serializable
                     .setParameter("activationCode", user.getActivationCode()).setMaxResults(1).getSingleResult();
             if (getInstance().getEmail() == null || getInstance().getActivationCode() == null)
                 throw new ErrorPageExceptionHandler(StatusMessage.getBundleMessage("No_User_Found", ""));
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            HttpServletResponse res = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            Cookie c = CookieUtil.findCookieByName(req, "captchaRequired");
+            if(c != null)
+                CookieUtil.removeCookie(res, c);
         }
         catch (NoResultException e)
         {

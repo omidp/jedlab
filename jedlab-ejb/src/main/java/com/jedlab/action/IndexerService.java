@@ -11,20 +11,20 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 
-@Name("indexerService")
-@Scope(ScopeType.APPLICATION)
-@Startup
+//@Name("indexerService")
+//@Scope(ScopeType.APPLICATION)
+//@Startup
 public class IndexerService
 {
-   @In
-   private FullTextEntityManager entityManager;
+//   @In
+//   private FullTextEntityManager entityManager;
 
-   @Create
-   public void index() {
-      entityManager.createIndexer().start();
-   }
-
-   @Remove
-   @Destroy
-   public void stop() {}
+//   @Create
+//   public void index() {
+//      entityManager.createIndexer().start();
+//   }
+//
+//   @Remove
+//   @Destroy
+//   public void stop() {}
 }
