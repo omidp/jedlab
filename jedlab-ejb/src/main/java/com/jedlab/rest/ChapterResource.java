@@ -88,9 +88,11 @@ public class ChapterResource implements Serializable
             ResponseBuilder rb = Response.ok(output);
             String name = course.getName().concat("_").concat(chapter.getName()).concat(".mp4");
             if (isInternetExplorer(request))
-                rb.header("Content-Disposition", "attachment, filename=\"" + URLEncoder.encode(name, "utf-8") + "\"");
+                rb.header("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(name, "utf-8") + "\"");
+            else if(isChrome(request) || isFirefox(request))
+                rb.header("Content-Disposition", "attachment; filename=\"" + MimeUtility.encodeWord(name, "UTF-8", "Q") + "\"");
             else
-                rb.header("Content-Disposition", "attachment, filename=\"" + MimeUtility.encodeWord(name, "UTF-8", "Q") + "\"");
+                rb.header("Content-Disposition", "attachment; filename=\"" + "video.mp4" + "\"");
             return rb.header("Content-Length", file.length()).header("Content-Type", "video/mp4").build();
         }
         catch (NoResultException | FileNotFoundException | UnsupportedEncodingException e)
@@ -117,6 +119,18 @@ public class ChapterResource implements Serializable
     {
         String userAgent = request.getHeader("user-agent");
         return (userAgent.indexOf("MSIE") > -1);
+    }
+
+    private boolean isFirefox(HttpServletRequest request)
+    {
+        String userAgent = request.getHeader("user-agent");
+        return userAgent.indexOf("Firefox") != -1;
+    }
+
+    private boolean isChrome(HttpServletRequest request)
+    {
+        String userAgent = request.getHeader("user-agent");
+        return userAgent.indexOf("Chrome") != -1;
     }
 
     public static class StreamBuilder implements StreamingOutput
