@@ -186,6 +186,18 @@
 	  	<url-pattern>/oauth/github</url-pattern>
      </servlet-mapping>
      
+     <servlet>
+	  	<servlet-name>GoogleOAuth</servlet-name>
+	  	<display-name>GoogleOAuth</display-name>
+	  	<description></description>
+	  	<servlet-class>com.jedlab.oauth.GoogleOAuth</servlet-class>
+    </servlet>
+    
+     <servlet-mapping>
+	  	<servlet-name>GoogleOAuth</servlet-name>
+	  	<url-pattern>/oauth/google</url-pattern>
+     </servlet-mapping>
+     
 	
 	 <filter>
         <filter-name>Auth Filter</filter-name>

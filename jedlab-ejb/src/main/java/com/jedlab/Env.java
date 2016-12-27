@@ -109,4 +109,20 @@ public final class Env
         return prop.getProperty("GITHUB_CALLBACK");
     }
     
+    
+    public static String getGoogleKey()
+    {
+        return prop.getProperty("GOOGLE_KEY");
+    }
+    
+    public static String getGoogleSecret()
+    {
+        return prop.getProperty("GOOGLE_SECRET");
+    }
+    
+    public static String getGoogleCallback()
+    {
+        return prop.getProperty("GOOGLE_CALLBACK");
+    }
+    
 }

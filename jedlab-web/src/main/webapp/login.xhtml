@@ -109,12 +109,20 @@
 						<button class="btn btn-github" id="btnGithub">
 							<i class="icon-github"></i> Connect with Github
 						</button>
+						<br />
+						<button class="btn btn-gplus" id="btnGoogle">
+							<i class="icon-mail"></i> Connect with Google
+						</button>
 						
 						<script>
 							jQuery(document).ready(function(){
 
 								jQuery("#btnGithub").click(function(){
 									window.top.location.href = window.location.origin +"#{_ctx}/oauth/github"; 
+								});
+
+								jQuery("#btnGoogle").click(function(){
+									window.top.location.href = window.location.origin +"#{_ctx}/oauth/google"; 
 								});
 
 							});

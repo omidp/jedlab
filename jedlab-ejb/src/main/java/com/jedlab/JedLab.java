@@ -15,6 +15,7 @@ import org.omidbiz.core.axon.filters.RecursionControlFilter;
 import org.omidbiz.core.axon.hibernate.AxonBuilder;
 
 import com.github.scribejava.apis.GitHubApi;
+import com.github.scribejava.apis.GoogleApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.jedlab.action.Constants;
@@ -76,6 +77,13 @@ public class JedLab extends HibernateEntityController
     {
         return new ServiceBuilder().apiKey(Env.getGithubKey())
                 .apiSecret(Env.getGithubSecret()).callback(Env.getGithubCallback()).build(GitHubApi.instance());
+    }
+    
+    @Factory(value = "googleOAuth", scope = ScopeType.EVENT)
+    public OAuth20Service googleOAuth()
+    {
+        return new ServiceBuilder().apiKey(Env.getGoogleKey())
+                .apiSecret(Env.getGoogleSecret()).callback(Env.getGoogleCallback()).scope("https://mail.google.com/ https://www.googleapis.com/auth/userinfo.email").build(GoogleApi20.instance());
     }
 
     public String getPageDescription()
