@@ -20,48 +20,70 @@
 						<h2 class="ui teal image header">
 							<div class="content">#{messages['Log_In_To_Account']}</div>
 						</h2>
+						<h:form id="loginForm">
+							<div class="ui large form">
+	
+	
+								<div class="field">
+									<s:decorate id="uField" template="/layout/edit.xhtml">
+										<ui:define name="prefix">
+											<i class="icon-user prefix"></i>
+										</ui:define>
+										<h:inputText id="unamefield" value="#{credentials.username}" required="true"/>								
+										<ui:define name="label">
+											#{messages['Email']} / #{messages['User_Name']}
+										</ui:define>
+									</s:decorate>
+								</div>
+								<div class="field">
+									<s:decorate id="pField" template="/layout/edit.xhtml">
+										<ui:define name="prefix">
+											<i class="icon-lock prefix"></i>
+										</ui:define>
+										<h:inputHidden value="#{credentials.password}" id="hiddenPass" required="true"/>
+										<h:inputSecret  id="hpassfield"	 required="false"/>	
+										<ui:define name="label">
+											#{messages['Password']}
+										</ui:define>
+									</s:decorate>
+								</div>
+								
+								<div class="field">
+  									<s:decorate id="rField" template="/layout/edit.xhtml">
+  										<h:selectBooleanCheckbox id="rememberMe" value="#{rememberMe.enabled}"  dir="rtl"  />
+  																					 
+										<ui:define name="label">
+										</ui:define>
+									</s:decorate>
+								</div>
+								<script>
+  										jQuery(document).ready(function(){
 
-						<div class="ui large form">
-
-
-							<div class="field">
-								<s:decorate id="uField" template="/layout/edit.xhtml">
-									<ui:define name="prefix">
-										<i class="icon-user prefix"></i>
-									</ui:define>
-									<input type="text" id="uname" />									
-									<ui:define name="label">
-										#{messages['Email']} / #{messages['User_Name']}
-									</ui:define>
-								</s:decorate>
+  												jQuery("#loginForm\\:rField\\:rememberMe").next().popup({
+  													content : "#{messages['Remember_Me']}"
+  												});
+  								
+  										});
+  										</script>	 
+								
+								<s:div styleClass="field" rendered="#{authenticator.captchaRequired}">
+									<s:decorate id="captchaField" template="/layout/edit.xhtml">
+										<h:graphicImage id="capthaImg" style="float: left;"
+													value="/seam/resource/captcha?#{currentDate.time}" />
+										<h:inputText id="verifyCaptcha" required="false"
+												value="#{captcha.response}" />
+										<ui:define name="label">
+											#{messages['Captcha_Response']}
+										</ui:define>			
+									</s:decorate>
+								</s:div>
+								
+								<h:commandButton action="#{identity.login()}" id="btnLoginClick"
+									value="#{messages['Send']}" styleClass="btn btn-blue" />
+								
+								
 							</div>
-							<div class="field">
-								<s:decorate id="pField" template="/layout/edit.xhtml">
-									<ui:define name="prefix">
-										<i class="icon-lock prefix"></i>
-									</ui:define>
-									<input type="password" id="upass" />		
-									<ui:define name="label">
-										#{messages['Password']}
-									</ui:define>
-								</s:decorate>
-							</div>
-							
-							<s:div styleClass="field" rendered="#{authenticator.captchaRequired}">
-								<s:decorate id="captchaField" template="/layout/edit.xhtml">
-									<h:graphicImage id="capthaImg" style="float: left;"
-												value="/seam/resource/captcha?#{currentDate.time}" />
-									<input type="text" id="cp" />		
-									<ui:define name="label">
-										#{messages['Captcha_Response']}
-									</ui:define>			
-								</s:decorate>
-							</s:div>
-							
-							
-							<button type="button" class="btn btn-blue" id="btnLogin">#{messages['Send']}</button>
-							
-						</div>
+						</h:form>
 					</div>
 					<div class="ui bottom attached warning message locale-direction">
 						<i class="icon-info"></i>
@@ -111,7 +133,7 @@
 						</button>
 						<br />
 						<button class="btn btn-gplus" id="btnGoogle">
-							<i class="icon-mail"></i> Connect with Google
+							<img src="images/google-plus.png" /> Connect with Google
 						</button>
 						
 						<script>
@@ -148,21 +170,23 @@
 										if (e.keyCode == 13) { jQuery("#registerForm\\:btnRegister").click();}
 									});
 
-									jQuery("#uname").on('keyup', function(e){
-										if (e.keyCode == 13) { jQuery("#btnLogin").click();}
+									jQuery("#loginForm\\:uField\\:unamefield").on('keyup', function(e){
+										if (e.keyCode == 13) { var p = btoa(jQuery("#loginForm\\:pField\\:hpassfield").val()); jQuery("#loginForm\\:pField\\:hiddenPass").val(p); jQuery("#loginForm\\:btnLoginClick").click();}
 									});
 
-									jQuery("#upass").on('keyup', function(e){
-										if (e.keyCode == 13) { jQuery("#btnLogin").click();}
+									jQuery("#loginForm\\:pField\\:hpassfield").on('keyup', function(e){
+										if (e.keyCode == 13) { var p = btoa(jQuery("#loginForm\\:pField\\:hpassfield").val()); jQuery("#loginForm\\:pField\\:hiddenPass").val(p); jQuery("#loginForm\\:btnLoginClick").click(); }
 									});
 
-									jQuery("#btnLogin").click(function(){
-										common.showLoading();
-										jQuery("#loginForm\\:hunfield").val(jQuery("#uname").val());										
-										jQuery("#loginForm\\:hpfield").val(btoa(jQuery("#upass").val()));
-										jQuery("#loginForm\\:verifyCaptcha").val(jQuery("#cp").val());
-										jQuery("#loginForm\\:btnLoginClick").click();
+									jQuery("#loginForm\\:pField\\:hpassfield").on('blur', function(e){
+										 var p = btoa(jQuery("#loginForm\\:pField\\:hpassfield").val()); jQuery("#loginForm\\:pField\\:hiddenPass").val(p); 
 									});
+
+									jQuery("#loginForm\\:captchaField\\:verifyCaptcha").on('keyup', function(e){
+										if (e.keyCode == 13) { jQuery("#loginForm\\:btnLoginClick").click();}
+									});
+									
+									
 									
 									
 								});
@@ -176,16 +200,6 @@
 			
 		</script>
 		
-		<div style="display: none;">
-			<h:form id="loginForm">
-				<h:inputHidden id="verifyCaptcha" required="false"
-											value="#{captcha.response}" />
-				<h:inputHidden id="hunfield" 	value="#{credentials.username}" />
-				<h:inputHidden id="hpfield"	value="#{credentials.password}" />
-				<h:commandButton action="#{identity.login()}" id="btnLoginClick"
-								value="#{messages['Send']}" styleClass="btn btn-blue" />
-			</h:form>		
-		</div>
 
 	</ui:define>
 </ui:composition>

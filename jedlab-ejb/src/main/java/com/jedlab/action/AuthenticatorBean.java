@@ -107,6 +107,7 @@ public class AuthenticatorBean implements Authenticator
         {
         }
         addCaptchaCookie();
+        Captcha.instance().init();
         return false;
     }
 
