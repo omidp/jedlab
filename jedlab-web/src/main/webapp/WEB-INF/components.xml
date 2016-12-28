@@ -85,7 +85,7 @@
 		 <component name="org.jboss.seam.security.persistentPermissionResolver" class="org.jboss.seam.security.permission.PersistentPermissionResolver">
 			<property name="permissionStore">#{jedlabPermissionStore}</property>
 		</component>--> 
-	<security:remember-me enabled="false" mode="disabled"></security:remember-me>
+	<security:remember-me enabled="true" mode="usernameOnly"></security:remember-me>
 	<security:identity authenticate-method="#{authenticator.authenticate}" />
 	<event type="org.jboss.seam.security.notLoggedIn">
 		<action execute="#{redirect.captureCurrentView}" />
