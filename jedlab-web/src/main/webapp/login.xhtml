@@ -78,7 +78,9 @@
 									</s:decorate>
 								</s:div>
 								
+								<input type="button" value="#{messages['Send']}" class="btn btn-blue" id="loginBtn"/>
 								<h:commandButton action="#{identity.login()}" id="btnLoginClick"
+									style="display:none"
 									value="#{messages['Send']}" styleClass="btn btn-blue" />
 								
 								
@@ -163,7 +165,12 @@
 		</div>
 
 		<script type="text/javascript">
-
+								jQuery(document).keypress(
+									    function(event){
+									     if (event.which == '13') {
+									        event.preventDefault();
+									      }
+									});
 								jQuery(document).ready(function(){
 
 									jQuery("#registerForm\\:uEmail\\:uemail").on('keyup', function(e){
@@ -171,22 +178,23 @@
 									});
 
 									jQuery("#loginForm\\:uField\\:unamefield").on('keyup', function(e){
-										if (e.keyCode == 13) { var p = btoa(jQuery("#loginForm\\:pField\\:hpassfield").val()); jQuery("#loginForm\\:pField\\:hiddenPass").val(p); jQuery("#loginForm\\:btnLoginClick").click();}
+										if (e.keyCode == 13) { jQuery("#loginBtn").click(); }
 									});
 
 									jQuery("#loginForm\\:pField\\:hpassfield").on('keyup', function(e){
-										if (e.keyCode == 13) { var p = btoa(jQuery("#loginForm\\:pField\\:hpassfield").val()); jQuery("#loginForm\\:pField\\:hiddenPass").val(p); jQuery("#loginForm\\:btnLoginClick").click(); }
-									});
-
-									jQuery("#loginForm\\:pField\\:hpassfield").on('blur', function(e){
-										 var p = btoa(jQuery("#loginForm\\:pField\\:hpassfield").val()); jQuery("#loginForm\\:pField\\:hiddenPass").val(p); 
+										if (e.keyCode == 13) { jQuery("#loginBtn").click(); }
 									});
 
 									jQuery("#loginForm\\:captchaField\\:verifyCaptcha").on('keyup', function(e){
-										if (e.keyCode == 13) { jQuery("#loginForm\\:btnLoginClick").click();}
+										if (e.keyCode == 13) { jQuery("#loginBtn").click(); }
 									});
 									
-									
+									jQuery("#loginBtn").click(function(){
+										var p = btoa(jQuery("#loginForm\\:pField\\:hpassfield").val());
+										jQuery("#loginForm\\:pField\\:hiddenPass").val(p);
+										jQuery("#loginForm\\:btnLoginClick").click();
+										
+									});
 									
 									
 								});

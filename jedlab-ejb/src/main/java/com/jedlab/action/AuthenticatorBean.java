@@ -24,6 +24,8 @@ import org.jboss.seam.security.management.PasswordHash;
 import com.jedlab.framework.CacheManager;
 import com.jedlab.framework.CookieUtil;
 import com.jedlab.framework.CryptoUtil;
+import com.jedlab.framework.StringUtil;
+import com.jedlab.framework.WebUtil;
 import com.jedlab.model.LoginActivity;
 import com.jedlab.model.Member;
 
@@ -81,10 +83,16 @@ public class AuthenticatorBean implements Authenticator
             {
                 identity.addRole(Constants.ROLE_ADMIN);
             }
-            String pass = CryptoUtil.decodeBase64(credentials.getPassword());
+            String credentialPass = credentials.getPassword();            
+            String pass = CryptoUtil.decodeBase64(credentialPass);
             String passwordKey = PasswordHash.instance().generateSaltedHash(pass, m.getUsername(), "md5");
             if (passwordKey.equals(m.getPassword()))
             {
+                HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+                Cookie cookie = CookieUtil.findCookieByName(req, "captchaRequired");
+                if (cookie != null)
+                    CookieUtil.removeCookie(response, cookie);
                 return true;
             }
             // check token
