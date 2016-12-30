@@ -1,5 +1,6 @@
 package com.jedlab.dao.home;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,11 @@ import java.util.regex.Pattern;
 import javax.faces.context.FacesContext;
 import javax.persistence.NoResultException;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -28,8 +34,10 @@ import com.jedlab.framework.TxManager;
 import com.jedlab.framework.WebUtil;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
+import com.jedlab.model.CourseRating;
 import com.jedlab.model.Member;
 import com.jedlab.model.MemberCourse;
+import com.jedlab.model.Preview;
 import com.jedlab.model.Tag;
 
 @Name("courseHome")
@@ -93,6 +101,15 @@ public class CourseHome extends EntityHome<Course>
             Course course = (Course) getEntityManager()
                     .createQuery("select c from Course c LEFT OUTER JOIN c.chapters chapters where c.id = :courseId")
                     .setParameter("courseId", getId()).getSingleResult();
+            try
+            {
+                this.preview = (Preview) getEntityManager().createQuery("select p from Preview p where p.course.id = :courseId")
+                        .setParameter("courseId", course.getId()).setMaxResults(1).getSingleResult();
+            }
+            catch (NoResultException e)
+            {
+            }
+            calculateRating();
             if (Identity.instance().isLoggedIn())
             {
                 Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
@@ -107,9 +124,9 @@ public class CourseHome extends EntityHome<Course>
                     Chapter chapter = memberCourse.getChapter();
                     if (memberCourse.isViewed())
                         chapter.setViewed(true);
-                    if(memberCourse.isCanDownload())
+                    if (memberCourse.isCanDownload())
                         chapter.setCanDownload(true);
-                    if(memberCourse.isPaid())
+                    if (memberCourse.isPaid())
                     {
                         chapter.setPaid(true);
                         chapter.setCanDownload(true);
@@ -145,6 +162,34 @@ public class CourseHome extends EntityHome<Course>
         {
         }
         return null;
+    }
+
+    private void calculateRating()
+    {
+        if (isIdDefined())
+        {
+            Session session = (Session) Component.getInstance("hibernateSession");
+            Criteria criteria = session.createCriteria(CourseRating.class, "cr");
+            criteria.setProjection(Projections.projectionList().add(Projections.groupProperty("star")).add(Projections.rowCount()));
+            List<Object[]> ratings = criteria.add(Restrictions.eq("cr.course.id", getId())).list();
+            if (CollectionUtil.isNotEmpty(ratings))
+            {
+                double soratKasr = 0;
+                double makhrajeKasr = 0;
+                for (Object[] rate : ratings)
+                {
+                    int star = Integer.parseInt(String.valueOf(rate[0]));
+                    Long starCount = new Long(String.valueOf(rate[1]));
+                    soratKasr = soratKasr + (star * starCount);
+                    makhrajeKasr = makhrajeKasr + starCount;
+                }
+                if (makhrajeKasr != 0)
+                {
+                    int result = (int) (soratKasr / makhrajeKasr);
+                    this.rating = result;
+                }
+            }
+        }
     }
 
     public String register()
@@ -192,7 +237,9 @@ public class CourseHome extends EntityHome<Course>
         }
         catch (NoResultException e)
         {
-            //throw new PageExceptionHandler(StatusMessage.getBundleMessage("Enroll_Error", ""));
+            // throw new
+            // PageExceptionHandler(StatusMessage.getBundleMessage("Enroll_Error",
+            // ""));
         }
         return "notRegistered";
     }
@@ -252,6 +299,52 @@ public class CourseHome extends EntityHome<Course>
         url = url.substring(0, url.lastIndexOf("/") + 1);
         currentView = url + String.format("course/%d", getCourseId());
         return currentView;
+    }
+
+    Preview preview;
+
+    private Integer rating;
+
+    public Integer getRating()
+    {
+        if(rating == null)
+            rating = 1;
+        return rating;
+    }
+
+    public Preview getPreview()
+    {
+        if (preview == null)
+            preview = new Preview();
+        return preview;
+    }
+
+    @Override
+    @Transactional
+    public String persist()
+    {
+        super.persist();
+        if (StringUtil.isNotEmpty(getPreview().getUrl()))
+        {
+            getPreview().setCourse(getInstance());
+            getEntityManager().persist(getPreview());
+            getEntityManager().flush();
+        }
+        return "persisted";
+    }
+
+    @Override
+    @Transactional
+    public String update()
+    {
+        super.update();
+        if (getPreview().getId() == null)
+        {
+            getPreview().setCourse(getInstance());
+            getEntityManager().persist(getPreview());
+            getEntityManager().flush();
+        }
+        return "updated";
     }
 
 }

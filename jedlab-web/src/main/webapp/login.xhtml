@@ -190,6 +190,7 @@
 									});
 									
 									jQuery("#loginBtn").click(function(){
+										common.showLoading();
 										var p = btoa(jQuery("#loginForm\\:pField\\:hpassfield").val());
 										jQuery("#loginForm\\:pField\\:hiddenPass").val(p);
 										jQuery("#loginForm\\:btnLoginClick").click();

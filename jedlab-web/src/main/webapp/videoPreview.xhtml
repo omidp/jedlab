@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jedlab="http://tasktops.com/ui"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:omidp="http://omidbiz.com/omidp"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/dialog.xhtml">
+
+	<ui:define name="head">
+		<link rel="stylesheet" href="#{_ctx}/css/video.css" />
+		
+	</ui:define>
+
+	<ui:define name="body">
+	
+	<div
+			class="ui stackable very relaxed center aligned grid container w3-padding-32">
+
+			<div class="row">
+				<div class="twelve wide column">
+
+
+					<video id="my-video" controls="controls"
+						class="video-js vjs-default-skin" preload="auto"
+						style="max-width: 100%;"
+						height="100"
+						poster="#{_ctx}/images/home_action.png"
+						data-setup='{"fluid": true, "controls":true}'>
+						<p class="vjs-no-js">To view this video please enable
+							JavaScript, and consider upgrading to a web browser</p>
+					</video>
+
+					<p></p>
+
+				</div>
+			</div>
+
+
+
+		</div>
+
+		
+		<script type="text/javascript">
+				window.HELP_IMPROVE_VIDEOJS = false;
+				var loc = window.location.origin + "#{_ctx}/freePlayer?prevId=#{prevId}";
+		</script>
+		<script src="#{_ctx}/js/video.js"></script>
+		<script>
+				videojs("my-video").ready(function(){					
+					var myPlayer = this;		
+                    myPlayer.src({"type":"video/mp4", "src":loc});
+					myPlayer.on("ended", function(){ 
+					});				
+				});
+
+		</script>
+
+	</ui:define>
+</ui:composition>

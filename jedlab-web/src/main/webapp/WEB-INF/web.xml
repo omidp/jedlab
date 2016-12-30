@@ -163,6 +163,27 @@
 		<servlet-class>com.jedlab.VideoImagePosterServlet</servlet-class>
 	</servlet>
 	
+	<servlet-mapping>
+		<servlet-name>Rating Servlet</servlet-name>
+		<url-pattern>/rating</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Rating Servlet</servlet-name>
+		<servlet-class>com.jedlab.CourseRatingServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>FreeVideo Player Servlet</servlet-name>
+		<url-pattern>/freePlayer</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>FreeVideo Player Servlet</servlet-name>
+		<servlet-class>com.jedlab.FreeVideoPlayerServlet</servlet-class>
+	</servlet>
+
+	
 	
 		<servlet-mapping>
 		<servlet-name>Username Check Availibility</servlet-name>

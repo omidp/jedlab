@@ -40,3 +40,9 @@ CREATE INDEX member_email_address_idx
   ON public.member
   USING btree
   (email_address COLLATE pg_catalog."default");
+---------NEW
+  
+  -- ALTER TABLE public.course_rating DROP CONSTRAINT course_rating_course_id_member_id_key;
+
+ALTER TABLE public.course_rating
+  ADD CONSTRAINT course_rating_course_id_member_id_key UNIQUE(course_id, member_id);

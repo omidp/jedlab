@@ -48,6 +48,39 @@
 							</p>
 						</div>
 						<div class="extra">
+							<s:fragment rendered="#{identity.loggedIn}">
+								<script>
+								var ratingDisabled = false;
+								jQuery(document).ready(function(){
+									 jQuery('#courseRating').rating('setting', 'onRate', function(value) {
+										 if(ratingDisabled)
+											 return false;								      
+										 var jqxhr = jQuery.post( "#{_ctx}/rating",{rate: value, courseId:"#{courseHome.instance.id}"}, function() {
+											 common.notification("#{messages['Comment_created']}", "infomsg");
+									    	})
+									    	  .done(function(x, v, s) {
+									    		  ratingDisabled = true;	  
+									    		  jQuery('#courseRating').rating('set rating', x);
+									    		  ratingDisabled = false;	 	
+									    		  //common.notification("#{messages['Comment_created']}", "infomsg");					    	    
+									    	  })
+									    	  .fail(function() {
+									    	    
+									    	  });	      
+									  });									 
+								});
+								</script>
+							</s:fragment>
+							<s:fragment rendered="#{!identity.loggedIn}">
+								<script>
+								jQuery(document).ready(function(){
+									jQuery('#courseRating').rating('disable');
+								});
+								</script>
+							</s:fragment>
+							
+							<div class="ui star rating" data-rating="#{courseHome.rating}" data-max-rating="5" id="courseRating"></div>
+							<br />
 							<s:div styleClass="ui label" rendered="#{identity.loggedIn and !courseHome.instance.registered}">
 								<s:button value="#{messages['Enroll_To_View']}"
 									propagation="none" type="button" includePageParams="false"
@@ -100,9 +133,18 @@
 
 		<jedlab:tabs scrollWidth="100%" keepState="true">
 
+			<jedlab:tabPanel title="#{messages['Preview']}" 
+				rendered="#{not empty courseHome.preview.id}"
+				join="false" includePageParams="false"
+				useIframe="true"
+				link="#{_ctx}/videoPreview.seam?prevId=#{courseHome.preview.id}">
+				
+			</jedlab:tabPanel>
+			
 			<jedlab:tabPanel title="#{messages['Chapter_List']}">
 				<ui:include src="/WEB-INF/inc/chapterList.xhtml" />
 			</jedlab:tabPanel>
+			
 
 			<jedlab:tabPanel title="#{messages['Detail']}">
 				<ui:include src="/WEB-INF/inc/courseDetail.xhtml" />
