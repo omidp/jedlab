@@ -307,7 +307,7 @@ public class CourseHome extends EntityHome<Course>
 
     public Integer getRating()
     {
-        if(rating == null)
+        if (rating == null)
             rating = 1;
         return rating;
     }
@@ -340,9 +340,12 @@ public class CourseHome extends EntityHome<Course>
         super.update();
         if (getPreview().getId() == null)
         {
-            getPreview().setCourse(getInstance());
-            getEntityManager().persist(getPreview());
-            getEntityManager().flush();
+            if (StringUtil.isNotEmpty(getPreview().getUrl()))
+            {
+                getPreview().setCourse(getInstance());
+                getEntityManager().persist(getPreview());
+                getEntityManager().flush();
+            }
         }
         return "updated";
     }

@@ -74,7 +74,7 @@ public class Payment extends EntityController
             this.paidInvoice = invoice;
         if (invoice.isPaid() == false)
         {
-            invoice.setResNo(RandomStringUtils.randomNumeric(35));
+            invoice.setResNo(RandomStringUtils.randomNumeric(15));
             if (invoice.getId() == null)
             {
                 // insert

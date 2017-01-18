@@ -19,7 +19,8 @@ public class CommentQuery extends PagingEntityQuery<Comment>
     private static final String EJBQL = "select c from Comment c LEFT OUTER JOIN c.course course LEFT OUTER JOIN c.member m where c.reply is null";
 
     private static final String[] RESTRICTIONS = { 
-            "c.course.id = #{commentQuery.course.id}"};
+            "c.course.id = #{commentQuery.course.id}"
+            ,"c.course.id = #{courseHome.instance.id}"};
     
     Course course = new Course();
 
@@ -28,7 +29,9 @@ public class CommentQuery extends PagingEntityQuery<Comment>
         setEjbql(EJBQL);
         setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
         // setOrderColumn("memoType");
-        setMaxResults(15);
+        setOrderColumn("c.createdDate");
+        setOrderDirection("desc");
+        setMaxResults(100);
     }
 
     public Course getCourse()

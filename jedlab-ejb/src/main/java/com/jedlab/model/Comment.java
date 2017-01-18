@@ -36,7 +36,7 @@ public class Comment extends BasePO
     @Column(name = "created_date", updatable = false, insertable = false, columnDefinition = " timestamp with time zone DEFAULT now()")
     @Temporal(TemporalType.TIMESTAMP)
     @org.hibernate.annotations.Generated(org.hibernate.annotations.GenerationTime.INSERT)
-    @OrderBy
+    @OrderBy(value="DESC")
     private Date createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

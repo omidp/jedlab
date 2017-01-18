@@ -17,13 +17,14 @@ import com.jedlab.model.Member;
 
 @Name("adminCommentQuery")
 @Scope(ScopeType.CONVERSATION)
-@Restrict(value="#{s:hasRole('Admin')}")
+@Restrict(value = "#{s:hasRole('Admin')}")
 public class AdminCommentQuery extends PagingEntityQuery<Comment>
 {
 
     private static final String EJBQL = "select c from Comment c LEFT OUTER JOIN c.course course LEFT OUTER JOIN c.member m";
 
-    private static final String[] RESTRICTIONS = { "c.course.id = #{adminCommentQuery.course.id}", "c.member.username = #{adminCommentQuery.member.username}" };
+    private static final String[] RESTRICTIONS = { "c.course.id = #{adminCommentQuery.course.id}",
+            "c.member.username = #{adminCommentQuery.member.username}" };
 
     Course course = new Course();
 
@@ -33,7 +34,9 @@ public class AdminCommentQuery extends PagingEntityQuery<Comment>
     {
         setEjbql(EJBQL);
         setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
-        // setOrderColumn("memoType");
+        //filter on model
+        setOrderColumn("c.createdDate");
+        setOrderDirection("desc");
         setMaxResults(15);
     }
 
@@ -46,7 +49,7 @@ public class AdminCommentQuery extends PagingEntityQuery<Comment>
     {
         return member;
     }
-    
+
     @Transactional
     public void delete()
     {

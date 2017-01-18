@@ -11,19 +11,14 @@
 
 			<div class="column">
 			 
-				<h:outputText value=" #{adminCommentQuery.resultCount} Comment(s) " />
+				<h:outputText value=" #{adminInvoiceQuery.resultCount} Invoice(s) " />
 
 				<h:form>
-					<h:inputText value="#{adminCommentQuery.member.username}"
-						id="memberName" />
-					<h:commandButton action="#{webContext.redirectIt()}" value="Search" />
-				</h:form>
-				<h:form>
-					<h:dataTable value="#{adminCommentQuery.resultList}" var="_item"
+					<h:dataTable value="#{adminInvoiceQuery.resultList}" var="_item"
 						styleClass="ui celled padded table" width="100%" dir="rtl">
 
 						<h:column>
-							<f:facet name="header">Course</f:facet>
+							<f:facet name="header">Course Name</f:facet>
 							<h:outputText value="#{_item.course.name}" />
 						</h:column>
 
@@ -38,29 +33,29 @@
 						</h:column>
 
 						<h:column>
-							<f:facet name="header">content</f:facet>
-							<h:inputTextarea value="#{_item.content}" cols="15" rows="9" />
+							<f:facet name="header">Payment Amount</f:facet>
+							<h:outputText value="#{_item.paymentAmount}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<s:decorate template="/layout/sort.xhtml">
+									<ui:param name="entityList" value="#{adminInvoiceQuery}" />
+									<ui:param name="propertyLabel" value="#{messages['Paid']}" />
+									<ui:param name="propertyPath" value="i.paid" />
+								</s:decorate>
+							</f:facet>
+							<h:graphicImage value="/images/true.png" rendered="#{_item.paid}"/>
+							<h:graphicImage value="/images/false.png" rendered="#{!_item.paid}"/>
 						</h:column>
 
-						<h:column> 
-							<f:facet name="header">Action</f:facet>
-							<s:link value="Delete" styleClass="btn btn-red"
-								action="#{adminCommentQuery.delete()}" propagation="none"
-								includePageParams="false">
-								<f:param name="commentId" value="#{_item.id}"></f:param>
-							</s:link>
-
-							<h:commandButton action="#{commentHome.update()}" value="Update"
-								styleClass="btn btn-yellow" />
-
-						</h:column>
 
 					</h:dataTable>
 
 				</h:form>
 
 				<s:decorate template="/layout/seamPaging.xhtml">
-					<ui:param name="entityList" value="#{adminCommentQuery}" />
+					<ui:param name="entityList" value="#{adminInvoiceQuery}" />
 				</s:decorate>
 
 			</div>

@@ -7,12 +7,15 @@
 	xmlns:jedlab="http://tasktops.com/ui"
 	xmlns:c="http://java.sun.com/jstl/core" contentType="text/html">
 	<c:set var="_ctx" value="#{request.contextPath}" />
+	<c:set var="_title" value="#{courseHome.instance.name}" />
 	<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta charset="utf-8" />
-<title>JEDLAB | <h:outputText value="#{' '}" /> <h:outputText
-		value="#{messages['Page_Title']}" /></title>
+<title>JEDLAB | <h:outputText value="#{' '}" /> 
+		<h:outputText value="#{messages['Page_Title']}" rendered="#{empty _title}"/>
+		<h:outputText value="#{_title}" rendered="#{not empty _title}"/>
+</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="keywords"
 	content="ویدیو , جاوا , جدلب , آموزش , برنامه نویسی , آموزشگاه , اندروید, آموزش جاوا ,Java, Video, jedlab, Android, Iran, Training , Education , J2EE, Iranian Java Developers" />
