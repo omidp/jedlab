@@ -12,6 +12,8 @@
 			<div class="column">
 			 
 				<h:outputText value=" #{adminInvoiceQuery.resultCount} Invoice(s) " />
+				<br />
+				<h:outputText value=" Paid : #{adminInvoiceQuery.paidAmount}  Toman" />
 
 				<h:form>
 					<h:dataTable value="#{adminInvoiceQuery.resultList}" var="_item"

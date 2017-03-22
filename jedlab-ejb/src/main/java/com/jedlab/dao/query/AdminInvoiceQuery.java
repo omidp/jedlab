@@ -1,11 +1,15 @@
 package com.jedlab.dao.query;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.persistence.NoResultException;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -32,6 +36,44 @@ public class AdminInvoiceQuery extends PagingController<Invoice>
 
     Long resultCount;
 
+    private Invoice filter = new Invoice();
+
+    private Boolean paid;
+
+    private BigDecimal paidAmount;
+
+    public BigDecimal getPaidAmount()
+    {
+        if (paidAmount == null)
+        {
+            paidAmount = BigDecimal.ZERO;
+            try
+            {
+                paidAmount = (BigDecimal) getEntityManager().createQuery("select sum(i.paymentAmount) from Invoice i where i.paid = true ")
+                        .setMaxResults(1).getSingleResult();
+            }
+            catch (NoResultException e)
+            {
+            }
+        }
+        return paidAmount;
+    }
+
+    public Boolean getPaid()
+    {
+        return paid;
+    }
+
+    public void setPaid(Boolean paid)
+    {
+        this.paid = paid;
+    }
+
+    public Invoice getFilter()
+    {
+        return filter;
+    }
+
     public AdminInvoiceQuery()
     {
         setMaxResults(15);
@@ -47,13 +89,14 @@ public class AdminInvoiceQuery extends PagingController<Invoice>
             criteria.setFirstResult(getFirstResult());
         if (getMaxResults() != null)
             criteria.setMaxResults(getMaxResults() + 1);
-        if(StringUtil.isNotEmpty(getOrderColumn()))
+        if (StringUtil.isNotEmpty(getOrderColumn()))
         {
-            if("asc".equals(getOrderDirection()))
-                    criteria.addOrder(Order.asc(getOrderColumn()));
-            if("desc".equals(getOrderDirection()))
+            if ("asc".equals(getOrderDirection()))
+                criteria.addOrder(Order.asc(getOrderColumn()));
+            if ("desc".equals(getOrderDirection()))
                 criteria.addOrder(Order.desc(getOrderColumn()));
         }
+        criteria.addOrder(Order.asc("createdDate"));
         resultList = criteria.list();
         return truncResultList(resultList);
     }
@@ -63,6 +106,8 @@ public class AdminInvoiceQuery extends PagingController<Invoice>
         Criteria criteria = getSession().createCriteria(Invoice.class, "i");
         criteria.createCriteria("i.member", "m", Criteria.LEFT_JOIN);
         criteria.createCriteria("i.course", "c", Criteria.LEFT_JOIN);
+        if (getPaid() != null)
+            criteria.add(Restrictions.eq("i.paid", getPaid().booleanValue()));
         return criteria;
     }
 
