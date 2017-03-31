@@ -122,7 +122,7 @@
 							</div>
 
 							<h:commandButton action="#{registerAction.register()}"
-								id="btnRegister" value="#{messages['Save']}"
+								id="btnRegister" value="#{messages['Registeration_Label']}"
 								onclick="common.showLoading();"
 								styleClass="btn btn-green" />
 
@@ -137,6 +137,12 @@
 						<button class="btn btn-gplus" id="btnGoogle">
 							<img src="images/google-plus.png" /> Connect with Google
 						</button>
+						<br />
+						<s:button styleClass="btn btn-yellow"
+							view="/registerInstructor.xhtml" 
+							value="#{messages['Register_As_Instructor']}">
+							
+						</s:button>
 						
 						<script>
 							jQuery(document).ready(function(){

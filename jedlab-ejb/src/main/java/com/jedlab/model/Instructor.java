@@ -10,6 +10,7 @@ import javax.persistence.Lob;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Type;
 
@@ -19,8 +20,8 @@ import com.jedlab.model.enums.Privacy;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "member_id")
-@Table(name = "student")
-public class Student extends Member
+@Table(name = "instructor", uniqueConstraints = { @UniqueConstraint(columnNames = "mobile_no")})
+public class Instructor extends Member
 {
 
     @Column(name = "first_name")
@@ -29,8 +30,13 @@ public class Student extends Member
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "age")
-    private Integer age;
+    @Column(name = "mobile_no")
+    private String mobileNo;
+
+    @Column(name = "bio")
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    private String bio;
 
     @Lob
     @Type(type = "org.hibernate.type.BinaryType")
@@ -38,17 +44,25 @@ public class Student extends Member
     @Basic(fetch = FetchType.LAZY)
     private byte[] image;
 
-    @Column(name = "gender")
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    public String getMobileNo()
+    {
+        return mobileNo;
+    }
 
-    @Column(name = "privacy")
-    @Enumerated(EnumType.STRING)
-    private Privacy privacy;
+    public void setMobileNo(String mobileNo)
+    {
+        this.mobileNo = mobileNo;
+    }
 
-   
+    public String getBio()
+    {
+        return bio;
+    }
 
-    
+    public void setBio(String bio)
+    {
+        this.bio = bio;
+    }
 
     public String getFirstName()
     {
@@ -70,16 +84,6 @@ public class Student extends Member
         this.lastName = lastName;
     }
 
-    public Integer getAge()
-    {
-        return age;
-    }
-
-    public void setAge(Integer age)
-    {
-        this.age = age;
-    }
-
     @Transient
     public boolean getHasImage()
     {
@@ -94,26 +98,6 @@ public class Student extends Member
     public void setImage(byte[] image)
     {
         this.image = image;
-    }
-
-    public Gender getGender()
-    {
-        return gender;
-    }
-
-    public void setGender(Gender gender)
-    {
-        this.gender = gender;
-    }
-
-    public Privacy getPrivacy()
-    {
-        return privacy;
-    }
-
-    public void setPrivacy(Privacy privacy)
-    {
-        this.privacy = privacy;
     }
 
     @Transient

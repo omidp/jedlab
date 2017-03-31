@@ -124,7 +124,8 @@ public class UserHome extends HibernateEntityController
         }
         else
         {
-            student.setImage(getUploadImage());
+            if(getUploadImage() != null && getFileSize() != null)
+                student.setImage(getUploadImage());
         }
         getSession().flush();
         getSession().clear();

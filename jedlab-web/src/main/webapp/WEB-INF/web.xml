@@ -195,6 +195,16 @@
 		<servlet-class>com.jedlab.CheckUsernameAvailibilityServlet</servlet-class>
 	</servlet>
 	
+	<servlet-mapping>
+		<servlet-name>Instructor Check Availibility</servlet-name>
+		<url-pattern>/checkInstructorAvailibility</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Instructor Check Availibility</servlet-name>
+		<servlet-class>com.jedlab.CheckInstructorAvailibilityServlet</servlet-class>
+	</servlet>
+	
 	<servlet>
 	  	<servlet-name>GithubOAuth</servlet-name>
 	  	<display-name>GithubOAuth</display-name>

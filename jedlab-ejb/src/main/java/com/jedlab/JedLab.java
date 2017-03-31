@@ -23,8 +23,8 @@ import com.jedlab.framework.CacheManager;
 import com.jedlab.model.Course.Language;
 import com.jedlab.model.Course.Level;
 import com.jedlab.model.Member;
-import com.jedlab.model.Student.Gender;
-import com.jedlab.model.Student.Privacy;
+import com.jedlab.model.enums.Gender;
+import com.jedlab.model.enums.Privacy;
 
 @Name("jedLab")
 @Scope(ScopeType.CONVERSATION)
