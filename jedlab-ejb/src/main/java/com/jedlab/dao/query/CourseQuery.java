@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.security.Identity;
 
+import com.jedlab.JedLab;
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CollectionUtil;
 import com.jedlab.framework.PagingController;
@@ -116,8 +117,12 @@ public class CourseQuery extends PagingController<Course>
 
     private void applyFilter(Criteria criteria)
     {
-        if(Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
+        if(Identity.instance().hasRole(Constants.ROLE_STUDENT))
             criteria.add(Restrictions.eq("active", true));
+        if(Identity.instance().hasRole(Constants.ROLE_INSTRUCTOR))
+        {
+            criteria.add(Restrictions.eq("instructor.id", JedLab.instance().getCurrentUserId()));
+        }
         if(StringUtil.isNotEmpty(getCourse().getName()))
             criteria.add(Restrictions.ilike("name", getCourse().getName(), MatchMode.ANYWHERE));
         if(getCourse().getLevel() != null)

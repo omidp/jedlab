@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		
+		<style>
+			
+		</style>
+	</ui:define>
+
+	<ui:define name="body">
+	
+		<div class="w3-content w3-margin-top" style="max-width:1400px;">
+			  
+			<div class="w3-row-padding">
+				
+				<div class="w3-third">
+					
+					<div class="w3-white w3-text-grey w3-card-4">
+						<div class="w3-display-container">
+							<s:graphicImage value="#{instructorHome.userThumbnailImage}"
+								rendered="#{instructorHome.instructor.hasImage}" 
+								style="width:100%" alt="#{jedLab.currentUser.username} avatar"></s:graphicImage>
+							<h:graphicImage value="/images/image-text.png" rendered="#{!instructorHome.instructor.hasImage}" style="width:100%"/>	
+							<div class="w3-display-bottomleft w3-container w3-text-black">
+								<h2>
+								  <h:outputText value="#{instructorHome.instructor.fullname}" rendered="#{not empty instructorHome.instructor.fullname}"/>
+								  <s:link value="#{messages['Edit']}" view="/member/userEdit.xhtml"
+								  	propagation="none"
+								  	includePageParams="false"  							  	
+								  	rendered="#{empty instructorHome.instructor.fullname}"/>	
+								</h2>
+							</div>
+						</div>
+						
+						<div class="w3-container">
+							
+							<p>
+								<i class="icon-mail w3-margin-right w3-large w3-text-teal"/>
+								<h:outputText value="#{instructorHome.instructor.email}" />
+							</p>
+							
+							<p>
+								<i class="icon-user w3-margin-right w3-large w3-text-teal"/>
+								<h:outputText value="#{instructorHome.instructor.username}" />
+							</p>
+							
+							
+							
+						</div>
+						
+					</div>
+					<br />
+				</div>
+				 
+				<div class="w3-twothird locale-direction">
+					
+					<div class="w3-container w3-card-2 w3-white w3-margin-bottom">
+					
+						<h2 class="w3-text-grey w3-padding-16">
+							<i class="icon-books w3-margin-left w3-xxlarge w3-text-teal"></i>
+							<s:link value="#{messages['Dashboard_Course']}"
+								propagation="none"
+								includePageParams="false"
+								view="/instructor/courseEdit.xhtml" 
+								rendered="#{empty courseQuery.resultList}" /> 
+						</h2>
+						
+						<s:fragment rendered="#{not empty courseQuery.resultList}">
+							<c:forEach items="#{courseQuery.resultList}" var="_item">
+	
+								<div class="w3-container">
+									<h5 class="w3-opacity">
+										<s:graphicImage value="#{_item.image}"
+										rendered="#{_item.hasImage}" width="85px" height="40px"
+										styleClass="ui middle aligned tiny image">
+
+									</s:graphicImage>
+									<s:graphicImage value="/images/no_video_photo.png"
+										rendered="#{!_item.hasImage}"
+										styleClass="ui middle aligned small image"></s:graphicImage>
+										<b><s:link view="/course.xhtml" value="#{_item.name}"
+											propagation="none" includePageParams="false"
+											styleClass="header clickableLink">
+											<f:param name="courseId" value="#{_item.id}"></f:param>
+										</s:link></b>
+									</h5>
+									<h6 class="w3-text-teal">									
+										<span class="w3-tag w3-teal w3-round">#{_item.chapterCount} #{messages['Chapter']}</span>
+									</h6>
+									<p>
+										<h:outputText value="#{_item.description}" />
+									</p>
+									<hr />
+								</div>
+							
+							</c:forEach>
+						</s:fragment>
+						
+						
+						<s:decorate template="/layout/seamPaging.xhtml"
+							rendered="#{not empty courseQuery.resultList}">
+							<ui:param name="entityList" value="#{courseQuery}" />
+						</s:decorate>
+					
+					</div>
+					
+					
+					
+				</div>
+			
+			</div>
+			
+		</div>
+		
+		<script>
+			jQuery(document).ready(function(){
+				jQuery("body").addClass("w3-light-grey");
+			});
+		</script>
+
+		
+
+	</ui:define>
+</ui:composition>

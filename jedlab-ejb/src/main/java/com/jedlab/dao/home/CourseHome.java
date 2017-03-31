@@ -26,6 +26,7 @@ import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.security.Identity;
 
+import com.jedlab.JedLab;
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CollectionUtil;
 import com.jedlab.framework.PageExceptionHandler;
@@ -35,6 +36,7 @@ import com.jedlab.framework.WebUtil;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
 import com.jedlab.model.CourseRating;
+import com.jedlab.model.Instructor;
 import com.jedlab.model.Member;
 import com.jedlab.model.MemberCourse;
 import com.jedlab.model.Preview;
@@ -323,6 +325,9 @@ public class CourseHome extends EntityHome<Course>
     @Transactional
     public String persist()
     {
+        Instructor instructor = new Instructor();
+        instructor.setId(JedLab.instance().getCurrentUserId());
+        getInstance().setInstructor(instructor);
         super.persist();
         if (StringUtil.isNotEmpty(getPreview().getUrl()))
         {
@@ -337,6 +342,9 @@ public class CourseHome extends EntityHome<Course>
     @Transactional
     public String update()
     {
+        Instructor instructor = new Instructor();
+        instructor.setId(JedLab.instance().getCurrentUserId());
+        getInstance().setInstructor(instructor);
         super.update();
         if (getPreview().getId() == null)
         {

@@ -311,7 +311,13 @@ public class RegisterAction implements Serializable
         if (Identity.instance().isLoggedIn())
         {
             Map<String, Object> parameters = new HashMap<String, Object>();
-            FacesManager.instance().redirect("/member/dashboard.xhtml", parameters, false, false);
+            if(Identity.instance().hasRole(Constants.ROLE_INSTRUCTOR))
+                FacesManager.instance().redirect("/instructor/dashboard.xhtml", parameters, false, false);
+            else if(Identity.instance().hasRole(Constants.ROLE_ADMIN))
+                FacesManager.instance().redirect("/admin/dashboard.xhtml", parameters, false, false);
+            else
+                FacesManager.instance().redirect("/member/dashboard.xhtml", parameters, false, false);
+            
         }
     }
 

@@ -8,8 +8,18 @@
 	<param name="courseId"/>
 
 	<navigation from-action="#{identity.login()}">
-		<rule if-outcome="loggedIn" if="#{identity.loggedIn}">
+		<rule if-outcome="loggedIn" if="#{identity.loggedIn and s:hasRole('Student')}">
 			<redirect view-id="/member/dashboard.xhtml"
+				include-page-params="false">
+			</redirect>
+		</rule>
+		<rule if-outcome="loggedIn" if="#{identity.loggedIn and s:hasRole('Admin')}">
+			<redirect view-id="/admin/dashboard.xhtml"
+				include-page-params="false">
+			</redirect>
+		</rule>
+		<rule if-outcome="loggedIn" if="#{identity.loggedIn and s:hasRole('Instructor')}">
+			<redirect view-id="/instructor/dashboard.xhtml"
 				include-page-params="false">
 			</redirect>
 		</rule>

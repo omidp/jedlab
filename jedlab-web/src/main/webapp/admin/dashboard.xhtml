@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+
+		<style>
+</style>
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div class="w3-content w3-margin-top" style="max-width: 1400px;">
+
+			<div class="w3-row-padding">
+
+				<div class="w3-third">
+
+					<div class="ui vertical menu">
+
+
+
+						<s:link value="Course List" propagation="none" styleClass="item"
+							view="/courseList.xhtml" includePageParams="false"></s:link>
+
+						<s:link value="Comment List" propagation="none" styleClass="item"
+							view="/admin/commentList.xhtml" includePageParams="false"></s:link>
+
+						<s:link value="Member List" propagation="none" styleClass="item"
+							view="/admin/memberList.xhtml" includePageParams="false"></s:link>
+
+						<s:link value="Subscription Notify" propagation="none"
+							styleClass="item" view="/admin/subscription.xhtml"
+							includePageParams="false"></s:link>
+
+
+						<s:link value="Announcement Notify" propagation="none"
+							styleClass="item" view="/admin/announcement.xhtml"
+							includePageParams="false"></s:link>
+
+
+						<s:link value="Question List" propagation="none" styleClass="item"
+							view="/coders/questionList.xhtml" includePageParams="false"></s:link>
+
+
+						<s:link value="Invoice List" propagation="none" styleClass="item"
+							view="/admin/invoiceList.xhtml" includePageParams="false"></s:link>
+
+					</div>
+
+					<br />
+				</div>
+
+
+
+			</div>
+
+		</div>
+
+		<script>
+			jQuery(document).ready(function(){
+				jQuery("body").addClass("w3-light-grey");
+			});
+		</script>
+
+
+
+	</ui:define>
+</ui:composition>

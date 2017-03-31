@@ -30,24 +30,14 @@ public class InstructorValidator extends EntityController
         EntityManager em = getEntityManager();
         try
         {
-            em.createQuery("select i from Member i where i.username = :uname  or i.email = :email")
+            em.createQuery("select i from Member i where i.username = :uname  or i.email = :email or i.mobileNo = :mno")
             .setParameter("uname", param)
+            .setParameter("mno", param)
             .setParameter("email", param).setMaxResults(1).getSingleResult();
             return true;
         }
         catch (NoResultException e)
         {
-            try
-            {                    
-                em.createQuery("select i from Instructor i where i.mobileNo = :mno ")
-                .setParameter("mno", param)
-                .getSingleResult();
-                return true;
-            }
-            catch (NoResultException nre)
-            {
-                
-            }
         }
         return false;
     }

@@ -22,7 +22,6 @@ ALTER TABLE public.course ALTER COLUMN download_price SET DEFAULT 1000;
 update public.course set download_price = 1000;
 ALTER TABLE public.course ALTER COLUMN download_price SET NOT NULL;
 
-
 ALTER TABLE public.invoice
   ADD CONSTRAINT invoice_member_id_course_id_key UNIQUE(member_id, course_id);
   
@@ -46,3 +45,28 @@ CREATE INDEX member_email_address_idx
 
 ALTER TABLE public.course_rating
   ADD CONSTRAINT course_rating_course_id_member_id_key UNIQUE(course_id, member_id);
+  
+  
+  
+  
+ 
+--------------------------- 2017
+
+
+-- ALTER TABLE public.member DROP COLUMN discriminator;
+
+ALTER TABLE public.member ADD COLUMN discriminator character varying(1);
+update public.member set discriminator = 'S';
+ALTER TABLE public.member ALTER COLUMN discriminator SET NOT NULL;
+drop table student;
+drop table instructor; 
+
+
+-- ALTER TABLE public.course DROP COLUMN published;
+
+ALTER TABLE public.course ADD COLUMN published boolean;
+update course set published = true;
+ALTER TABLE public.course ALTER COLUMN published SET NOT NULL;
+ALTER TABLE public.course ALTER COLUMN published SET DEFAULT false;
+
+update course set instructor_id = 1;

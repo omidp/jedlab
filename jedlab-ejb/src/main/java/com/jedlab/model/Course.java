@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -113,6 +114,35 @@ public class Course extends BasePO
 
     @Transient
     private long registeredUserCount;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="instructor_id")
+    private Instructor instructor;
+    
+    @Column(name="published")
+    private boolean published;
+    
+    
+
+    public boolean isPublished()
+    {
+        return published;
+    }
+
+    public void setPublished(boolean published)
+    {
+        this.published = published;
+    }
+
+    public Instructor getInstructor()
+    {
+        return instructor;
+    }
+
+    public void setInstructor(Instructor instructor)
+    {
+        this.instructor = instructor;
+    }
 
     public Integer getDownloadPrice()
     {
@@ -377,6 +407,7 @@ public class Course extends BasePO
     public void prePersist()
     {
         setViewCount(new Long(0));
+        setLanguage(Language.PERSIAN);
     }
 
 }

@@ -2,6 +2,7 @@ package com.jedlab.model;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,115 +19,16 @@ import com.jedlab.model.enums.Gender;
 import com.jedlab.model.enums.Privacy;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "member_id")
-@Table(name = "student")
+@DiscriminatorValue(value=Member.STUDENT_DISC)
 public class Student extends Member
 {
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "age")
-    private Integer age;
-
-    @Lob
-    @Type(type = "org.hibernate.type.BinaryType")
-    @Column(name = "image", length = 2147483647)
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] image;
-
-    @Column(name = "gender")
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-
-    @Column(name = "privacy")
-    @Enumerated(EnumType.STRING)
-    private Privacy privacy;
+    
 
    
 
     
 
-    public String getFirstName()
-    {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName)
-    {
-        this.firstName = firstName;
-    }
-
-    public String getLastName()
-    {
-        return lastName;
-    }
-
-    public void setLastName(String lastName)
-    {
-        this.lastName = lastName;
-    }
-
-    public Integer getAge()
-    {
-        return age;
-    }
-
-    public void setAge(Integer age)
-    {
-        this.age = age;
-    }
-
-    @Transient
-    public boolean getHasImage()
-    {
-        return getImage() != null && getImage().length > 0;
-    }
-
-    public byte[] getImage()
-    {
-        return image;
-    }
-
-    public void setImage(byte[] image)
-    {
-        this.image = image;
-    }
-
-    public Gender getGender()
-    {
-        return gender;
-    }
-
-    public void setGender(Gender gender)
-    {
-        this.gender = gender;
-    }
-
-    public Privacy getPrivacy()
-    {
-        return privacy;
-    }
-
-    public void setPrivacy(Privacy privacy)
-    {
-        this.privacy = privacy;
-    }
-
-    @Transient
-    public String getFullname()
-    {
-        if (StringUtil.isNotEmpty(getFirstName()) && StringUtil.isNotEmpty(getLastName()))
-            return getFirstName() + " " + getLastName();
-        else if (StringUtil.isNotEmpty(getFirstName()))
-            return getFirstName();
-        else if (StringUtil.isNotEmpty(getLastName()))
-            return getLastName();
-        else
-            return "";
-    }
+    
 
 }

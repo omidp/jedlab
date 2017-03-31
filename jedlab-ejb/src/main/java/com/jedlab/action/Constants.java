@@ -9,6 +9,7 @@ public class Constants
 
     public static final String ROLE_ADMIN = "Admin";
     public static final String ROLE_INSTRUCTOR = "Instructor";
+    public static final String ROLE_STUDENT = "Student";
 
     // Events
     public static final String SEND_MAIL_REGISTRATION = "com.jedlab.action.RegisterAction.sendMail";

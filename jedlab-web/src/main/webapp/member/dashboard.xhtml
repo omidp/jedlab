@@ -7,44 +7,6 @@
 
 	<ui:define name="body">
 	
-		<s:fragment rendered="#{s:hasRole('Admin')}">
-
-
-			<div class="ui vertical menu">
-
-
-
-				<s:link value="Course List" propagation="none" styleClass="item"
-					view="/courseList.xhtml" includePageParams="false"></s:link>
-
-				<s:link value="Comment List" propagation="none" styleClass="item"
-					view="/admin/commentList.xhtml" includePageParams="false"></s:link>
-
-				<s:link value="Member List" propagation="none" styleClass="item"
-					view="/admin/memberList.xhtml" includePageParams="false"></s:link>
-
-				<s:link value="Subscription Notify" propagation="none"
-					styleClass="item" view="/admin/subscription.xhtml"
-					includePageParams="false"></s:link>
-					
-					
-				<s:link value="Announcement Notify" propagation="none"
-					styleClass="item" view="/admin/announcement.xhtml"
-					includePageParams="false"></s:link>	
-
-
-				<s:link value="Question List" propagation="none" styleClass="item"
-					view="/coders/questionList.xhtml" includePageParams="false"></s:link>
-					
-					
-				<s:link value="Invoice List" propagation="none" styleClass="item"
-					view="/admin/invoiceList.xhtml" includePageParams="false"></s:link>	
-
-			</div>
-
-		</s:fragment>
-		
-		<s:fragment rendered="#{!s:hasRole('Admin')}">
 
 		<div class="w3-content w3-margin-top" style="max-width:1400px;">
 			
@@ -243,7 +205,6 @@
 			
 		</div>
 		
-		</s:fragment>
 		
 		<script>
 			jQuery(document).ready(function(){

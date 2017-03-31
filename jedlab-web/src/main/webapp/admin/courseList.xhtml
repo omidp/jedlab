@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html" 
+    template="/layout/layout.xhtml">
+
+<ui:define name="body">
+
+   <s:button value="#{messages['Create']} #{messages['Course']}"
+				view="/admin/courseEdit.xhtml" propagation="none"
+				includePageParams="false"></s:button>
+
+			<h:form>
+				<h:inputText value="#{courseQuery.course.name}" id="courseName" />
+				<h:commandButton action="#{webContext.redirectIt()}" value="Search" />
+			</h:form>
+			<h:dataTable value="#{courseQuery.resultList}" var="_item"
+				styleClass="ui selectable celled table">
+
+				<h:column>
+					<f:facet name="header">Course Name</f:facet>
+					<s:link value="#{_item.name}" view="/admin/courseEdit.xhtml"
+						propagation="none" includePageParams="false">
+						<f:param name="courseId" value="#{_item.id}"></f:param>
+					</s:link>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Action</f:facet>
+					<s:link value="#{messages['Add']} #{messages['Chapter']}"
+						view="/admin/chapterEdit.xhtml" propagation="none"
+						includePageParams="false">
+						<f:param name="courseId" value="#{_item.id}"></f:param>
+					</s:link>
+				</h:column>
+
+
+
+				<h:column>
+					<f:facet name="header">Chapter List</f:facet>
+					<s:link value="#{messages['List']} #{messages['Chapter']}"
+						view="/admin/chapterList.xhtml" propagation="none"
+						includePageParams="false">
+						<f:param name="courseId" value="#{_item.id}"></f:param>
+					</s:link>
+				</h:column>
+
+			</h:dataTable>
+
+ </ui:define>
+</ui:composition>

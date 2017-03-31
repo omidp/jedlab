@@ -82,6 +82,16 @@ public class AuthenticatorBean implements Authenticator
             if ("admin".equalsIgnoreCase(credentials.getUsername()))
             {
                 identity.addRole(Constants.ROLE_ADMIN);
+//                identity.addRole(Constants.ROLE_INSTRUCTOR);
+//                identity.addRole(Constants.ROLE_STUDENT);
+            }
+            if(Member.INSTRUCTOR_DISC.equals(m.getDiscriminator()))
+            {
+                identity.addRole(Constants.ROLE_INSTRUCTOR);
+            }
+            if(Member.STUDENT_DISC.equals(m.getDiscriminator()))
+            {
+                identity.addRole(Constants.ROLE_STUDENT);
             }
             String credentialPass = credentials.getPassword();            
             String pass = CryptoUtil.decodeBase64(credentialPass);
