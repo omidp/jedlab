@@ -19,6 +19,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -33,12 +34,15 @@ import org.hibernate.annotations.Type;
 import org.jboss.seam.international.StatusMessage;
 import org.omidbiz.core.axon.internal.IgnoreElement;
 
+@NamedQuery(name=Course.FIND_WITH_INSTRUCTOR_BY_ID, query="select c from Course c join fetch c.instructor i where c.id = :courseId")
 @Entity
 @Table(name = "course", schema = "public")
 // @Where(clause = " is_active = 'true' ")
 public class Course extends BasePO
 {
 
+    public static final String FIND_WITH_INSTRUCTOR_BY_ID = "course.findWithInstructor";
+    
     @Column(name = "name")
     private String name;
 
@@ -66,6 +70,9 @@ public class Course extends BasePO
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String experience;
+
+    @Column(name = "process_id")
+    private Long processInstanceId;
 
     @Column(name = "resources")
     @Lob
@@ -115,14 +122,22 @@ public class Course extends BasePO
     @Transient
     private long registeredUserCount;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="instructor_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "instructor_id")
     private Instructor instructor;
-    
-    @Column(name="published")
+
+    @Column(name = "published")
     private boolean published;
-    
-    
+
+    public Long getProcessInstanceId()
+    {
+        return processInstanceId;
+    }
+
+    public void setProcessInstanceId(Long processInstanceId)
+    {
+        this.processInstanceId = processInstanceId;
+    }
 
     public boolean isPublished()
     {
@@ -408,6 +423,12 @@ public class Course extends BasePO
     {
         setViewCount(new Long(0));
         setLanguage(Language.PERSIAN);
+    }
+    
+    @Transient
+    public boolean isEditable()
+    {
+        return processInstanceId == null && !active;
     }
 
 }

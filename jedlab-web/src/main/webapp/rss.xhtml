@@ -1,5 +1,6 @@
 <r:feed 
 	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets" 
 	xmlns:r="http://jboss.com/products/seam/rss"
 	title="#{rss.feed.title}"
@@ -7,15 +8,17 @@
 	subtitle="#{rss.feed.subtitle}"
 	updated="#{rss.feed.updated}"
 	link="#{rss.feed.link}">
-	<ui:repeat value="#{rss.feed.entries}" var="entry">
-		<r:entry
-			uid="#{entry.uid}"
-			title="#{entry.title}"
-			link="#{entry.link}"
-			author="#{entry.author}"
-			summary="#{entry.summary}"
-			published="#{entry.published}"
-			updated="#{entry.updated}"
-		/>
-	</ui:repeat>
+	<f:view contentType="application/atom+xml">
+		<ui:repeat value="#{rss.feed.entries}" var="entry">
+			<r:entry
+				uid="#{entry.uid}"
+				title="#{entry.title}"
+				link="#{entry.link}"
+				author="#{entry.author}"
+				summary="#{entry.summary}"
+				published="#{entry.published}"
+				updated="#{entry.updated}"
+			/>
+		</ui:repeat>
+	</f:view>
 </r:feed>

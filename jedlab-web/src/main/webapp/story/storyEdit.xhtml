@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<script type="text/javascript" src="#{_ctx}/js/w2ui.js"></script>
+		<link rel="stylesheet" type="text/css" href="#{_ctx}/css/w2ui.css" />
+		<link href="#{_ctx}/css/hjs.css" rel="stylesheet" />
+		<style type="text/css">
+			.writer-area{
+				width: 100%;height: 100%;
+			}
+			.div-content{
+				direction:rtl;font-family:Yekan, Tahoma;
+			}
+			
+			pre{
+				direction:ltr !important;
+			}
+			code{
+				direction:ltr !important;
+			}
+			
+		</style>
+	</ui:define>
+	
+	<ui:define name="body">   
+		 
+			<div
+			class="w3-margin locale-direction">
+			
+			</div>
+			 
+				<div id="layout" style="width: 100%; height: 90%;"></div>  
+
+				<div id="mainContent" style="display:none;">
+					<textarea name="mdcontent" class="writer-area div-content mdcontent" >## #{messages['Default_Header_Story']}
+
+#{messages['Default_Content_Story']}
+
+![alt text](http://jedlab.ir/images/logo.png "JEDLab Logo")
+
+```ceylon
+shared void run() => newServer {
+        Endpoint {
+            path = startsWith("/");
+            acceptMethod = { get };
+            (request, response) =>
+                response.writeString("Say more, more clearly");
+        }
+    }.start();
+```
+
+# Your Java Story
+</textarea>
+				</div>
+				
+				<div id="leftContent" style="display:none;">
+					<div id="helperContent" class="div-content"></div>
+				</div>
+				
+		
+		<script type="text/javascript" src="#{_ctx}/js/highlight.pack.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+		
+		
+		<script type="text/javascript">
+jQuery(function () {    
+	var h = jQuery(window).height() - 100;
+	jQuery("#layout").height(h);
+    var pstyle = 'font-family:Yekan, Tahoma; padding: 5px;background-color:#ffffff';
+    jQuery('#layout').w2layout({
+        name: 'layout',
+        panels: [            
+			 { type: 'top', size: 35, resizable: false, style: pstyle, content: '',
+				 
+				  toolbar: {
+                    items: [
+                        { type: 'button',  id: 'help', style: pstyle, caption: '#{messages.Story_Help}', img: 'icon-page' },
+                        { type: 'break',  id: 'break0' },
+                        { type: 'button',  id: 'draft', style: pstyle, caption: '#{messages.Draft}', img: 'icon-pencil' },
+                        { type: 'button',  id: 'preview', style: pstyle, caption: '#{messages.Preview}', img: 'icon-eye' },
+                        { type: 'spacer' },
+                        { type: 'button',  id: 'publish', style: pstyle, caption: '#{messages.Publish}', img: 'icon-database' }
+                    ],
+                    onClick: function (event) {                        
+                        if(event.target == 'help')
+                          window.open('https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet','','height=750,width=550');
+                        if(event.target == 'draft')  
+							console.log('draft');
+						if(event.target == 'publish')  
+							console.log('publish');
+						if(event.target == 'preview')
+							mdPrv();
+                    }
+                }
+				 
+				  },
+            { type: 'left', style: pstyle, content: 'left', resizable: true },
+            { type: 'main', style: pstyle, content: 'main' }
+        ]
+    });
+            
+});
+
+jQuery(document).ready(function(){
+		
+		var w = jQuery(window).width();
+		
+		w2ui['layout'].set('left',{'size':w/2});
+		w2ui['layout'].content('main',jQuery('#mainContent').html());
+		w2ui['layout'].content('left',jQuery('#leftContent').html());
+		jQuery("#mainContent").remove();
+		//
+		
+		
+		
+
+		mdPrv();	  
+
+			
+	});
+
+function mdPrv()
+{
+	jQuery.post("#{storyHome.mdServer}",
+			{
+				mdcontent: jQuery(".mdcontent").val()
+			},
+		function(data, status){			
+			jQuery('#helperContent').html(data);	
+			jQuery('pre code').each(function(i, block) {						
+					hljs.highlightBlock(block);
+				});		
+				jQuery('span.rtl-dir').each(function(i, block) {						
+					jQuery(this).parent().addClass('rtl-dir');
+				});
+				jQuery('span.ltr-dir').each(function(i, block) {						
+					jQuery(this).parent().addClass('ltr-dir');
+				});		
+			});
+}
+
+
+</script>
+		
+
+	</ui:define>
+</ui:composition>

@@ -1,5 +1,6 @@
 package com.jedlab.dao.home;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -63,6 +64,8 @@ public class CourseHome extends EntityHome<Course>
     protected Course createInstance()
     {
         Course course = new Course();
+        course.setPrice(BigDecimal.ZERO);
+        course.setDownloadPrice(1000);
         return course;
     }
 

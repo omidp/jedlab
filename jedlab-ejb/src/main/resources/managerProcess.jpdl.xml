@@ -9,8 +9,8 @@
 
 
 	<task-node name="responsible-node">
-		<task name="responsible-node" description="#{comment}">
-			<assignment pooled-actors="#{responsible}"></assignment>
+		<task name="responsible-node">
+			<assignment pooled-actors="Admin"></assignment>
 		</task>
 		<transition to="endUserFlow" name="toEnd"></transition>
 		<transition to="responsible-node" name="toResponsible"></transition>

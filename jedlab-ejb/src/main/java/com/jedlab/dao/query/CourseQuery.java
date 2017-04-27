@@ -73,16 +73,16 @@ public class CourseQuery extends PagingController<Course>
         {
             Criteria criteria = getSession().createCriteria(MemberCourse.class, "mc");        
             criteria.setProjection(Projections.projectionList().add(Projections.countDistinct("member"))
-                    .add(Projections.groupProperty("course")));
+                    .add(Projections.groupProperty("course.id")));
 //            criteria.add(Restrictions.in("course", courseList));
             List<Object[]> obj = criteria.list();
             for (Object[] items : obj)
             {
                 Long userCount = Long.parseLong(String.valueOf(items[0]));
-                Course q = (Course) items[1];
+                Long q = (Long) items[1];
                 for (Course item : courseList)
                 {
-                    if(q.getId().longValue() == item.getId().longValue())
+                    if(q.longValue() == item.getId().longValue())
                     {
                         item.setRegisteredUserCount(userCount == null ? new Long(0) : userCount.longValue());
                     }

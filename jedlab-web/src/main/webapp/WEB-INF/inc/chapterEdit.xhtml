@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:jedlab="http://tasktops.com/ui">
+
+	
+		<h:form id="chapterForm" styleClass="form" enctype="multipart/form-data" rendered="#{chapterHome.course.processInstanceId == null}">
+			
+			
+			<fieldset>
+				<legend>#{messages['Attributes']} #{messages['Chapter']} #{chapterHome.course.name}</legend>
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+								<ui:define name="label">#{messages['Chapter_Name']}</ui:define>
+								<h:inputText id="cname" value="#{chapterHome.instance.name}" styleClass="w3-input" maxlength="160" required="true"/>
+				</s:decorate>
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Duration']} (mm:ss)</ui:define>
+					<h:inputText id="dur" value="#{chapterHome.duration}" styleClass="w3-input"  required="true"/>
+				</s:decorate>
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['File']}</ui:define>
+					<s:fileUpload data="#{chapterHome.uploadItem.data}"
+						fileName="#{chapterHome.uploadItem.fileName}"
+						fileSize="#{chapterHome.uploadItem.fileSize}" 
+						required="true"></s:fileUpload>	
+				</s:decorate>
+				
+				
+			</fieldset>
+
+			
+
+
+			<h:commandButton id="save" value="#{messages['Save']}"
+				styleClass="btn btn-yellow" action="#{chapterHome.persist()}"
+				rendered="#{!chapterHome.managed}" />
+
+			<h:commandButton id="update" value="#{messages['Update']}"
+				styleClass="btn btn-blue" action="#{chapterHome.update()}"
+				rendered="#{false}" />
+			
+
+		</h:form>
+		
+		<h:form>
+			 
+			<h:dataTable value="#{chapterQuery.resultList}" var="_item" styleClass="ui celled striped table" dir="rtl">
+				
+				<h:column>
+					<f:facet name="header">#{messages['Chapter_Name']}</f:facet>
+					<h:outputText value="#{_item.name}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">#{messages['Duration']}</f:facet>
+					<h:outputText value="#{_item.durationWithformat}" />
+				</h:column>
+			
+			
+			</h:dataTable>
+		
+		</h:form>
+
+</ui:composition>

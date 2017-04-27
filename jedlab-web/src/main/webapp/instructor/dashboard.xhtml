@@ -68,35 +68,99 @@
 								propagation="none"
 								includePageParams="false"
 								view="/instructor/courseEdit.xhtml" 
-								rendered="#{empty courseQuery.resultList}" /> 
+								rendered="#{empty courseQuery.resultList}" />
+							<h:outputText value="#{messages['Course_List']}" rendered="#{not empty courseQuery.resultList}"/>
+							<s:link 
+								styleClass="w3-btn w3-large w3-circle w3-xlarge w3-ripple w3-teal w3-left" 
+								value="+" 
+								id="createCourseBtn"
+								propagation="none"
+								view="/instructor/courseEdit.xhtml"  
+								includePageParams="false"></s:link>	 
+								<script type="text/javascript">
+									jQuery(window).load(function(){
+
+										jQuery("#createCourseBtn").popup({ content : "#{messages['Create_Course']}" });
+
+									});
+								</script>
 						</h2>
 						
 						<s:fragment rendered="#{not empty courseQuery.resultList}">
 							<c:forEach items="#{courseQuery.resultList}" var="_item">
 	
-								<div class="w3-container">
-									<h5 class="w3-opacity">
-										<s:graphicImage value="#{_item.image}"
-										rendered="#{_item.hasImage}" width="85px" height="40px"
-										styleClass="ui middle aligned tiny image">
+								 <div class="w3-card-4 w3-margin">
 
-									</s:graphicImage>
-									<s:graphicImage value="/images/no_video_photo.png"
-										rendered="#{!_item.hasImage}"
-										styleClass="ui middle aligned small image"></s:graphicImage>
-										<b><s:link view="/course.xhtml" value="#{_item.name}"
-											propagation="none" includePageParams="false"
-											styleClass="header clickableLink">
-											<f:param name="courseId" value="#{_item.id}"></f:param>
-										</s:link></b>
-									</h5>
-									<h6 class="w3-text-teal">									
-										<span class="w3-tag w3-teal w3-round">#{_item.chapterCount} #{messages['Chapter']}</span>
-									</h6>
-									<p>
-										<h:outputText value="#{_item.description}" />
-									</p>
-									<hr />
+									<header class="w3-container w3-light-grey">
+									  <h3><s:link view="/instructor/courseEdit.xhtml" propagation="none" 
+									  		includePageParams="false"
+									  		style="text-color:#87CEEB"
+										  	value="#{_item.name}">
+										  	<f:param name="courseId" value="#{_item.id}"></f:param>
+										  </s:link></h3>
+										  <s:link 
+										  	propagation="none" 
+										  	includePageParams="false"
+										  	view="/instructor/chapterEdit.xhtml"
+										  	value="add chapter"
+										  	>
+										  	<f:param name="courseId" value="#{_item.id}"></f:param>
+										  </s:link>	
+									</header>
+									
+									<div class="w3-container #{_item.active ? '' : 'w3-light-grey'}">
+									  <p>	
+									  	<s:span styleClass="w3-right">
+										  <h:outputText value="#{messages['Active']}" rendered="#{_item.active}" />
+										  <h:outputText value="#{messages['Deactive']}" rendered="#{!_item.active}" />
+									  	</s:span>
+										  <s:span styleClass="w3-left">
+										  	<h:outputText value="#{messages['Free']}"
+													rendered="#{_item.free}" />
+												<s:fragment rendered="#{!_item.free}">
+														<h:outputText value="#{_item.price}"  
+															converter="#{bigDecimalConverter}">
+														</h:outputText>
+														<h:outputText value="#{' '} #{messages['Toman']}" />
+												</s:fragment>
+										  </s:span>
+										  	
+									  </p>  
+									  <div style="clear: both;"></div>
+									  <hr />
+	
+									  <s:link view="/instructor/courseEdit.xhtml" includePageParams="false" propagation="none">
+									  		<f:param name="courseId" value="#{_item.id}"></f:param>
+										  <s:graphicImage value="#{_item.image}" style="height:150px;"
+										  		styleClass="w3-right w3-circle"
+												rendered="#{_item.hasImage}">
+												<s:transformImageSize maintainRatio="true" height="150"></s:transformImageSize>
+  										  </s:graphicImage>
+			
+										  <s:graphicImage value="/images/no_video_photo.png"
+										  	styleClass="w3-right w3-circle"
+												style="height:150px;" rendered="#{_item.hasImage == false}">
+												<s:transformImageSize maintainRatio="true" height="150"></s:transformImageSize>
+										  </s:graphicImage>
+									  </s:link>
+									  <p>
+									  	<s:formattedText value="#{_item.description}"></s:formattedText>
+									  </p>
+									</div>
+									
+									<s:link styleClass="w3-btn w3-block w3-dark-grey" 
+										rendered="#{_item.processInstanceId == null}"
+										value="#{messages['Send_For_Activation']}" 
+										action="#{workflowAction.sendForActivation()}">
+										<f:param name="courseId" value="#{_item.id}"></f:param>
+									</s:link>
+									
+									<s:span styleClass="w3-btn w3-block w3-dark-grey" 
+										rendered="#{_item.processInstanceId != null}"
+										>
+										<h:outputText value="#{messages['In_Progress']}" />
+									</s:span>	
+									
 								</div>
 							
 							</c:forEach>

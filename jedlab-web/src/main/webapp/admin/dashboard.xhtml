@@ -53,6 +53,42 @@
 
 					<br />
 				</div>
+				
+				<div class="w3-third">
+					
+					<h:dataTable value="#{workflowAction.dashboardModelList}" var="_item">
+						
+						<h:column>
+							<f:facet name="header"></f:facet>
+							<h:outputText value="#{_item.courseName}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header"></f:facet>
+							<h:outputText value="#{_item.instructorName}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header"></f:facet>
+							<s:link value="Accept" action="#{workflowAction.accept()}">
+								<f:param name="courseId" value="#{_item.courseId}"></f:param>
+								<f:param name="taskId" value="#{_item.taskId}"></f:param>
+								<f:param name="processId" value="#{_item.processId}"></f:param>
+							</s:link>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header"></f:facet>
+							<s:link value="Reject" action="#{workflowAction.reject()}">
+								<f:param name="courseId" value="#{_item.courseId}"></f:param>
+								<f:param name="taskId" value="#{_item.taskId}"></f:param>
+								<f:param name="processId" value="#{_item.processId}"></f:param>
+							</s:link>
+						</h:column>
+					
+					</h:dataTable>
+				
+				</div>
 
 
 

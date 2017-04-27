@@ -1,6 +1,12 @@
 package com.jedlab.dao.home;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.util.List;
 
@@ -22,6 +28,9 @@ import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.util.RandomStringUtils;
 
+import com.jedlab.Env;
+import com.jedlab.JedLab;
+import com.jedlab.UploadItem;
 import com.jedlab.action.Constants;
 import com.jedlab.framework.DateUtil;
 import com.jedlab.framework.ErrorPageExceptionHandler;
@@ -39,12 +48,21 @@ import com.jedlab.model.VideoToken;
 public class ChapterHome extends EntityHome<Chapter>
 {
 
+    public static final String VIDEO_LOCATION = Env.getVideoLocation();
+
     private String duration;
 
     private Course course;
 
+    private UploadItem uploadItem = new UploadItem();
+
     @In
     Session hibernateSession;
+
+    public UploadItem getUploadItem()
+    {
+        return uploadItem;
+    }
 
     public void setChapterId(Long id)
     {
@@ -82,6 +100,7 @@ public class ChapterHome extends EntityHome<Chapter>
 
     public void load()
     {
+        //TODO : check course owner
         if (getCourse().getId() != null)
         {
             Criteria criteria = hibernateSession.createCriteria(Course.class, "c");
@@ -131,6 +150,32 @@ public class ChapterHome extends EntityHome<Chapter>
             {
                 e.printStackTrace();
             }
+        }
+        else
+        {
+        }
+        if (getUploadItem().getData() == null || getUploadItem().getData().length == 0)
+            throw new ErrorPageExceptionHandler("can not create empty file");
+        try
+        {
+            String folderPath = VIDEO_LOCATION + JedLab.instance().getCurrentUserId();
+            if (getCourse().getId() != null)
+                folderPath += Env.FILE_SEPARATOR + getCourse().getId();
+            File folder = new File(folderPath);
+            if (folder.exists() == false)
+                folder.mkdirs();
+            ///TODO:check for file extension
+            // if(getUploadItem().getFileName().endsWith(".mp4") == false)
+
+            Path path = Paths.get(folderPath + Env.FILE_SEPARATOR + getUploadItem().getFileName());
+            Files.write(path, getUploadItem().getData());
+            // File file = path.toFile();
+            getInstance().setUrl(path.toString());
+
+        }
+        catch (IOException e)
+        {
+            throw new ErrorPageExceptionHandler("can not create file");
         }
         //
     }

@@ -7,22 +7,37 @@
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:jedlab="http://tasktops.com/ui">
 
-
+			<s:fragment rendered="#{courseHome.managed}">
 			<div style="width: 100%;margin: 0 auto;text-align: center;" class="w3-margin-top">
 					<s:graphicImage value="#{courseHome.instance.image}"
-						 styleClass="ui fluid image" rendered="#{courseHome.instance.hasImage}">
+						 styleClass="ui medium image" rendered="#{courseHome.instance.hasImage}">
 						<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>
 					</s:graphicImage>
 					
 				<h:outputText value="#{messages['Image']} #{messages['Has_Not']}"
 						rendered="#{!courseHome.instance.hasImage}" />
 			</div>			
+			</s:fragment>
 			
 				
-			<h:form id="courseForm" styleClass="form">
+			<h:form id="courseForm" styleClass="form"  enctype="multipart/form-data">
+			
+				<s:fragment rendered="#{courseHome.managed}">
+				
+					<fieldset>
+						<legend>#{messages['Image']} #{messages['Course']}</legend>
+			
+								<s:fileUpload id="file" data="#{courseHome.instance.image}"
+									accept="images/*" />
+							
+						
+					</fieldset>	
+				
+				
+				</s:fragment>
 			
 				<fieldset>
-					<legend>#{messages['Course']} #{messages['Attributes']}</legend>
+					<legend> #{messages['Attributes']} #{messages['Course']}</legend>
 					<s:decorate template="/layout/simpleEdit.xhtml">
 								<ui:define name="label">#{messages['Course_Name']}</ui:define>
 								<h:inputText value="#{courseHome.instance.name}"
@@ -31,7 +46,7 @@
 					
 					<s:decorate template="/layout/simpleEdit.xhtml">
 								<ui:define name="label">#{messages['Level']}</ui:define>
-								<h:selectOneMenu value="#{courseHome.instance.level}" id="lvl">
+								<h:selectOneMenu value="#{courseHome.instance.level}" id="lvl" required="true">
 									<s:selectItems value="#{courseLevels}" var="_item"
 										label="#{_item.label}"></s:selectItems>
 									<s:convertEnum></s:convertEnum>
@@ -40,7 +55,7 @@
 					
 					<s:decorate template="/layout/simpleEdit.xhtml">
 								<ui:define name="label">#{messages['Description']}</ui:define>
-								<h:inputTextarea value="#{courseHome.instance.description}"
+								<h:inputTextarea value="#{courseHome.instance.description}" required="true"
 									id="desc" />
 								<ui:define name="desc">markdown support</ui:define>	
 					</s:decorate>
@@ -65,19 +80,19 @@
 					
 					<s:decorate template="/layout/simpleEdit.xhtml">
 								<ui:define name="label">#{messages['Price']}</ui:define>
-								<h:inputText id="p" value="#{courseHome.instance.price}" styleClass="w3-input" >
+								<h:inputText id="p" value="#{courseHome.instance.price}" styleClass="w3-input" required="true">
 									<f:convertNumber />
 								</h:inputText>
 					</s:decorate>
 					
 					<s:decorate template="/layout/simpleEdit.xhtml">
 								<ui:define name="label">#{messages['Download_Price']}</ui:define>
-								<h:inputText id="dlPrice" value="#{courseHome.instance.downloadPrice}" converter="javax.faces.Integer" styleClass="w3-input" >
+								<h:inputText id="dlPrice" value="#{courseHome.instance.downloadPrice}" converter="javax.faces.Integer" styleClass="w3-input" required="true">
 								</h:inputText>
 					</s:decorate>
 					
 					<s:decorate template="/layout/simpleEdit.xhtml">
-								<ui:define name="label">#{messages['Preview']}</ui:define>
+								<ui:define name="label">#{messages['Preview']} (http)</ui:define>
 								<h:inputText id="dlPrev" value="#{courseHome.preview.url}" style="direction:ltr;" styleClass="w3-input" >
 								</h:inputText>
 					</s:decorate>
@@ -102,39 +117,33 @@
 					
 				
 				</s:fragment>
+				
+				
+				
 			
 			 
 
 
-
+				
 				<h:commandButton id="save" value="#{messages['Save']} #{messages['Course']}"
 					styleClass="btn btn-blue"
 					action="#{courseHome.persist()}" rendered="#{!courseHome.managed}" />
 
 				<h:commandButton id="update" value="#{messages['Update']}"
-					action="#{courseHome.update()}" rendered="#{courseHome.managed}" />
+					styleClass="btn btn-blue"
+					action="#{courseHome.update()}" rendered="#{courseHome.managed and courseHome.instance.processInstanceId == null}" />
 
 			</h:form>
+			
+			<s:fragment rendered="#{courseHome.managed}">
 
-		<hr />
-
-		<fieldset>
-			<legend>#{messages['Image']} #{messages['Course']}</legend>
-
-			<h:form enctype="multipart/form-data">
-					<s:fileUpload id="file" data="#{courseHome.instance.image}"
-						accept="images/*" />
-				<h:commandButton id="submit" value="#{messages['Save']}"
-					styleClass="btn btn-yellow w3-margin-right w3-margin-left"
-					action="#{courseHome.update()}" />
-			</h:form>
-		</fieldset>
+		
 
 
 		<hr />
 
 
-
+		<s:fragment rendered="#{s:hasRole('Admin')}">
 		<fieldset>
 			<legend>#{messages['Tag']} #{messages['Course']}</legend>
 			<h:form id="tagform">
@@ -164,8 +173,11 @@
 			
 			});
 		</script>
+		</s:fragment>
 
 		<hr />
+		
+		</s:fragment>
 
 		
 

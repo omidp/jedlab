@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
+import org.jboss.seam.bpm.Actor;
 import org.jboss.seam.captcha.Captcha;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.international.StatusMessage.Severity;
@@ -47,6 +48,9 @@ public class AuthenticatorBean implements Authenticator
 
     @In(create = true)
     LoginActionManager loginActionManager;
+    
+    @In
+    Actor actor;
 
     public boolean isCaptchaRequired()
     {
@@ -82,6 +86,8 @@ public class AuthenticatorBean implements Authenticator
             if ("admin".equalsIgnoreCase(credentials.getUsername()))
             {
                 identity.addRole(Constants.ROLE_ADMIN);
+                actor.getGroupActorIds().add(Constants.ROLE_ADMIN);
+                actor.setId(credentials.getUsername());
 //                identity.addRole(Constants.ROLE_INSTRUCTOR);
 //                identity.addRole(Constants.ROLE_STUDENT);
             }

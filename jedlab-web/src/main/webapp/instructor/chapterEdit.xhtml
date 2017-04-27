@@ -3,17 +3,14 @@
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
-	<ui:define name="head">
-		<style>
-		</style>
-	</ui:define>
-
 	<ui:define name="body">
-
+		
+		
 		<ui:include src="/WEB-INF/inc/chapterEdit.xhtml" />
-		<s:button propagation="none" view="/admin/dashboard.xhtml"
+		<s:button propagation="none" view="/instructor/dashboard.xhtml"
 			styleClass="btn btn-red w3-margin"
 			value="#{messages['Back']}"></s:button>
 

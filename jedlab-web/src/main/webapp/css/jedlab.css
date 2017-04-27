@@ -5000,4 +5000,18 @@ div.w3-accordion div.content{
   background-color: #333333;
 }
 
+.w3-block {
+    display: block;
+    width: 100%;
+}
 
+
+
+.rtl-dir{
+	direction:rtl;
+	text-align:right;
+}
+.ltr-dir{
+	direction:ltr;
+	text-align:left;
+}

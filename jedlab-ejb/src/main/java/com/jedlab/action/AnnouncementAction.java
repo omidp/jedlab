@@ -63,7 +63,7 @@ public class AnnouncementAction extends HibernateEntityController
         {
             for (Member m : members)
             {
-                Events.instance().raiseAsynchronousEvent("com.jedlab.action.announcement.sendMail", getSubject(), m, getContent());
+                Events.instance().raiseAsynchronousEvent(Constants.SEND_MAIL_ANNOUNCEMENT, getSubject(), m, getContent());
             }
         }
 
@@ -72,7 +72,7 @@ public class AnnouncementAction extends HibernateEntityController
         return "sent";
     }
 
-    @Observer("com.jedlab.action.announcement.sendMail")
+    @Observer(value=Constants.SEND_MAIL_ANNOUNCEMENT)
     public void sendEmail(String subject, Member member, String content)
     {
         if (member != null)

@@ -86,7 +86,7 @@ public class ChapterResource implements Serializable
             is = new FileInputStream(file);
             StreamingOutput output = new StreamBuilder(is);
             ResponseBuilder rb = Response.ok(output);
-            String name = course.getName().concat("_").concat(chapter.getName()).concat(".mp4");
+            String name = course.getName().concat("_").concat(chapter.getName()).concat(Constants.MP4);
             if (isInternetExplorer(request))
                 rb.header("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(name, "utf-8") + "\"");
             else if(isChrome(request) || isFirefox(request))

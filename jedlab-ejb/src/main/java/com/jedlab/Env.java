@@ -84,6 +84,11 @@ public final class Env
         return prop.getProperty("GIST_HOME");
     }
     
+    public static String getVideoLocation()
+    {
+        return prop.getProperty("VID_LOC");
+    }
+    
     public static String getMerchantId()
     {
         return prop.getProperty("MERCHANTID");
@@ -109,6 +114,10 @@ public final class Env
         return prop.getProperty("GITHUB_CALLBACK");
     }
     
+    public static String getMdServer()
+    {
+        return prop.getProperty("MD_SERVER");
+    }
     
     public static String getGoogleKey()
     {
