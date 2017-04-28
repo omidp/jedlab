@@ -9,6 +9,8 @@
 	
 	<param name="storyId" value="#{storyHome.storyId}"/>
 	
+	<param name="storyId" value="#{storyBookmarkQuery.story.id}"/>
+	
 	<action execute="#{storyHome.load()}"/>
 	
 	

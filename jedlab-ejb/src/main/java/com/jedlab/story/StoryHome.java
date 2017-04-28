@@ -29,9 +29,12 @@ import com.jedlab.action.Constants;
 import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TxManager;
+import com.jedlab.framework.WebContext;
 import com.jedlab.framework.WebUtil;
 import com.jedlab.model.Member;
 import com.jedlab.model.Story;
+import com.jedlab.model.StoryBookmark;
+import com.jedlab.model.StoryBookmarkId;
 import com.jedlab.story.HtmlMarkdownProcessor.HtmlMarkdownHolder;
 
 @Name("storyHome")
@@ -231,14 +234,54 @@ public class StoryHome extends EntityHome<Story>
         }
         return null;
     }
-    
+
     @Override
     public String remove()
     {
         String sidParam = WebUtil.getParameterValue("storyId");
-        if(StringUtil.isNotEmpty(sidParam))
+        if (StringUtil.isNotEmpty(sidParam))
             setId(Long.parseLong(sidParam));
         return super.remove();
+    }
+
+    @Transactional
+    public void bookmark()
+    {
+        String storyParam = WebUtil.getParameterValue("storyId");
+        Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+        if (uid != null && StringUtil.isNotEmpty(storyParam))
+        {
+            TxManager.beginTransaction();
+            TxManager.joinTransaction(getEntityManager());
+            StoryBookmarkId id = new StoryBookmarkId(uid, Long.parseLong(storyParam));
+            StoryBookmark bookmark = new StoryBookmark();
+            bookmark.setStoryBookmarkId(id);
+            Member m = new Member();
+            m.setId(uid);
+            bookmark.setMember(m);
+            Story st = new Story();
+            st.setId(Long.parseLong(storyParam));
+            bookmark.setStory(st);
+            getEntityManager().persist(bookmark);
+            getEntityManager().flush();
+            WebContext.instance().redirectIt(true, true);
+        }
+    }
+
+    @Transactional
+    public void unbookmark()
+    {
+        String storyParam = WebUtil.getParameterValue("storyId");
+        Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+        if (uid != null && StringUtil.isNotEmpty(storyParam))
+        {
+            TxManager.beginTransaction();
+            TxManager.joinTransaction(getEntityManager());
+            getEntityManager().createQuery("delete from StoryBookmark sb where sb.story.id = :stId and sb.member.id = :memId")
+                    .setParameter("stId", Long.parseLong(storyParam)).setParameter("memId", uid).executeUpdate();
+            getEntityManager().flush();
+            WebContext.instance().redirectIt(true, true);
+        }
     }
 
 }

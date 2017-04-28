@@ -48,11 +48,20 @@ code {
 				    	rendered="#{storyHome.instance.member.hasImage}" value="#{storyHome.instance.member.image}"></s:graphicImage><br />
 				    <h:outputText value="#{storyHome.instance.member.username}" />
 				  </a>
-				  <s:fragment rendered="#{identity.loggedIn}">
-					  <a class="item">
+				  <s:fragment rendered="#{identity.loggedIn and storyBookmarkQuery.resultCount == 0}">
+					  <s:link styleClass="item" action="#{storyHome.bookmark()}">
+					  	<f:param name="storyId" value="#{storyHome.instance.id}"></f:param>
 					    <i class="icon-star-empty"></i><br />
-					    علاقه مندی
-					  </a>
+					    <h:outputText value="#{messages['Favourite']}" />
+					  </s:link>
+				  </s:fragment>
+				  
+				  <s:fragment rendered="#{identity.loggedIn and storyBookmarkQuery.resultCount > 0}">
+					  <s:link styleClass="item" action="#{storyHome.unbookmark()}">
+					  	<f:param name="storyId" value="#{storyHome.instance.id}"></f:param>
+					    <i class="icon-star-full"></i><br />
+					    <h:outputText value="#{messages['Favourite']}" />
+					  </s:link>
 				  </s:fragment>
 				  
 				</div>
