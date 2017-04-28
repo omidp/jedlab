@@ -63,6 +63,9 @@
 					</div>
 					<br />
 				</div>
+				
+				
+				
 				 
 				<div class="w3-twothird locale-direction">
 					
@@ -117,6 +120,99 @@
 						
 					</div>
 					
+					
+					<!-- Stories -->
+					
+					<div class="w3-container w3-card-2 w3-white w3-margin-bottom">
+						<h2 class="w3-text-grey w3-padding-16">
+							<i class="icon-book w3-margin-left w3-xxlarge w3-text-teal"></i>
+							<h:outputText value="#{messages['Stories']}" rendered="#{not empty personalStoryQuery.resultList}" />
+							<s:link propagation="none" includePageParams="false"
+								view="/story/storyList.xhtml" 
+								value="#{messages['Empty_Stories']}" rendered="#{empty personalStoryQuery.resultList}" /> 
+						</h2>
+						<s:fragment rendered="#{not empty personalStoryQuery.resultList}">
+						
+							<c:forEach items="#{personalStoryQuery.resultList}" var="_st">
+								<div class="w3-container">
+											<h5 class="w3-opacity">
+												<b><s:link value="#{_st.title}" propagation="none"
+														styleClass="clickableLink" 
+														includePageParams="false" view="/story/storyEdit.xhtml">
+														<f:param name="storyId" value="#{_st.id}"></f:param>
+													</s:link></b>
+											</h5>
+											<h6 class="w3-text-teal">									
+												
+											</h6>
+											<p>
+												<span data-storyid="#{_st.id}" class="story-img" style="cursor: pointer;color: #2F7ED8;">
+													<s:fragment rendered="#{!_st.hasImage}">
+														#{messages['Add']} #{messages['Image']}
+													</s:fragment>
+													<s:fragment rendered="#{_st.hasImage}">
+														#{messages['Edit']} #{messages['Image']}
+													</s:fragment>
+												</span>
+											</p>
+											<hr />
+								</div>
+							</c:forEach>
+							
+							
+							<c:set var="_stCount"
+							value="#{personalStoryQuery.pageCount == 0 ? 1 : personalStoryQuery.pageCount}" />
+						<div class="pagination">
+
+							<s:link styleClass="page"
+								rendered="#{personalStoryQuery.previousExists}"
+								value="#{messages.First_Page}" >
+								<f:param name="sr" value="0" />
+								<f:param name="sn" value="0" />
+							</s:link>
+
+							<s:link styleClass="page"
+								rendered="#{personalStoryQuery.previousExists}"
+								value="#{messages.Previous_Page}" >
+								<f:param name="sr"
+									value="#{personalStoryQuery.previousFirstResult}" />
+								<f:param name="sn" value="#{personalStoryQuery.pageNumber-1}" />
+							</s:link>
+
+
+							<s:span styleClass="page" style="direction:rtl;"
+								rendered="#{personalStoryQuery.nextExists or personalStoryQuery.previousExists}">
+								<h:outputText value="#{personalStoryQuery.pageNumber + 1}" /> #{messages['Of']} <h:outputText
+									value="#{_pCount}" />
+							</s:span>
+
+
+							<s:link styleClass="page"
+								rendered="#{personalStoryQuery.nextExists}"
+								value="#{messages.Next_Page}" >
+								<f:param name="sr"
+									value="#{personalStoryQuery.nextFirstResult}" />
+								<f:param name="sn" value="#{personalStoryQuery.pageNumber+1}" />
+							</s:link>
+
+							<s:link styleClass="page"
+								rendered="#personalStoryQuery.nextExists}"
+								value="#{messages.Last_Page}" >
+								<f:param name="sr"
+									value="#{personalStoryQuery.lastFirstResult}" />
+								<f:param name="sn" value="#{personalStoryQuery.pageCount-1}" />
+							</s:link>
+
+						</div>
+							
+							
+							
+						</s:fragment>
+						
+						
+					</div>
+					
+					<!-- Questions -->
 					<div class="w3-container w3-card-2 w3-white">
 						<h2 class="w3-text-grey w3-padding-16">
 							<i class="icon-book w3-margin-left w3-xxlarge w3-text-teal"></i>
@@ -153,14 +249,14 @@
 
 							<s:link styleClass="page"
 								rendered="#{memberQuestionQuery.previousExists}"
-								value="#{messages.First_Page}" id="fr">
+								value="#{messages.First_Page}" >
 								<f:param name="fr" value="0" />
 								<f:param name="pn" value="0" />
 							</s:link>
 
 							<s:link styleClass="page"
 								rendered="#{memberQuestionQuery.previousExists}"
-								value="#{messages.Previous_Page}" id="pp">
+								value="#{messages.Previous_Page}" >
 								<f:param name="fr"
 									value="#{memberQuestionQuery.previousFirstResult}" />
 								<f:param name="pn" value="#{memberQuestionQuery.pageNumber-1}" />
@@ -176,7 +272,7 @@
 
 							<s:link styleClass="page"
 								rendered="#{memberQuestionQuery.nextExists}"
-								value="#{messages.Next_Page}" id="np">
+								value="#{messages.Next_Page}" >
 								<f:param name="fr"
 									value="#{memberQuestionQuery.nextFirstResult}" />
 								<f:param name="pn" value="#{memberQuestionQuery.pageNumber+1}" />
@@ -184,7 +280,7 @@
 
 							<s:link styleClass="page"
 								rendered="#memberQuestionQuery.nextExists}"
-								value="#{messages.Last_Page}" id="lp">
+								value="#{messages.Last_Page}" >
 								<f:param name="fr"
 									value="#{memberQuestionQuery.lastFirstResult}" />
 								<f:param name="pn" value="#{memberQuestionQuery.pageCount-1}" />
@@ -199,6 +295,14 @@
 						
 					</div>
 					
+					
+					
+					
+					
+					
+					
+					
+					
 				</div>
 			
 			</div>
@@ -211,6 +315,36 @@
 				jQuery("body").addClass("w3-light-grey");
 			});
 		</script>
+		
+		<script>
+			jQuery(window).load(function(){
+
+				jQuery(".story-img").click(function(){
+					var stid = jQuery(this).data("storyid");										
+					jQuery("#storyFileId").val(stid);
+					jQuery("#storyFileForm\\:storyFile").click();
+				});
+				
+			});
+			
+			function storyUploaderChange(){
+				jQuery("#storyFileForm\\:storyBtnImageUpdate").click();
+			}
+		</script>    
+		
+		<div style="display: none;">
+				<h:form enctype="multipart/form-data" id="storyFileForm">
+					<input type="hidden" name="storyFileId" id="storyFileId" />
+					<s:fileUpload id="storyFile" data="#{storyHome.uploadImage}"
+							onchange="storyUploaderChange();" accept="images/*"
+							fileSize="#{storyHome.fileSize}" />
+					<h:commandButton action="#{storyHome.uploadImage()}"
+							value="#{messages['Update']}" id="storyBtnImageUpdate"
+							styleClass="ui primary button"></h:commandButton>
+				</h:form>
+		</div>
+							
+		
 		
 		
 

@@ -26,7 +26,6 @@ import com.jedlab.model.Story;
 public class StoryPublishServlet extends HttpServlet
 {
 
-    
     @Override
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException
     {
@@ -37,13 +36,17 @@ public class StoryPublishServlet extends HttpServlet
             {
                 String mdcontent = req.getParameter("mdcontent");
                 String storyId = req.getParameter("storyId");
-                PrintWriter out = resp.getWriter();
-                resp.setContentType("text/plain;charset=utf-8");
-                Long id = StoryHome.instance().publishContent(mdcontent, storyId);
-                out.print(id);
-                out.flush();
+                String storyTitle = req.getParameter("storyTitle");
+                if (StringUtil.isNotEmpty(storyTitle) && StringUtil.isNotEmpty(mdcontent))
+                {
+                    PrintWriter out = resp.getWriter();
+                    resp.setContentType("text/plain;charset=utf-8");
+                    Long id = StoryHome.instance().publishContent(mdcontent, storyId, storyTitle);
+                    out.print(id);
+                    out.flush();
+                }
             }
         }.run();
     }
-    
+
 }

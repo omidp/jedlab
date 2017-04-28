@@ -44,18 +44,30 @@
 					<div class="ui card" data-story-id="#{_item.id}" style="cursor: pointer;">
 					  <div class="content">
 					    <div class="left floated meta">#{_item.socialDate}</div>
-					    <s:graphicImage styleClass="ui avatar image" value="#{_item.member.image}" rendered="#{_item.member.hasImage}"></s:graphicImage><span>#{_item.member.username}</span>					     
+					    
+					    <s:graphicImage styleClass="ui avatar image" value="#{_item.member.image}" 
+					    	rendered="#{_item.member.hasImage}"></s:graphicImage>
+					    
+					    <span>#{_item.member.username}</span>
+					    						     
 					  </div>
 					  <div class="image">
-					    <img />
+					    <s:graphicImage value="#{_item.image}"  style="height:250px;"
+					    	rendered="#{_item.hasImage}">
+					    	<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>	
+					    </s:graphicImage>
+					    
+					    <s:graphicImage value="/images/image-text.png" 
+					    	rendered="#{!_item.hasImage}"></s:graphicImage>
+					    	
 					  </div>
 					  <div class="content">
 					    <span class="left floated">
 					      <i class="heart outline like icon"></i>  
-					      17 likes
+					      
 					    </span>
 					    <i class="comment icon"></i>
-					    3 comments
+					    
 					  </div>
 					</div>
 				

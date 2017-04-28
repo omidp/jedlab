@@ -35,12 +35,29 @@ code {
 			class="w3-margin locale-direction">
 		</div>
 		
-		<div class="ui segment" id="mdContext" style="width:60%">
+		<div class="ui segment" id="mdContext" style="width:75%;margin-left:10px;">
         
-        <div class="right ui rail" style="margin-top:75px;">
+        <div class="right ui rail" style="margin-top: 75px; padding: 0px; width: 20%;">
           <div class="ui sticky">
             <div style="margin-top:75px;"> 
-            <h3 class="ui header">Stuck</h3>
+            	
+            	<div class="ui compact vertical labeled icon menu">
+            	  <a class="item"> 
+				    <s:graphicImage
+				    	styleClass="ui avatar image" 
+				    	rendered="#{storyHome.instance.member.hasImage}" value="#{storyHome.instance.member.image}"></s:graphicImage><br />
+				    <h:outputText value="#{storyHome.instance.member.username}" />
+				  </a>
+				  <s:fragment rendered="#{identity.loggedIn}">
+					  <a class="item">
+					    <i class="icon-star-empty"></i><br />
+					    علاقه مندی
+					  </a>
+				  </s:fragment>
+				  
+				</div>
+            	
+            	
             </div>
           </div>
         </div>

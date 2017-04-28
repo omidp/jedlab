@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TransactionalContextualHttpServletRequest;
 
 public class StoryDraftServlet extends HttpServlet
@@ -24,11 +25,15 @@ public class StoryDraftServlet extends HttpServlet
             {
                 String mdcontent = req.getParameter("mdcontent");
                 String storyId = req.getParameter("storyId");
-                Long id = StoryHome.instance().draftContent(mdcontent, storyId);
-                PrintWriter out = resp.getWriter();
-                resp.setContentType("text/plain;charset=utf-8");
-                out.print(id);
-                out.flush();
+                String storyTitle = req.getParameter("storyTitle");
+                if (StringUtil.isNotEmpty(storyTitle) && StringUtil.isNotEmpty(mdcontent))
+                {
+                    Long id = StoryHome.instance().draftContent(mdcontent, storyId, storyTitle);
+                    PrintWriter out = resp.getWriter();
+                    resp.setContentType("text/plain;charset=utf-8");
+                    out.print(id);
+                    out.flush();
+                }
             }
         }.run();
     }

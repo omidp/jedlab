@@ -34,11 +34,26 @@
 			<div
 			class="w3-margin locale-direction">
 			
+				
+				    <div class="form-item">
+				        <label>#{messages['Title']}</label>
+				        <input type="text" style="width: 100%" id="storyTitle"
+				        	value="#{storyHome.instance.title}" 
+				        	name="storyTitle"/>				        
+				    </div>
+				
+			
 			</div>
 			 
 				<div id="layout" style="width: 100%; height: 90%;"></div>  
 
 				<div id="mainContent" style="display:none;">
+				
+				<s:fragment rendered="#{storyHome.managed}">
+					<textarea name="mdcontent" class="writer-area div-content mdcontent" >#{storyHome.markdownContent}</textarea>
+				</s:fragment>
+				
+				<s:fragment rendered="#{!storyHome.managed}">
 					<textarea name="mdcontent" class="writer-area div-content mdcontent" >## #{messages['Default_Header_Story']}
 
 #{messages['Default_Content_Story']}
@@ -58,6 +73,7 @@ shared void run() => newServer {
 
 # Your Java Story
 </textarea>
+</s:fragment>
 				</div>
 				
 				<div id="leftContent" style="display:none;">
@@ -91,7 +107,7 @@ jQuery(function () {
                     ],
                     onClick: function (event) {                        
                         if(event.target == 'help')
-                          window.open('https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet','','height=750,width=550');
+                          window.open('http://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet','Markdown-Cheatsheet','height=750,width=550');
                         if(event.target == 'draft')  
                         	mdDraft();
 						if(event.target == 'publish')  
@@ -147,10 +163,17 @@ function mdPrv()
 
 function mdDraft()
 {
+	var t = jQuery("#storyTitle").val();
+	if(t == '')
+	{
+		common.notification("#{messages['Empty_Title']}", "errormsg");
+		return;
+	}
 	jQuery.post("#{_ctx}/story/draft",
 			{
 				mdcontent: jQuery(".mdcontent").val(),
-				storyId: jQuery("#storyId").val()
+				storyId: jQuery("#storyId").val(),
+				storyTitle : jQuery("#storyTitle").val()
 			},
 		function(data, status){	
 			if(status == 'success')
@@ -167,10 +190,17 @@ function mdDraft()
 
 function mdPublish()
 {
+	var t = jQuery("#storyTitle").val();
+	if(t == '')
+	{
+		common.notification("#{messages['Empty_Title']}", "errormsg");
+		return;
+	}
 	jQuery.post("#{_ctx}/story/publish",
 			{
 				mdcontent: jQuery(".mdcontent").val(),
-				storyId: jQuery("#storyId").val()
+				storyId: jQuery("#storyId").val(),
+				storyTitle : jQuery("#storyTitle").val()
 			},
 		function(data, status){
 				console.log(data);			

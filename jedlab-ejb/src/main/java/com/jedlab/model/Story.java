@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,6 +50,35 @@ public class Story extends BasePO
 
     @Column(name = "published", nullable = false)
     private boolean published;
+
+    @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
+    @Column(name = "image", length = 2147483647)
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image;
+
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+    public byte[] getImage()
+    {
+        return image;
+    }
+
+    public void setImage(byte[] image)
+    {
+        this.image = image;
+    }
 
     public Date getCreatedDate()
     {
@@ -102,12 +132,17 @@ public class Story extends BasePO
     {
         return member != null && member.getId() == Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
     }
-    
+
     @Transient
     public boolean isNew()
     {
         return getId() == null;
     }
-    
+
+    @Transient
+    public boolean getHasImage()
+    {
+        return getImage() != null && getImage().length > 0;
+    }
 
 }

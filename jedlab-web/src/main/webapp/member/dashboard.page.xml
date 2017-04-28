@@ -3,7 +3,7 @@
 	login-required="true"
 	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
-	<rewrite pattern="/member/dashboard"/>
+	
 	
 	<end-conversation />
 	
@@ -18,5 +18,11 @@
 	
 	<param name="fr" value="#{memberQuestionQuery.firstResult}"/>
 	<param name="pn" value="#{memberQuestionQuery.pageNumber}"/>
+	
+	<param name="sr" value="#{personalStoryQuery.firstResult}"/>
+	<param name="sn" value="#{personalStoryQuery.pageNumber}"/>
+	
+	
+	
 
 </page>

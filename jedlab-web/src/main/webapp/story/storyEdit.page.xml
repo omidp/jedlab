@@ -8,6 +8,8 @@
 		
 	</description>
 	
+	<begin-conversation flush-mode="manual" join="true"/>
+	
 	<param name="storyId" value="#{storyHome.storyId}"/>
 	
 	<action execute="#{storyHome.load()}"/>
