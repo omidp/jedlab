@@ -10,6 +10,12 @@
 	<param name="firstResult" value="#{storyQuery.firstResult}"/>
 	<param name="pageNumber" value="#{storyQuery.pageNumber}"/>
 	
-	
+	<navigation from-action="#{storyHome.remove()}">
+		<end-conversation />
+		<rule if-outcome="removed">
+			<redirect view-id="/story/storyList.xhtml" include-page-params="false">
+			</redirect>
+		</rule>
+	</navigation>
    
 </page>

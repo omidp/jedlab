@@ -64,7 +64,9 @@
 					  <div class="content">
 					    <span class="left floated">
 					      <i class="heart outline like icon"></i>  
-					      
+					      <s:link value="#{messages['Delete']}" rendered="#{s:hasRole('Admin')}" action="#{storyHome.remove()}" propagation="none" includePageParams="false">
+					      	<f:param name="storyId" value="#{_item.id}"></f:param>
+					      </s:link>
 					    </span>
 					    <i class="comment icon"></i>
 					    

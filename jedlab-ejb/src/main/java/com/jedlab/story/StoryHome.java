@@ -231,5 +231,14 @@ public class StoryHome extends EntityHome<Story>
         }
         return null;
     }
+    
+    @Override
+    public String remove()
+    {
+        String sidParam = WebUtil.getParameterValue("storyId");
+        if(StringUtil.isNotEmpty(sidParam))
+            setId(Long.parseLong(sidParam));
+        return super.remove();
+    }
 
 }
