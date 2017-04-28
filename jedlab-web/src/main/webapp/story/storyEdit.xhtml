@@ -67,6 +67,7 @@ shared void run() => newServer {
 		
 		<script type="text/javascript" src="#{_ctx}/js/highlight.pack.js"></script>
 		<script>hljs.initHighlightingOnLoad();</script>
+		<input type="hidden" name="storyId" id="storyId" value="#{storyHome.instance.id}"/>
 		
 		
 		<script type="text/javascript">
@@ -92,9 +93,9 @@ jQuery(function () {
                         if(event.target == 'help')
                           window.open('https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet','','height=750,width=550');
                         if(event.target == 'draft')  
-							console.log('draft');
+                        	mdDraft();
 						if(event.target == 'publish')  
-							console.log('publish');
+							mdPublish();
 						if(event.target == 'preview')
 							mdPrv();
                     }
@@ -118,9 +119,6 @@ jQuery(document).ready(function(){
 		jQuery("#mainContent").remove();
 		//
 		
-		
-		
-
 		mdPrv();	  
 
 			
@@ -128,7 +126,7 @@ jQuery(document).ready(function(){
 
 function mdPrv()
 {
-	jQuery.post("#{storyHome.mdServer}",
+	jQuery.post("#{_ctx}/story/preview",
 			{
 				mdcontent: jQuery(".mdcontent").val()
 			},
@@ -144,6 +142,48 @@ function mdPrv()
 					jQuery(this).parent().addClass('ltr-dir');
 				});		
 			});
+}
+
+
+function mdDraft()
+{
+	jQuery.post("#{_ctx}/story/draft",
+			{
+				mdcontent: jQuery(".mdcontent").val(),
+				storyId: jQuery("#storyId").val()
+			},
+		function(data, status){	
+			if(status == 'success')
+			{
+				common.notification("#{messages['Story_created']}", "infomsg");
+				jQuery("#storyId").val(data);
+			}	
+			else				
+			{
+				common.notification("#{messages['Error_Title']}", "errormsg");
+			}
+		});
+}
+
+function mdPublish()
+{
+	jQuery.post("#{_ctx}/story/publish",
+			{
+				mdcontent: jQuery(".mdcontent").val(),
+				storyId: jQuery("#storyId").val()
+			},
+		function(data, status){
+				console.log(data);			
+				if(status == 'success')
+				{
+					common.notification("#{messages['Story_created']}", "infomsg");
+					jQuery("#storyId").val(data);
+				}	
+				else				
+				{
+					common.notification("#{messages['Error_Title']}", "errormsg");
+				}			
+		});
 }
 
 

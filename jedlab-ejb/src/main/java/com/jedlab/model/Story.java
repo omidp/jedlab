@@ -102,5 +102,12 @@ public class Story extends BasePO
     {
         return member != null && member.getId() == Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
     }
+    
+    @Transient
+    public boolean isNew()
+    {
+        return getId() == null;
+    }
+    
 
 }

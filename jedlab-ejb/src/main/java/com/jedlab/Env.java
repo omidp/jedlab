@@ -114,11 +114,11 @@ public final class Env
         return prop.getProperty("GITHUB_CALLBACK");
     }
     
-    public static String getMdServer()
-    {
-        return prop.getProperty("MD_SERVER");
-    }
-    
+//    public static String getMdServer()
+//    {
+//        return prop.getProperty("MD_SERVER");
+//    }
+//    
     public static String getGoogleKey()
     {
         return prop.getProperty("GOOGLE_KEY");
@@ -132,6 +132,11 @@ public final class Env
     public static String getGoogleCallback()
     {
         return prop.getProperty("GOOGLE_CALLBACK");
+    }
+    
+    public static String getStoryLocation()
+    {
+        return prop.getProperty("STORY_LOC");
     }
     
 }

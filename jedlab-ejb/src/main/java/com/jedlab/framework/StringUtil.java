@@ -1,5 +1,8 @@
 package com.jedlab.framework;
 
+import java.util.regex.Pattern;
+
+
 public class StringUtil
 {
 
@@ -58,6 +61,13 @@ public class StringUtil
     {
         String val = input == null ? null : String.valueOf(input);
         return isNotEmpty(val);
+    }
+    
+    private static final Pattern SCRIPT_PATTERN = Pattern.compile("(?i)<(/?script[^>]*)>");
+    
+    public static String escapeJavascript(String input)
+    {
+        return SCRIPT_PATTERN.matcher(input).replaceAll("&lt;$1&gt;");
     }
 
 }

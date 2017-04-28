@@ -172,6 +172,36 @@
 		<servlet-name>Rating Servlet</servlet-name>
 		<servlet-class>com.jedlab.CourseRatingServlet</servlet-class>
 	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Story Draft Servlet</servlet-name>
+		<url-pattern>/story/draft</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Story Draft Servlet</servlet-name>
+		<servlet-class>com.jedlab.story.StoryDraftServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Story Preview Servlet</servlet-name>
+		<url-pattern>/story/preview</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Story Preview Servlet</servlet-name>
+		<servlet-class>com.jedlab.story.StoryPreviewServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Story Publish Servlet</servlet-name>
+		<url-pattern>/story/publish</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Story Publish Servlet</servlet-name>
+		<servlet-class>com.jedlab.story.StoryPublishServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>FreeVideo Player Servlet</servlet-name>
