@@ -47,6 +47,17 @@ p{
 	 line-height: 2;
 }
 </style>  
+
+<meta property="og:site_name" content="JEDLab" />
+<meta name="twitter:site" content="JEDLab" />
+<meta property="og:title" content="#{storyHome.instance.title}" />
+<meta property="og:locale" content="fa_IR" />
+<meta property="og:type" content="website" />
+<meta property="og:description" content="جدلب با ارائه آنلاین ویدیوهای آموزشی جاوا محلی است برای ارتقاء سطح دانش  شما" />
+<meta property="og:url" content="http://www.jedlab.ir/jedlog/story/#{storyHome.instance.uuid}" />
+<s:fragment rendered="#{!storyHome.instance.hasImage}">
+	<meta property="og:image" content="http://jedlab.ir/images/logo.png" />
+</s:fragment>
 	</ui:define>  
 
 	<ui:define name="body">  
