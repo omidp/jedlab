@@ -18,6 +18,8 @@ public class PersonalStoryQuery extends AbstractStoryQuery
     public PersonalStoryQuery()
     {
         setMaxResults(15);
+        setOrderColumn("createdDate");
+        setOrderDirection("desc");
     }
 
     @Override

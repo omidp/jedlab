@@ -4,6 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:jedlab="http://tasktops.com/ui"
 	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
 
 	<ui:define name="head">
@@ -13,7 +14,9 @@
 	width: 100%;
 	height: 100%;
 }
-
+.content-area h1{
+	font-family:vazir !important;
+}
 .div-content {
 	direction: rtl;
 	font-family: Yekan, Tahoma;
@@ -26,64 +29,46 @@ pre {
 code {
 	direction: ltr !important;
 }
-</style>
-	</ui:define>
 
-	<ui:define name="body">
+.rtl-dir{
+	direction:rtl;
+	text-align:justify;
+}
+.ltr-dir{
+	direction:ltr;
+	text-align:left;
+}
+
+strong, b{
+	color: #d2691e;
+}
+p{
+	text-align: justify !important;
+	 line-height: 2;
+}
+</style>  
+	</ui:define>  
+
+	<ui:define name="body">  
 	
 		<div
-			class="w3-margin locale-direction">
+			class="w3-margin ui text container w3-justify content-area locale-direction">
+			  
+			  
+			 <div class="w3-row w3-panel w3-border-bottom w3-border-green">
+			  <div class="w3-col m4  w3-center"><p>#{messages['Pub_Date']} #{' : '} <jedlab:dateLabel value="#{storyHome.instance.createdDate}"></jedlab:dateLabel></p></div>
+			  <div class="w3-col m4  w3-center"><p>  </p></div>
+			  <div class="w3-col m4  w3-center"><p>#{messages['Writer']} #{' : '} #{storyHome.instance.member.username}</p></div>
+			</div>
+			
+			<h:outputText value="#{storyHome.htmlResult}" escape="false" />
+			
 		</div>
 		
-		<div class="ui segment" id="mdContext" style="width:75%;margin-left:10px;">
-        
-        <div class="right ui rail" style="margin-top: 75px; padding: 0px; width: 20%;">
-          <div class="ui sticky">
-            <div style="margin-top:75px;"> 
-            	
-            	<div class="ui compact vertical labeled icon menu">
-            	  <a class="item"> 
-				    <s:graphicImage
-				    	styleClass="ui avatar image" 
-				    	rendered="#{storyHome.instance.member.hasImage}" value="#{storyHome.instance.member.image}"></s:graphicImage><br />
-				    <h:outputText value="#{storyHome.instance.member.username}" />
-				  </a>
-				  <s:fragment rendered="#{identity.loggedIn and storyBookmarkQuery.resultCount == 0}">
-					  <s:link styleClass="item" action="#{storyHome.bookmark()}">
-					  	<f:param name="storyId" value="#{storyHome.instance.id}"></f:param>
-					    <i class="icon-star-empty"></i><br />
-					    <h:outputText value="#{messages['Favourite']}" />
-					  </s:link>
-				  </s:fragment>
-				  
-				  <s:fragment rendered="#{identity.loggedIn and storyBookmarkQuery.resultCount > 0}">
-					  <s:link styleClass="item" action="#{storyHome.unbookmark()}">
-					  	<f:param name="storyId" value="#{storyHome.instance.id}"></f:param>
-					    <i class="icon-star-full"></i><br />
-					    <h:outputText value="#{messages['Favourite']}" />
-					  </s:link>
-				  </s:fragment>
-				  
-				</div>
-            	
-            	
-            </div>
-          </div>
-        </div>
-         
-        <div> 
-        	<h:outputText value="#{storyHome.htmlResult}" escape="false" />
-        </div>
-        
-      </div>
-
+		
 	
 	<script>
-	jQuery(document).ready(function(){
-		jQuery('.ui.sticky')
-		.sticky({
-		  context: '#mdContext'
-		});
+	jQuery(document).ready(function(){		
 		jQuery('span.rtl-dir').each(function(i, block) {						
 			jQuery(this).parent().addClass('rtl-dir');
 		});

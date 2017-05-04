@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.commonmark.node.Node;
@@ -53,6 +55,18 @@ public class StoryHome extends EntityHome<Story>
 
     private Integer fileSize;
 
+    private String uuid;
+
+    public String getUuid()
+    {
+        return uuid;
+    }
+
+    public void setUuid(String uuid)
+    {
+        this.uuid = uuid;
+    }
+
     public byte[] getUploadImage()
     {
         return uploadImage;
@@ -95,12 +109,23 @@ public class StoryHome extends EntityHome<Story>
 
     public void load()
     {
-        if (isIdDefined())
+        Story story = null;
+        if (StringUtil.isNotEmpty(getUuid()))
         {
-            Story story = (Story) hibernateSession.createCriteria(Story.class, "s").add(Restrictions.idEq(getStoryId()))
+            story = (Story) hibernateSession.createCriteria(Story.class, "s").add(Restrictions.eq("s.uuid", getUuid()))
                     .createCriteria("member", "m", Criteria.LEFT_JOIN).uniqueResult();
-            if (story == null)
-                throw new ErrorPageExceptionHandler("story is null");
+        }
+        if (isIdDefined() && story == null)
+        {
+            story = (Story) hibernateSession.createCriteria(Story.class, "s").add(Restrictions.idEq(getStoryId()))
+                    .createCriteria("member", "m", Criteria.LEFT_JOIN).uniqueResult();
+            if(story == null)
+                throw new EntityNotFoundException("story not found");
+            if(story.isOwner() == false)
+                throw new ErrorPageExceptionHandler("invalid owner");
+        }
+        if (story != null)
+        {
             setInstance(story);
             HtmlMarkdownHolder holder = (HtmlMarkdownHolder) ServletLifecycle.getServletContext().getAttribute(
                     HtmlMarkdownProcessor.MARKDOWN);
@@ -114,7 +139,7 @@ public class StoryHome extends EntityHome<Story>
             }
             catch (IOException e)
             {
-                e.printStackTrace();
+                getLog().info("IOEXCEPTION");
             }
         }
     }

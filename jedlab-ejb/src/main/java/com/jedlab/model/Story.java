@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,6 +30,7 @@ import org.ocpsoft.prettytime.PrettyTime;
 
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CollectionUtil;
+import com.jedlab.framework.StringUtil;
 
 @Table(name = "stories")
 @Entity
@@ -59,6 +62,19 @@ public class Story extends BasePO
 
     @Column(name = "title", nullable = false)
     private String title;
+
+    @Column(name = "uuid")
+    private String uuid;
+
+    public String getUuid()
+    {
+        return uuid;
+    }
+
+    public void setUuid(String uuid)
+    {
+        this.uuid = uuid;
+    }
 
     public String getTitle()
     {
@@ -130,7 +146,10 @@ public class Story extends BasePO
     @Transient
     public boolean isOwner()
     {
-        return member != null && member.getId() == Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+        Object currentLogginId = Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+        if(member == null || currentLogginId == null)
+            return false;
+        return member.getId().longValue() == ((Long)currentLogginId).longValue();
     }
 
     @Transient
@@ -143,6 +162,23 @@ public class Story extends BasePO
     public boolean getHasImage()
     {
         return getImage() != null && getImage().length > 0;
+    }
+    
+    @PrePersist
+    public void prePersist()
+    {
+        setUuid(UUID.randomUUID().toString());
+    }
+    
+    @Transient
+    public String getShortTitle()
+    {
+        if(StringUtil.isNotEmpty(title))
+        {
+            if(title.length() > 30)
+                return title.substring(0, 30).concat(" ...");
+        }
+        return title;
     }
 
 }

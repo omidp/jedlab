@@ -37,7 +37,7 @@
 				
 				    <div class="form-item">
 				        <label>#{messages['Title']}</label>
-				        <input type="text" style="width: 100%" id="storyTitle"
+				        <input type="text" style="width: 100%" id="storyTitle" maxlength="80"
 				        	value="#{storyHome.instance.title}" 
 				        	name="storyTitle"/>				        
 				    </div>
@@ -54,11 +54,10 @@
 				</s:fragment>
 				
 				<s:fragment rendered="#{!storyHome.managed}">
-					<textarea name="mdcontent" class="writer-area div-content mdcontent" >## #{messages['Default_Header_Story']}
+					<textarea name="mdcontent" class="writer-area div-content mdcontent" >## #{messages['JEDLog']}
 
 #{messages['Default_Content_Story']}
 
-![alt text](http://jedlab.ir/images/logo.png "JEDLab Logo")
 
 ```ceylon
 shared void run() => newServer {
@@ -71,7 +70,9 @@ shared void run() => newServer {
     }.start();
 ```
 
-# Your Java Story
+![alt text](http://jedlab.ir/images/logo.png "JEDLab Logo")
+
+#{messages['Story_Start_Now']}
 </textarea>
 </s:fragment>
 				</div>
@@ -107,7 +108,7 @@ jQuery(function () {
                     ],
                     onClick: function (event) {                        
                         if(event.target == 'help')
-                          window.open('http://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet','Markdown-Cheatsheet','height=750,width=550');
+                          window.open(window.location.origin + "#{_ctx}/story/markdownHelp.seam",'Markdown-Cheatsheet','height=750,width=550');
                         if(event.target == 'draft')  
                         	mdDraft();
 						if(event.target == 'publish')  

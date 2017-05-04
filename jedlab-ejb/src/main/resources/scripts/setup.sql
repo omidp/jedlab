@@ -70,3 +70,11 @@ ALTER TABLE public.course ALTER COLUMN published SET NOT NULL;
 ALTER TABLE public.course ALTER COLUMN published SET DEFAULT false;
 
 update course set instructor_id = 1;
+
+
+-- DROP INDEX public.stories_uuid_idx;
+
+CREATE INDEX stories_uuid_idx
+  ON public.stories
+  USING btree
+  (uuid COLLATE pg_catalog."default");

@@ -136,7 +136,10 @@ public class Comment extends BasePO
     @Transient
     public boolean isOwner()
     {
-        return member != null && member.getId() == Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+        Object currentLogginId = Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+        if(member == null || currentLogginId == null)
+            return false;
+        return member.getId().longValue() == ((Long)currentLogginId).longValue();
     }
 
 }

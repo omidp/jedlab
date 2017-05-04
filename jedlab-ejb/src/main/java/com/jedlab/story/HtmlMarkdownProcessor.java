@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 
@@ -83,11 +84,13 @@ public class HtmlMarkdownProcessor
 
     }
 
+    
     class RTLTextBlockNodeRenderer implements NodeRenderer
     {
 
         private final HtmlWriter html;
         private final HtmlNodeRendererContext htmlContext;
+        private final Pattern ENGLISH_CHARACTER_PATTERN = Pattern.compile("^\\w");
 
         RTLTextBlockNodeRenderer(HtmlNodeRendererContext context)
         {
@@ -109,10 +112,11 @@ public class HtmlMarkdownProcessor
 
             String literal = content.getLiteral();
             Map<String, String> attributes = new LinkedHashMap<>();
-            if (new BigInteger(1, literal.getBytes()).intValue() < 0x80)
-                attributes.put("class", "rtl-dir");
-            else
+//            if (new BigInteger(1, literal.getBytes()).intValue() < 0x80)
+            if(ENGLISH_CHARACTER_PATTERN.matcher(literal).find())
                 attributes.put("class", "ltr-dir");
+            else
+                attributes.put("class", "rtl-dir");
             html.tag("span", attributes);
             html.text(literal);
             html.tag("/span");

@@ -134,29 +134,44 @@
 						<s:fragment rendered="#{not empty personalStoryQuery.resultList}">
 						
 							<c:forEach items="#{personalStoryQuery.resultList}" var="_st">
+							
 								<div class="w3-container">
-											<h5 class="w3-opacity">
-												<b><s:link value="#{_st.title}" propagation="none"
-														styleClass="clickableLink" 
-														includePageParams="false" view="/story/storyEdit.xhtml">
-														<f:param name="storyId" value="#{_st.id}"></f:param>
-													</s:link></b>
-											</h5>
-											<h6 class="w3-text-teal">									
-												
-											</h6>
-											<p>
-												<span data-storyid="#{_st.id}" class="story-img" style="cursor: pointer;color: #2F7ED8;">
+									<h5 class="w3-opacity">
+										<s:graphicImage value="#{_st.image}"
+										rendered="#{_st.hasImage}" width="85px" height="40px"
+										styleClass="ui middle aligned tiny image">
+
+									</s:graphicImage>
+									<s:graphicImage value="/images/image-text.png"
+										rendered="#{!_st.hasImage}"
+										styleClass="ui middle aligned small image"></s:graphicImage>
+										<b><s:link view="/story/storyEdit.xhtml" value="#{_st.title}"
+											propagation="none" includePageParams="false"
+											styleClass="header clickableLink">
+											<f:param name="storyId" value="#{_st.id}"></f:param>
+										</s:link></b>
+									</h5>
+									<h6 class="w3-text-teal">									
+										<s:span styleClass="w3-tag w3-teal w3-round">
+											<h:outputText value="#{messages['Published']}" rendered="#{_st.published}"/>
+											<h:outputText value="#{messages['Draft']}" rendered="#{!_st.published}"/>
+										</s:span>
+									</h6>
+									<p>
+										<span data-storyid="#{_st.id}" class="story-img" style="cursor: pointer;color: #2F7ED8;">
 													<s:fragment rendered="#{!_st.hasImage}">
 														#{messages['Add']} #{messages['Image']}
 													</s:fragment>
 													<s:fragment rendered="#{_st.hasImage}">
 														#{messages['Edit']} #{messages['Image']}
 													</s:fragment>
-												</span>
-											</p>
-											<hr />
+										</span>
+									</p>
+									<hr />
 								</div>
+							
+							
+								
 							</c:forEach>
 							
 							
