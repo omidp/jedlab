@@ -99,11 +99,11 @@
 	 <mail:mail-session host="smtp.mailgun.org" port="2525" username="postmaster@jedlab.ir" password="3a6743d8bf86926761e103d86858bdbe"  />  
 	
 	
-	<!--<bpm:jbpm>
+	<bpm:jbpm>
 		<bpm:process-definitions>			
 			<value>managerProcess.jpdl.xml</value>
 		</bpm:process-definitions>
-	</bpm:jbpm>-->
+	</bpm:jbpm>
 	<component name="org.jboss.seam.international.localeSelector">
 		<property name="language">fa</property>
 		<property name="country">IR</property>
