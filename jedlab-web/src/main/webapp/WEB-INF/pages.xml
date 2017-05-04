@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pages http-port="8180" https-port="8443" login-view-id="/login.xhtml"
+<pages http-port="80" https-port="8443" login-view-id="/login.xhtml"
 	xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
@@ -128,7 +128,7 @@
 	</exception>
 	<exception class="java.io.IOException" log-level="trace">
 		<redirect view-id="/error.xhtml">
-			<message severity="warn">#{messages['Set_ArrayList']}</message>
+			<message severity="warn">#{messages['IO_Exception']}</message>
 		</redirect>
 	</exception>
 	<exception class="org.jboss.seam.web.FileUploadException">
