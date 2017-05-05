@@ -66,6 +66,19 @@ public class Story extends BasePO
     @Column(name = "uuid")
     private String uuid;
 
+    @Column(name = "comment_enabled")
+    private boolean commentEnabled;
+
+    public boolean isCommentEnabled()
+    {
+        return commentEnabled;
+    }
+
+    public void setCommentEnabled(boolean commentEnabled)
+    {
+        this.commentEnabled = commentEnabled;
+    }
+
     public String getUuid()
     {
         return uuid;
@@ -147,9 +160,9 @@ public class Story extends BasePO
     public boolean isOwner()
     {
         Object currentLogginId = Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
-        if(member == null || currentLogginId == null)
+        if (member == null || currentLogginId == null)
             return false;
-        return member.getId().longValue() == ((Long)currentLogginId).longValue();
+        return member.getId().longValue() == ((Long) currentLogginId).longValue();
     }
 
     @Transient
@@ -163,19 +176,19 @@ public class Story extends BasePO
     {
         return getImage() != null && getImage().length > 0;
     }
-    
+
     @PrePersist
     public void prePersist()
     {
         setUuid(UUID.randomUUID().toString());
     }
-    
+
     @Transient
     public String getShortTitle()
     {
-        if(StringUtil.isNotEmpty(title))
+        if (StringUtil.isNotEmpty(title))
         {
-            if(title.length() > 30)
+            if (title.length() > 30)
                 return title.substring(0, 30).concat(" ...");
         }
         return title;

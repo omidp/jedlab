@@ -78,3 +78,15 @@ CREATE INDEX stories_uuid_idx
   ON public.stories
   USING btree
   (uuid COLLATE pg_catalog."default");
+
+----------------------(Done)
+  
+------------------------------------- 1396-02-15 
+
+
+-- ALTER TABLE public.stories DROP COLUMN comment_enabled;
+
+ALTER TABLE public.stories ADD COLUMN comment_enabled boolean;
+update stories set comment_enabled = true;
+ALTER TABLE public.stories ALTER COLUMN comment_enabled SET NOT NULL;
+ALTER TABLE public.stories ALTER COLUMN comment_enabled SET DEFAULT false;

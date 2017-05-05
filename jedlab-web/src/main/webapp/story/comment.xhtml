@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jedlab="http://tasktops.com/ui"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:omidp="http://omidbiz.com/omidp"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/dialog.xhtml">
+
+	<ui:define name="head">
+		<script type="text/javascript">
+			function addCmSection(itemId)
+			{
+				var idSection = "cmSection_"+itemId;
+				jQuery("#"+idSection).prepend(jQuery("#commentPanel").contents());
+				jQuery("#replyId").val(itemId);
+				jQuery("#btnCancel_"+itemId).show();
+			}
+			function cancelReply(itemId)
+			{
+				var idSection = "cmSection_"+itemId;
+				jQuery("#commentPanel").prepend(jQuery("#"+idSection).contents());
+				jQuery("#btnCancel_"+itemId).hide();
+			}
+		</script>
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div style="margin-top: 10px; margin-bottom: 10px; direction: rtl;">
+
+				<h:outputText  
+					value="#{messages['Login_For_Comment']}" rendered="#{!identity.loggedIn}" />
+				
+				<s:fragment rendered="#{identity.loggedIn}">
+					
+					<div id="commentPanel">
+						<div class="ui segments">
+							<div class="ui segment">
+								
+								<h:form class="form" id="cmForm" style="margin-right: 25px;">
+									<div>
+										<div class="form-item">
+											<label style="font-weight: bolder; font-size: 14px;">
+											</label>
+											<h:inputTextarea value="#{storyCommentHome.instance.content}"
+												required="true" styleClass="width-50" style="width:50%;"
+												cols="15" rows="6" />
+											<div class="desc"></div>
+										</div>
+										<input type="hidden" name="replyId" id="replyId" /> <input
+											name="storyId" value="#{storyId}" id="storyId"
+											type="hidden" />
+									</div>
+									<div style="padding-bottom: 10px;">
+										<h:commandButton styleClass="btn btn-green btn-outline"
+											id="commentBtn"
+											value="#{messages['Send']} #{messages['Reply']}"
+											action="#{storyCommentHome.persist()}" />
+									</div>
+								</h:form>
+							</div>
+							<div class="ui secondary segment">
+								<span id="commentHelp" style="cursor: pointer;">#{messages['Help']}</span>
+							</div>
+						</div>
+					</div>
+	
+					<script>
+						jQuery(document).ready(function(){
+	
+							jQuery("#commentHelp").click(function(){
+								jQuery("#cmModal").modal('setting', 'closable', true).modal({ blurring: true}).modal('show');
+							});
+							
+						});
+					</script>
+	
+					<div class="ui modal" id="cmModal">
+						<div class="header locale-direction w3-right-align"></div>
+						<div class="content locale-direction w3-right-align">
+							<ul class="list locale-direction w3-right-align">
+								<li>#{messages['Comment_Tip_1']}</li>
+								<li>#{messages['Comment_Tip_2']}</li>
+								<li>#{messages['Comment_Tip_3']}</li>
+								<li>#{messages['Comment_Tip_4']}</li>
+								<li>#{messages['Comment_Tip_5']}</li>
+								<li>#{messages['Comment_Tip_6']}</li>
+								<li>#{messages['Comment_Tip_7']}</li>
+								<li>#{messages['Comment_Tip_8']}</li>
+							</ul>
+						</div>
+					</div>
+				
+				</s:fragment>
+
+
+		</div>
+
+		<s:div styleClass="well" rendered="#{empty storyCommentQuery.resultList}">
+			<h4 class="ui header">
+				<h:outputText value="#{messages['No_Comment']}"
+					rendered="#{empty storyCommentQuery.resultList}" />
+			</h4>
+		</s:div>
+
+		<s:fragment rendered="#{not empty storyCommentQuery.resultList}">
+			<omidp:storyComment commentValues="#{storyCommentQuery.resultList}" />
+		</s:fragment>
+
+
+	</ui:define>
+</ui:composition>

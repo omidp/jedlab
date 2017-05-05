@@ -12,5 +12,11 @@
 	</tag>
 	
 	
+	<tag>
+	   <tag-name>storyComment</tag-name>
+	   <source>templates/storyCommentTag.xhtml</source>
+	</tag>
+	
+	
 	
 </facelet-taglib>

@@ -1,10 +1,12 @@
 package com.jedlab.story;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityNotFoundException;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -24,6 +26,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.international.StatusMessage.Severity;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.persistence.PersistenceContexts;
 
 import com.jedlab.Env;
@@ -164,9 +167,10 @@ public class StoryHome extends EntityHome<Story>
     }
 
     @Transactional
-    public Long publishContent(String mdcontent, String storyId, String storyTitle) throws IOException
+    public Long publishContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException
     {
         Story story = createStory(storyId, storyTitle);
+        story.setCommentEnabled(commentEnabled);
         Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
         saveContent(uid, mdcontent, story);
         if (story.isNew())
@@ -178,9 +182,10 @@ public class StoryHome extends EntityHome<Story>
     }
 
     @Transactional
-    public Long draftContent(String mdcontent, String storyId, String storyTitle) throws IOException
+    public Long draftContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException
     {
         Story story = createStory(storyId, storyTitle);
+        story.setCommentEnabled(commentEnabled);
         Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
         saveContent(uid, mdcontent, story);
         if (story.isNew())
@@ -307,6 +312,21 @@ public class StoryHome extends EntityHome<Story>
             getEntityManager().flush();
             WebContext.instance().redirectIt(true, true);
         }
+    }
+    
+    private String currentView;
+    
+    public String getCurrentView()
+    {
+        if (currentView != null)
+            return currentView;
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        String viewId = Pages.getCurrentViewId();
+        String url = facesContext.getApplication().getViewHandler().getActionURL(facesContext, Pages.getCurrentViewId());
+        url = Pages.instance().encodeScheme(viewId, facesContext, url);
+        url = url.substring(0, url.lastIndexOf("/") + 1);
+        currentView = url + String.format("story/%d", getUuid());
+        return currentView;
     }
 
 }

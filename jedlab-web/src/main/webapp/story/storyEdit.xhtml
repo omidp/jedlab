@@ -41,7 +41,29 @@
 				        	value="#{storyHome.instance.title}" 
 				        	name="storyTitle"/>				        
 				    </div>
-				
+				    <br />
+				    
+				    <div class="form-item">				    	
+				    	<s:fragment rendered="#{storyHome.instance.commentEnabled}">
+					        <input type="checkbox" id="chkComp" checked="checked"  onchange="chkVal();"/>
+				    	</s:fragment>
+				    	<s:fragment rendered="#{!storyHome.instance.commentEnabled}">
+					        <input type="checkbox" id="chkComp"  onchange="chkVal();"/>
+				    	</s:fragment>
+				        <input type="hidden" name="cmEnabled" id="cmEnabled"/>				        
+				        <label>#{messages['Comment_Enabled']}</label>
+				    </div>
+					
+					<script>
+						function chkVal()
+						{
+							var v = jQuery("#chkComp").attr("checked");
+							if(v == 'checked')
+								jQuery("#cmEnabled").val("Y");
+							else
+								jQuery("#cmEnabled").val("N");
+						}
+					</script>
 			
 			</div>
 			 
@@ -174,7 +196,8 @@ function mdDraft()
 			{
 				mdcontent: jQuery(".mdcontent").val(),
 				storyId: jQuery("#storyId").val(),
-				storyTitle : jQuery("#storyTitle").val()
+				storyTitle : jQuery("#storyTitle").val(),
+				cmEnabled : jQuery("#cmEnabled").val()
 			},
 		function(data, status){	
 			if(status == 'success')
@@ -201,7 +224,8 @@ function mdPublish()
 			{
 				mdcontent: jQuery(".mdcontent").val(),
 				storyId: jQuery("#storyId").val(),
-				storyTitle : jQuery("#storyTitle").val()
+				storyTitle : jQuery("#storyTitle").val(),
+				cmEnabled : jQuery("#cmEnabled").val()
 			},
 		function(data, status){
 				console.log(data);			

@@ -15,19 +15,20 @@ import com.jedlab.framework.CollectionUtil;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.WebUtil;
 import com.jedlab.framework.jsf.FlashScope;
-import com.jedlab.model.Comment;
+import com.jedlab.model.StoryComment;
 import com.jedlab.model.Course;
 import com.jedlab.model.Member;
+import com.jedlab.model.Story;
 
-@Name("commentHome")
+@Name("storyCommentHome")
 @Scope(ScopeType.CONVERSATION)
-public class CommentHome extends EntityHome<Comment>
+public class StoryCommentHome extends EntityHome<StoryComment>
 {
 
     @Override
-    protected Comment createInstance()
+    protected StoryComment createInstance()
     {
-        return new Comment();
+        return new StoryComment();
     }
 
     public void load()
@@ -38,14 +39,14 @@ public class CommentHome extends EntityHome<Comment>
     @Override
     public String persist()
     {
-        String courseId = WebUtil.getParameterValue("courseId");
-        if (StringUtil.isEmpty(courseId))
+        String storyId = WebUtil.getParameterValue("storyId");
+        if (StringUtil.isEmpty(storyId))
             return null;
-        Comment reply = null;
+        StoryComment reply = null;
         String replyId = WebUtil.getParameterValue("replyId");
         if (StringUtil.isNotEmpty(replyId))
         {
-            reply = new Comment();
+            reply = new StoryComment();
             reply.setId(Long.parseLong(replyId));
             getInstance().setReply(reply);
         }
@@ -54,9 +55,9 @@ public class CommentHome extends EntityHome<Comment>
         member.setId(uid);
         getInstance().setMember(member);
         //
-        Course c = new Course();
-        c.setId(Long.parseLong(courseId));
-        getInstance().setCourse(c);
+        Story story = new Story();
+        story.setId(Long.parseLong(storyId));
+        getInstance().setStory(story);
         FlashScope.instance().addMessage(Severity.INFO, StatusMessage.getBundleMessage(getCreatedMessageKey(), ""));
         return super.persist();
     }
@@ -72,19 +73,19 @@ public class CommentHome extends EntityHome<Comment>
         FlashScope.instance().addMessage(Severity.INFO, StatusMessage.getBundleMessage("Deleted", ""));
         clearInstance();
         Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
-        List<Comment> resultList = getEntityManager().createQuery("select c from Comment c where c.id = :cmId AND c.member.id = :memId")
+        List<StoryComment> resultList = getEntityManager().createQuery("select c from StoryComment c where c.id = :cmId AND c.member.id = :memId")
                 .setParameter("cmId", Long.parseLong(cmId)).setParameter("memId", uid).getResultList();
-        for (Comment comment : resultList)
+        for (StoryComment storyComment : resultList)
         {
-            List<Comment> replies = comment.getReplies();
+            List<StoryComment> replies = storyComment.getReplies();
             if(CollectionUtil.isNotEmpty(replies))
             {
-                for (Comment item : replies)
+                for (StoryComment reply : replies)
                 {
-                    getEntityManager().remove(item);
+                    getEntityManager().remove(reply);
                 }
             }
-            getEntityManager().remove(comment);
+            getEntityManager().remove(storyComment);
         }
         getEntityManager().flush();
         return "removed";

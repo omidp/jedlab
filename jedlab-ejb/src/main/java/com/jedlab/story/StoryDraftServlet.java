@@ -26,9 +26,11 @@ public class StoryDraftServlet extends HttpServlet
                 String mdcontent = req.getParameter("mdcontent");
                 String storyId = req.getParameter("storyId");
                 String storyTitle = req.getParameter("storyTitle");
+                String cmEnabled = req.getParameter("cmEnabled");
                 if (StringUtil.isNotEmpty(storyTitle) && StringUtil.isNotEmpty(mdcontent))
                 {
-                    Long id = StoryHome.instance().draftContent(mdcontent, storyId, storyTitle);
+                    boolean commentEnabled = StringUtil.isNotEmpty(cmEnabled) && "Y".equals(cmEnabled);
+                    Long id = StoryHome.instance().draftContent(mdcontent, storyId, storyTitle, commentEnabled);
                     PrintWriter out = resp.getWriter();
                     resp.setContentType("text/plain;charset=utf-8");
                     out.print(id);

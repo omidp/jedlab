@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:omidp="http://omidbiz.com/omidp">
+
+	<div id="commentListItems" class="locale-direction">
+		<div class="ui comments width-100" id="commentItems">
+
+			<h3 class="ui dividing header"></h3>
+
+
+			<c:forEach var="_item" items="#{commentValues}">
+
+				<div class="comment comment-border">
+					<a class="avatar"> </a>
+					<div class="content">
+						<div class="comment-header"> 
+						<a class="author">#{_item.member.username}</a>
+						<div class="metadata">
+							<span class="date">#{_item.socialDate}</span>
+						</div>  
+						</div>
+						<div class="text text-container">
+								<s:formattedText value="#{_item.content}"></s:formattedText>
+						</div>
+						<div class="actions comment-action">
+							<s:fragment rendered="#{identity.loggedIn}">
+								<a onclick="addCmSection(#{_item.id});" class="reply btn-reply">
+									<i class="icon-pencil"></i>
+									#{messages['Reply']}
+								</a>
+								<s:fragment rendered="#{_item.owner}">
+									<s:link styleClass="reply btn-cancel" action="#{storyCommentHome.remove()}">
+										<f:param name="cmId" value="#{_item.id}"></f:param>
+										<i class="icon-bin"></i>
+										#{messages['Delete']}
+									</s:link>
+								</s:fragment>
+								<a onclick="cancelReply(#{_item.id});"
+									id="btnCancel_#{_item.id}" style="display: none;" class="reply btn-cancel">
+									<i class="icon-cancel-circle"></i>
+									#{messages['Cancel']}
+								</a>
+								<div id="cmSection_#{_item.id}" style="padding: 10px;"></div>
+							</s:fragment>
+						</div>
+					</div>
+
+
+				</div>
+				
+				<c:if test="#{_item.hasReplies}">
+					<omidp:storyComment commentValues="#{_item.replies}" />
+				</c:if>
+
+
+			</c:forEach>
+
+		</div>
+	</div>
+</ui:composition>
