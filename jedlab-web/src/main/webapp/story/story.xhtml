@@ -69,7 +69,24 @@ p{
 			  
 			 <div class="w3-row w3-panel w3-border-bottom w3-border-green">
 			  <div class="w3-col m4  w3-center"><p>#{messages['Pub_Date']} #{' : '} <jedlab:dateLabel value="#{storyHome.instance.createdDate}"></jedlab:dateLabel></p></div>
-			  <div class="w3-col m4  w3-center"><p>  </p></div>
+			  <div class="w3-col m4  w3-center"><p> 
+				  	<s:fragment rendered="#{identity.loggedIn and storyBookmarkQuery.resultCount == 0}">
+					  <s:link styleClass="item" action="#{storyHome.bookmark()}">
+					  	<f:param name="storyId" value="#{storyHome.instance.id}"></f:param>
+					    <i class="icon-star-empty"></i>
+					    <h:outputText value="#{messages['Favourite']}" />
+					  </s:link>
+				  </s:fragment>
+				  
+				  <s:fragment rendered="#{identity.loggedIn and storyBookmarkQuery.resultCount > 0}">
+					  <s:link styleClass="item" action="#{storyHome.unbookmark()}">
+					  	<f:param name="storyId" value="#{storyHome.instance.id}"></f:param>
+					    <i class="icon-star-full"></i>
+					    <h:outputText value="#{messages['Favourite']}" />
+					  </s:link>
+				  </s:fragment> 
+			  	</p>
+			  </div>
 			  <div class="w3-col m4  w3-center"><p>#{messages['Writer']} #{' : '} #{storyHome.instance.member.username}</p></div>
 			</div>
 			

@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityNotFoundException;
@@ -294,7 +296,9 @@ public class StoryHome extends EntityHome<Story>
             bookmark.setStory(st);
             getEntityManager().persist(bookmark);
             getEntityManager().flush();
-            WebContext.instance().redirectIt(true, true);
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("uuid", getUuid());
+            WebContext.instance().redirectIt(true, false, params);
         }
     }
 
@@ -310,7 +314,9 @@ public class StoryHome extends EntityHome<Story>
             getEntityManager().createQuery("delete from StoryBookmark sb where sb.story.id = :stId and sb.member.id = :memId")
                     .setParameter("stId", Long.parseLong(storyParam)).setParameter("memId", uid).executeUpdate();
             getEntityManager().flush();
-            WebContext.instance().redirectIt(true, true);
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("uuid", getUuid());
+            WebContext.instance().redirectIt(true, false, params);
         }
     }
     

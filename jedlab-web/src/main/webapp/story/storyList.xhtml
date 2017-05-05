@@ -48,7 +48,12 @@
 					    <s:graphicImage styleClass="ui avatar image" value="#{_item.member.image}" 
 					    	rendered="#{_item.member.hasImage}"></s:graphicImage>
 					    
-					    <span>#{_item.member.username}</span>
+					    <span>
+					    	<s:link value="#{_item.member.username}" styleClass="clickableLink"
+					    		propagation="none" view="/story/storyList.xhtml">
+					    		<f:param name="author" value="#{_item.member.username}"></f:param>
+					    	</s:link>
+					    </span>
 					    						     
 					  </div>
 					  <div class="image">

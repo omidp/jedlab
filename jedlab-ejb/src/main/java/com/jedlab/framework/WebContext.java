@@ -101,6 +101,13 @@ public class WebContext implements Serializable
         FacesManager.instance().redirect(Pages.getCurrentViewId(), parameters, includeConversationId, includePageParameters);
     }
     
+    public void redirectIt(boolean includeConversationId, boolean includePageParameters, Map<String, Object> parameters)
+    {
+        if(parameters == null)
+            parameters = new HashMap<>();
+        FacesManager.instance().redirect(Pages.getCurrentViewId(), parameters, includeConversationId, includePageParameters);
+    }
+    
     public static WebContext instance()
     {
         if (!Contexts.isSessionContextActive())
