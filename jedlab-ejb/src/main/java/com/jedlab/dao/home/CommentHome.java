@@ -18,6 +18,7 @@ import com.jedlab.framework.jsf.FlashScope;
 import com.jedlab.model.Comment;
 import com.jedlab.model.Course;
 import com.jedlab.model.Member;
+import com.jedlab.model.StoryComment;
 
 @Name("commentHome")
 @Scope(ScopeType.CONVERSATION)
@@ -76,18 +77,25 @@ public class CommentHome extends EntityHome<Comment>
                 .setParameter("cmId", Long.parseLong(cmId)).setParameter("memId", uid).getResultList();
         for (Comment comment : resultList)
         {
-            List<Comment> replies = comment.getReplies();
-            if(CollectionUtil.isNotEmpty(replies))
-            {
-                for (Comment item : replies)
-                {
-                    getEntityManager().remove(item);
-                }
-            }
+            deletereplies(comment);
             getEntityManager().remove(comment);
         }
         getEntityManager().flush();
         return "removed";
     }
+    
+    private void deletereplies(Comment cm)
+    {
+        List<Comment> replies = cm.getReplies();
+        if(CollectionUtil.isNotEmpty(replies))
+        {
+            for (Comment reply : replies)
+            {
+                deletereplies(reply);
+                getEntityManager().remove(reply);
+            }
+        }
+    }
+
 
 }

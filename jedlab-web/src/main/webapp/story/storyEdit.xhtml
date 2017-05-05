@@ -106,7 +106,10 @@ shared void run() => newServer {
 		
 		<script type="text/javascript" src="#{_ctx}/js/highlight.pack.js"></script>
 		<script>hljs.initHighlightingOnLoad();</script>
-		<input type="hidden" name="storyId" id="storyId" value="#{storyHome.instance.id}"/>
+		<h:form style="display:none;" id="storyForm">
+			<input type="hidden" name="storyId" id="storyId" value="#{storyHome.instance.id}"/>
+			<h:commandButton action="#{storyHome.removeByOwner()}" value="Del" id="btnStoryDel" />
+		</h:form>
 		
 		
 		<script type="text/javascript">
@@ -123,9 +126,12 @@ jQuery(function () {
                     items: [
                         { type: 'button',  id: 'help', style: pstyle, caption: '#{messages.Story_Help}', img: 'icon-page' },
                         { type: 'break',  id: 'break0' },
-                        { type: 'button',  id: 'draft', style: pstyle, caption: '#{messages.Draft}', img: 'icon-pencil' },
                         { type: 'button',  id: 'preview', style: pstyle, caption: '#{messages.Preview}', img: 'icon-eye' },
                         { type: 'spacer' },
+                        { type: 'button',  id: 'del', style: pstyle, caption: '#{messages.Delete}', img: 'icon-bin' },
+                        { type: 'break',  id: 'break0' },
+                        { type: 'button',  id: 'draft', style: pstyle, caption: '#{messages.Draft}', img: 'icon-pencil' },
+                        { type: 'break',  id: 'break0' },
                         { type: 'button',  id: 'publish', style: pstyle, caption: '#{messages.Publish}', img: 'icon-database' }
                     ],
                     onClick: function (event) {                        
@@ -137,6 +143,8 @@ jQuery(function () {
 							mdPublish();
 						if(event.target == 'preview')
 							mdPrv();
+						if(event.target == 'del')
+							jQuery("#storyForm\\:btnStoryDel").click();
                     }
                 }
 				 

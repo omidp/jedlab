@@ -273,7 +273,26 @@ public class StoryHome extends EntityHome<Story>
         String sidParam = WebUtil.getParameterValue("storyId");
         if (StringUtil.isNotEmpty(sidParam))
             setId(Long.parseLong(sidParam));
-        return super.remove();
+        else
+            return "removed";
+        getEntityManager().createQuery("delete from StoryBookmark sb where sb.story.id = :stId").setParameter("stId", getId()).executeUpdate();
+        super.remove();        
+        return "removed";
+    }
+    
+    @Transactional
+    public String removeByOwner()
+    {
+        String sidParam = WebUtil.getParameterValue("storyId");
+        if (StringUtil.isNotEmpty(sidParam))
+            setId(Long.parseLong(sidParam));
+        else
+            return "removed";
+        if(getInstance().isOwner() == false)
+            throw new ErrorPageExceptionHandler("invalid owner");
+        getEntityManager().createQuery("delete from StoryBookmark sb where sb.story.id = :stId").setParameter("stId", getId()).executeUpdate();
+        super.remove();        
+        return "removed";
     }
 
     @Transactional

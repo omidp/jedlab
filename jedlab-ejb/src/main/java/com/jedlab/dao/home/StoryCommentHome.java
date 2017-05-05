@@ -15,6 +15,7 @@ import com.jedlab.framework.CollectionUtil;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.WebUtil;
 import com.jedlab.framework.jsf.FlashScope;
+import com.jedlab.model.Comment;
 import com.jedlab.model.StoryComment;
 import com.jedlab.model.Course;
 import com.jedlab.model.Member;
@@ -77,18 +78,25 @@ public class StoryCommentHome extends EntityHome<StoryComment>
                 .setParameter("cmId", Long.parseLong(cmId)).setParameter("memId", uid).getResultList();
         for (StoryComment storyComment : resultList)
         {
-            List<StoryComment> replies = storyComment.getReplies();
-            if(CollectionUtil.isNotEmpty(replies))
-            {
-                for (StoryComment reply : replies)
-                {
-                    getEntityManager().remove(reply);
-                }
-            }
+            deletereplies(storyComment);
             getEntityManager().remove(storyComment);
         }
         getEntityManager().flush();
         return "removed";
+    }
+    
+    
+    private void deletereplies(StoryComment cm)
+    {
+        List<StoryComment> replies = cm.getReplies();
+        if(CollectionUtil.isNotEmpty(replies))
+        {
+            for (StoryComment reply : replies)
+            {
+                deletereplies(reply);
+                getEntityManager().remove(reply);
+            }
+        }
     }
 
 }
