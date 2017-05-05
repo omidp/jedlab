@@ -32,7 +32,7 @@
 									<i class="icon-pencil"></i>
 									#{messages['Reply']}
 								</a>
-								<s:fragment rendered="#{_item.owner}">
+								<s:fragment rendered="#{_item.owner or s:hasRole('Admin')}">
 									<s:link styleClass="reply btn-cancel" action="#{storyCommentHome.remove()}">
 										<f:param name="cmId" value="#{_item.id}"></f:param>
 										<i class="icon-bin"></i>

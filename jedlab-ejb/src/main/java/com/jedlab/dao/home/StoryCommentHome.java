@@ -1,5 +1,6 @@
 package com.jedlab.dao.home;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.seam.ScopeType;
@@ -9,6 +10,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessage.Severity;
+import org.jboss.seam.security.Identity;
 
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CollectionUtil;
@@ -74,8 +76,17 @@ public class StoryCommentHome extends EntityHome<StoryComment>
         FlashScope.instance().addMessage(Severity.INFO, StatusMessage.getBundleMessage("Deleted", ""));
         clearInstance();
         Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
-        List<StoryComment> resultList = getEntityManager().createQuery("select c from StoryComment c where c.id = :cmId AND c.member.id = :memId")
-                .setParameter("cmId", Long.parseLong(cmId)).setParameter("memId", uid).getResultList();
+        List<StoryComment> resultList = new ArrayList<>();
+        if(Identity.instance().hasRole(Constants.ROLE_ADMIN))
+        {
+            resultList = getEntityManager().createQuery("select c from StoryComment c where c.id = :cmId")
+                    .setParameter("cmId", Long.parseLong(cmId)).getResultList();
+        }
+        else
+        {
+            resultList = getEntityManager().createQuery("select c from StoryComment c where c.id = :cmId AND c.member.id = :memId")
+                    .setParameter("cmId", Long.parseLong(cmId)).setParameter("memId", uid).getResultList();
+        }
         for (StoryComment storyComment : resultList)
         {
             deletereplies(storyComment);
