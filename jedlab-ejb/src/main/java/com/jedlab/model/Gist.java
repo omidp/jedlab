@@ -2,6 +2,7 @@ package com.jedlab.model;
 
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -59,6 +61,9 @@ public class Gist extends BasePO
     @NotNull
     private String fileName;
 
+    @Column(name = "uuid")
+    private String uuid;
+
     @Column(name = "content", nullable = false)
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -97,7 +102,7 @@ public class Gist extends BasePO
 
     @Column(name = "description")
     @Fields({ @Field(name = "description:en", analyzer = @Analyzer(definition = "en")),
-        @Field(name = "description:fa", analyzer = @Analyzer(definition = "fa")) })
+            @Field(name = "description:fa", analyzer = @Analyzer(definition = "fa")) })
     private String description;
 
     public String getContent()
@@ -187,13 +192,29 @@ public class Gist extends BasePO
         this.origContent = origContent;
     }
 
+    public String getUuid()
+    {
+        return uuid;
+    }
+
+    public void setUuid(String uuid)
+    {
+        this.uuid = uuid;
+    }
+
     @Transient
     public boolean isOwner()
     {
         Object currentLogginId = Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
-        if(member == null || currentLogginId == null)
+        if (member == null || currentLogginId == null)
             return false;
-        return member.getId().longValue() == ((Long)currentLogginId).longValue();
+        return member.getId().longValue() == ((Long) currentLogginId).longValue();
+    }
+
+    @PrePersist
+    public void prePersist()
+    {
+        setUuid(UUID.randomUUID().toString());
     }
 
 }

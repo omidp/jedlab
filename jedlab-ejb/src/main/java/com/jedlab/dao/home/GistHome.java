@@ -45,6 +45,18 @@ public class GistHome extends EntityHome<Gist>
     @In(create = true)
     JedLab jedLab;
 
+    private String uuid;
+
+    public String getUuid()
+    {
+        return uuid;
+    }
+
+    public void setUuid(String uuid)
+    {
+        this.uuid = uuid;
+    }
+
     public Long getGistId()
     {
         return (Long) getId();
@@ -73,25 +85,30 @@ public class GistHome extends EntityHome<Gist>
     {
         Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
         String gistHome = Env.getGistHome();
-        if(StringUtil.isEmpty(getInstance().getFileName()))
+        if (StringUtil.isEmpty(getInstance().getFileName()))
             getInstance().setFileName(RandomStringUtils.randomAlphabetic(15));
         String gistPath = gistHome + String.valueOf(uid) + Env.FILE_SEPARATOR + getInstance().getFileName();
         File gistFile = new File(gistPath);
         if (gistFile.getParentFile().exists() == false)
             gistFile.getParentFile().mkdirs();
         String origContent = getInstance().getOrigContent();
-        if (gistFile.exists() == false)
+        try
         {
-            try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(gistFile), Charset.forName("UTF-8")))
-            {
-                os.write(origContent);
-                os.flush();
-                os.close();
-            }
-            catch (IOException e)
-            {
-                log.info(e);
-            }
+            Files.deleteIfExists(Paths.get(gistFile.getAbsolutePath()));
+        }
+        catch (IOException e1)
+        {
+            log.info("can not delete");
+        }
+        try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(gistFile), Charset.forName("UTF-8")))
+        {
+            os.write(origContent);
+            os.flush();
+            os.close();
+        }
+        catch (IOException e)
+        {
+            log.info(e);
         }
         //
         PygmentsCommandLine cmd = new PygmentsCommandLine(gistFile);
@@ -117,7 +134,7 @@ public class GistHome extends EntityHome<Gist>
             }
             tempContent = sb.toString();
         }
-        
+
         try (OutputStreamWriter os = new OutputStreamWriter(new FileOutputStream(gistFile), Charset.forName("UTF-8")))
         {
             os.write(tempContent);
@@ -135,8 +152,7 @@ public class GistHome extends EntityHome<Gist>
         {
             log.info(e);
         }
-        
-        
+
         //
         getInstance().setMember(jedLab.getCurrentUser());
     }
@@ -154,17 +170,34 @@ public class GistHome extends EntityHome<Gist>
         wire();
         return super.update();
     }
-    
+
     @Transactional
     public void deleteById()
     {
         String gistId = WebUtil.getParameterValue("gistId");
-        if(StringUtil.isNotEmpty(gistId))
+        if (StringUtil.isNotEmpty(gistId))
         {
             Gist instance = getEntityManager().find(Gist.class, Long.parseLong(gistId));
             getEntityManager().remove(instance);
             getEntityManager().flush();
         }
+    }
+
+    @Override
+    protected Gist loadInstance()
+    {
+        if (StringUtil.isNotEmpty(getUuid()))
+            return (Gist) getEntityManager().createQuery("select g from Gist g join fetch g.member m where g.uuid=:uuid").setParameter("uuid", getUuid())
+                    .setMaxResults(1).getSingleResult();
+        return super.loadInstance();
+    }
+    
+    @Override
+    public boolean isIdDefined()
+    {
+        if(StringUtil.isNotEmpty(getUuid()))
+            return true;
+        return super.isIdDefined();
     }
 
 }
