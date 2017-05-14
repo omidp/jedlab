@@ -213,15 +213,24 @@ public class StoryHome extends EntityHome<Story>
 
     private void saveContent(Long uid, String mdcontent, Story story) throws IOException
     {
-        String storyLocation = Env.getStoryLocation() + uid + Env.FILE_SEPARATOR + RandomStringUtils.randomNumeric(5);
-        Path path = Paths.get(storyLocation);
-        Files.createDirectories(path);
-        String filePath = storyLocation + Env.FILE_SEPARATOR + "1.md";
-        Path fpath = Paths.get(filePath);
-        Files.deleteIfExists(fpath);
-        Files.createFile(fpath);
+        Path fpath = null;
+        if(StringUtil.isEmpty(story.getFilePath()))
+        {
+            String storyLocation = Env.getStoryLocation() + uid + Env.FILE_SEPARATOR + RandomStringUtils.randomNumeric(5);
+            Path path = Paths.get(storyLocation);
+            Files.createDirectories(path);
+            String filePath = storyLocation + Env.FILE_SEPARATOR + "1.md";
+            fpath = Paths.get(filePath);
+            Files.createFile(fpath);
+            story.setFilePath(filePath);
+        }
+        else
+        {
+            fpath = Paths.get(story.getFilePath());
+            Files.deleteIfExists(fpath);
+            Files.createFile(fpath);
+        }
         Files.write(fpath, mdcontent.getBytes("UTF-8"));
-        story.setFilePath(filePath);
     }
 
     public static StoryHome instance()

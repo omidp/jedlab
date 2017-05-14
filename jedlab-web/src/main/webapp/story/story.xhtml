@@ -46,7 +46,7 @@ p{
 	text-align: justify !important;
 	 line-height: 2;
 }
-a{
+div.mdBody a {
 	color:#163D77;
 }
 </style>  
@@ -93,7 +93,9 @@ a{
 			  <div class="w3-col m4  w3-center"><p>#{messages['Writer']} #{' : '} #{storyHome.instance.member.username}</p></div>
 			</div>
 			
-			<h:outputText value="#{storyHome.htmlResult}" escape="false" />
+			<div class="mdBody">
+				<h:outputText value="#{storyHome.htmlResult}" escape="false" />
+			</div>
 			
 		</div>
 		
@@ -107,8 +109,12 @@ a{
 		jQuery('span.ltr-dir').each(function(i, block) {						
 			jQuery(this).parent().addClass('ltr-dir');
 		});
+		jQuery('div.mdBody img').each(function(i, block) {			 			
+			jQuery(this).parent().addClass('ui centered big image');
+		});
+		
 	});
-	</script>  
+	</script>
 	
 	<script type="text/javascript" src="#{_ctx}/js/highlight.pack.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
