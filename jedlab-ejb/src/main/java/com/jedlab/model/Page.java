@@ -2,11 +2,12 @@ package com.jedlab.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,15 +20,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Length;
 import org.jboss.seam.contexts.Contexts;
 import org.ocpsoft.prettytime.PrettyTime;
+import org.omidbiz.core.axon.internal.IgnoreElement;
 
 import com.jedlab.action.Constants;
-import com.jedlab.framework.CollectionUtil;
 
 @Table(name = "pages")
 @Entity
@@ -60,6 +59,19 @@ public class Page extends BasePO
     @Column(name = "image", length = 2147483647)
     @Basic(fetch = FetchType.LAZY)
     private byte[] image;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "page")
+    Set<PageBlock> blocks = new HashSet<>(0);
+
+    public Set<PageBlock> getBlocks()
+    {
+        return blocks;
+    }
+
+    public void setBlocks(Set<PageBlock> blocks)
+    {
+        this.blocks = blocks;
+    }
 
     public Date getUpdatedDate()
     {
@@ -111,6 +123,7 @@ public class Page extends BasePO
         this.createdDate = createdDate;
     }
 
+    @IgnoreElement
     public Member getMember()
     {
         return member;

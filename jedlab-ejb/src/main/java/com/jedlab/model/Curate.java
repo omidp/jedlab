@@ -7,9 +7,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Table(name = "link_blocks")
+@Table(name = "curates")
 @Entity
-public class LinkBlock extends BasePO
+public class Curate extends BasePO
 {
 
     @Column(name = "url")

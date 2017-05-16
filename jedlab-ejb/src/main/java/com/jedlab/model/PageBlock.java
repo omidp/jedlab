@@ -1,11 +1,17 @@
 package com.jedlab.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.omidbiz.core.axon.internal.IgnoreElement;
 
 @Table(name = "page_blocks")
 @Entity
@@ -19,6 +25,20 @@ public class PageBlock extends BasePO
     @JoinColumn(name = "page_id", nullable = false)
     private Page page;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pageBlock")
+    Set<Curate> curates = new HashSet<Curate>(0);
+
+    public Set<Curate> getCurates()
+    {
+        return curates;
+    }
+
+    public void setCurates(Set<Curate> curates)
+    {
+        this.curates = curates;
+    }
+
+    @IgnoreElement
     public Page getPage()
     {
         return page;

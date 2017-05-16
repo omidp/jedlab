@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/dialog.xhtml">
+
+	
+	<ui:define name="head">
+		<style type="text/css">
+			
+		</style>
+	
+	</ui:define>
+	
+	<ui:define name="body">
+		
+		<div style="margin-top: 20px; margin-right: 10px"
+		class="locale-direction">
+			
+			<div>
+					<button 
+						class="w3-btn w3-large w3-circle w3-xlarge w3-ripple w3-teal w3-right" 
+						id="createCurateBtn"
+					>+</button>
+				<s:fragment rendered="#{identity.loggedIn}">
+				</s:fragment>
+
+				<script type="text/javascript">
+					jQuery(window).load(function(){
+						jQuery("#createCurateBtn").popup({ content : "#{messages['Create_Page']}" });
+					});
+
+					jQuery(document).ready(function(){
+						jQuery("#createCurateBtn").click(function(){
+
+							jQuery("#curatePageModal").modal({
+							    closable  : false,
+							    onDeny    : function(){
+							      jQuery("#curatePageModal").modal('hide');
+							      return false;
+							    },
+							    onApprove : function() {
+							    	createCuratePage();
+							    }
+							  })
+							  .modal('show');
+
+						});
+					});
+
+					function createCuratePage()
+					{
+						var val =jQuery("#curatePageTitle").val();
+						jQuery.ajax(
+							{
+								type:"POST",
+								url: "#{_ctx}/seam/resource/api/pages",
+								data: JSON.stringify({ 'title': val }),
+								contentType: "application/json; charset=utf-8",
+								dataType: "json",
+								success: function(data){
+									location.href = window.location.origin + '#{_ctx}/curate/page/'+data.id;
+								},
+								failure: function(errMsg) {
+									common.notification("#{messages['Error_Title']}", "errormsg");
+							    }
+							}
+						);
+					}
+					
+				</script>
+			</div>
+			
+	</div>
+	
+	
+	
+	<div class="ui modal" id="curatePageModal">
+		  <div class="header locale-direction w3-right-align">#{messages['Create_Page']}</div>
+		  <div class="content locale-direction w3-right-align">
+		  	<input type="text" id="curatePageTitle"/>
+		  </div>
+		  <div class="actions">
+		    <div class="ui approve button">#{messages['Create']}</div>		    
+		    <div class="ui cancel button">#{messages['Cancel']}</div>
+		  </div>
+	</div>		
+
+	</ui:define>
+</ui:composition>
