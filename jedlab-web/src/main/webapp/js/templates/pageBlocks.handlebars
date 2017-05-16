@@ -1,8 +1,22 @@
 <div class="card" id="block_{{id}}">
 				    <div class="content">
-				      {{title}}
-				    </div>
-				    <div class="extra">
+				      <div class="left floated meta">
+				      	
+				      </div>
+				      <label class="pull-left" data-block-id="{{id}}" data-block-title="{{title}}">{{title}}</label>
+					  <input class="clickedit {{id}}" type="text" value="{{title}}"/>					  
+				    </div> 
+				    <div class="content">
+						<div class="ui ordered divided list" style="direction:ltr;" id="ul_{{id}}">
 						
+						</div>
+				    </div>
+				    <div class="extra content">
+				    	<div class="ui action input">
+						  <input placeholder="URL" type="text" id="curinp_{{id}}"/>
+						  <button class="ui icon button addcur" id="curbtn_{{id}}" data-block-id="{{id}}" onclick="addCurate({{id}})"> 
+						    <i class="icon-plus"></i>
+						  </button>
+						</div>
 				    </div>
 </div>

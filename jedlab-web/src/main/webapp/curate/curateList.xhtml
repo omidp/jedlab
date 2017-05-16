@@ -59,7 +59,7 @@
 								data: JSON.stringify({ 'title': val }),
 								contentType: "application/json; charset=utf-8",
 								dataType: "json",
-								success: function(data){
+								success: function(data){									
 									location.href = window.location.origin + '#{_ctx}/curate/page/'+data.id;
 								},
 								failure: function(errMsg) {
@@ -77,7 +77,7 @@
 	
 	
 	<div class="ui modal" id="curatePageModal">
-		  <div class="header locale-direction w3-right-align">#{messages['Create_Page']}</div>
+		  <div class="header locale-direction w3-right-align">#{messages['Title']}</div>
 		  <div class="content locale-direction w3-right-align">
 		  	<input type="text" id="curatePageTitle"/>
 		  </div>

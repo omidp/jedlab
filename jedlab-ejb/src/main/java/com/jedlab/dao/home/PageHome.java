@@ -15,6 +15,7 @@ import org.jboss.seam.log.Log;
 
 import com.jedlab.action.Constants;
 import com.jedlab.framework.TxManager;
+import com.jedlab.model.Curate;
 import com.jedlab.model.Member;
 import com.jedlab.model.Page;
 import com.jedlab.model.PageBlock;
@@ -76,6 +77,7 @@ public class PageHome extends EntityHome<Page>
     protected Page loadInstance()
     {
         Criteria criteria = hibernateSession.createCriteria(Page.class, "p");
+        criteria.createCriteria("p.member", "m", Criteria.LEFT_JOIN);
         criteria.createCriteria("p.blocks", "b", Criteria.LEFT_JOIN);
         criteria.createCriteria("b.curates", "c", Criteria.LEFT_JOIN);
         criteria.add(Restrictions.idEq(getPageId()));        
@@ -100,6 +102,28 @@ public class PageHome extends EntityHome<Page>
         getEntityManager().persist(pb);
         getEntityManager().flush();
         return pb;
+    }
+    
+    
+    @Transactional
+    public Curate createCurate(Curate curate)
+    {
+        TxManager.beginTransaction();
+        TxManager.joinTransaction(getEntityManager());
+        Criteria criteria = hibernateSession.createCriteria(PageBlock.class, "pb");
+        criteria.createCriteria("pb.page",  "p", Criteria.LEFT_JOIN);
+        criteria.createCriteria("p.member", "m", Criteria.LEFT_JOIN);
+        criteria.add(Restrictions.idEq(curate.getPageBlock().getId()));
+        PageBlock pb=  (PageBlock) criteria.uniqueResult();
+//        if(pb.getPage().isOwner() == false)
+//            throw new IllegalArgumentException("invalid owner");
+        Curate c = new Curate();
+        c.setPageBlock(pb);
+        c.setPage(pb.getPage());
+        c.setUrl(curate.getUrl());
+        getEntityManager().persist(c);
+        getEntityManager().flush();
+        return c;
     }
 
     @Transactional

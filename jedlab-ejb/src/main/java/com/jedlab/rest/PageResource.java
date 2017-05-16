@@ -23,6 +23,7 @@ import org.jboss.seam.annotations.Scope;
 
 import com.jedlab.dao.home.PageHome;
 import com.jedlab.framework.StringUtil;
+import com.jedlab.model.Curate;
 import com.jedlab.model.Page;
 import com.jedlab.model.PageBlock;
 
@@ -79,6 +80,21 @@ public class PageResource implements Serializable
             return Response.status(Status.BAD_REQUEST).build();
         pageHome.updatePageBlockTitle(id, pageBlock.getTitle());
         return Response.ok().build();
+    }
+    
+    
+    @Path("/curates")
+    @POST    
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createCurate(Curate curate)
+    {
+        if(curate == null 
+                || curate.getPageBlock() == null
+                || curate.getPageBlock().getId() == null)
+            return Response.status(Status.BAD_REQUEST).build();
+        Curate c = pageHome.createCurate(curate);
+        return Response.ok(c).build();
     }
 
 }

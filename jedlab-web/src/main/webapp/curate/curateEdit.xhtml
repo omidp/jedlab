@@ -4,7 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html" template="/layout/dialog.xhtml">
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	
 	<ui:define name="head">
@@ -54,6 +54,8 @@
 											var template = Handlebars.templates['pageBlocks'];
 											var html  = template(data);											
 											jQuery("#page_blocks").append(html);
+											setUpClickEdit(data.id);
+																				
 										},
 										failure: function(errMsg) {
 											common.notification("#{messages['Error_Title']}", "errormsg");
@@ -78,11 +80,25 @@
   
 				  <div class="card" id="block_#{_item.id}">
 				    <div class="content">
+				      <div class="left floated meta">				      	
+				      </div>
 				      <label class="pull-left" data-block-id="#{_item.id}" data-block-title="#{_item.title}">#{_item.title}</label>
-					  <input class="clickedit" type="text" value="#{_item.title}"/>					  
+					  <input class="clickedit #{_item.id}" type="text" value="#{_item.title}"/>					  
+				    </div> 
+				    <div class="content">
+				    	<div class="ui ordered divided list" style="direction:ltr;" id="ul_#{_item.id}">
+							<c:forEach var="_curate" items="#{_item.curates}">
+									<a class="item" href="#{_curate.url}" target="_blank" data-curate-id="#{_curate.id}">#{_curate.titleOrUrl}</a>
+							</c:forEach>
+						</div>						
 				    </div>
-				    <div class="extra">
-						
+				    <div class="extra content">
+				    	<div class="ui action input">
+						  <input placeholder="#{messages['URL']}" type="text" id="curinp_#{_item.id}"/>
+						  <button class="ui icon button addcur" id="curbtn_#{_item.id}" data-block-id="#{_item.id}" onclick="addCurate(#{_item.id})"> 
+						    <i class="icon-plus"></i>
+						  </button>
+						</div>
 				    </div>
 				  </div>
 				  
@@ -108,7 +124,6 @@
 	    if(blockTitle != input.val())
 		{
 
-
 	    	jQuery.ajax(
 					{
 						type:"PUT",
@@ -117,6 +132,7 @@
 						contentType: "application/json; charset=utf-8",
 						dataType: "json",
 						success: function(data){																				
+						    
 							label.text(input.val() === '' ? defaultText : input.val());
 						    input.hide();
 						    label.show();
@@ -140,7 +156,19 @@
 	    
 	}
 
-	jQuery('.clickedit').hide()
+	jQuery(document).ready(function(){
+
+		setUpClickEdit();
+		
+	});
+	
+function setUpClickEdit(data)
+{
+	var jq = '.clickedit';	
+	if(typeof data != 'undefined')
+		jq = '.clickedit.'+data;
+	
+	jQuery(jq).hide()
 	.focusout(endEdit)
 	.keyup(function (e) {
 	    if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
@@ -154,8 +182,48 @@
 	    jQuery(this).hide();
 	    jQuery(this).next().show().focus();
 	});
+}
+
+
+	
 	//]]>
 	</script>
+	
+	<script>
+		function addCurate(bid)
+		{
+
+				var val = jQuery("#curinp_"+bid).val();
+
+				jQuery.ajax(
+						{
+							type:"POST",
+							url: "#{_ctx}/seam/resource/api/pages/curates",
+							data: JSON.stringify({ "url": val, "pageBlock" :{"id":bid} }),
+							contentType: "application/json; charset=utf-8",
+							dataType: "json",
+							success: function(data){																				
+								var template = Handlebars.templates['curates'];
+								var html  = template(data);											
+								jQuery("#ul_"+bid).append(html);
+								jQuery("#curinp_"+bid).val('');
+							},
+							failure: function(errMsg) {
+								common.notification("#{messages['Error_Title']}", "errormsg");
+						    }
+						}
+					);
+				
+		  		
+				
+			
+		}
+
+	  	
+
+
+	</script>
+	
 	
 	
 	
