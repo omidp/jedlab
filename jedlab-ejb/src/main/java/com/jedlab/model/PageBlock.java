@@ -28,6 +28,7 @@ public class PageBlock extends BasePO
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pageBlock")
     Set<Curate> curates = new HashSet<Curate>(0);
 
+    @IgnoreElement
     public Set<Curate> getCurates()
     {
         return curates;

@@ -11,7 +11,11 @@
 		<script type="text/javascript" src="#{_ctx}/js/handlebars.runtime-v4.0.5.js"></script>
 		<script type="text/javascript" src="#{_ctx}/js/templates/templates.js"></script>
 		<style type="text/css">
-			
+			label:hover {
+    background: #f2f5ff;
+    border-radius:5px;
+    padding:2px 4px;
+}
 		</style>
 	
 	</ui:define>
@@ -74,7 +78,8 @@
   
 				  <div class="card" id="block_#{_item.id}">
 				    <div class="content">
-				      #{_item.title}
+				      <label class="pull-left" data-block-id="#{_item.id}" data-block-title="#{_item.title}">#{_item.title}</label>
+					  <input class="clickedit" type="text" value="#{_item.title}"/>					  
 				    </div>
 				    <div class="extra">
 						
@@ -87,6 +92,71 @@
 			
 			
 	</div>
+	
+	
+	
+	<script>
+	//<![CDATA[
+	var defaultText = 'Click me and enter some text';
+
+	function endEdit(e) {
+	    var input = jQuery(e.target),
+	        label = input && input.prev();
+
+	    var blockId = label.data('block-id');
+	    console.log(blockId);
+	    var blockTitle = label.data('block-title');
+	    if(blockTitle != input.val())
+		{
+
+
+	    	jQuery.ajax(
+					{
+						type:"PUT",
+						url: "#{_ctx}/seam/resource/api/pages/blocks/"+blockId,
+						data: JSON.stringify({ 'id': blockId, 'title':  input.val() }),
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						success: function(data){																				
+							label.text(input.val() === '' ? defaultText : input.val());
+						    input.hide();
+						    label.show();
+						},
+						failure: function(errMsg) {
+							common.notification("#{messages['Error_Title']}", "errormsg");
+					    }
+					}
+				);
+
+	    }
+	    else
+		{
+	    	label.text(input.val() === '' ? defaultText : input.val());
+		    input.hide();
+		    label.show();
+		}
+		    
+	    
+		
+	    
+	}
+
+	jQuery('.clickedit').hide()
+	.focusout(endEdit)
+	.keyup(function (e) {
+	    if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+	        endEdit(e);
+	        return false;
+	    } else {
+	        return true;
+	    }
+	})
+	.prev().click(function () {
+	    jQuery(this).hide();
+	    jQuery(this).next().show().focus();
+	});
+	//]]>
+	</script>
 	
 	
 	

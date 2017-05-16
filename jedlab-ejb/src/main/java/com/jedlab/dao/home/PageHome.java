@@ -102,4 +102,16 @@ public class PageHome extends EntityHome<Page>
         return pb;
     }
 
+    @Transactional
+    public void updatePageBlockTitle(Long id, String title)
+    {
+        TxManager.beginTransaction();
+        TxManager.joinTransaction(getEntityManager());
+        //TODO : check ownership
+        PageBlock pb = getEntityManager().find(PageBlock.class, id);
+        pb.setTitle(title);
+        getEntityManager().flush();
+        
+    }
+
 }

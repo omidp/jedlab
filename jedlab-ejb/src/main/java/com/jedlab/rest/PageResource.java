@@ -6,7 +6,9 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -65,6 +67,18 @@ public class PageResource implements Serializable
             return Response.status(Status.BAD_REQUEST).build();
         PageBlock pb = pageHome.createPageBlock(page);
         return Response.ok(pb).build();
+    }
+    
+    @Path("/blocks/{id}")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateTitle(@PathParam("id") Long id, PageBlock pageBlock)
+    {
+        if(id == null || StringUtil.isEmpty(pageBlock.getTitle()))
+            return Response.status(Status.BAD_REQUEST).build();
+        pageHome.updatePageBlockTitle(id, pageBlock.getTitle());
+        return Response.ok().build();
     }
 
 }
