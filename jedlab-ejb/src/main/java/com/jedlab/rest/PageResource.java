@@ -51,61 +51,53 @@ public class PageResource implements Serializable
     @Context
     HttpServletRequest request;
 
-    
-    @In(create=true)
+    @In(create = true)
     PageHome pageHome;
-    
-    @POST    
+
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createPage(Page page)
     {
-        if(page == null || StringUtil.isEmpty(page.getTitle()))
-            return Response.status(Status.BAD_REQUEST).build();
-        pageHome.setInstance(page);        
+        if (page == null || StringUtil.isEmpty(page.getTitle())) return Response.status(Status.BAD_REQUEST).build();
+        pageHome.setInstance(page);
         pageHome.persist();
         return Response.ok(page).build();
     }
-    
+
     @Path("/blocks")
-    @POST    
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createPageBlock(Page page)
     {
-        if(page == null || page.getId() == null)
-            return Response.status(Status.BAD_REQUEST).build();
+        if (page == null || page.getId() == null) return Response.status(Status.BAD_REQUEST).build();
         PageBlock pb = pageHome.createPageBlock(page);
         return Response.ok(pb).build();
     }
-    
+
     @Path("/blocks/{id}")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateTitle(@PathParam("id") Long id, PageBlock pageBlock)
     {
-        if(id == null || StringUtil.isEmpty(pageBlock.getTitle()))
-            return Response.status(Status.BAD_REQUEST).build();
+        if (id == null || StringUtil.isEmpty(pageBlock.getTitle())) return Response.status(Status.BAD_REQUEST).build();
         pageHome.updatePageBlockTitle(id, pageBlock.getTitle());
         return Response.ok().build();
     }
-    
-    
+
     @Path("/curates")
-    @POST    
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCurate(Curate curate)
     {
-        if(curate == null 
-                || curate.getPageBlock() == null
-                || curate.getPageBlock().getId() == null)
+        if (curate == null || curate.getPageBlock() == null || curate.getPageBlock().getId() == null)
             return Response.status(Status.BAD_REQUEST).build();
-        //checkurlvalidity
+        // checkurlvalidity
         com.jedlab.http.Response resp = new Request(curate.getUrl(), HttpMethodRequest.GET).execute();
-        if(resp.statusCode() != 200)
-            throw new ServiceException(100, StatusMessage.getBundleMessage("Invalid_Url", ""));
+        if (resp.statusCode() != 200) throw new ServiceException(100, StatusMessage.getBundleMessage("Invalid_Url", ""));
         InputStream is = resp.content();
         try
         {
@@ -120,6 +112,20 @@ public class PageResource implements Serializable
             curate.setDescription(desc);
             curate.setTitle(title);
             curate.setKeywords(keywords);
+            //
+            String[] names = metadata.names();
+            if (names != null)
+            {
+                for (int i = 0; i < names.length; i++)
+                {
+                    String name = names[i];
+                    if ("shortcut icon".equals(name) || "og:image".equals(name) || "icon".equals(name))
+                    {
+                        curate.setImageUrl(metadata.get(name));
+                        break;
+                    }
+                }
+            }
         }
         catch (Exception e)
         {

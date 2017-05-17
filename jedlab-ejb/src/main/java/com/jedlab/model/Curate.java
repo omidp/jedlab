@@ -39,6 +39,19 @@ public class Curate extends BasePO
     @Column(name = "keywords")
     private String keywords;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+    
+    public String getImageUrl()
+    {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl)
+    {
+        this.imageUrl = imageUrl;
+    }
+
     public String getDescription()
     {
         return description;
