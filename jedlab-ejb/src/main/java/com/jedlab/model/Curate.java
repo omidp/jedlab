@@ -21,23 +21,48 @@ public class Curate extends BasePO
     @Column(name = "url", nullable = false)
     @NotNull
     private String url;
-    
+
     @Column(name = "title")
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "page_block_id", nullable = false)
     private PageBlock pageBlock;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "page_id", nullable = false)
     private Page page;
-    
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "keywords")
+    private String keywords;
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public String getKeywords()
+    {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords)
+    {
+        this.keywords = keywords;
+    }
+
     @Transient
     public String getTitleOrUrl()
     {
-        if(StringUtil.isEmpty(getTitle()))
-            return getUrl();
+        if (StringUtil.isEmpty(getTitle())) return getUrl();
         return getTitle();
     }
 
@@ -67,7 +92,6 @@ public class Curate extends BasePO
         return pageBlock;
     }
 
-    
     public void setPageBlock(PageBlock pageBlock)
     {
         this.pageBlock = pageBlock;
@@ -83,7 +107,5 @@ public class Curate extends BasePO
     {
         this.page = page;
     }
-    
-    
 
 }

@@ -121,6 +121,9 @@ public class PageHome extends EntityHome<Page>
         c.setPageBlock(pb);
         c.setPage(pb.getPage());
         c.setUrl(curate.getUrl());
+        c.setDescription(curate.getDescription());
+        c.setTitle(curate.getTitle());
+        c.setKeywords(curate.getKeywords());
         getEntityManager().persist(c);
         getEntityManager().flush();
         return c;

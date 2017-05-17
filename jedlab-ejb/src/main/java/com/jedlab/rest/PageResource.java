@@ -1,5 +1,6 @@
 package com.jedlab.rest;
 
+import java.io.InputStream;
 import java.io.Serializable;
 
 import javax.persistence.EntityManager;
@@ -16,16 +17,24 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.tika.metadata.Metadata;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.international.StatusMessage;
 
 import com.jedlab.dao.home.PageHome;
 import com.jedlab.framework.StringUtil;
+import com.jedlab.framework.exceptions.ServiceException;
+import com.jedlab.http.HttpMethodRequest;
+import com.jedlab.http.Request;
 import com.jedlab.model.Curate;
 import com.jedlab.model.Page;
 import com.jedlab.model.PageBlock;
+import com.jedlab.tika.parser.HtmlContentParser;
+import com.jedlab.tika.parser.HtmlContentParser.ContentParser;
 
 @Path("/pages")
 @Name("pageResource")
@@ -93,6 +102,29 @@ public class PageResource implements Serializable
                 || curate.getPageBlock() == null
                 || curate.getPageBlock().getId() == null)
             return Response.status(Status.BAD_REQUEST).build();
+        //checkurlvalidity
+        com.jedlab.http.Response resp = new Request(curate.getUrl(), HttpMethodRequest.GET).execute();
+        if(resp.statusCode() != 200)
+            throw new ServiceException(100, StatusMessage.getBundleMessage("Invalid_Url", ""));
+        InputStream is = resp.content();
+        try
+        {
+            String content = IOUtils.toString(is);
+            IOUtils.closeQuietly(is);
+            ContentParser cp = HtmlContentParser.instance();
+            cp.parse(content);
+            Metadata metadata = cp.metaData();
+            String desc = metadata.get("description");
+            String title = metadata.get("title");
+            String keywords = metadata.get("keywords");
+            curate.setDescription(desc);
+            curate.setTitle(title);
+            curate.setKeywords(keywords);
+        }
+        catch (Exception e)
+        {
+            throw new ServiceException(100, StatusMessage.getBundleMessage("Invalid_Url", ""));
+        }
         Curate c = pageHome.createCurate(curate);
         return Response.ok(c).build();
     }
