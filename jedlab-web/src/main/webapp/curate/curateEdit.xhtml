@@ -12,10 +12,10 @@
 		<script type="text/javascript" src="#{_ctx}/js/templates/templates.js"></script>
 		<style type="text/css">
 			label:hover {
-    background: #f2f5ff;
-    border-radius:5px;
-    padding:2px 4px;
-}
+			    background: #f2f5ff;
+			    border-radius:5px;
+			    padding:2px 4px;
+			}
 		</style>
 	
 	</ui:define>
@@ -30,8 +30,6 @@
 						class="w3-btn w3-large w3-circle w3-xlarge w3-ripple w3-teal w3-right" 
 						id="createCurateBlockBtn"
 					>+</button>
-				<s:fragment rendered="#{identity.loggedIn}">
-				</s:fragment>
 
 				<script type="text/javascript">
 					jQuery(window).load(function(){
@@ -54,7 +52,7 @@
 											var template = Handlebars.templates['pageBlocks'];
 											var html  = template(data);											
 											jQuery("#page_blocks").append(html);
-											setUpClickEdit(data.id);
+											curate.setUpClickEdit(data.id);
 																				
 										},
 										failure: function(errMsg) {
@@ -95,7 +93,7 @@
 				    <div class="extra content">
 				    	<div class="ui action input">
 						  <input placeholder="#{messages['URL']}" type="text" id="curinp_#{_item.id}"/>
-						  <button class="ui icon button addcur" id="curbtn_#{_item.id}" data-block-id="#{_item.id}" onclick="addCurate(#{_item.id})"> 
+						  <button class="ui icon button addcur" id="curbtn_#{_item.id}" data-block-id="#{_item.id}" onclick="curate.addCurate(#{_item.id})"> 
 						    <i class="icon-plus"></i>
 						  </button>
 						</div>
@@ -115,118 +113,17 @@
 	//<![CDATA[
 	var defaultText = 'Click me and enter some text';
 
-	function endEdit(e) {
-	    var input = jQuery(e.target),
-	        label = input && input.prev();
-
-	    var blockId = label.data('block-id');	    
-	    var blockTitle = label.data('block-title');
-	    if(blockTitle != input.val())
-		{
-
-	    	jQuery.ajax(
-					{
-						type:"PUT",
-						url: "#{_ctx}/seam/resource/api/pages/blocks/"+blockId,
-						data: JSON.stringify({ 'id': blockId, 'title':  input.val() }),
-						contentType: "application/json; charset=utf-8",
-						dataType: "json",
-						success: function(data){																				
-						    
-							label.text(input.val() === '' ? defaultText : input.val());
-						    input.hide();
-						    label.show();
-						},
-						failure: function(errMsg) {
-							common.notification("#{messages['Error_Title']}", "errormsg");
-					    }
-					}
-				);
-
-	    }
-	    else
-		{
-	    	label.text(input.val() === '' ? defaultText : input.val());
-		    input.hide();
-		    label.show();
-		}
-		    
-	    
-		
-	    
-	}
-
 	jQuery(document).ready(function(){
 
-		setUpClickEdit();
+		curate.setUpClickEdit();
 		
 	});
-	
-function setUpClickEdit(data)
-{
-	var jq = '.clickedit';	
-	if(typeof data != 'undefined')
-		jq = '.clickedit.'+data;
-	
-	jQuery(jq).hide()
-	.focusout(endEdit)
-	.keyup(function (e) {
-	    if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
-	        endEdit(e);
-	        return false;
-	    } else {
-	        return true;
-	    }
-	})
-	.prev().click(function () {
-	    jQuery(this).hide();
-	    jQuery(this).next().show().focus();
-	});
-}
-
-
 	
 	//]]>
 	</script>
 	
-	<script>
-		function addCurate(bid)
-		{
-
-				var val = jQuery("#curinp_"+bid).val();
-
-				jQuery.ajax(
-						{
-							type:"POST",
-							url: "#{_ctx}/seam/resource/api/pages/curates",
-							data: JSON.stringify({ "url": val, "pageBlock" :{"id":bid} }),
-							contentType: "application/json; charset=utf-8",
-							dataType: "json",
-							success: function(data){																				
-								var template = Handlebars.templates['curates'];
-								var html  = template(data);											
-								jQuery("#ul_"+bid).append(html);
-								jQuery("#curinp_"+bid).val('');
-							},
-							failure: function(errMsg) {
-								common.notification("#{messages['Error_Title']}", "errormsg");
-						    }
-						}
-					);
-				
-		  		
-				
-			
-		}
-
-	  	
-
-
-	</script>
 	
-	
-	
-	
+	<script type="text/javascript" src="#{_ctx}/js/curate.js"></script>
 	
 
 	</ui:define>

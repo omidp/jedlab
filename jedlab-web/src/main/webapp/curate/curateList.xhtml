@@ -2,14 +2,15 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html" template="/layout/dialog.xhtml">
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	
 	<ui:define name="head">
 		<style type="text/css">
 			
-		</style>
+		</style> 
 	
 	</ui:define>
 	
@@ -19,17 +20,13 @@
 		class="locale-direction">
 			
 			<div>
-					<button 
-						class="w3-btn w3-large w3-circle w3-xlarge w3-ripple w3-teal w3-right" 
-						id="createCurateBtn"
-					>+</button>
 				<s:fragment rendered="#{identity.loggedIn}">
-				</s:fragment>
-
+					<button 
+						class="w3-btn w3-ripple w3-red" 
+						id="createCurateBtn"
+					>#{messages['Create_Page']}</button>
 				<script type="text/javascript">
-					jQuery(window).load(function(){
-						jQuery("#createCurateBtn").popup({ content : "#{messages['Create_Page']}" });
-					});
+					
 
 					jQuery(document).ready(function(){
 						jQuery("#createCurateBtn").click(function(){
@@ -41,7 +38,7 @@
 							      return false;
 							    },
 							    onApprove : function() {
-							    	createCuratePage();
+							    	curate.createCuratePage();
 							    }
 							  })
 							  .modal('show');
@@ -49,33 +46,19 @@
 						});
 					});
 
-					function createCuratePage()
-					{
-						var val =jQuery("#curatePageTitle").val();
-						jQuery.ajax(
-							{
-								type:"POST",
-								url: "#{_ctx}/seam/resource/api/pages",
-								data: JSON.stringify({ 'title': val }),
-								contentType: "application/json; charset=utf-8",
-								dataType: "json",
-								success: function(data){									
-									location.href = window.location.origin + '#{_ctx}/curate/page/'+data.id;
-								},
-								failure: function(errMsg) {
-									common.notification("#{messages['Error_Title']}", "errormsg");
-							    }
-							}
-						);
-					}
+					
 					
 				</script>
+				</s:fragment>
+
 			</div>
 			
+			<div style="clear: both;" />
+			  
 	</div>
 	
 	
-	
+	<s:fragment rendered="#{identity.loggedIn}">
 	<div class="ui modal" id="curatePageModal">
 		  <div class="header locale-direction w3-right-align">#{messages['Title']}</div>
 		  <div class="content locale-direction w3-right-align">
@@ -85,7 +68,64 @@
 		    <div class="ui approve button">#{messages['Create']}</div>		    
 		    <div class="ui cancel button">#{messages['Cancel']}</div>
 		  </div>
-	</div>		
+	</div>		  
+	
+	<script>
+		jQuery(document).ready(function(){
+
+			jQuery("#curatePageTitle").on('keyup', function(e){
+				if (e.keyCode == 13) { curate.createCuratePage();}
+			});
+
+		});
+		
+	</script>
+	<script type="text/javascript" src="#{_ctx}/js/curate.js"></script>
+	</s:fragment>
+	
+	<s:div rendered="#{!identity.loggedIn}"  styleClass="w3-panel w3-red w3-card-4 locale-direction w3-margin" >
+	  <p>	  
+	  	<s:link value="#{messages['Login_To_Create_Page']}" propagation="none" includePageParams="false" view="/member/curateList.xhtml"></s:link>
+	  </p>	  
+	</s:div>
+	
+	<s:div rendered="#{empty pageQuery.resultList}"  styleClass="ui floating message w3-margin locale-direction" >
+	  <p>	   
+	  	<h:outputText value="#{messages['No_Curate_Result']}" />
+	  </p>	  
+	</s:div>
+	
+	<s:div rendered="#{not empty pageQuery.resultList}"  styleClass="w3-margin locale-direction" >
+		<ul class="w3-ul w3-card-4">
+		 
+			<c:forEach var="_item" items="#{pageQuery.resultList}">
+				
+				<li class="w3-padding-16">				    
+					<s:fragment rendered="#{_item.member.hasImage}">
+						<s:graphicImage 
+							styleClass="w3-right w3-circle w3-margin-left w3-margin-right"
+							value="#{_item.member.image}"
+							style="width:50px;"></s:graphicImage>
+				    </s:fragment>
+				    <s:fragment rendered="#{!_item.member.hasImage}">
+				    	<img src="#{_ctx}/images/no_photo.jpg" class="w3-right w3-circle w3-margin-left w3-margin-right" style="width:50px;" />
+				    </s:fragment>
+				    <s:link view="/curate/curateEdit.xhtml" styleClass="clickableLink" includePageParams="false" propagation="none">
+				    	<f:param name="pageId" value="#{_item.id}"></f:param>
+					    <span class="w3-large">#{_item.title}</span><br /> 
+				    </s:link>
+				    <span>#{_item.socialDate}</span>
+  			    </li>
+			
+			</c:forEach>
+		
+		</ul>
+	</s:div>
+	
+	<s:decorate rendered="#{not empty pageQuery.resultList}" template="/layout/seamPaging.xhtml">
+		<ui:param name="entityList" value="#{pageQuery}" />
+	</s:decorate>
+	
 
 	</ui:define>
 </ui:composition>

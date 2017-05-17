@@ -59,7 +59,8 @@ public class PageResource implements Serializable
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createPage(Page page)
     {
-        if (page == null || StringUtil.isEmpty(page.getTitle())) return Response.status(Status.BAD_REQUEST).build();
+        if (page == null || StringUtil.isEmpty(page.getTitle()))
+            return Response.status(Status.BAD_REQUEST).build();
         pageHome.setInstance(page);
         pageHome.persist();
         return Response.ok(page).build();
@@ -71,7 +72,8 @@ public class PageResource implements Serializable
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createPageBlock(Page page)
     {
-        if (page == null || page.getId() == null) return Response.status(Status.BAD_REQUEST).build();
+        if (page == null || page.getId() == null)
+            return Response.status(Status.BAD_REQUEST).build();
         PageBlock pb = pageHome.createPageBlock(page);
         return Response.ok(pb).build();
     }
@@ -82,7 +84,8 @@ public class PageResource implements Serializable
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateTitle(@PathParam("id") Long id, PageBlock pageBlock)
     {
-        if (id == null || StringUtil.isEmpty(pageBlock.getTitle())) return Response.status(Status.BAD_REQUEST).build();
+        if (id == null || StringUtil.isEmpty(pageBlock.getTitle()))
+            return Response.status(Status.BAD_REQUEST).build();
         pageHome.updatePageBlockTitle(id, pageBlock.getTitle());
         return Response.ok().build();
     }
@@ -95,9 +98,12 @@ public class PageResource implements Serializable
     {
         if (curate == null || curate.getPageBlock() == null || curate.getPageBlock().getId() == null)
             return Response.status(Status.BAD_REQUEST).build();
-        // checkurlvalidity
+        boolean isValid = pageHome.urlIsValid(curate.getUrl());
+        if (!isValid)
+            throw new ServiceException(100, StatusMessage.getBundleMessage("Invalid_Url", ""));
         com.jedlab.http.Response resp = new Request(curate.getUrl(), HttpMethodRequest.GET).execute();
-        if (resp.statusCode() != 200) throw new ServiceException(100, StatusMessage.getBundleMessage("Invalid_Url", ""));
+        if (resp.statusCode() != 200)
+            throw new ServiceException(100, StatusMessage.getBundleMessage("Invalid_Url", ""));
         InputStream is = resp.content();
         try
         {

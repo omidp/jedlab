@@ -1,5 +1,6 @@
 package com.jedlab.model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -20,12 +21,14 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.codec.binary.Base64;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.omidbiz.core.axon.internal.IgnoreElement;
 
 import com.jedlab.framework.StringUtil;
 import com.jedlab.model.enums.Gender;
@@ -290,5 +293,23 @@ public class Member extends BasePO
             return getUsername();
         return getEmail();
     }
+    
+    @IgnoreElement
+    @Transient
+    public String getBase64Image()
+    {
+        if (getImage() == null)
+            return null;
+        byte[] encodeBase64 = Base64.encodeBase64(getImage());
+        try
+        {
+            return new String(encodeBase64, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new UnsupportedOperationException("image can not be found to convert to base64");
+        }
+    }
+
 
 }

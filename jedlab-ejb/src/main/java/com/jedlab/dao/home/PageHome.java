@@ -1,5 +1,8 @@
 package com.jedlab.dao.home;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -10,10 +13,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 
 import com.jedlab.action.Constants;
+import com.jedlab.framework.RegexUtil;
 import com.jedlab.framework.TxManager;
 import com.jedlab.model.Curate;
 import com.jedlab.model.Member;
@@ -139,6 +144,19 @@ public class PageHome extends EntityHome<Page>
         pb.setTitle(title);
         getEntityManager().flush();
         
+    }
+    
+    
+    public boolean urlIsValid(String url)
+    {
+        return RegexUtil.URL_REGEX.matcher(url).find();
+    }
+    
+    
+    public void redirectToCurateList()
+    {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        FacesManager.instance().redirect("/curate/curateList.seam", parameters, false, false);
     }
 
 }

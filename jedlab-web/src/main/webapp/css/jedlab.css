@@ -5009,4 +5009,6 @@ div.w3-accordion div.content{
     width: 100%;
 }
 
-
+.ui.button{
+	font-family: Yekan, Tahoma;
+}
