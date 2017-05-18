@@ -45,6 +45,9 @@ import com.jedlab.model.PageBlock;
 public class PageHome extends EntityHome<Page>
 {
 
+    
+    public static final int CURATE_COUNT  = 10;
+    
     @Logger
     Log log;
 
@@ -197,7 +200,7 @@ public class PageHome extends EntityHome<Page>
         {
             Long cnt = (Long) getEntityManager().createQuery("select count(c) from Curate c where c.page.id = :pid ")
                     .setParameter("pid", getPageId()).getSingleResult();
-            if (cnt < 2)
+            if (cnt < CURATE_COUNT)
             {
                 getStatusMessages().addFromResourceBundle(Severity.ERROR, "Curate_Error_Count");
             }
