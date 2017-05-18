@@ -22,9 +22,19 @@
 			<div>
 				<s:fragment rendered="#{identity.loggedIn}">
 					<button 
-						class="w3-btn w3-ripple w3-red" 
+						class="w3-btn w3-ripple w3-red w3-margin" 
 						id="createCurateBtn"
 					>#{messages['Create_Page']}</button>
+					
+					<s:button
+						styleClass="w3-btn w3-ripple w3-red w3-margin" 
+						view="/curate/curateList.xhtml"
+						propagation="none"
+						includePageParams="false"
+						value="#{messages['My_Curates']}"
+					>
+						<f:param name="mc" value="Y"></f:param>
+					</s:button>
 				<script type="text/javascript">
 					
 

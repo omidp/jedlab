@@ -41,7 +41,7 @@ public class HtmlContentParser
         {
             throw new IllegalStateException("No active application context");
         }
-        return (ContentParser) Component.getInstance(ContentParser.class, ScopeType.APPLICATION);
+        return (ContentParser) Component.getInstance(HtmlContentParser.class, ScopeType.APPLICATION);
     }
 
     public static class ContentParser

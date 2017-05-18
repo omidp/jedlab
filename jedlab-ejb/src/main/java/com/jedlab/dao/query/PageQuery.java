@@ -4,11 +4,15 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Contexts;
 
+import com.jedlab.action.Constants;
 import com.jedlab.framework.PagingController;
+import com.jedlab.framework.StringUtil;
 import com.jedlab.model.Page;
 
 @Name("pageQuery")
@@ -16,11 +20,21 @@ import com.jedlab.model.Page;
 public class PageQuery extends PagingController<Page>
 {
 
-    
     List<Page> resultList;
     Long resultCount;
-    
-    
+
+    private String myCurates;
+
+    public String getMyCurates()
+    {
+        return myCurates;
+    }
+
+    public void setMyCurates(String myCurates)
+    {
+        this.myCurates = myCurates;
+    }
+
     public PageQuery()
     {
         setMaxResults(30);
@@ -47,7 +61,14 @@ public class PageQuery extends PagingController<Page>
 
     private void applyFilter(Criteria criteria)
     {
+        Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
         criteria.createCriteria("p.member", "m", Criteria.LEFT_JOIN);
+        if(StringUtil.isEmpty(getMyCurates()))
+            criteria.add(Restrictions.eq("p.published", true));
+        else
+        {
+            criteria.add(Restrictions.eq("m.id", uid));
+        }
     }
 
     private void refresh()

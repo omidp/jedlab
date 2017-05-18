@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -27,6 +29,7 @@ import org.jboss.seam.bpm.ManagedJbpmContext;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.framework.BusinessProcessController;
 import org.jboss.seam.international.StatusMessage;
+import org.jboss.seam.navigation.Pages;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 import com.jedlab.JedLab;
@@ -71,13 +74,10 @@ public class WorkflowAction extends BusinessProcessController
         {
             Course course = (Course) entityManager.createNamedQuery(Course.FIND_WITH_INSTRUCTOR_BY_ID)
                     .setParameter("courseId", this.courseId).getSingleResult();
-            if(course.getProcessInstanceId() == null)
+            if (course.getProcessInstanceId() == null)
             {
-                ProcessModel pm =new ProcessModel(course.getName(), course.getId(), course.getInstructor().getUsernameOrEmail(), course.getInstructor()
-                        .getId());
-                getBusinessProcessContext().set(
-                        Constants.FLOW_OBJECT_NAME,
-                        ByteUtil.convertObjectToByte(pm));
+                ProcessModel pm = new ProcessModel(Pages.getCurrentViewId(), "JEDLab");
+                getBusinessProcessContext().set(Constants.FLOW_OBJECT_NAME, ByteUtil.convertObjectToByte(pm));
                 BusinessProcess.instance().createProcess(Constants.BP_PROCESS_NAME);
                 course.setProcessInstanceId(BusinessProcess.instance().getProcessId());
                 entityManager.flush();
@@ -94,12 +94,13 @@ public class WorkflowAction extends BusinessProcessController
         WebContext.instance().redirectIt(true, false);
     }
 
-    @BeginTask(taskIdParameter="taskId")
+    @BeginTask(taskIdParameter = "taskId")
     @EndTask(transition = "toEnd")
     @Transactional
     public void accept()
     {
-        Course course = (Course) entityManager.createNamedQuery(Course.FIND_WITH_INSTRUCTOR_BY_ID).setParameter("courseId", this.courseId).getSingleResult();
+        Course course = (Course) entityManager.createNamedQuery(Course.FIND_WITH_INSTRUCTOR_BY_ID).setParameter("courseId", this.courseId)
+                .getSingleResult();
         String content = interpolate(StatusMessage.getBundleMessage("Admin_Approve", ""), course.getName());
         Events.instance().raiseAsynchronousEvent(Constants.SEND_MAIL_ANNOUNCEMENT, content, course.getInstructor(), content);
         course.setActive(true);
@@ -108,18 +109,20 @@ public class WorkflowAction extends BusinessProcessController
         WebContext.instance().redirectIt(true, false);
     }
 
-    @BeginTask(taskIdParameter="taskId")
+    @BeginTask(taskIdParameter = "taskId")
     @EndTask(transition = "toEnd")
     @Transactional
     public void reject()
     {
-        Course course = (Course) entityManager.createNamedQuery(Course.FIND_WITH_INSTRUCTOR_BY_ID).setParameter("courseId", this.courseId).getSingleResult();
+        Course course = (Course) entityManager.createNamedQuery(Course.FIND_WITH_INSTRUCTOR_BY_ID).setParameter("courseId", this.courseId)
+                .getSingleResult();
         course.setActive(false);
         course.setProcessInstanceId(null);
         entityManager.flush();
         String content = interpolate(StatusMessage.getBundleMessage("Admin_Reject", ""), course.getName());
         Events.instance().raiseTransactionCompletionEvent(Constants.SEND_MAIL_ANNOUNCEMENT, content, course.getInstructor(), content);
-//        Events.instance().raiseAsynchronousEvent("com.jedlab.action.announcement.sendMail", content, course.getInstructor(), content);
+        // Events.instance().raiseAsynchronousEvent("com.jedlab.action.announcement.sendMail",
+        // content, course.getInstructor(), content);
         WebContext.instance().redirectIt(true, false);
     }
 
@@ -176,6 +179,9 @@ public class WorkflowAction extends BusinessProcessController
             return dashboardModelList;
         Collections.sort(taskInstanceList, new TaskInstanceSort());
         dashboardModelList = new ArrayList<ProcessModel>();
+        //
+        List<Long> processIds = entityManager.createQuery("select p.processId from Page p").setMaxResults(10000).getResultList();
+        //
         for (TaskInstance taskInstance : taskInstanceList)
         {
             Object variable = taskInstance.getVariable(Constants.FLOW_OBJECT_NAME);
@@ -185,7 +191,8 @@ public class WorkflowAction extends BusinessProcessController
                 //
                 pm.setTaskId(taskInstance.getId());
                 pm.setProcessId(taskInstance.getProcessInstance().getId());
-                dashboardModelList.add(pm);
+                if(processIds.contains(pm.getProcessId()))
+                    dashboardModelList.add(pm);
             }
         }
         return dashboardModelList;
@@ -195,10 +202,9 @@ public class WorkflowAction extends BusinessProcessController
 
     public static class ProcessModel implements Serializable
     {
-        private String courseName;
-        private Long courseId;
-        private String instructorName;
-        private Long instructorId;
+        private String view;
+        private String name;
+        private Map<String, Object> variables;
         private Long processId;
         private Long taskId;
 
@@ -206,52 +212,39 @@ public class WorkflowAction extends BusinessProcessController
         {
         }
 
-        public ProcessModel(String courseName, Long courseId, String instructorName, Long instructorId)
+        public ProcessModel(String view, String name)
         {
-            this.courseName = courseName;
-            this.courseId = courseId;
-            this.instructorName = instructorName;
-            this.instructorId = instructorId;
+            this.view = view;
+            this.name = name;
+        }
+        
+        
+
+        public String getName()
+        {
+            return name;
         }
 
-        public String getCourseName()
+        public void setName(String name)
         {
-            return courseName;
+            this.name = name;
         }
 
-        public void setCourseName(String courseName)
+        public Map<String, Object> getVariables()
         {
-            this.courseName = courseName;
+            if (variables == null)
+                variables = new HashMap<>();
+            return variables;
         }
 
-        public Long getCourseId()
+        public String getView()
         {
-            return courseId;
+            return view;
         }
 
-        public void setCourseId(Long courseId)
+        public void setView(String view)
         {
-            this.courseId = courseId;
-        }
-
-        public String getInstructorName()
-        {
-            return instructorName;
-        }
-
-        public void setInstructorName(String instructorName)
-        {
-            this.instructorName = instructorName;
-        }
-
-        public Long getInstructorId()
-        {
-            return instructorId;
-        }
-
-        public void setInstructorId(Long instructorId)
-        {
-            this.instructorId = instructorId;
+            this.view = view;
         }
 
         public Long getProcessId()

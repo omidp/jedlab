@@ -96,11 +96,17 @@ public class PageResource implements Serializable
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCurate(Curate curate)
     {
-        if (curate == null || curate.getPageBlock() == null || curate.getPageBlock().getId() == null)
-            return Response.status(Status.BAD_REQUEST).build();
+        if (curate == null 
+                || curate.getPageBlock() == null 
+                || curate.getPageBlock().getId() == null
+                || curate.getUrl() == null)
+            throw new ServiceException(100, StatusMessage.getBundleMessage("Invalid_Url", ""));
         boolean isValid = pageHome.urlIsValid(curate.getUrl());
         if (!isValid)
             throw new ServiceException(100, StatusMessage.getBundleMessage("Invalid_Url", ""));
+        boolean exists =   pageHome.curateExists(curate.getUrl());
+        if(exists)
+            throw new ServiceException(100, StatusMessage.getBundleMessage("Url_Exists", ""));
         com.jedlab.http.Response resp = new Request(curate.getUrl(), HttpMethodRequest.GET).execute();
         if (resp.statusCode() != 200)
             throw new ServiceException(100, StatusMessage.getBundleMessage("Invalid_Url", ""));

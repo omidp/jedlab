@@ -14,10 +14,11 @@ var curate = {
 						location.href = window.location.origin + contextPath+ '/curate/page/'+data.id;
 					},
 					failure: function(errMsg) {
-						common.notification("#{messages['Error_Title']}", "errormsg");
+						//common.notification("#{messages['Error_Title']}", "errormsg");
 				    },
-				    error: function(errMsg) {
-						common.notification("#{messages['Error_Title']}", "errormsg");
+				    error: function(errMsg) {				    	
+				    	var b = JSON.parse(errMsg.responseText);
+						common.notification(b.errors[0].msg, "errormsg");
 				    }
 				}
 			);
@@ -25,7 +26,8 @@ var curate = {
 		},
 		addCurate:function(bid){
 			var val = jQuery("#curinp_"+bid).val();
-
+			var p = jQuery("#curbtn_"+bid).html();
+			jQuery("#curbtn_"+bid).html(processing);
 			jQuery.ajax(
 					{
 						type:"POST",
@@ -38,12 +40,17 @@ var curate = {
 							var html  = template(data);											
 							jQuery("#ul_"+bid).append(html);
 							jQuery("#curinp_"+bid).val('');
+							jQuery("#curbtn_"+bid).val(processing);
+							jQuery("#curbtn_"+bid).html(p);
+							curate.visibility(data.inProgress);
 						},
 						failure: function(errMsg) {
-							common.notification("#{messages['Error_Title']}", "errormsg");
+							//common.notification("#{messages['Error_Title']}", "errormsg");
 					    },
-					    error: function(errMsg) {
-							common.notification("#{messages['Error_Title']}", "errormsg");
+					    error: function(errMsg) {					    	
+					    	var b = JSON.parse(errMsg.responseText);
+							common.notification(b.errors[0].msg, "errormsg");
+							jQuery("#curbtn_"+bid).html(p);
 					    }
 					}
 				);
@@ -92,10 +99,11 @@ var curate = {
 							    label.show();
 							},
 							failure: function(errMsg) {
-								common.notification("#{messages['Error_Title']}", "errormsg");
+								//common.notification("#{messages['Error_Title']}", "errormsg");
 						    },
 						    error: function(errMsg) {
-								common.notification("#{messages['Error_Title']}", "errormsg");
+						    	var b = JSON.parse(errMsg.responseText);
+								common.notification(b.errors[0].msg, "errormsg");
 						    }
 						}
 					);
@@ -106,6 +114,18 @@ var curate = {
 		    	label.text(input.val() === '' ? defaultText : input.val());
 			    input.hide();
 			    label.show();
+			}
+		},
+		visibility:function(inProg){
+			if(inProg == 'true')
+			{
+				jQuery("#waitForApproval").show();
+				jQuery("#btnApprovalAction").hide();
+			} 
+			else
+			{
+				jQuery("#waitForApproval").hide();
+				jQuery("#btnApprovalAction").show();
 			}
 		}
 		

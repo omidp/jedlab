@@ -24,20 +24,44 @@
 		<input type="hidden" id="pageId" value="#{pageId}"/>
 		<div style="margin-top: 20px; margin-right: 10px"
 		class="locale-direction">
+		
+			<div class="ui big message locale-direction w3-margin">
+  				<h:outputText value="#{messages['Page']} #{' '} #{pageHome.instance.title} #{' '} " />
+			</div>
 			
-			<div>
+			<s:div style="display:none" id="waitForApproval"  styleClass="w3-panel w3-red w3-card-4 locale-direction w3-margin" >
+			  <p>	  
+			  	<h:outputText value="#{messages['Wait_For_Approval']}" />
+			  </p>	  
+			</s:div>
+					
+			<s:div rendered="#{pageHome.instance.owner}" id="ownerPanel">
+					
+					
+					<s:button styleClass="w3-btn w3-ripple w3-red w3-margin" propagation="none"						
+						id="btnApprovalAction" 
+						action="#{pageHome.sendForPublish()}" value="#{messages['Send_Publish_Page']}">
+						<f:param name="pageId" value="#{pageId}"></f:param>
+					</s:button>
+				
 					<button 
-						class="w3-btn w3-large w3-circle w3-xlarge w3-ripple w3-teal w3-right" 
+						class="w3-btn w3-large w3-circle w3-xlarge w3-ripple w3-teal w3-right w3-margin" 
 						id="createCurateBlockBtn"
 					>+</button>
 
 				<script type="text/javascript">
+					var isInProgress = "#{pageHome.instance.inProgress}";
+
 					jQuery(window).load(function(){
+
 						jQuery("#createCurateBlockBtn").popup({ content : "#{messages['Create_Block']}" });
+						
 					});
-
+		
 					jQuery(document).ready(function(){
+						curate.visibility(isInProgress);
 
+												
 						jQuery("#createCurateBlockBtn").click(function(){
 
 							var pageId = jQuery("#pageId").val();
@@ -57,6 +81,10 @@
 										},
 										failure: function(errMsg) {
 											common.notification("#{messages['Error_Title']}", "errormsg");
+									    },
+									    error: function(errMsg) {				    	
+									    	var b = JSON.parse(errMsg.responseText);
+											common.notification(b.errors[0].msg, "errormsg");
 									    }
 									}
 								);
@@ -69,7 +97,8 @@
 					
 					
 				</script>
-			</div>
+			</s:div>
+			<div style="clear: both;" />
 			
 			
 			<div class="ui two cards" id="page_blocks">
@@ -81,23 +110,27 @@
 				      <div class="left floated meta">				      	
 				      </div>
 				      <label class="pull-left" data-block-id="#{_item.id}" data-block-title="#{_item.title}">#{_item.title}</label>
-					  <input class="clickedit #{_item.id}" type="text" value="#{_item.title}"/>					  
+				      <s:fragment rendered="#{pageHome.instance.owner}">
+					  	<input class="clickedit #{_item.id}" type="text" value="#{_item.title}"/>
+					  </s:fragment>					  
 				    </div> 
 				    <div class="content">
 				    	<div class="ui ordered divided list" style="direction:ltr;" id="ul_#{_item.id}">
 							<c:forEach var="_curate" items="#{_item.curates}">
-									<a class="item" href="#{_curate.url}" target="_blank" data-curate-id="#{_curate.id}">#{_curate.titleOrUrl}</a>
+									<a class="item curatelnk" href="#{_curate.url}" target="_blank" 
+										data-curate-id="#{_curate.id}"
+										data-curate-desc="#{_curate.description}">#{_curate.titleOrUrl}</a>
 							</c:forEach>
 						</div>						
 				    </div>
-				    <div class="extra content">
+				    <s:div rendered="#{pageHome.instance.owner}" styleClass="extra content">
 				    	<div class="ui action input">
-						  <input placeholder="#{messages['URL']}" type="text" id="curinp_#{_item.id}"/>
+						  <input placeholder="#{messages['URL']}" type="text" id="curinp_#{_item.id}" style="direction: ltr;width:80%;text-align: left;"/>
 						  <button class="ui icon button addcur" id="curbtn_#{_item.id}" data-block-id="#{_item.id}" onclick="curate.addCurate(#{_item.id})"> 
 						    <i class="icon-plus"></i>
 						  </button>
 						</div>
-				    </div>
+				    </s:div>
 				  </div>
 				  
 				</c:forEach>  
@@ -111,16 +144,34 @@
 	
 	<script>
 	//<![CDATA[
-	var defaultText = 'Click me and enter some text';
+	var defaultText = "messages['Click_Me']";
+	var processing = "#{messages['Processing']}";
+	jQuery(window).load(function(){
 
-	jQuery(document).ready(function(){
-
-		curate.setUpClickEdit();
+		jQuery(".item.curatelnk").each(function(){
+			var v = jQuery(this).data('curate-desc');			
+			jQuery(this).popup({content: v});
+		});
 		
 	});
-	
 	//]]>
 	</script>
+	
+	<s:fragment rendered="#{pageHome.instance.owner}">
+		
+		<script>
+		//<![CDATA[
+	
+		jQuery(document).ready(function(){
+	
+			curate.setUpClickEdit();
+			
+		});
+		
+		//]]>
+		</script>
+	
+	</s:fragment>
 	
 	
 	<script type="text/javascript" src="#{_ctx}/js/curate.js"></script>

@@ -48,20 +48,50 @@ public class Page extends BasePO
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "is_publish", nullable=false)
+    private boolean published;
 
     @Lob
     @Type(type = "org.hibernate.type.BinaryType")
     @Column(name = "image", length = 2147483647)
     @Basic(fetch = FetchType.LAZY)
     private byte[] image;
+    
+    
+    @Column(name="process_id")
+    private Long processId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "page")
     Set<PageBlock> blocks = new HashSet<>(0);
+    
+    
+    
+
+    public Long getProcessId()
+    {
+        return processId;
+    }
+
+    public void setProcessId(Long processId)
+    {
+        this.processId = processId;
+    }
+
+    public boolean isPublished()
+    {
+        return published;
+    }
+
+    public void setPublished(boolean published)
+    {
+        this.published = published;
+    }
 
     public Set<PageBlock> getBlocks()
     {
@@ -144,7 +174,16 @@ public class Page extends BasePO
     @Transient
     public boolean isOwner()
     {
-        return member != null && member.getId() == Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+        Object currentLogginId = Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+        if(member == null || currentLogginId == null)
+            return false;
+        return member.getId().longValue() == ((Long)currentLogginId).longValue();
+    }
+    
+    @Transient
+    public boolean isInProgress()
+    {
+        return getProcessId() != null;
     }
 
 }

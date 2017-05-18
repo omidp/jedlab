@@ -15,7 +15,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class Request
 {
 
-    public static final int DEFAULT_TIMEOUT = 4000;
+    public static final int DEFAULT_TIMEOUT = 6000;
 
     private String url;
 
@@ -102,5 +102,6 @@ public class Request
         }
         return null;
     }
+    
 
 }

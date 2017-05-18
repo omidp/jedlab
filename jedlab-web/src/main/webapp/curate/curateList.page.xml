@@ -9,5 +9,7 @@
 	<param name="firstResult" value="#{pageQuery.firstResult}"/>
 	<param name="pageNumber" value="#{pageQuery.pageNumber}"/>
 	
+	<param name="mc" value="#{pageQuery.myCurates}"/>
+	
 
 </page>
