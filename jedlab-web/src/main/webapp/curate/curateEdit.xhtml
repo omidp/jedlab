@@ -107,7 +107,12 @@
   
 				  <div class="card" id="block_#{_item.id}">
 				    <div class="content">
-				      <div class="left floated meta">				      	
+				      <div class="left floated meta">
+				      	<s:fragment rendered="#{pageHome.instance.owner}">
+									<div id="delblock_#{_item.id}"  onclick="curate.deletePageBlock(#{_item.id});" 
+										class="right floated mini ui button">-
+									</div>	
+						</s:fragment>				      	
 				      </div>
 				      <label class="pull-left" data-block-id="#{_item.id}" data-block-title="#{_item.title}">#{_item.title}</label>
 				      <s:fragment rendered="#{pageHome.instance.owner}">
@@ -115,11 +120,28 @@
 					  </s:fragment>					  
 				    </div> 
 				    <div class="content">
-				    	<div class="ui ordered divided list" style="direction:ltr;" id="ul_#{_item.id}">
-							<c:forEach var="_curate" items="#{_item.curates}">
-									<a class="item curatelnk" href="#{_curate.url}" target="_blank" 
-										data-curate-id="#{_curate.id}"
-										data-curate-desc="#{_curate.description}">#{_curate.titleOrUrl}</a>
+				    	<div class="ui ordered divided list" style="direction:ltr;" id="ul_#{_item.id}">				    		
+							<c:forEach var="_curate" items="#{_item.curates}"> 
+									 
+								<div class="item" id="del_#{_curate.id}">		
+								
+									<a class="curatelnk clickableLink"  href="#{_curate.url}" target="_blank" 
+											data-curate-id="#{_curate.id}" id="lnk_#{_curate.id}"
+											data-curate-desc="#{_curate.description}">
+										#{_curate.titleOrUrl}
+									</a>
+									
+									<s:fragment rendered="#{pageHome.instance.owner}">
+										<span style="float: right;"   
+											><i class="icon-minus" style="color: #F90E0E;cursor: pointer;" onclick="curate.deleteCurate(#{_curate.id});"/>
+										</span>	
+									</s:fragment>
+								
+								
+								
+								</div>
+										
+									
 							</c:forEach>
 						</div>						
 				    </div>
@@ -148,7 +170,7 @@
 	var processing = "#{messages['Processing']}";
 	jQuery(window).load(function(){
 
-		jQuery(".item.curatelnk").each(function(){
+		jQuery(".curatelnk").each(function(){
 			var v = jQuery(this).data('curate-desc');			
 			jQuery(this).popup({content: v});
 		});

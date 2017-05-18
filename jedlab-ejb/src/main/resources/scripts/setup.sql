@@ -138,3 +138,11 @@ CREATE INDEX gist_uuid_idx
   ON public.gist
   USING btree
   (uuid COLLATE pg_catalog."default");
+  
+  ------------------------------Done 
+  
+  ALTER TABLE public.curates ALTER COLUMN url type character varying(2000);
+  ALTER TABLE public.curates ALTER COLUMN title type character varying(2000);
+  ALTER TABLE public.curates ALTER COLUMN description type character varying(2000);
+  ALTER TABLE public.curates ALTER COLUMN keywords type character varying(2000);
+  ALTER TABLE public.curates ALTER COLUMN image_url type character varying(2000);

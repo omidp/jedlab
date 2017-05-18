@@ -24,6 +24,50 @@ var curate = {
 			);
 			
 		},
+		deletePageBlock:function(bid){
+			
+			jQuery.ajax(
+					{
+						type:"DELETE",
+						url: contextPath+"/seam/resource/api/pages/blocks/"+bid,						
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						success: function(data){																				
+							jQuery("#block_"+bid).hide();							
+						},
+						failure: function(errMsg) {
+							//common.notification("#{messages['Error_Title']}", "errormsg");
+					    },
+					    error: function(errMsg) {					    	
+					    	
+					    }
+					}
+				);
+			
+			
+		},
+		deleteCurate:function(curateId){
+			
+			jQuery.ajax(
+					{
+						type:"DELETE",
+						url: contextPath+"/seam/resource/api/pages/curates/"+curateId,						
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						success: function(data){																				
+							jQuery("#lnk_"+curateId).hide();
+							jQuery("#del_"+curateId).hide();
+						},
+						failure: function(errMsg) {
+							//common.notification("#{messages['Error_Title']}", "errormsg");
+					    },
+					    error: function(errMsg) {					    	
+					    	
+					    }
+					}
+				);
+			
+		},
 		addCurate:function(bid){
 			var val = jQuery("#curinp_"+bid).val();
 			var p = jQuery("#curbtn_"+bid).html();

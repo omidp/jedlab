@@ -1,7 +1,9 @@
 <div class="card" id="block_{{id}}">
 				    <div class="content">
 				      <div class="left floated meta">
-				      	
+								<div id="delblock_{{id}}"  onclick="curate.deletePageBlock({{id}});" 
+										class="right floated mini ui button">-
+								</div>				      	
 				      </div>
 				      <label class="pull-left" data-block-id="{{id}}" data-block-title="{{title}}">{{title}}</label>
 					  <input class="clickedit {{id}}" type="text" value="{{title}}"/>					  

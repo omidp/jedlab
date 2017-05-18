@@ -285,5 +285,35 @@ public class PageHome extends EntityHome<Page>
         }
         return false;
     }
+    
+    
+    public Curate findCurateById(Long id)
+    {
+        return getEntityManager().find(Curate.class, id);
+    }
+
+    @Transactional
+    public void deleteCurate(Curate c)
+    {
+        TxManager.beginTransaction();
+        TxManager.joinTransaction(getEntityManager());
+        getEntityManager().remove(c);
+        getEntityManager().flush();
+    }
+
+    public PageBlock findBlockById(Long id)
+    {
+        return getEntityManager().find(PageBlock.class, id);
+    }
+
+    @Transactional
+    public void deletePageBlock(PageBlock pb)
+    {
+        TxManager.beginTransaction();
+        TxManager.joinTransaction(getEntityManager());
+        getEntityManager().createQuery("delete from Curate c where c.pageBlock.id = :bid").setParameter("bid", pb.getId()).executeUpdate();
+        getEntityManager().remove(pb);
+        getEntityManager().flush();        
+    }
 
 }

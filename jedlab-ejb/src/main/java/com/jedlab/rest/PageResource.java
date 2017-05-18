@@ -6,6 +6,7 @@ import java.io.Serializable;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -89,6 +90,17 @@ public class PageResource implements Serializable
         pageHome.updatePageBlockTitle(id, pageBlock.getTitle());
         return Response.ok().build();
     }
+    
+    @Path("/blocks/{id}")
+    @DELETE
+    public Response deleteBlock(@PathParam("id") Long id)
+    {
+        PageBlock pb =  pageHome.findBlockById(id);
+        if(pb.getPage().isOwner() == false)
+            return Response.noContent().build();
+        pageHome.deletePageBlock(pb);
+        return Response.noContent().build();
+    }
 
     @Path("/curates")
     @POST
@@ -145,6 +157,17 @@ public class PageResource implements Serializable
         }
         Curate c = pageHome.createCurate(curate);
         return Response.ok(c).build();
+    }
+    
+    @DELETE
+    @Path("/curates/{id}")
+    public Response deleteCurate(@PathParam("id") Long curateId)
+    {
+        Curate c = pageHome.findCurateById(curateId);
+        if(c.getPage().isOwner() == false)
+            return Response.noContent().build();
+        pageHome.deleteCurate(c);
+        return Response.noContent().build();
     }
 
 }

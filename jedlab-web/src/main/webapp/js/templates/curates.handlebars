@@ -1,1 +1,13 @@
-<a class="item" href="{{url}}" target="_blank" data-curate-id="{{id}}">{{titleOrUrl}}</a>
+<div class="item" id="del_{{id}}">		
+									<a class="curatelnk clickableLink"  href="{{url}}" target="_blank" 
+											data-curate-id="{{id}}" id="lnk_{{id}}"
+											data-curate-desc="{{description}}">
+										{{titleOrUrl}}
+									</a>
+									
+									
+										<span style="float: right;"   
+											><i class="icon-minus" style="color: #F90E0E;cursor: pointer;" onclick="curate.deleteCurate({{id}});"/>
+										</span>	
+								
+</div>
