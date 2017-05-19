@@ -83,7 +83,17 @@ public class CourseHome extends EntityHome<Course>
 
     private void wire()
     {
-
+        if(isIdDefined())
+        {
+            if(Identity.instance().hasRole(Constants.ROLE_ADMIN))
+            {
+                if(getInstance().isPublished() == false)
+                {
+                    getEntityManager().createQuery("update Course c set c.published = true where c.id = :courseId").setParameter("courseId", getId()).executeUpdate();
+                    getEntityManager().flush();
+                }
+            }
+        }
     }
 
     public boolean isWired()
@@ -328,6 +338,7 @@ public class CourseHome extends EntityHome<Course>
     @Transactional
     public String persist()
     {
+        wire();
         Instructor instructor = new Instructor();
         instructor.setId(JedLab.instance().getCurrentUserId());
         getInstance().setInstructor(instructor);
@@ -345,6 +356,7 @@ public class CourseHome extends EntityHome<Course>
     @Transactional
     public String update()
     {
+        wire();
         Instructor instructor = new Instructor();
         instructor.setId(JedLab.instance().getCurrentUserId());
         getInstance().setInstructor(instructor);

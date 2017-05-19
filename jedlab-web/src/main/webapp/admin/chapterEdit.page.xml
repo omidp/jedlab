@@ -6,26 +6,29 @@
 
 	<begin-conversation flush-mode="manual" join="true"/>
 	
-	<param name="courseId" value="#{chapterHome.course.id}" required="true"/>
+	<param name="courseId" value="#{chapterHome.course.id}"/>
 	
-	<param name="chapterId" value="#{chapterHome.chapterId}"/>
+	<param name="courseId" value="#{chapterQuery.course.id}"/>
 	
 	<action execute="#{chapterHome.load()}"/>
 	
 	<navigation from-action="#{chapterHome.persist()}">
 		<end-conversation />
 		<rule if-outcome="persisted">
-			<redirect view-id="/courseList.xhtml" include-page-params="false">
+			<redirect view-id="/admin/dashboard.xhtml" include-page-params="false">
+				<param name="courseId" value="#{courseId}"/>
 			</redirect>
 		</rule>
 	</navigation>
 	
+	
 	<navigation from-action="#{chapterHome.update()}">
 		<end-conversation />
 		<rule if-outcome="updated">
-			<redirect view-id="/courseList.xhtml" include-page-params="false">
+			<redirect view-id="/admin/dashboard.xhtml" include-page-params="false">
 			</redirect>
 		</rule>
 	</navigation>
+	
    
 </page>

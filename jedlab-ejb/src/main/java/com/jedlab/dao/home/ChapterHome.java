@@ -26,6 +26,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.util.RandomStringUtils;
 
 import com.jedlab.Env;
@@ -148,34 +149,42 @@ public class ChapterHome extends EntityHome<Chapter>
             }
             catch (ParseException e)
             {
-                e.printStackTrace();
+                throw new ErrorPageExceptionHandler("invalid duration");
             }
         }
-        else
+        if(Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
         {
+            if (getUploadItem().getData() == null || getUploadItem().getData().length == 0)
+                throw new ErrorPageExceptionHandler("can not create empty file");
+            try
+            {
+                String folderPath = VIDEO_LOCATION + JedLab.instance().getCurrentUserId();
+                if (getCourse().getId() != null)
+                    folderPath += Env.FILE_SEPARATOR + getCourse().getId();
+                File folder = new File(folderPath);
+                if (folder.exists() == false)
+                    folder.mkdirs();
+                ///TODO:check for file extension
+                // if(getUploadItem().getFileName().endsWith(".mp4") == false)
+                
+                Path path = Paths.get(folderPath + Env.FILE_SEPARATOR + getUploadItem().getFileName());
+                Files.write(path, getUploadItem().getData());
+                // File file = path.toFile();
+                getInstance().setUrl(path.toString());
+                
+            }
+            catch (IOException e)
+            {
+                throw new ErrorPageExceptionHandler("can not create file");
+            }
         }
-        if (getUploadItem().getData() == null || getUploadItem().getData().length == 0)
-            throw new ErrorPageExceptionHandler("can not create empty file");
-        try
+        if(Identity.instance().hasRole(Constants.ROLE_ADMIN))
         {
-            String folderPath = VIDEO_LOCATION + JedLab.instance().getCurrentUserId();
-            if (getCourse().getId() != null)
-                folderPath += Env.FILE_SEPARATOR + getCourse().getId();
-            File folder = new File(folderPath);
-            if (folder.exists() == false)
-                folder.mkdirs();
-            ///TODO:check for file extension
-            // if(getUploadItem().getFileName().endsWith(".mp4") == false)
-
-            Path path = Paths.get(folderPath + Env.FILE_SEPARATOR + getUploadItem().getFileName());
-            Files.write(path, getUploadItem().getData());
-            // File file = path.toFile();
-            getInstance().setUrl(path.toString());
-
-        }
-        catch (IOException e)
-        {
-            throw new ErrorPageExceptionHandler("can not create file");
+            if(getCourse().isPublished() == false)
+            {
+                getEntityManager().createQuery("update Course c set c.published = true where c.id = :courseId").setParameter("courseId", getCourse().getId()).executeUpdate();
+                getEntityManager().flush();
+            }
         }
         //
     }

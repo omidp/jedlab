@@ -146,3 +146,6 @@ CREATE INDEX gist_uuid_idx
   ALTER TABLE public.curates ALTER COLUMN description type character varying(2000);
   ALTER TABLE public.curates ALTER COLUMN keywords type character varying(2000);
   ALTER TABLE public.curates ALTER COLUMN image_url type character varying(2000);
+  
+  ----------------------------DONE
+  update member set discriminator = 'I' where id=1;

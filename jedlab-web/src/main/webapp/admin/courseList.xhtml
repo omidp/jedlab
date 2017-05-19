@@ -48,6 +48,10 @@
 				</h:column>
 
 			</h:dataTable>
+			
+			<s:decorate template="/layout/seamPaging.xhtml">
+				<ui:param name="entityList" value="#{courseQuery}" />
+			</s:decorate>
 
  </ui:define>
 </ui:composition>

@@ -24,12 +24,17 @@
 					<h:inputText id="dur" value="#{chapterHome.duration}" styleClass="w3-input"  required="true"/>
 				</s:decorate>
 				
-				<s:decorate template="/layout/simpleEdit.xhtml">
+				<s:decorate template="/layout/simpleEdit.xhtml" rendered="#{s:hasRole('Admin') == false}">
 					<ui:define name="label">#{messages['File']}</ui:define>
 					<s:fileUpload data="#{chapterHome.uploadItem.data}"
 						fileName="#{chapterHome.uploadItem.fileName}"
 						fileSize="#{chapterHome.uploadItem.fileSize}" 
 						required="true"></s:fileUpload>	
+				</s:decorate>
+				
+				<s:decorate template="/layout/simpleEdit.xhtml" rendered="#{s:hasRole('Admin')}">
+					<ui:define name="label">#{messages['File']}</ui:define>
+					<h:inputText id="dur" value="#{chapterHome.instance.url}" styleClass="w3-input"  required="true" style="direction:ltr;"/>	
 				</s:decorate>
 				
 				
