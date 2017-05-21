@@ -30,11 +30,13 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import com.jedlab.action.Constants;
 import com.jedlab.action.RegisterAction;
 import com.jedlab.framework.CookieUtil;
 import com.jedlab.framework.CryptoUtil;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TxManager;
+import com.jedlab.model.Member;
 import com.jedlab.model.Student;
 
 @Name("googleOAuthCallback")
@@ -88,13 +90,21 @@ public class GoogleOAuthCallback extends EntityController
                         CookieUtil.removeCookie(res, c);
                     try
                     {
-                        Student st = (Student) getEntityManager().createQuery("select s from Student s where s.email = :email")
+                        Member st = (Member) getEntityManager().createQuery("select m from Member m where m.email = :email")
                                 .setParameter("email", email).setMaxResults(1).getSingleResult();
                         if (st.isActive())
                         {
                             Identity identity = Identity.instance();
                             identity.getCredentials().setUsername(st.getUsername());
                             identity.acceptExternallyAuthenticatedPrincipal(new GithubPrincipal(st.getUsername()));
+                            if(Member.INSTRUCTOR_DISC.equals(st.getDiscriminator()))
+                            {
+                                identity.addRole(Constants.ROLE_INSTRUCTOR);
+                            }
+                            if(Member.STUDENT_DISC.equals(st.getDiscriminator()))
+                            {
+                                identity.addRole(Constants.ROLE_STUDENT);
+                            }
                             if (Events.exists())
                                 Events.instance().raiseEvent(Identity.EVENT_LOGIN_SUCCESSFUL);
                             identity.login();
