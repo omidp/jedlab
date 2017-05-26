@@ -83,7 +83,7 @@ public class JedLab extends HibernateEntityController
     public OAuth20Service googleOAuth()
     {
         return new ServiceBuilder().apiKey(Env.getGoogleKey())
-                .apiSecret(Env.getGoogleSecret()).callback(Env.getGoogleCallback()).scope("https://mail.google.com/ https://www.googleapis.com/auth/userinfo.email").build(GoogleApi20.instance());
+                .apiSecret(Env.getGoogleSecret()).callback(Env.getGoogleCallback()).scope("https://www.googleapis.com/auth/userinfo.email").build(GoogleApi20.instance());
     }
 
     public String getPageDescription()
