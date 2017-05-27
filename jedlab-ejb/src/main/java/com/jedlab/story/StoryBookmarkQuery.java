@@ -20,7 +20,8 @@ public class StoryBookmarkQuery extends PagingEntityQuery<StoryBookmark>
     private static final String EJBQL = "select sb from StoryBookmark sb LEFT JOIN  sb.member m  LEFT JOIN sb.story s";
     
     private static final String[] RESTRICTIONS = { 
-        "s.id = #{storyBookmarkQuery.story.id}"
+        "s.id = #{storyBookmarkQuery.story.id}",
+        "s.uuid = #{storyHome.uuid}"
         ,"m.id = #{jedLab.currentUserId}"};
     
     private Story story = new Story();
