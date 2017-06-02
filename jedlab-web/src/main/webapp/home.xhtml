@@ -9,6 +9,7 @@
 
 	<ui:define name="head">
 		<link href="#{_ctx}/css/font-mfizz.css" rel="stylesheet" />
+		<link href="#{_ctx}/css/go.css" rel="stylesheet" />
 		<style type="text/css">
 			.size-72 {
 			    font-size: 72px;
@@ -24,6 +25,8 @@
 			}
 			.glyph-sample:hover { color:#006400; }
 			.glyph-sample{color:#0B8E0B;}
+			
+		
 		</style>
 	</ui:define>
 	
@@ -170,7 +173,73 @@
 			</div>
 		</div>
 		<hr /> 
+		
+		
 		<!-- First Grid -->
+		
+		<div class="jc02 jc02v0 w3-row-padding w3-padding-tiny w3-container" style="background-color: #fff">
+			<div class="jc02trianglebg"></div>
+			<div class="w3-content"> 
+				
+				<div class="jc02w1 cwidth">
+						
+						<div class="jc02w2 jc02w3c1 bgdarkslate">
+				<div class="jc02w3">
+					<s:link propagation="none" view="/courseList.xhtml">
+						<div class="icn-img icn-ondark icon-user-tie">#{' '} #{' '}</div>
+						<h3>جاوا</h3> <i> <h:outputText value="&#8212;" escape="false" /> </i>
+						<p>فراگیری دانش تولید نرم افزار جاوا</p>
+					</s:link>
+				</div>
+				<div class="icn-img icn-ondark icon-exit">#{' '}</div>
+				<div class="jc02triangle"></div>
+			</div>
+
+			<div class="jc02w2 jc02w3c2 bggreen">
+				<div class="jc02w3">
+					<s:link propagation="none" view="/gistList.xhtml">
+						<div class="icn-img icn-ondark icon-user-tie">#{' '} #{' '}</div>
+						<h3>جیست</h3> <i> <h:outputText value="&#8212;" escape="false" /> </i>
+						<p>کدهای خود را به اشتراک بگذارید</p>
+					</s:link>					
+				</div>
+				<div class="icn-img icn-ondark icon-exit">#{' '}</div>
+				<div class="jc02triangle"></div>
+			</div>
+
+			<div class="jc02w2 jc02w3c3 bgblue">
+				<div class="jc02w3">
+					<s:link propagation="none" view="/story/storyList.xhtml">
+						<div class="icn-img icn-ondark icon-user-tie">#{' '} #{' '}</div>
+						<h3>جدلاگ</h3> <i> <h:outputText value="&#8212;" escape="false" /> </i>
+						<p>دانش خود را به اشتراک بگذارید</p>
+					</s:link>
+				</div>
+				<div class="icn-img icn-ondark icon-exit">#{' '}</div>
+				<div class="jc02triangle"></div>
+			</div>
+
+			<div class="jc02w2 jc02w3c4 bgorange">
+				<div class="jc02w3">
+					<s:link propagation="none" view="/curate/curateList.xhtml">
+						<div class="icn-img icn-ondark icon-user-tie">#{' '} #{' '}</div>
+						<h3>جدلینک</h3> <i> <h:outputText value="&#8212;" escape="false" /> </i>
+						<p>لینک های خود را به اشتراک بگذارید</p>
+					</s:link>
+				</div>
+				<div class="icn-img icn-ondark icon-exit">#{' '}</div>
+				<div class="jc02triangle"></div>
+			</div>
+						
+						
+				</div>
+
+			</div>
+		</div>
+		
+		<hr />
+		
+		
 		<div class="w3-row-padding w3-padding-tiny w3-container">
 			<div class="w3-content">
 				
@@ -220,6 +289,7 @@
 		</div>
 
 		<!-- Third Grid -->
+		<s:fragment rendered="false">
 		<div class="w3-row-padding w3-padding-64 w3-container">
 			<div class="w3-content">
 
@@ -274,6 +344,7 @@
 
 			</div>
 		</div>
+		</s:fragment>
 
 
 		<div class="w3-container w3-center w3-padding-64 start-now ">
