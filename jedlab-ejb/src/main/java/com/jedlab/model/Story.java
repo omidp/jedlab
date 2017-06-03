@@ -69,6 +69,21 @@ public class Story extends BasePO
     @Column(name = "comment_enabled")
     private boolean commentEnabled;
 
+    @Column(name = "description", nullable = true)
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")        
+    private String content;
+
+    public String getContent()
+    {
+        return content;
+    }
+
+    public void setContent(String content)
+    {
+        this.content = content;
+    }
+
     public boolean isCommentEnabled()
     {
         return commentEnabled;

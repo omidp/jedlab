@@ -4,90 +4,114 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:c="http://java.sun.com/jstl/core"
-	template="/layout/layout.xhtml">
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
 
 	<ui:define name="head">
-		
+
 		<style type="text/css">
-			.ui.cards {margin:0 !important}
-		</style>
-	
+.ui.cards {
+	margin: 0 !important
+}
+</style>
+
 	</ui:define>
 
-	<ui:define name="body">  
-		
+	<ui:define name="body">
+
 		<div style="margin-top: 20px; margin-right: 10px"
-		class="locale-direction">
-		<div>  
-			<s:link 
-								styleClass="w3-btn w3-large w3-circle w3-xlarge w3-ripple w3-teal w3-right" 
-								value="+" 
-								id="createStoryBtn"
-								propagation="none"
-								view="/story/storyEdit.xhtml"  
-								includePageParams="false"></s:link>	 
-								<script type="text/javascript">
+			class="locale-direction">
+			<div>
+				<s:link
+					styleClass="w3-btn w3-large w3-circle w3-xlarge w3-ripple w3-teal w3-right"
+					value="+" id="createStoryBtn" propagation="none"
+					view="/story/storyEdit.xhtml" includePageParams="false"></s:link>
+				<script type="text/javascript">
 									jQuery(window).load(function(){
 
 										jQuery("#createStoryBtn").popup({ content : "#{messages['Create_Story']}" });
 
 									});
 								</script>
-			</div>					
-			<div style="clear: both;" />					
-		
-			<div class="ui cards">
- 			
-				<c:forEach items="#{storyQuery.resultList}" var="_item">
-				 
-					<div class="ui card" data-story-id="#{_item.id}" data-story-uuid="#{_item.uuid}">
-					  <div class="content">
-					    <div class="left floated meta">#{_item.socialDate}</div>
-					    
-					    <s:graphicImage styleClass="ui avatar image" value="#{_item.member.image}" 
-					    	rendered="#{_item.member.hasImage}"></s:graphicImage>
-					    
-					    <span>
-					    	<s:link value="#{_item.member.username}" styleClass="clickableLink"
-					    		propagation="none" view="/story/storyList.xhtml">
-					    		<f:param name="author" value="#{_item.member.username}"></f:param>
-					    	</s:link>
-					    </span>
-					    						     
-					  </div>
-					  <div class="image">
-					  	
-						    <s:graphicImage value="#{_item.image}"  style="height:250px;"
-						    	rendered="#{_item.hasImage}">
-						    	<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>	
-						    </s:graphicImage>
-						    
-						    <s:graphicImage value="/images/image-text.png" 
-					    	rendered="#{!_item.hasImage}"></s:graphicImage>
-					    	
-					  </div>
-					  <div class="content">
-					    <span class="left floated">					        
-					      <s:link value="#{messages['Delete']}" rendered="#{s:hasRole('Admin')}" action="#{storyHome.remove()}" propagation="none" includePageParams="false">
-					      	<f:param name="storyId" value="#{_item.id}"></f:param>
-					      </s:link>
-					    </span>
-					    <s:link propagation="none" includePageParams="false" view="/story/story.xhtml"
-					    	styleClass="clickableLink" 
-					    	 value="#{_item.shortTitle}" >
-					    	<f:param name="uuid" value="#{_item.uuid}"></f:param>
-					    </s:link>
-					    
-					  </div>
-					</div>
-				
-				</c:forEach>
-				
 			</div>
-		
+			<div style="clear: both;" />
+
+			<c:forEach items="#{storyQuery.resultList}" var="_item" begin="0"
+				end="#{storyQuery.resultList.size()}" step="1" varStatus="_status">
+ 
+				<div class="w3-half w3-container "
+					style="margin-top: 20px; float: right">
+
+					<div class="w3-card4 w3-border">
+
+						<div class="w3-container w3-light-grey">
+
+
+							<s:graphicImage styleClass="w3-right w3-circle " style="margin-left:3px;margin-top:10px"
+								height="40" width="40" value="#{_item.member.image}"
+								rendered="#{_item.member.hasImage}"></s:graphicImage>
+
+							<s:graphicImage styleClass="w3-right w3-circle" style="margin-left:3px;margin-top:10px"
+								height="40" width="40" value="/images/default-avatar.jpg"
+								rendered="#{!_item.member.hasImage}"></s:graphicImage>
+
+							<div class="w3-right">
+
+								<h3>
+									<h:outputText value="#{_item.title}" />
+								</h3>
+								<p>
+									<span> <s:link style="float: right;"
+											value="#{_item.member.username}"
+											styleClass="clickableLink w3-margin-left" propagation="none"
+											view="/story/storyList.xhtml">
+											<f:param name="author" value="#{_item.member.username}"></f:param>
+										</s:link>
+									</span> #{_item.socialDate}
+
+								</p>
+								<br />
+								 <s:link value="#{messages['Delete']}" rendered="#{s:hasRole('Admin')}" action="#{storyHome.remove()}" propagation="none" includePageParams="false">
+							      	<f:param name="storyId" value="#{_item.id}"></f:param>
+							      </s:link>
+							</div>
+
+						</div>
+  
+						<div class="w3-container w3-margin content-height">
+							 <s:graphicImage value="#{_item.image}"  styleClass="fitimg ui small right floated image"
+							 		 	
+						    	rendered="#{_item.hasImage}">
+						    		
+						    </s:graphicImage> 
+						        
+						   
+							
+							
+							<p><h:outputText value="#{_item.content}" />#{' '}
+								<s:link propagation="none" includePageParams="false"
+										view="/story/story.xhtml" styleClass="clickableLink"
+										alt="#{_item.shortTitle}"
+										>
+										<h:outputText value="#{messages['Story_Read_More']}" /> #{' '} <h:outputText value=" ..." />
+										<f:param name="uuid" value="#{_item.uuid}"></f:param>
+								</s:link>	
+							</p>
+						</div>
+
+
+
+					</div>
+
+
+				</div>
+
+
+			</c:forEach>
+
+
+
 		</div>
-		
+
 
 	</ui:define>
 </ui:composition>

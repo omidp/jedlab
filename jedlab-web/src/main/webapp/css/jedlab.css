@@ -1,17 +1,14 @@
 @charset "UTF-8";
+
 @font-face {
-    font-family: 'Roboto-Light';
-    src: url("fonts/Roboto-Light.eot");
-    src: url("fonts/Roboto-Light.eot?#iefix") format('embedded-opentype'), url("fonts/Roboto-Light.woff") format('woff'), url("fonts/Roboto-Light.ttf") format('truetype');
+    font-family: 'Vazir-Light';
+    src: url("fonts/Vazir-Light.woff") format('woff'), url("fonts/Vazir-Light.ttf") format('truetype');
 }
 @font-face {
-    font-family: 'Yekan';
-    src: url("fonts/Yekan.woff") format('woff'), url("fonts/Yekan.ttf") format('truetype');
+    font-family: 'SansPro';
+    src: url("fonts/SourceSansPro-Light.woff") format('woff'), url("fonts/SourceSansPro-Light.ttf") format('truetype');
 }
-@font-face {
-    font-family: 'vazir';
-    src: url("fonts/vazir.woff") format('woff'), url("fonts/vazir.ttf") format('truetype');
-}
+
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -103,7 +100,7 @@ code,
 kbd,
 pre,
 samp {
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
     font-size: 1em
 }
 button,
@@ -171,7 +168,7 @@ textarea {
 
 html,
 body {
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
     font-size: 15px;
     line-height: 1.5;
     height: 100%;
@@ -187,7 +184,7 @@ h5,
 h6,
 .w3-slim,
 .w3-wide {
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
 }
 h1 {
     font-size: 36px
@@ -208,7 +205,7 @@ h6 {
     font-size: 16px
 }
 .w3-serif {
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
 }
 h1,
 h2,
@@ -1348,7 +1345,7 @@ input[type=radio].w3-radio:disabled+.w3-validate {
 }
 .w3-code,
 .w3-codespan {
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
     font-size: 16px
 }
 .w3-code {
@@ -2063,7 +2060,7 @@ textarea {
 button {
     width: auto;
     overflow: visible;
-    font-family: "Roboto-Light", 'Yekan', Tahoma, VideoJS, sans-serif !important;
+    font-family: "SansPro", 'Yekan', Tahoma, VideoJS, sans-serif !important;
 }
 /* Hand cursor on clickable controls */
 
@@ -2119,7 +2116,7 @@ input[type="color"],
 input[type="time"],
 input[type="search"],
 input[type="datetime-local"] {
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
     font-size: 1em;
     box-shadow: none;
     padding: 0.3em 0.35em;
@@ -2220,7 +2217,7 @@ legend {
 .forms label {
     display: block;
     margin-bottom: 1.0999999999999999em;
-    font-family: 'Yekan';
+    font-family: "SansPro", "Yekan";
     text-align: right;
 }
 .forms input[type="text"],
@@ -2960,7 +2957,7 @@ span.desc {
 
 .messages {
     color: #ffffff;
-    font-family: 'Yekan';
+    font-family: "SansPro", "Yekan", Vazir-Light;
     direction: rtl;
     text-align: center;
 }
@@ -3329,7 +3326,7 @@ section#what-is-classroom {
     width: 100%
 }
 section#what-is-classroom .top-text {
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
     font-size: 14px;
     font-weight: 600;
     left: 0;
@@ -3459,7 +3456,7 @@ footer ul.site-footer-links li a {
     border-radius: 1.4rem;
     color: rgba(255, 255, 255, 0.9);
     float: left;
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
     font-size: 1.4rem;
     height: 2.2rem;
     margin: 0.5rem 0 0;
@@ -3482,7 +3479,7 @@ footer ul.site-footer-links li a {
 input[type="submit"].btn {
     display: inline-block;
     vertical-align: top;
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
     font-size: 1em;
     font-weight: 400;
     line-height: 1.65em;
@@ -4297,7 +4294,7 @@ fieldset {
     direction: rtl;
     border: 2px solid #e3e2df;
     margin: 5px 2px 5px 2px;
-    font-family: 'Yekan';
+    font-family: "SansPro", "Yekan";
     padding: 1.65em;
     background: rgba(255, 255, 255, 1);
     background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(246, 246, 246, 1) 47%, rgba(237, 237, 237, 1) 100%);
@@ -4311,7 +4308,7 @@ fieldset {
 legend {
     color: #000000;
     font-weight: bold;
-    font-family: 'Yekan';
+    font-family: "SansPro", "Yekan";
     color: #474447;
     padding: 0 1em;
 }
@@ -4542,10 +4539,10 @@ img {
     border: 0;
 }
 .locale-font {
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif !important;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif !important;
 }
 input[type="button"] {
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
 }
 .centerContent {
     margin: 0;
@@ -4954,7 +4951,7 @@ div.w3-accordion div.content{
 }
 
 .browser-default{
-	font-family: Yekan, Tahoma !important;
+	font-family: "SansPro", Yekan, Vazir-Light, Tahoma !important;
 }
 
 
@@ -5010,5 +5007,42 @@ div.w3-accordion div.content{
 }
 
 .ui.button{
-	font-family: Yekan, Tahoma;
+	font-family: "SansPro", Yekan, Vazir-Light, Tahoma;
+}
+
+.fitimg {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.portrait {
+    height: 80px;
+    width: 30px;
+}
+
+.landscape {
+    height: 30px;
+    width: 80px;
+}
+
+.square {
+    height: 75px;
+    width: 75px;
+} 
+
+@media ( max-width: 768px)  {
+.content-height{
+	min-height: 350px;
+}
+
+h3 {
+    font-size: 16px;
+}
+
+} 
+ 
+@media ( min-width: 769px){
+	.content-height{
+		min-height: 200px;
+	}
 }

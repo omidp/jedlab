@@ -13,6 +13,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.tika.exception.TikaException;
 import org.commonmark.node.Node;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -30,6 +31,7 @@ import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.international.StatusMessage.Severity;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.persistence.PersistenceContexts;
+import org.xml.sax.SAXException;
 
 import com.jedlab.Env;
 import com.jedlab.action.Constants;
@@ -43,6 +45,8 @@ import com.jedlab.model.Story;
 import com.jedlab.model.StoryBookmark;
 import com.jedlab.model.StoryBookmarkId;
 import com.jedlab.story.HtmlMarkdownProcessor.HtmlMarkdownHolder;
+import com.jedlab.tika.parser.HtmlContentParser;
+import com.jedlab.tika.parser.HtmlContentParser.ContentParser;
 
 @Name("storyHome")
 @Scope(ScopeType.CONVERSATION)
@@ -169,7 +173,7 @@ public class StoryHome extends EntityHome<Story>
     }
 
     @Transactional
-    public Long publishContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException
+    public Long publishContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException, SAXException, TikaException
     {
         Story story = createStory(storyId, storyTitle);
         story.setCommentEnabled(commentEnabled);
@@ -184,7 +188,7 @@ public class StoryHome extends EntityHome<Story>
     }
 
     @Transactional
-    public Long draftContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException
+    public Long draftContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException, SAXException, TikaException
     {
         Story story = createStory(storyId, storyTitle);
         story.setCommentEnabled(commentEnabled);
@@ -211,7 +215,7 @@ public class StoryHome extends EntityHome<Story>
         return story;
     }
 
-    private void saveContent(Long uid, String mdcontent, Story story) throws IOException
+    private void saveContent(Long uid, String mdcontent, Story story) throws IOException, SAXException, TikaException
     {
         Path fpath = null;
         if(StringUtil.isEmpty(story.getFilePath()))
@@ -230,6 +234,17 @@ public class StoryHome extends EntityHome<Story>
             Files.deleteIfExists(fpath);
             Files.createFile(fpath);
         }
+        HtmlMarkdownHolder holder = (HtmlMarkdownHolder) ServletLifecycle.getServletContext().getAttribute(
+                HtmlMarkdownProcessor.MARKDOWN);
+        Node node = holder.getParser().parse(StringUtil.escapeJavascript(mdcontent));
+        String render = holder.getRenderer().render(node);
+        ContentParser cp = HtmlContentParser.instance();
+        cp.parse(render);
+        String content = cp.handler().toString();
+        if(content.length() > 400)
+            story.setContent(content.substring(0, 400));
+        else
+            story.setContent(content);
         Files.write(fpath, mdcontent.getBytes("UTF-8"));
     }
 

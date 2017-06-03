@@ -2,11 +2,11 @@
 Mail Templates Font
 */
 @font-face {
-    font-family: 'Roboto-Light';
-    src: url("http://jedlab.ir/css/fonts/Roboto-Light.eot");
-    src: url("http://jedlab.ir/css/fonts/Roboto-Light.eot?#iefix") format('embedded-opentype'), url("http://jedlab.ir/css/fonts/Roboto-Light.woff") format('woff'), url("http://jedlab.ir/css/fonts/Roboto-Light.ttf") format('truetype');
+    font-family: 'SansPro';
+    src: url("http://jedlab.ir/css/fonts/SansPro.eot");
+    src: url("http://jedlab.ir/css/fonts/SansPro.eot?#iefix") format('embedded-opentype'), url("http://jedlab.ir/css/fonts/SansPro.woff") format('woff'), url("http://jedlab.ir/css/fonts/SansPro.ttf") format('truetype');
 }
 @font-face {
-    font-family: 'Yekan';    
+    font-family: "SansPro", "Yekan";    
     src: local('Yekan'), url("http://jedlab.ir/css/fonts/Yekan.woff") format('woff'), url("http://jedlab.ir/css/fonts/Yekan.ttf") format('truetype');
 }

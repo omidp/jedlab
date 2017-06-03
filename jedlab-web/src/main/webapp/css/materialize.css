@@ -312,7 +312,7 @@ textarea.materialize-textarea+label:after {
     font-size: 1rem;
     cursor: text;
     transition: .2s ease-out;
-    font-family: "Roboto-Light", "Yekan", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "SansPro", "Yekan", "Vazir-Light", "Tahoma", "helvetica neue", helvetica, arial, sans-serif;
 }
 .input-field label.active {
     font-size: 0.8rem;
