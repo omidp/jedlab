@@ -71,8 +71,21 @@ public class Story extends BasePO
 
     @Column(name = "description", nullable = true)
     @Lob
-    @Type(type = "org.hibernate.type.TextType")        
+    @Type(type = "org.hibernate.type.TextType")
     private String content;
+
+    @Column(name = "view_count", nullable = false, columnDefinition = " bigint DEFAULT 0 ")
+    private long viewCount;
+
+    public long getViewCount()
+    {
+        return viewCount;
+    }
+
+    public void setViewCount(long viewCount)
+    {
+        this.viewCount = viewCount;
+    }
 
     public String getContent()
     {

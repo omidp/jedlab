@@ -149,3 +149,10 @@ CREATE INDEX gist_uuid_idx
   
   ----------------------------DONE
   update member set discriminator = 'I' where id=1;
+  ----------------------------DONE
+  
+  ALTER TABLE public.stories ADD COLUMN view_count bigint;
+  UPDATE public.stories
+   SET  view_count=0;
+   ALTER TABLE public.stories ALTER COLUMN view_count SET NOT NULL;
+ALTER TABLE public.stories ALTER COLUMN view_count SET DEFAULT 0;

@@ -116,6 +116,14 @@ public class StoryHome extends EntityHome<Story>
         return htmlResult;
     }
 
+    @Transactional
+    public void updateViewCount()
+    {
+        TxManager.beginTransaction();
+        TxManager.joinTransaction(getEntityManager());
+        getEntityManager().createQuery("update Story s set s.viewCount = (s.viewCount+1)  where s.uuid = :uuid").setParameter("uuid", getUuid()).executeUpdate();        
+    }
+    
     public void load()
     {
         Story story = null;

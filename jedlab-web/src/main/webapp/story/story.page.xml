@@ -18,6 +18,8 @@
 	
 	<action execute="#{storyHome.load()}"/>
 	
+	<action execute="#{storyHome.updateViewCount()}"/>
+	
 	
 	
    
