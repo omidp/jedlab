@@ -3,6 +3,7 @@ package com.jedlab.story;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 
 import com.jedlab.framework.PagingController;
@@ -30,6 +31,7 @@ public abstract class AbstractStoryQuery extends PagingController<Story>
             criteria.setFirstResult(getFirstResult());
         if (getMaxResults() != null)
             criteria.setMaxResults(getMaxResults() + 1);
+        criteria.addOrder(Order.desc("createdDate"));
         resultList = criteria.list();
         return truncResultList(resultList);
     }
@@ -43,6 +45,7 @@ public abstract class AbstractStoryQuery extends PagingController<Story>
     protected void applyFilter(Criteria criteria)
     {
         criteria.createCriteria("member", "m", Criteria.LEFT_JOIN);
+        
     }
 
     @Override

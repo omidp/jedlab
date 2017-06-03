@@ -1,6 +1,7 @@
 package com.jedlab.story;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
@@ -18,7 +19,9 @@ public class StoryQuery extends AbstractStoryQuery
     
     public StoryQuery()
     {
-        setMaxResults(45);
+        setMaxResults(15);
+        setOrderColumn("createdDate");
+        setOrderDirection("desc");
     }
     
     private Member member = new Member();
@@ -41,6 +44,7 @@ public class StoryQuery extends AbstractStoryQuery
         {
             criteria.add(Restrictions.eq("m.username", getMember().getUsername()));    
         }
+        
     }
     
     

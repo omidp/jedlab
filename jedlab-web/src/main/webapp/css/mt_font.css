@@ -7,6 +7,6 @@ Mail Templates Font
     src: url("http://jedlab.ir/css/fonts/SansPro.eot?#iefix") format('embedded-opentype'), url("http://jedlab.ir/css/fonts/SansPro.woff") format('woff'), url("http://jedlab.ir/css/fonts/SansPro.ttf") format('truetype');
 }
 @font-face {
-    font-family: "SansPro", "Yekan";    
-    src: local('Yekan'), url("http://jedlab.ir/css/fonts/Yekan.woff") format('woff'), url("http://jedlab.ir/css/fonts/Yekan.ttf") format('truetype');
+    font-family: "SansPro", "Yekan", 'Vazir-Light';    
+    src: local('Vazir-Light'), url("http://jedlab.ir/css/fonts/Vazir-Light.woff") format('woff'), url("http://jedlab.ir/css/fonts/Vazir-Light.ttf") format('truetype');
 }

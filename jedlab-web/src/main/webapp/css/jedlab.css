@@ -4294,7 +4294,7 @@ fieldset {
     direction: rtl;
     border: 2px solid #e3e2df;
     margin: 5px 2px 5px 2px;
-    font-family: "SansPro", "Yekan";
+    font-family: "SansPro", "Yekan", "Vazir-Light";
     padding: 1.65em;
     background: rgba(255, 255, 255, 1);
     background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(246, 246, 246, 1) 47%, rgba(237, 237, 237, 1) 100%);

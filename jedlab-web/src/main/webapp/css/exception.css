@@ -2,10 +2,6 @@
 	margin: 0;
 	padding: 0
 }
-@font-face {
-	font-family: "SansPro", "Yekan";
-	src: url('#{_ctx}/fonts/Yekan.ttf') format('truetype');
-}
 
 html, code {
 	font: 15px/22px "SansPro", Yekan, Vazir-Light, arial, sans-serif;

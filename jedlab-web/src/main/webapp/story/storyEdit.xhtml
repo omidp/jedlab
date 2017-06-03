@@ -10,13 +10,14 @@
 	<ui:define name="head">
 		<script type="text/javascript" src="#{_ctx}/js/w2ui.js"></script>
 		<link rel="stylesheet" type="text/css" href="#{_ctx}/css/w2ui.css" />
+		<link href="#{_ctx}/css/materialize.css" rel="stylesheet" />  
 		<link href="#{_ctx}/css/hjs.css" rel="stylesheet" />
 		<style type="text/css">
 			.writer-area{
 				width: 100%;height: 100%;
 			}
 			.div-content{
-				direction:rtl;font-family:"SansPro", Yekan, Vazir-Light, Tahoma;
+				direction:rtl;font-family:SansPro, Yekan, Vazir-Light, Tahoma;
 			}
 			
 			pre{
@@ -24,6 +25,11 @@
 			}
 			code{
 				direction:ltr !important;
+			}
+			[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+			    left: 0;
+			    opacity: 1;
+			    position: relative;
 			}
 			
 		</style>
@@ -33,16 +39,10 @@
 		 
 			<div
 			class="w3-margin locale-direction">
-			
-				
-				    <div class="form-item">
-				        <label>#{messages['Title']}</label>
-				        <input type="text" style="width: 100%" id="storyTitle" maxlength="80"
+				    
+				        <input placeholder="#{messages['Title']}" type="text" style="width: 100%" id="storyTitle" maxlength="80"
 				        	value="#{storyHome.instance.title}" 
 				        	name="storyTitle"/>				        
-				    </div>
-				    <br />
-				    
 				    <div class="form-item">				    	
 				    	<s:fragment rendered="#{storyHome.instance.commentEnabled}">
 					        <input type="checkbox" id="chkComp" checked="checked"  onchange="chkVal();"/>
@@ -53,8 +53,12 @@
 				        <input type="hidden" name="cmEnabled" id="cmEnabled"/>				        
 				        <label>#{messages['Comment_Enabled']}</label>
 				    </div>
+				
+				
 					
 					<script>
+					
+					
 						function chkVal()
 						{
 							var v = jQuery("#chkComp").attr("checked");
@@ -94,7 +98,7 @@ shared void run() => newServer {
 
 ![alt text](http://jedlab.ir/images/logo.png "JEDLab Logo")
 
-#{messages['Story_Start_Now']}
+**#{messages['Story_Start_Now']}**
 </textarea>
 </s:fragment>
 				</div>
@@ -116,7 +120,7 @@ shared void run() => newServer {
 jQuery(function () {    
 	var h = jQuery(window).height() - 100;
 	jQuery("#layout").height(h);
-    var pstyle = 'font-family:"SansPro", Yekan, Vazir-Light, Tahoma; padding: 5px;background-color:#ffffff';
+    var pstyle = 'font-family:SansPro, Yekan, Vazir-Light, Tahoma; padding: 5px;background-color:#ffffff';
     jQuery('#layout').w2layout({
         name: 'layout',
         panels: [            
