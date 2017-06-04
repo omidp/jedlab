@@ -6,58 +6,109 @@
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
-	
+
 	<ui:define name="head">
-		<script type="text/javascript" src="#{_ctx}/js/handlebars.runtime-v4.0.5.js"></script>
+		<script type="text/javascript"
+			src="#{_ctx}/js/handlebars.runtime-v4.0.5.js"></script>
 		<script type="text/javascript" src="#{_ctx}/js/templates/templates.js"></script>
 		<style type="text/css">
-			label:hover {
-			    background: #f2f5ff;
-			    border-radius:5px;
-			    padding:2px 4px;
-			}
-		</style>
-	
+label:hover {
+	background: #f2f5ff;
+	border-radius: 5px;
+	padding: 2px 4px;
+	color:#000;
+}
+
+#page {
+	background-color: #fafafa; margin-bottom : 20px;
+	padding: 25px;
+	width: 100%;
+	margin-bottom: 20px;
+}
+.item{
+	line-height: 2em !important;
+}
+</style>
+
 	</ui:define>
-	
+
 	<ui:define name="body">
-		<input type="hidden" id="pageId" value="#{pageId}"/>
-		<div style="margin-top: 20px; margin-right: 10px"
-		class="locale-direction">
-		
-			<div class="ui big message locale-direction w3-margin">
-  				<h:outputText value="#{messages['Page']} #{' '} #{pageHome.instance.title} #{' '} " />
+		<input type="hidden" id="pageId" value="#{pageId}" />
+		<div style="margin-top: 13px;" class="locale-direction">
+
+			<s:div style="display:none" id="waitForApproval"
+				styleClass="w3-panel w3-red w3-round-xlarge locale-direction w3-margin">
+				<p>
+					<h:outputText value="#{messages['Wait_For_Approval']}" />
+				</p>
+			</s:div>
+
+			<div id="page">
+				<div class="ui container w3-center">
+
+					<h2>
+						<h:outputText value="#{pageHome.instance.title}" />
+					</h2>
+
+				</div>
 			</div>
 			
-			<s:div style="display:none" id="waitForApproval"  styleClass="w3-panel w3-red w3-card-4 locale-direction w3-margin" >
-			  <p>	  
-			  	<h:outputText value="#{messages['Wait_For_Approval']}" />
-			  </p>	  
-			</s:div>
-					
+			<hr />  
+
+
+
+
 			<s:div rendered="#{pageHome.instance.owner}" id="ownerPanel">
+
+
+				<div class="w3-sidebar w3-bar-block w3-card-2 w3-animate-right"
+					style="display: none; right: 0;z-index: 5555;height: 250px;" id="rightMenu">
 					
+					<button onclick="closeRightMenu()"
+						style="width:100%;margin-bottom:5px;"
+						class="w3-btn w3-large"><i class="icon-cross w3-red"></i>
+						#{messages['Close']}
+					</button>
+						
+					<button id="createCurateBlockBtn" class="w3-btn w3-ripple w3-blue"
+						style="width:100%;margin-bottom:5px;padding:10px">
+					<i class="icon-plus"></i>	
+					#{messages['Create_Block']}</button>
 					
-					<s:button styleClass="w3-btn w3-ripple w3-red w3-margin" propagation="none"						
-						id="btnApprovalAction" 
-						action="#{pageHome.sendForPublish()}" value="#{messages['Send_Publish_Page']}">
+					<s:button styleClass="w3-btn w3-ripple w3-red"
+						style="width:100%;padding:10px"
+						propagation="none" id="btnApprovalAction"
+						action="#{pageHome.sendForPublish()}"
+						value="#{messages['Send_Publish_Page']}">						
 						<f:param name="pageId" value="#{pageId}"></f:param>
 					</s:button>
+					
+						
+					
+				</div>
+
+				<div class="w3-teal">
+
+					<button class="w3-button w3-teal w3-xlarge w3-right"
+						onclick="openRightMenu()">&#9776;</button>
+					<script>
+					  function openRightMenu() {
+						    document.getElementById("rightMenu").style.display = "block";
+						}
+						function closeRightMenu() {
+						    document.getElementById("rightMenu").style.display = "none";
+						}
+					 </script>
+				</div>
+
 				
-					<button 
-						class="w3-btn w3-large w3-circle w3-xlarge w3-ripple w3-teal w3-right w3-margin" 
-						id="createCurateBlockBtn"
-					>+</button>
+
+			
 
 				<script type="text/javascript">
 					var isInProgress = "#{pageHome.instance.inProgress}";
 
-					jQuery(window).load(function(){
-
-						jQuery("#createCurateBlockBtn").popup({ content : "#{messages['Create_Block']}" });
-						
-					});
-		
+							
 					jQuery(document).ready(function(){
 						curate.visibility(isInProgress);
 
@@ -99,72 +150,80 @@
 				</script>
 			</s:div>
 			<div style="clear: both;" />
-			
-			
+
+
 			<div class="ui two cards" id="page_blocks">
-			
+
 				<c:forEach var="_item" items="#{pageHome.instance.blocks}">
-  
-				  <div class="card" id="block_#{_item.id}">
-				    <div class="content">
-				      <div class="left floated meta">
-				      	<s:fragment rendered="#{pageHome.instance.owner}">
-									<div id="delblock_#{_item.id}"  onclick="curate.deletePageBlock(#{_item.id});" 
-										class="right floated mini ui button">-
-									</div>	
-						</s:fragment>				      	
-				      </div>
-				      <label class="pull-left" data-block-id="#{_item.id}" data-block-title="#{_item.title}">#{_item.title}</label>
-				      <s:fragment rendered="#{pageHome.instance.owner}">
-					  	<input class="clickedit #{_item.id}" type="text" value="#{_item.title}"/>
-					  </s:fragment>					  
-				    </div> 
-				    <div class="content">
-				    	<div class="ui ordered divided list" style="direction:ltr;" id="ul_#{_item.id}">				    		
-							<c:forEach var="_curate" items="#{_item.curates}"> 
-									 
-								<div class="item" id="del_#{_curate.id}">		
-								
-									<a class="curatelnk clickableLink"  href="#{_curate.url}" target="_blank" 
-											data-curate-id="#{_curate.id}" id="lnk_#{_curate.id}"
-											data-curate-desc="#{_curate.description}">
-										#{_curate.titleOrUrl}
-									</a>
-									
-									<s:fragment rendered="#{pageHome.instance.owner}">
-										<span style="float: right;"   
-											><i class="icon-minus" style="color: #F90E0E;cursor: pointer;" onclick="curate.deleteCurate(#{_curate.id});"/>
-										</span>	
-									</s:fragment>
-								
-								
-								
-								</div>
-										
-									
-							</c:forEach>
-						</div>						
-				    </div>
-				    <s:div rendered="#{pageHome.instance.owner}" styleClass="extra content">
-				    	<div class="ui action input">
-						  <input placeholder="#{messages['URL']}" type="text" id="curinp_#{_item.id}" style="direction: ltr;width:80%;text-align: left;"/>
-						  <button class="ui icon button addcur" id="curbtn_#{_item.id}" data-block-id="#{_item.id}" onclick="curate.addCurate(#{_item.id})"> 
-						    <i class="icon-plus"></i>
-						  </button>
+
+					<div class="card" id="block_#{_item.id}">
+						<div class="w3-teal">
+							<div class="left floated meta">
+								<s:fragment rendered="#{pageHome.instance.owner}">
+									<div id="delblock_#{_item.id}"
+										onclick="curate.deletePageBlock(#{_item.id});"
+										class="right floated mini ui button w3-margin"> <i class="icon-bin" /> </div>
+								</s:fragment>
+							</div>
+							<label class="pull-left w3-xxlarge w3-margin-right" data-block-id="#{_item.id}"
+								data-block-title="#{_item.title}">#{_item.title}</label>
+							<s:fragment rendered="#{pageHome.instance.owner}">
+								<input class="clickedit #{_item.id}" type="text"
+									value="#{_item.title}" />
+							</s:fragment>
 						</div>
-				    </s:div>
-				  </div>
-				  
-				</c:forEach>  
-		    
- 		   </div>
-			
-			
-	</div>
-	
-	
-	
-	<script>
+						<div class="content">
+							<div class="ui ordered divided list" style="direction: ltr;"
+								id="ul_#{_item.id}">
+								<c:forEach var="_curate" items="#{_item.curates}">
+
+									<div class="item" id="del_#{_curate.id}">
+
+										<a class="curatelnk clickableLink" href="#{_curate.url}"
+											target="_blank" data-curate-id="#{_curate.id}"
+											id="lnk_#{_curate.id}"
+											data-curate-desc="#{_curate.description}">
+											#{_curate.titleOrUrl} </a>
+
+										<s:fragment rendered="#{pageHome.instance.owner}">
+											<span style="float: right;"><i class="icon-bin"
+												style="color: #F90E0E; cursor: pointer;"
+												onclick="curate.deleteCurate(#{_curate.id});" /> </span>
+										</s:fragment>
+
+
+
+									</div>
+
+
+								</c:forEach>
+							</div>
+						</div>
+						<s:div rendered="#{pageHome.instance.owner}"
+							styleClass="extra content">
+							<div class="ui action input">
+								<input placeholder="#{messages['URL']}" type="text"
+									id="curinp_#{_item.id}"
+									style="direction: ltr; width: 80%; text-align: left;" />
+								<button class="ui icon button addcur" id="curbtn_#{_item.id}"
+									data-block-id="#{_item.id}"
+									onclick="curate.addCurate(#{_item.id})">
+									<i class="icon-plus"></i>
+								</button>
+							</div>
+						</s:div>
+					</div>
+
+				</c:forEach>
+
+			</div>
+
+
+		</div>
+
+
+
+		<script>
 	//<![CDATA[
 	var defaultText = "messages['Click_Me']";
 	var processing = "#{messages['Processing']}";
@@ -178,10 +237,10 @@
 	});
 	//]]>
 	</script>
-	
-	<s:fragment rendered="#{pageHome.instance.owner}">
-		
-		<script>
+
+		<s:fragment rendered="#{pageHome.instance.owner}">
+
+			<script>
 		//<![CDATA[
 	
 		jQuery(document).ready(function(){
@@ -192,12 +251,12 @@
 		
 		//]]>
 		</script>
-	
-	</s:fragment>
-	
-	
-	<script type="text/javascript" src="#{_ctx}/js/curate.js"></script>
-	
+
+		</s:fragment>
+
+
+		<script type="text/javascript" src="#{_ctx}/js/curate.js"></script>
+
 
 	</ui:define>
 </ui:composition>

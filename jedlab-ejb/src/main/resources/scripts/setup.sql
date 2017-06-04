@@ -152,7 +152,28 @@ CREATE INDEX gist_uuid_idx
   ----------------------------DONE
   
   ALTER TABLE public.stories ADD COLUMN view_count bigint;
-  UPDATE public.stories
-   SET  view_count=0;
+  UPDATE public.stories   SET  view_count=0;
    ALTER TABLE public.stories ALTER COLUMN view_count SET NOT NULL;
 ALTER TABLE public.stories ALTER COLUMN view_count SET DEFAULT 0;
+  ----------------------------DONE
+
+ALTER TABLE public.pages ADD COLUMN view_count bigint;
+  UPDATE public.pages   SET  view_count=0;
+   ALTER TABLE public.pages ALTER COLUMN view_count SET NOT NULL;
+ALTER TABLE public.pages ALTER COLUMN view_count SET DEFAULT 0;
+
+CREATE OR REPLACE VIEW page_statistic_view AS 
+WITH page_stats AS (
+	select id as page_id, view_count, created_date from pages group by id
+),
+block_stats AS (
+         SELECT page_id, count(*) as total_count from page_blocks group by page_id
+        ), curate_stats AS (
+         SELECT page_id, count(*) as total_count from curates group by page_id
+        )
+ SELECT bs.page_id, coalesce(bs.total_count, 0) as block_count, 
+	coalesce(cs.total_count, 0) as curate_count, coalesce(ps.view_count,0) as page_view_count,
+	ps.created_date
+   FROM block_stats bs
+     LEFT JOIN curate_stats cs ON bs.page_id = cs.page_id 
+     LEFT JOIN page_stats ps on bs.page_id = ps.page_id;

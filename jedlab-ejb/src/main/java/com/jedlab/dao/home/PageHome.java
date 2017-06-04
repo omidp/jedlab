@@ -315,5 +315,16 @@ public class PageHome extends EntityHome<Page>
         getEntityManager().remove(pb);
         getEntityManager().flush();        
     }
+    
+    @Transactional
+    public void updateViewCount()
+    {
+        if(getPageId() != null)
+        {
+            TxManager.beginTransaction();
+            TxManager.joinTransaction(getEntityManager());
+            getEntityManager().createQuery("update Page p set p.viewCount = (p.viewCount + 1) where p.id = :pid").setParameter("pid", getPageId()).executeUpdate();
+        }
+    }
 
 }

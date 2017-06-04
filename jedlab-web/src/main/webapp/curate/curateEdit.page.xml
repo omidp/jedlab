@@ -5,6 +5,8 @@
 
 	<rewrite pattern="/curate/page/{pageId}"/>
 	
+	<action execute="#{pageHome.updateViewCount()}" on-postback="false"/>
+	
 	<param name="pageId" value="#{pageHome.pageId}" required="true" converterId="javax.faces.Long"/>
 	
 	<navigation from-action="#{pageHome.sendForPublish()}">

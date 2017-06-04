@@ -54,7 +54,7 @@ public class Page extends BasePO
     @Column(name = "description")
     private String description;
 
-    @Column(name = "is_publish", nullable=false)
+    @Column(name = "is_publish", nullable = false)
     private boolean published;
 
     @Lob
@@ -62,16 +62,40 @@ public class Page extends BasePO
     @Column(name = "image", length = 2147483647)
     @Basic(fetch = FetchType.LAZY)
     private byte[] image;
-    
-    
-    @Column(name="process_id")
+
+    @Column(name = "process_id")
     private Long processId;
+
+    @Column(name = "view_count")
+    private long viewCount;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "page")
     Set<PageBlock> blocks = new HashSet<>(0);
     
+    @Transient
+    private PageStatisticsView statistic;
     
     
+
+    public PageStatisticsView getStatistic()
+    {
+        return statistic;
+    }
+
+    public void setStatistic(PageStatisticsView statistic)
+    {
+        this.statistic = statistic;
+    }
+
+    public long getViewCount()
+    {
+        return viewCount;
+    }
+
+    public void setViewCount(long viewCount)
+    {
+        this.viewCount = viewCount;
+    }
 
     public Long getProcessId()
     {
@@ -175,15 +199,21 @@ public class Page extends BasePO
     public boolean isOwner()
     {
         Object currentLogginId = Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
-        if(member == null || currentLogginId == null)
+        if (member == null || currentLogginId == null)
             return false;
-        return member.getId().longValue() == ((Long)currentLogginId).longValue();
+        return member.getId().longValue() == ((Long) currentLogginId).longValue();
     }
-    
+
     @Transient
     public boolean isInProgress()
     {
         return getProcessId() != null;
+    }
+
+    @Transient
+    public boolean getHasImage()
+    {
+        return getImage() != null && getImage().length > 0;
     }
 
 }
