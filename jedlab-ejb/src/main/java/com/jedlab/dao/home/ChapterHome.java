@@ -38,6 +38,7 @@ import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.PageExceptionHandler;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TxManager;
+import com.jedlab.framework.WebUtil;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
 import com.jedlab.model.Member;
@@ -101,7 +102,6 @@ public class ChapterHome extends EntityHome<Chapter>
 
     public void load()
     {
-        //TODO : check course owner
         if (getCourse().getId() != null)
         {
             Criteria criteria = hibernateSession.createCriteria(Course.class, "c");
@@ -123,13 +123,15 @@ public class ChapterHome extends EntityHome<Chapter>
             }
             this.duration = getInstance().getDurationWithformat();
         }
+        
     }
 
     private void wire()
     {
         if (getCourse().getId() != null)
         {
-            getInstance().setCourse(getCourse());
+            this.course = getEntityManager().find(Course.class, getCourse().getId());
+            getInstance().setCourse(this.course);
             try
             {
                 Long cntSeq = (Long) getEntityManager().createQuery("select count(c) from Chapter c where c.course.id = :courseId")
@@ -154,6 +156,8 @@ public class ChapterHome extends EntityHome<Chapter>
         }
         if(Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
         {
+            if(getInstance().getCourse().isOwner() == false)
+                    throw new ErrorPageExceptionHandler("invalid owner");
             if (getUploadItem().getData() == null || getUploadItem().getData().length == 0)
                 throw new ErrorPageExceptionHandler("can not create empty file");
             try
@@ -294,6 +298,32 @@ public class ChapterHome extends EntityHome<Chapter>
             }
         }
         return token;
+    }
+    
+    @Transactional
+    public String deleteById()
+    {        
+        String idParam = WebUtil.getParameterValue("chapterId");
+        String courseIdParam = WebUtil.getParameterValue("courseId");
+        if(StringUtil.isNotEmpty(idParam) && StringUtil.isNotEmpty(courseIdParam))
+        {
+            Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+            if (uid != null)
+            {
+                TxManager.beginTransaction();
+                TxManager.joinTransaction(getEntityManager());
+                Course course = getEntityManager().find(Course.class, Long.parseLong(courseIdParam));
+                if(course.isOwner())
+                {
+                    getEntityManager().createQuery("delete from Chapter c where c.id = :cid and c.course.id = :courseId")
+                        .setParameter("cid", Long.parseLong(idParam))
+                        .setParameter("courseId", Long.parseLong(courseIdParam))
+                        .executeUpdate();
+                    getStatusMessages().addFromResourceBundle("Delete_Successful");
+                }
+            }
+        }
+        return "removed";
     }
 
 }

@@ -20,25 +20,47 @@
 			</s:link></li>
 		<li class="w3-hide-small">
 		
-		<s:link propagation="none"
-				rendered="#{!identity.loggedIn}"
-				includePageParams="false" view="/home.xhtml"
-				styleClass="w3-padding-menu-item w3-hover-white"
-				value="#{messages['Home']}">
-				<i class="icon-home"></i>
-			</s:link>
-		
-		<s:link propagation="none"
-				rendered="#{identity.loggedIn}"
-				includePageParams="false" view="/member/dashboard.xhtml"
-				styleClass="w3-padding-menu-item w3-hover-white"
-				value="#{messages['Dashboard']}">
-				<i class="icon-home"></i>
-			</s:link>	
+				<s:link propagation="none"
+					rendered="#{!identity.loggedIn}"
+					includePageParams="false" view="/home.xhtml"
+					styleClass="w3-padding-menu-item w3-hover-white"
+					value="#{messages['Home']}">
+					<i class="icon-home"></i>
+				</s:link>
 			
-			</li>
+				<s:link propagation="none"
+					rendered="#{identity.loggedIn and s:hasRole('Student')}"
+					includePageParams="false" view="/member/dashboard.xhtml"
+					styleClass="w3-padding-menu-item w3-hover-white"
+					value="#{messages['Dashboard']}">
+					<i class="icon-home"></i>
+				</s:link>
+				
+				<s:link propagation="none"
+					rendered="#{identity.loggedIn and s:hasRole('Instructor')}"
+					includePageParams="false" view="/instructor/dashboard.xhtml"
+					styleClass="w3-padding-menu-item w3-hover-white"
+					value="#{messages['Dashboard']}">
+					<i class="icon-home"></i>
+				</s:link>
+				
+				
+			
+		</li>
 			
 		<s:fragment rendered="#{identity.loggedIn}">
+		
+		<s:fragment rendered="#{identity.loggedIn and s:hasRole('Admin')}">
+		<li class="w3-hide-small">
+			<s:link propagation="none"
+					rendered="#{identity.loggedIn and s:hasRole('Admin')}"
+					includePageParams="false" view="/admin/dashboard.xhtml"
+					styleClass="w3-padding-menu-item w3-hover-white"
+					value="#{messages['Dashboard']} Admin">
+					<i class="icon-home"></i>
+				</s:link>	
+		</li>
+		</s:fragment>
 		
 		<li class="w3-hide-small">
 		
@@ -165,10 +187,26 @@
 			</s:link>
 		
 			<s:link propagation="none"
-				rendered="#{identity.loggedIn}"
+				rendered="#{identity.loggedIn and s:hasRole('Student')}"
 				includePageParams="false" view="/member/dashboard.xhtml"
 				styleClass="w3-padding-menu-item"
 				value="#{messages['Home']}">
+				<i class="icon-home"></i>
+			</s:link>
+			
+			<s:link propagation="none"
+				rendered="#{identity.loggedIn and s:hasRole('Instructor')}"
+				includePageParams="false" view="/instructor/dashboard.xhtml"
+				styleClass="w3-padding-menu-item"
+				value="#{messages['Home']}">
+				<i class="icon-home"></i>
+			</s:link>
+			
+			<s:link propagation="none" 
+				rendered="#{identity.loggedIn and s:hasRole('Admin')}"
+				includePageParams="false" view="/admin/dashboard.xhtml"
+				styleClass="w3-padding-menu-item"
+				value="#{messages['Home']} Admin">
 				<i class="icon-home"></i>
 			</s:link>	
 			

@@ -26,7 +26,8 @@ import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.security.Identity;
 
 import com.jedlab.action.Constants;
-import com.jedlab.action.WorkflowAction.ProcessModel;
+import com.jedlab.action.ProcessModel;
+import com.jedlab.action.ProcessModelType;
 import com.jedlab.framework.ByteUtil;
 import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.PageExceptionHandler;
@@ -211,7 +212,7 @@ public class PageHome extends EntityHome<Page>
                     throw new PageExceptionHandler("invalid owner");
                 if(page.getProcessId() != null)
                     throw new PageExceptionHandler("wait for approval");
-                ProcessModel pm = new ProcessModel(Pages.getCurrentViewId().replace(".xhtml", ".seam"), "JEDLink");
+                ProcessModel pm = new ProcessModel(Pages.getCurrentViewId().replace(".xhtml", ".seam"), ProcessModelType.JEDLINK);
                 pm.getVariables().put("pageId", getPageId());
                 getBusinessProcessContext().set(Constants.FLOW_OBJECT_NAME, ByteUtil.convertObjectToByte(pm));
 

@@ -2091,7 +2091,7 @@ button:focus {
 }
 textarea,
 select {
-    font-family: 'Yekan', Tahoma, sans-serif;
+    font-family: 'Yekan', "Vazir-Light", Tahoma, sans-serif;
     font-size: 1em;
     box-shadow: none;
 }
@@ -4308,7 +4308,7 @@ fieldset {
 legend {
     color: #000000;
     font-weight: bold;
-    font-family: "SansPro", "Yekan";
+    font-family: "SansPro", "Vazir-Light", "Yekan";
     color: #474447;
     padding: 0 1em;
 }
@@ -5077,4 +5077,8 @@ h3 {
     text-align: left;
     white-space: normal;
     width: 100%;
+}
+
+.red .req{
+	color: #F70E0E;	
 }

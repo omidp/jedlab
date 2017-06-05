@@ -31,8 +31,11 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.international.StatusMessage;
 import org.omidbiz.core.axon.internal.IgnoreElement;
+
+import com.jedlab.action.Constants;
 
 @NamedQuery(name=Course.FIND_WITH_INSTRUCTOR_BY_ID, query="select c from Course c join fetch c.instructor i where c.id = :courseId")
 @Entity
@@ -128,6 +131,15 @@ public class Course extends BasePO
 
     @Column(name = "published")
     private boolean published;
+    
+    @Transient
+    public boolean isOwner()
+    {
+        Object currentLogginId = Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+        if (instructor == null || currentLogginId == null)
+            return false;
+        return instructor.getId().longValue() == ((Long) currentLogginId).longValue();
+    }
 
     public Long getProcessInstanceId()
     {

@@ -60,13 +60,30 @@
 						
 						<h:column>
 							<f:facet name="header"></f:facet>
-							<a href="#{_ctx}#{_item.view}?pageId=#{_item.variables['pageId']}" target="_blank">#{_item.name}</a>
+							<s:fragment rendered="#{!_item.jedlabType}">
+								<a href="#{_ctx}#{_item.view}?pageId=#{_item.variables['pageId']}" target="_blank">#{_item.type.name()}</a>
+							</s:fragment>
+							<s:fragment rendered="#{_item.jedlabType}">
+								<s:link view="/instructor/chapterEdit.xhtml"
+									value="#{_item.type.name()}" 
+									target="_blank"
+									propagation="none" includePageParams="false">
+									<f:param name="courseId" value="#{_item.variables['courseId']}"></f:param>
+								</s:link>
+							</s:fragment>
 						</h:column>
 						
 						
 						<h:column>
 							<f:facet name="header"></f:facet>
-							<s:link value="Accept" action="#{pageHome.accept()}">
+							
+							<s:link value="Accept" action="#{workflowAction.accept()}" rendered="#{_item.jedlabType}">
+								<f:param name="courseId" value="#{_item.variables['courseId']}"></f:param>
+								<f:param name="taskId" value="#{_item.taskId}"></f:param>
+								<f:param name="processId" value="#{_item.processId}"></f:param>
+							</s:link>
+							
+							<s:link value="Accept" action="#{pageHome.accept()}" rendered="#{!_item.jedlabType}">
 								<f:param name="pageId" value="#{_item.variables['pageId']}"></f:param>
 								<f:param name="taskId" value="#{_item.taskId}"></f:param>
 								<f:param name="processId" value="#{_item.processId}"></f:param>
@@ -75,7 +92,14 @@
 						
 						<h:column>
 							<f:facet name="header"></f:facet>
-							<s:link value="Reject" action="#{pageHome.reject()}">
+							
+							<s:link value="Reject" action="#{workflowAction.reject()}" rendered="#{_item.jedlabType}">
+								<f:param name="courseId" value="#{_item.variables['courseId']}"></f:param>
+								<f:param name="taskId" value="#{_item.taskId}"></f:param>
+								<f:param name="processId" value="#{_item.processId}"></f:param>
+							</s:link>
+							
+							<s:link value="Reject" action="#{pageHome.reject()}" rendered="#{!_item.jedlabType}">
 								<f:param name="pageId" value="#{_item.variables['pageId']}"></f:param>
 								<f:param name="taskId" value="#{_item.taskId}"></f:param>
 								<f:param name="processId" value="#{_item.processId}"></f:param>

@@ -13,6 +13,7 @@ import java.net.URLEncoder;
 import javax.mail.internet.MimeUtility;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -39,6 +40,7 @@ import org.jboss.seam.security.Identity;
 import com.jedlab.action.Constants;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
+import com.jedlab.model.Member;
 import com.jedlab.model.MemberCourse;
 
 @Path("/chapters")
@@ -89,7 +91,56 @@ public class ChapterResource implements Serializable
             String name = course.getName().concat("_").concat(chapter.getName()).concat(Constants.MP4);
             if (isInternetExplorer(request))
                 rb.header("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(name, "utf-8") + "\"");
-            else if(isChrome(request) || isFirefox(request))
+            else if (isChrome(request) || isFirefox(request))
+                rb.header("Content-Disposition", "attachment; filename=\"" + MimeUtility.encodeWord(name, "UTF-8", "Q") + "\"");
+            else
+                rb.header("Content-Disposition", "attachment; filename=\"" + "video.mp4" + "\"");
+            return rb.header("Content-Length", file.length()).header("Content-Type", "video/mp4").build();
+        }
+        catch (NoResultException | FileNotFoundException | UnsupportedEncodingException e)
+        {
+            return Response.status(Status.BAD_REQUEST).build();
+        }
+        finally
+        {
+            // IOUtils.closeQuietly(is);
+        }
+
+    }
+
+    @Path("/download/owner/{chapterId}/{userId}")
+    @GET
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadUnapprovedChapterById(@PathParam("chapterId") Long chapterId, @PathParam("userId") Long userId)
+    {
+        Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+        if (uid == null)
+            uid = userId;
+        if (uid == null)
+            return Response.status(Status.BAD_REQUEST).build();
+        InputStream is = null;
+        try
+        {
+            StringBuilder queryString = new StringBuilder()
+                    .append("select c from Chapter c LEFT JOIN c.course course LEFT JOIN course.instructor i where c.id = :chapId ");
+            if (Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
+                queryString.append(" AND i.id = :memId");
+            Query query = entityManager.createQuery(queryString.toString());
+            query.setParameter("chapId", chapterId);
+            if (Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
+                query.setParameter("memId", uid);
+            Chapter chapter = (Chapter) query.setMaxResults(1).getSingleResult();
+            File file = new File(chapter.getUrl());
+            if (file.exists() == false)
+                Response.serverError().build();
+            
+            is = new FileInputStream(file);
+            StreamingOutput output = new StreamBuilder(is);
+            ResponseBuilder rb = Response.ok(output);
+            String name = chapter.getCourse().getName().concat("_").concat(chapter.getName()).concat(Constants.MP4);
+            if (isInternetExplorer(request))
+                rb.header("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(name, "utf-8") + "\"");
+            else if (isChrome(request) || isFirefox(request))
                 rb.header("Content-Disposition", "attachment; filename=\"" + MimeUtility.encodeWord(name, "UTF-8", "Q") + "\"");
             else
                 rb.header("Content-Disposition", "attachment; filename=\"" + "video.mp4" + "\"");

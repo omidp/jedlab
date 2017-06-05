@@ -7,6 +7,16 @@
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:jedlab="http://tasktops.com/ui">
 
+			
+			<s:fragment rendered="#{courseHome.managed and courseHome.instance.processInstanceId != null}">
+				<s:div id="waitForApproval"
+					styleClass="w3-panel w3-red w3-round-xlarge locale-direction w3-margin">
+					<p>
+						<h:outputText value="#{messages['Wait_For_Approval']}" />
+					</p>
+				</s:div>
+			</s:fragment>
+			
 			<s:fragment rendered="#{courseHome.managed}">
 			<div style="width: 100%;margin: 0 auto;text-align: center;" class="w3-margin-top">
 					<s:graphicImage value="#{courseHome.instance.image}"
@@ -20,7 +30,9 @@
 			</s:fragment>
 			
 				
-			<h:form id="courseForm" styleClass="form"  enctype="multipart/form-data">
+			
+			
+			<h:form id="courseForm" styleClass="form w3-margin"   enctype="multipart/form-data">
 			
 				<s:fragment rendered="#{courseHome.managed}">
 				

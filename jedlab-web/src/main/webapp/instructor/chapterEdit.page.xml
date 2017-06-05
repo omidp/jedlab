@@ -12,6 +12,15 @@
 	
 	<action execute="#{chapterHome.load()}"/>
 	
+	<navigation from-action="#{chapterHome.deleteById()}">
+		<end-conversation />
+		<rule if-outcome="removed">
+			<redirect view-id="/instructor/chapterEdit.xhtml" include-page-params="false">
+				<param name="courseId" value="#{courseId}"/>
+			</redirect>
+		</rule>
+	</navigation>
+	
 	<navigation from-action="#{chapterHome.persist()}">
 		<end-conversation />
 		<rule if-outcome="persisted">

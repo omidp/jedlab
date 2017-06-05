@@ -99,18 +99,19 @@
 										  	<f:param name="courseId" value="#{_item.id}"></f:param>
 										  </s:link></h3>
 										  <s:link 
+										  	styleClass="clickableLink"
 										  	propagation="none" 
 										  	includePageParams="false"
 										  	view="/instructor/chapterEdit.xhtml"
-										  	value="add chapter"
+										  	value="#{messages['Add']} #{' '} #{messages['Chapter']}"
 										  	>
 										  	<f:param name="courseId" value="#{_item.id}"></f:param>
 										  </s:link>	
 									</header>
 									
 									<div class="w3-container #{_item.active ? '' : 'w3-light-grey'}">
-									  <p>	
-									  	<s:span styleClass="w3-right">
+									  <p>	   
+									  	<s:span styleClass="w3-right red">
 										  <h:outputText value="#{messages['Active']}" rendered="#{_item.active}" />
 										  <h:outputText value="#{messages['Deactive']}" rendered="#{!_item.active}" />
 									  	</s:span>

@@ -132,6 +132,17 @@
 	</servlet>
 	
 	<servlet-mapping>
+		<servlet-name>createChapter</servlet-name>
+		<url-pattern>/createChapter.upload</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>createChapter</servlet-name>
+		<servlet-class>com.jedlab.UploadServlet</servlet-class>		
+	</servlet>
+	
+	
+	<servlet-mapping>
 		<servlet-name>Delete Token Player</servlet-name>
 		<url-pattern>/destroy</url-pattern>
 	</servlet-mapping>

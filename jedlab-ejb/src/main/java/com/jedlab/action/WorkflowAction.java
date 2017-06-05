@@ -76,7 +76,8 @@ public class WorkflowAction extends BusinessProcessController
                     .setParameter("courseId", this.courseId).getSingleResult();
             if (course.getProcessInstanceId() == null)
             {
-                ProcessModel pm = new ProcessModel(Pages.getCurrentViewId(), "JEDLab");
+                ProcessModel pm = new ProcessModel(Pages.getCurrentViewId(), ProcessModelType.JEDLAB);
+                pm.getVariables().put("courseId", this.courseId);
                 getBusinessProcessContext().set(Constants.FLOW_OBJECT_NAME, ByteUtil.convertObjectToByte(pm));
                 BusinessProcess.instance().createProcess(Constants.BP_PROCESS_NAME);
                 course.setProcessInstanceId(BusinessProcess.instance().getProcessId());
@@ -99,11 +100,16 @@ public class WorkflowAction extends BusinessProcessController
     @Transactional
     public void accept()
     {
+        if (this.courseId == null)
+            this.courseId = Long.parseLong(WebUtil.getParameterValue("courseId"));
+        if (this.courseId == null)
+            throw new PageExceptionHandler("cours not found");
         Course course = (Course) entityManager.createNamedQuery(Course.FIND_WITH_INSTRUCTOR_BY_ID).setParameter("courseId", this.courseId)
                 .getSingleResult();
         String content = interpolate(StatusMessage.getBundleMessage("Admin_Approve", ""), course.getName());
         Events.instance().raiseAsynchronousEvent(Constants.SEND_MAIL_ANNOUNCEMENT, content, course.getInstructor(), content);
         course.setActive(true);
+        course.setPublished(true);
         course.setProcessInstanceId(null);
         entityManager.flush();
         WebContext.instance().redirectIt(true, false);
@@ -114,9 +120,14 @@ public class WorkflowAction extends BusinessProcessController
     @Transactional
     public void reject()
     {
+        if (this.courseId == null)
+            this.courseId = Long.parseLong(WebUtil.getParameterValue("courseId"));
+        if (this.courseId == null)
+            throw new PageExceptionHandler("cours not found");
         Course course = (Course) entityManager.createNamedQuery(Course.FIND_WITH_INSTRUCTOR_BY_ID).setParameter("courseId", this.courseId)
                 .getSingleResult();
         course.setActive(false);
+        course.setPublished(false);
         course.setProcessInstanceId(null);
         entityManager.flush();
         String content = interpolate(StatusMessage.getBundleMessage("Admin_Reject", ""), course.getName());
@@ -180,7 +191,8 @@ public class WorkflowAction extends BusinessProcessController
         Collections.sort(taskInstanceList, new TaskInstanceSort());
         dashboardModelList = new ArrayList<ProcessModel>();
         //
-        List<Long> processIds = entityManager.createQuery("select p.processId from Page p").setMaxResults(10000).getResultList();
+        List<Long> processIds = entityManager.createQuery("select p.processId from Page p where p.processId is not null").setMaxResults(10000).getResultList();
+        processIds.addAll(entityManager.createQuery("select c.processInstanceId from Course c where c.processInstanceId is not null").setMaxResults(10000).getResultList());
         //
         for (TaskInstance taskInstance : taskInstanceList)
         {
@@ -199,75 +211,9 @@ public class WorkflowAction extends BusinessProcessController
     }
 
     private List<ProcessModel> dashboardModelList;
+    
+    
 
-    public static class ProcessModel implements Serializable
-    {
-        private String view;
-        private String name;
-        private Map<String, Object> variables;
-        private Long processId;
-        private Long taskId;
-
-        public ProcessModel()
-        {
-        }
-
-        public ProcessModel(String view, String name)
-        {
-            this.view = view;
-            this.name = name;
-        }
-        
-        
-
-        public String getName()
-        {
-            return name;
-        }
-
-        public void setName(String name)
-        {
-            this.name = name;
-        }
-
-        public Map<String, Object> getVariables()
-        {
-            if (variables == null)
-                variables = new HashMap<>();
-            return variables;
-        }
-
-        public String getView()
-        {
-            return view;
-        }
-
-        public void setView(String view)
-        {
-            this.view = view;
-        }
-
-        public Long getProcessId()
-        {
-            return processId;
-        }
-
-        public void setProcessId(Long processId)
-        {
-            this.processId = processId;
-        }
-
-        public Long getTaskId()
-        {
-            return taskId;
-        }
-
-        public void setTaskId(Long taskId)
-        {
-            this.taskId = taskId;
-        }
-
-    }
 
     public static class TaskInstanceSort implements Comparator<TaskInstance>
     {
