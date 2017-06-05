@@ -48,6 +48,7 @@
 					
 					<s:decorate id="fieldUpload" template="/layout/simpleEdit.xhtml" rendered="#{s:hasRole('Admin') == false}">
 						<ui:define name="label">#{messages['Chapter_Files']}</ui:define>
+						<ui:define name="desc">پسوندهای مجاز : webm / mp4 / mkv</ui:define>
 						<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="3000000" />
 						<div>
 							<label for="fileselect"></label>

@@ -181,10 +181,11 @@ public class ChapterHome extends EntityHome<Chapter>
                 {
                     fname = fname.substring(0, fname.lastIndexOf("."));
                 }
-                final Path path = Paths.get(folderPath + Env.FILE_SEPARATOR + fname + "_" + getInstance().getSequence());
+                String filePath = folderPath + Env.FILE_SEPARATOR + fname + "_" + getInstance().getSequence();
+                final Path path = Paths.get(filePath + ".mkv");
                 Files.write(path, getUploadItem().getData());
                 // File file = path.toFile();
-                getInstance().setUrl(path.toString() + ".mp4");
+                getInstance().setUrl(filePath + ".mp4");
                 new Thread(new Runnable() {
 
                     @Override
@@ -320,7 +321,7 @@ public class ChapterHome extends EntityHome<Chapter>
     }
 
     @Transactional
-    public String deleteById()
+    public String deleteById() throws IOException
     {
         String idParam = WebUtil.getParameterValue("chapterId");
         String courseIdParam = WebUtil.getParameterValue("courseId");
@@ -337,10 +338,19 @@ public class ChapterHome extends EntityHome<Chapter>
                     getEntityManager().createQuery("delete from MemberCourse mc where mc.chapter.id = :cid and mc.course.id = :courseId")
                     .setParameter("cid", Long.parseLong(idParam)).setParameter("courseId", Long.parseLong(courseIdParam))
                     .executeUpdate();
-                    getEntityManager().createQuery("delete from Chapter c where c.id = :cid and c.course.id = :courseId")
-                            .setParameter("cid", Long.parseLong(idParam)).setParameter("courseId", Long.parseLong(courseIdParam))
-                            .executeUpdate();
-                    getStatusMessages().addFromResourceBundle("Delete_Successful");
+                    try
+                    {
+                        Chapter c = (Chapter) getEntityManager().createQuery("select c from Chapter c where c.id = :cid and c.course.id = :courseId")
+                                .setParameter("cid", Long.parseLong(idParam)).setParameter("courseId", Long.parseLong(courseIdParam))
+                                .getSingleResult();
+                        Path path = Paths.get(c.getUrl());
+                        Files.deleteIfExists(path);
+                        getEntityManager().remove(c);
+                        getStatusMessages().addFromResourceBundle("Delete_Successful");
+                    }
+                    catch (NoResultException e)
+                    {
+                    }
                 }
             }
         }
