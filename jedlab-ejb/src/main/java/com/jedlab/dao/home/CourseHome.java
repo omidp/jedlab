@@ -93,6 +93,11 @@ public class CourseHome extends EntityHome<Course>
                     getEntityManager().flush();
                 }
             }
+            if(Identity.instance().hasRole(Constants.ROLE_INSTRUCTOR))
+            {
+               getInstance().setPublished(false);
+               getInstance().setActive(false);
+            }
         }
     }
 

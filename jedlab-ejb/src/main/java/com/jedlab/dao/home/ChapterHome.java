@@ -39,6 +39,7 @@ import com.jedlab.framework.PageExceptionHandler;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TxManager;
 import com.jedlab.framework.WebUtil;
+import com.jedlab.gist.FFMPEGCommandLine;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
 import com.jedlab.model.Member;
@@ -123,25 +124,24 @@ public class ChapterHome extends EntityHome<Chapter>
             }
             this.duration = getInstance().getDurationWithformat();
         }
-        
+
     }
 
     private void wire()
     {
-        if (getCourse().getId() != null)
+        if (getCourse().getId() == null)
+            throw new IllegalArgumentException("course id can not be null");
+        this.course = getEntityManager().find(Course.class, getCourse().getId());
+        getInstance().setCourse(this.course);
+        try
         {
-            this.course = getEntityManager().find(Course.class, getCourse().getId());
-            getInstance().setCourse(this.course);
-            try
-            {
-                Long cntSeq = (Long) getEntityManager().createQuery("select count(c) from Chapter c where c.course.id = :courseId")
-                        .setParameter("courseId", getCourse().getId()).getSingleResult();
-                getInstance().setSequence((int) (cntSeq * 10));
-            }
-            catch (NoResultException e)
-            {
-                getInstance().setSequence(1);
-            }
+            Long cntSeq = (Long) getEntityManager().createQuery("select count(c) from Chapter c where c.course.id = :courseId")
+                    .setParameter("courseId", getCourse().getId()).getSingleResult();
+            getInstance().setSequence((int) (cntSeq * 10));
+        }
+        catch (NoResultException e)
+        {
+            getInstance().setSequence(1);
         }
         if (StringUtil.isNotEmpty(getDuration()))
         {
@@ -154,12 +154,14 @@ public class ChapterHome extends EntityHome<Chapter>
                 throw new ErrorPageExceptionHandler("invalid duration");
             }
         }
-        if(Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
+        if (Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
         {
-            if(getInstance().getCourse().isOwner() == false)
-                    throw new ErrorPageExceptionHandler("invalid owner");
+            if (getInstance().getCourse().isOwner() == false)
+                throw new ErrorPageExceptionHandler("invalid owner");
             if (getUploadItem().getData() == null || getUploadItem().getData().length == 0)
                 throw new ErrorPageExceptionHandler("can not create empty file");
+            this.course.setActive(false);
+            this.course.setPublished(false);
             try
             {
                 String folderPath = VIDEO_LOCATION + JedLab.instance().getCurrentUserId();
@@ -168,25 +170,42 @@ public class ChapterHome extends EntityHome<Chapter>
                 File folder = new File(folderPath);
                 if (folder.exists() == false)
                     folder.mkdirs();
-                ///TODO:check for file extension
-                // if(getUploadItem().getFileName().endsWith(".mp4") == false)
-                
-                Path path = Paths.get(folderPath + Env.FILE_SEPARATOR + getUploadItem().getFileName());
+
+                if ((getUploadItem().getFileName().endsWith(".mp4") 
+                        || getUploadItem().getFileName().endsWith(".webm") 
+                        || getUploadItem().getFileName().endsWith(".mkv")) == false)
+                    throw new ErrorPageExceptionHandler("invalid format");
+
+                String fname = getUploadItem().getFileName();
+                if (fname.indexOf(".") > 0)
+                {
+                    fname = fname.substring(0, fname.lastIndexOf("."));
+                }
+                final Path path = Paths.get(folderPath + Env.FILE_SEPARATOR + fname + "_" + getInstance().getSequence());
                 Files.write(path, getUploadItem().getData());
                 // File file = path.toFile();
-                getInstance().setUrl(path.toString());
-                
+                getInstance().setUrl(path.toString() + ".mp4");
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run()
+                    {
+                        new FFMPEGCommandLine(path.toFile()).run();
+                    }
+                }).start();
+
             }
             catch (IOException e)
             {
                 throw new ErrorPageExceptionHandler("can not create file");
             }
         }
-        if(Identity.instance().hasRole(Constants.ROLE_ADMIN))
+        if (Identity.instance().hasRole(Constants.ROLE_ADMIN))
         {
-            if(getCourse().isPublished() == false)
+            if (getCourse().isPublished() == false)
             {
-                getEntityManager().createQuery("update Course c set c.published = true where c.id = :courseId").setParameter("courseId", getCourse().getId()).executeUpdate();
+                getEntityManager().createQuery("update Course c set c.published = true where c.id = :courseId")
+                        .setParameter("courseId", getCourse().getId()).executeUpdate();
                 getEntityManager().flush();
             }
         }
@@ -299,13 +318,13 @@ public class ChapterHome extends EntityHome<Chapter>
         }
         return token;
     }
-    
+
     @Transactional
     public String deleteById()
-    {        
+    {
         String idParam = WebUtil.getParameterValue("chapterId");
         String courseIdParam = WebUtil.getParameterValue("courseId");
-        if(StringUtil.isNotEmpty(idParam) && StringUtil.isNotEmpty(courseIdParam))
+        if (StringUtil.isNotEmpty(idParam) && StringUtil.isNotEmpty(courseIdParam))
         {
             Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
             if (uid != null)
@@ -313,12 +332,14 @@ public class ChapterHome extends EntityHome<Chapter>
                 TxManager.beginTransaction();
                 TxManager.joinTransaction(getEntityManager());
                 Course course = getEntityManager().find(Course.class, Long.parseLong(courseIdParam));
-                if(course.isOwner())
+                if (course.isOwner())
                 {
+                    getEntityManager().createQuery("delete from MemberCourse mc where mc.chapter.id = :cid and mc.course.id = :courseId")
+                    .setParameter("cid", Long.parseLong(idParam)).setParameter("courseId", Long.parseLong(courseIdParam))
+                    .executeUpdate();
                     getEntityManager().createQuery("delete from Chapter c where c.id = :cid and c.course.id = :courseId")
-                        .setParameter("cid", Long.parseLong(idParam))
-                        .setParameter("courseId", Long.parseLong(courseIdParam))
-                        .executeUpdate();
+                            .setParameter("cid", Long.parseLong(idParam)).setParameter("courseId", Long.parseLong(courseIdParam))
+                            .executeUpdate();
                     getStatusMessages().addFromResourceBundle("Delete_Successful");
                 }
             }

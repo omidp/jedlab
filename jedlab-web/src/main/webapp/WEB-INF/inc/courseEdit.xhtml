@@ -95,15 +95,17 @@
 								<h:inputText id="p" value="#{courseHome.instance.price}" styleClass="w3-input" required="true">
 									<f:convertNumber />
 								</h:inputText>
+								<ui:define name="desc">برای دانلود و مشاهده هزینه پرداخت می شود</ui:define>
 					</s:decorate>
 					
 					<s:decorate template="/layout/simpleEdit.xhtml">
 								<ui:define name="label">#{messages['Download_Price']}</ui:define>
 								<h:inputText id="dlPrice" value="#{courseHome.instance.downloadPrice}" converter="javax.faces.Integer" styleClass="w3-input" required="true">
 								</h:inputText>
+								<ui:define name="desc">ویدیو بصورت رایگان قابل مشاهده بوده ، برای دانلود هزینه پرداخت می شود</ui:define>
 					</s:decorate>
 					
-					<s:decorate template="/layout/simpleEdit.xhtml">
+					<s:decorate template="/layout/simpleEdit.xhtml" rendered="false">
 								<ui:define name="label">#{messages['Preview']} (http)</ui:define>
 								<h:inputText id="dlPrev" value="#{courseHome.preview.url}" style="direction:ltr;" styleClass="w3-input" >
 								</h:inputText>

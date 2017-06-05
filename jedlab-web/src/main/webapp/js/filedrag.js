@@ -62,9 +62,9 @@
 			common.notification("all fields required", "errormsg");
 			return;
 		}
-		if (!((file.type == "video/mp4" || file.type == "video/webm")) || (file.size <= jqid("MAX_FILE_SIZE").value) == false) 
+		if (!((file.type == "video/mp4" || file.type == "video/webm" || file.type == "video/mkv")) || (file.size <= jqid("MAX_FILE_SIZE").value) == false) 
 		{
-			common.notification("invalid file format/size", "errormsg");
+			common.notification("mp4/webm/mkv is supported", "errormsg");
 			return;
 		}
 		var xhr = new XMLHttpRequest();

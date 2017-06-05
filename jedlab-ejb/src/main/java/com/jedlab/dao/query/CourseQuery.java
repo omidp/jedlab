@@ -117,6 +117,8 @@ public class CourseQuery extends PagingController<Course>
 
     private void applyFilter(Criteria criteria)
     {
+        if(Identity.instance().isLoggedIn() == false)
+            criteria.add(Restrictions.eq("active", true));
         if(Identity.instance().hasRole(Constants.ROLE_STUDENT))
             criteria.add(Restrictions.eq("active", true));
         if(Identity.instance().hasRole(Constants.ROLE_INSTRUCTOR))

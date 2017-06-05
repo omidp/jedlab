@@ -111,9 +111,9 @@
 									
 									<div class="w3-container #{_item.active ? '' : 'w3-light-grey'}">
 									  <p>	   
-									  	<s:span styleClass="w3-right red">
+									  	<s:span styleClass="w3-right">
 										  <h:outputText value="#{messages['Active']}" rendered="#{_item.active}" />
-										  <h:outputText value="#{messages['Deactive']}" rendered="#{!_item.active}" />
+										  <h:outputText value="#{messages['Deactive']}" rendered="#{!_item.active}" styleClass="red" />
 									  	</s:span>
 										  <s:span styleClass="w3-left">
 										  	<h:outputText value="#{messages['Free']}"
@@ -150,7 +150,7 @@
 									</div>
 									
 									<s:link styleClass="w3-btn w3-block w3-dark-grey" 
-										rendered="#{_item.processInstanceId == null}"
+										rendered="#{_item.processInstanceId == null and !_item.active}"
 										value="#{messages['Send_For_Activation']}" 
 										action="#{workflowAction.sendForActivation()}">
 										<f:param name="courseId" value="#{_item.id}"></f:param>

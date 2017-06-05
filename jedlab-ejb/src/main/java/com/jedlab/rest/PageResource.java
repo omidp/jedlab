@@ -120,7 +120,7 @@ public class PageResource implements Serializable
         if(exists)
             throw new ServiceException(100, StatusMessage.getBundleMessage("Url_Exists", ""));
         com.jedlab.http.Response resp = new Request(curate.getUrl(), HttpMethodRequest.GET).execute();
-        if (resp.statusCode() != 200)
+        if ((resp.statusCode() == 200 || resp.statusCode() == 301) == false)
             throw new ServiceException(100, StatusMessage.getBundleMessage("Invalid_Url", ""));
         InputStream is = resp.content();
         try
@@ -134,7 +134,10 @@ public class PageResource implements Serializable
             String title = metadata.get("title");
             String keywords = metadata.get("keywords");
             curate.setDescription(desc);
-            curate.setTitle(title);
+            if(resp.statusCode() == 301)
+                curate.setTitle(curate.getUrl());
+            else
+                curate.setTitle(title);
             curate.setKeywords(keywords);
             //
             String[] names = metadata.names();

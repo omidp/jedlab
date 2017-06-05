@@ -105,9 +105,16 @@
 									</s:fragment>
 									
 								</div>
-								<div style="float:right"> 
+								<div style="float:right">
+								<s:link view="/course.xhtml" value="#{messages['Detail']}"
+									propagation="none" includePageParams="false"									
+									styleClass="ui label clickableLink cItem_#{_item.id}" 
+									style="font-weight: bold;">					
+									<f:param name="courseId" value="#{_item.id}"></f:param>				
+								</s:link> 
 								<s:link view="/seam/resource/api/c/#{_item.name}" value="#{messages['Detail']}"
 									propagation="none" includePageParams="false"
+									rendered="false"
 									styleClass="ui label clickableLink cItem_#{_item.id}" 
 									style="font-weight: bold;">									
 								</s:link>
