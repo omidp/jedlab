@@ -80,14 +80,6 @@ public class InstructorRegisterAction extends EntityController
         ident.addRole(Constants.ROLE_INSTRUCTOR);
         ident.getCredentials().setUsername(getInstance().getUsername());
         ident.getCredentials().setPassword(CryptoUtil.encodeBase64(getInstance().getPassword()));
-        if(Member.INSTRUCTOR_DISC.equals(getInstance().getDiscriminator()))
-        {
-            ident.addRole(Constants.ROLE_INSTRUCTOR);
-        }
-        if(Member.STUDENT_DISC.equals(getInstance().getDiscriminator()))
-        {
-            ident.addRole(Constants.ROLE_STUDENT);
-        }
         ident.login();
         return "persisted";
     }
