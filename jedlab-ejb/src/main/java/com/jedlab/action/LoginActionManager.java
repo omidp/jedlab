@@ -53,11 +53,14 @@ public class LoginActionManager extends EntityController
         TxManager.beginTransaction();
         TxManager.joinTransaction(getEntityManager());
         String currentUserName = (String) getSessionContext().get(Constants.CURRENT_USER_NAME);
-        revokeOtherTokens(currentUserName);
+        if(currentUserName == null)
+            currentUserName = Identity.instance().getCredentials().getUsername();
+         if(currentUserName != null)   
+             revokeOtherTokens(currentUserName);
         // CacheManager.removeAllSeamkaRegion();
     }
     
-    @Observer(value = Identity.EVENT_LOGIN_SUCCESSFUL)
+    @Observer(value = {Identity.EVENT_LOGIN_SUCCESSFUL, Identity.EVENT_ALREADY_LOGGED_IN})
     @Transactional
     public void afterLogin()
     {

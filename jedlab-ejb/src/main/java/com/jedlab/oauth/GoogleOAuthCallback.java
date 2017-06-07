@@ -96,15 +96,7 @@ public class GoogleOAuthCallback extends EntityController
                         {
                             Identity identity = Identity.instance();
                             identity.getCredentials().setUsername(st.getUsername());
-                            identity.acceptExternallyAuthenticatedPrincipal(new GithubPrincipal(st.getUsername()));
-                            if(Member.INSTRUCTOR_DISC.equals(st.getDiscriminator()))
-                            {
-                                identity.addRole(Constants.ROLE_INSTRUCTOR);
-                            }
-                            if(Member.STUDENT_DISC.equals(st.getDiscriminator()))
-                            {
-                                identity.addRole(Constants.ROLE_STUDENT);
-                            }                            
+                            identity.acceptExternallyAuthenticatedPrincipal(new GithubPrincipal(st.getUsername()));                                                     
                             identity.login();
                         }
                         else
