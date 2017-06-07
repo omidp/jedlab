@@ -18,6 +18,7 @@ import org.jboss.seam.security.management.PasswordHash;
 import com.jedlab.framework.CookieUtil;
 import com.jedlab.framework.CryptoUtil;
 import com.jedlab.model.Instructor;
+import com.jedlab.model.Member;
 import com.jedlab.validators.InstructorValidator;
 
 @Name("instructorRegisterAction")
@@ -79,6 +80,14 @@ public class InstructorRegisterAction extends EntityController
         ident.addRole(Constants.ROLE_INSTRUCTOR);
         ident.getCredentials().setUsername(getInstance().getUsername());
         ident.getCredentials().setPassword(CryptoUtil.encodeBase64(getInstance().getPassword()));
+        if(Member.INSTRUCTOR_DISC.equals(getInstance().getDiscriminator()))
+        {
+            ident.addRole(Constants.ROLE_INSTRUCTOR);
+        }
+        if(Member.STUDENT_DISC.equals(getInstance().getDiscriminator()))
+        {
+            ident.addRole(Constants.ROLE_STUDENT);
+        }
         ident.login();
         return "persisted";
     }

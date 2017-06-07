@@ -126,6 +126,14 @@ public class GithubOAuthCallback extends EntityController
                         Identity identity = Identity.instance();
                         identity.getCredentials().setUsername(email);
                         identity.getCredentials().setPassword(CryptoUtil.encodeBase64(passwd));
+                        if(Member.INSTRUCTOR_DISC.equals(student.getDiscriminator()))
+                        {
+                            identity.addRole(Constants.ROLE_INSTRUCTOR);
+                        }
+                        if(Member.STUDENT_DISC.equals(student.getDiscriminator()))
+                        {
+                            identity.addRole(Constants.ROLE_STUDENT);
+                        }
                         identity.login();
                     }
                 }
