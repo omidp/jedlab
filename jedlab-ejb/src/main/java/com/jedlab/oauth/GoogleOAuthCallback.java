@@ -104,9 +104,7 @@ public class GoogleOAuthCallback extends EntityController
                             if(Member.STUDENT_DISC.equals(st.getDiscriminator()))
                             {
                                 identity.addRole(Constants.ROLE_STUDENT);
-                            }
-                            if (Events.exists())
-                                Events.instance().raiseEvent(Identity.EVENT_LOGIN_SUCCESSFUL);
+                            }                            
                             identity.login();
                         }
                         else
@@ -128,8 +126,7 @@ public class GoogleOAuthCallback extends EntityController
                         getEntityManager().flush();
                         Identity identity = Identity.instance();
                         identity.getCredentials().setUsername(email);
-                        identity.getCredentials().setPassword(CryptoUtil.encodeBase64(passwd));
-                        identity.addRole(Constants.ROLE_STUDENT);
+                        identity.getCredentials().setPassword(CryptoUtil.encodeBase64(passwd));                        
                         identity.login();
                     }
                 }

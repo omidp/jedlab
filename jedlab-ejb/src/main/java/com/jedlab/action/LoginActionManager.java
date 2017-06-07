@@ -69,11 +69,12 @@ public class LoginActionManager extends EntityController
                 .createQuery("select m from Member m where lower(m.username) = lower(:uname) or lower(m.email) = lower(:email)")
                 .setParameter("uname", credentials.getUsername()).setParameter("email", credentials.getUsername()).setMaxResults(1)
                 .getSingleResult();
-        if (Member.INSTRUCTOR_DISC.equals(m.getDiscriminator()))
+        //discriminator is null
+        if (com.jedlab.model.Instructor.class.equals(m.getClass()))
         {
             Identity.instance().addRole(Constants.ROLE_INSTRUCTOR);
         }
-        if (Member.STUDENT_DISC.equals(m.getDiscriminator()))
+        if (com.jedlab.model.Student.class.equals(m.getClass()))
         {
             Identity.instance().addRole(Constants.ROLE_STUDENT);
         }
