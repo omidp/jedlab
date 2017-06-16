@@ -83,8 +83,7 @@ public class GithubOAuthCallback extends EntityController
                 {
                     HttpServletResponse res = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
                     Cookie c = CookieUtil.findCookieByName(httpRequest, "captchaRequired");
-                    if (c != null)
-                        CookieUtil.removeCookie(res, c);
+                    if (c != null) CookieUtil.removeCookie(res, c);
                     try
                     {
                         Member st = (Member) getEntityManager().createQuery("select m from Member m where m.email = :email")
@@ -93,17 +92,7 @@ public class GithubOAuthCallback extends EntityController
                         {
                             Identity identity = Identity.instance();
                             identity.getCredentials().setUsername(st.getUsername());
-                            identity.acceptExternallyAuthenticatedPrincipal(new GithubPrincipal(st.getUsername()));
-                            if(Member.INSTRUCTOR_DISC.equals(st.getDiscriminator()))
-                            {
-                                identity.addRole(Constants.ROLE_INSTRUCTOR);
-                            }
-                            if(Member.STUDENT_DISC.equals(st.getDiscriminator()))
-                            {
-                                identity.addRole(Constants.ROLE_STUDENT);
-                            }
-                            if (Events.exists())
-                                Events.instance().raiseEvent(Identity.EVENT_LOGIN_SUCCESSFUL);
+                            identity.acceptExternallyAuthenticatedPrincipal(new GithubPrincipal(st.getUsername()));                            
                             identity.login();
                         }
                         else

@@ -150,6 +150,7 @@ public class RegisterAction implements Serializable
         Identity identity = Identity.instance();
         identity.getCredentials().setUsername(getInstance().getUsername());
         identity.getCredentials().setPassword(CryptoUtil.encodeBase64(tempPasswd));
+        identity.addRole(Constants.ROLE_STUDENT);
         identity.login();
         return "confirmed";
     }

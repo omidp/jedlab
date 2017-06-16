@@ -96,17 +96,7 @@ public class GoogleOAuthCallback extends EntityController
                         {
                             Identity identity = Identity.instance();
                             identity.getCredentials().setUsername(st.getUsername());
-                            identity.acceptExternallyAuthenticatedPrincipal(new GithubPrincipal(st.getUsername()));
-                            if(Member.INSTRUCTOR_DISC.equals(st.getDiscriminator()))
-                            {
-                                identity.addRole(Constants.ROLE_INSTRUCTOR);
-                            }
-                            if(Member.STUDENT_DISC.equals(st.getDiscriminator()))
-                            {
-                                identity.addRole(Constants.ROLE_STUDENT);
-                            }
-                            if (Events.exists())
-                                Events.instance().raiseEvent(Identity.EVENT_LOGIN_SUCCESSFUL);
+                            identity.acceptExternallyAuthenticatedPrincipal(new GithubPrincipal(st.getUsername()));                                                     
                             identity.login();
                         }
                         else
@@ -128,7 +118,7 @@ public class GoogleOAuthCallback extends EntityController
                         getEntityManager().flush();
                         Identity identity = Identity.instance();
                         identity.getCredentials().setUsername(email);
-                        identity.getCredentials().setPassword(CryptoUtil.encodeBase64(passwd));
+                        identity.getCredentials().setPassword(CryptoUtil.encodeBase64(passwd));                        
                         identity.login();
                     }
                 }

@@ -18,6 +18,7 @@ import org.jboss.seam.security.management.PasswordHash;
 import com.jedlab.framework.CookieUtil;
 import com.jedlab.framework.CryptoUtil;
 import com.jedlab.model.Instructor;
+import com.jedlab.model.Member;
 import com.jedlab.validators.InstructorValidator;
 
 @Name("instructorRegisterAction")

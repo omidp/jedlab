@@ -53,11 +53,14 @@ public class LoginActionManager extends EntityController
         TxManager.beginTransaction();
         TxManager.joinTransaction(getEntityManager());
         String currentUserName = (String) getSessionContext().get(Constants.CURRENT_USER_NAME);
-        revokeOtherTokens(currentUserName);
+        if(currentUserName == null)
+            currentUserName = Identity.instance().getCredentials().getUsername();
+         if(currentUserName != null)   
+             revokeOtherTokens(currentUserName);
         // CacheManager.removeAllSeamkaRegion();
     }
     
-    @Observer(value = Identity.EVENT_LOGIN_SUCCESSFUL)
+    @Observer(value = {Identity.EVENT_LOGIN_SUCCESSFUL, Identity.EVENT_ALREADY_LOGGED_IN})
     @Transactional
     public void afterLogin()
     {
@@ -69,6 +72,15 @@ public class LoginActionManager extends EntityController
                 .createQuery("select m from Member m where lower(m.username) = lower(:uname) or lower(m.email) = lower(:email)")
                 .setParameter("uname", credentials.getUsername()).setParameter("email", credentials.getUsername()).setMaxResults(1)
                 .getSingleResult();
+        //discriminator is null
+        if (com.jedlab.model.Instructor.class.equals(m.getClass()))
+        {
+            Identity.instance().addRole(Constants.ROLE_INSTRUCTOR);
+        }
+        if (com.jedlab.model.Student.class.equals(m.getClass()))
+        {
+            Identity.instance().addRole(Constants.ROLE_STUDENT);
+        }
         LoginActivity la = addActivity(m.getUsername());
         Contexts.getSessionContext().set(Constants.CURRENT_USER_ID, m.getId());
         Contexts.getSessionContext().set(Constants.CURRENT_USER_NAME, m.getUsername());
