@@ -23,6 +23,7 @@ import com.jedlab.framework.CacheManager;
 import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TransactionalContextualHttpServletRequest;
+import com.jedlab.framework.TxManager;
 import com.jedlab.model.Chapter;
 
 /**
@@ -87,6 +88,8 @@ public class UploadServlet extends HttpServlet
                 catch (Exception e)
                 {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    TxManager.commitTransaction();
+                    TxManager.beginTransaction();
                 }
             }
         }.run();

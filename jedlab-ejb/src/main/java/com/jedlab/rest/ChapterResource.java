@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 
 import javax.mail.internet.MimeUtility;
@@ -23,6 +24,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
@@ -38,6 +40,8 @@ import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.Identity;
 
 import com.jedlab.action.Constants;
+import com.jedlab.framework.ErrorPageExceptionHandler;
+import com.jedlab.framework.exceptions.ServiceException;
 import com.jedlab.model.Chapter;
 import com.jedlab.model.Course;
 import com.jedlab.model.Member;
@@ -132,7 +136,12 @@ public class ChapterResource implements Serializable
             Chapter chapter = (Chapter) query.setMaxResults(1).getSingleResult();
             File file = new File(chapter.getUrl());
             if (file.exists() == false)
-                Response.serverError().build();
+            {
+                URI ru = uriInfo.getRequestUri();
+                String uri = String.format("%s://%s:%s%s/", ru.getScheme(), ru.getHost(), ru.getPort(), request.getContextPath());
+                uri += "error.seam";
+                return Response.seeOther(UriBuilder.fromUri(uri).build()).build();
+            }
             
             is = new FileInputStream(file);
             StreamingOutput output = new StreamBuilder(is);

@@ -87,7 +87,12 @@
 				if (xhr.readyState == 4) {
 					progress.className = (xhr.status == 200 ? "success" : "failure");
 					if(xhr.status == 200)
-						jqid("btnSelfAddress").click();
+						jqid("btnSelfAddress").click();					
+				}else{
+					//common.notification("error occured, try again", "errormsg");
+					progress.className = "failure";
+					jQuery("#progress").empty();
+					jqid("fieldUpload").style.display = "block";
 				}
 			};
 

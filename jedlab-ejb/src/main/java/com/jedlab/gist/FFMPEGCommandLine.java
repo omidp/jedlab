@@ -24,6 +24,8 @@ public class FFMPEGCommandLine
     public static final String[] options = { "-y", "-i", "${FILEPATH}", "-c:v", "-preset", "slow", "-crf", "22", "-pix_fmt", "yuv420p",
             "-c:a", "aac", "-b:a", "128k", "${OUTPUT}" };
 
+    public static final String[] dev_options = { "-i", "${FILEPATH}", "-vcodec", "copy", "-acodec", "copy", "${OUTPUT}" };
+
     private final File file;
 
     public FFMPEGCommandLine(File file)
@@ -41,17 +43,28 @@ public class FFMPEGCommandLine
             {
                 throw new IllegalAccessException("File not found");
             }
-            String fileMp4 = file.getAbsolutePath();
+            String fileMp4 = file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf("."));
             fileMp4 = fileMp4 + ".mp4";
             //
             CommandLine cmdLine = new CommandLine("ffmpeg");
             Map map = new HashMap();
             map.put("FILEPATH", file.getAbsolutePath());
             map.put("OUTPUT", fileMp4);
-            for (int i = 0; i < options.length; i++)
+            if (Env.isDevMode())
             {
-                String cmdArg = options[i];
-                cmdLine.addArgument(cmdArg, true);
+                for (int i = 0; i < dev_options.length; i++)
+                {
+                    String cmdArg = dev_options[i];
+                    cmdLine.addArgument(cmdArg, true);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < options.length; i++)
+                {
+                    String cmdArg = options[i];
+                    cmdLine.addArgument(cmdArg, true);
+                }
             }
             cmdLine.setSubstitutionMap(map);
             DefaultExecutor executor = new DefaultExecutor();
