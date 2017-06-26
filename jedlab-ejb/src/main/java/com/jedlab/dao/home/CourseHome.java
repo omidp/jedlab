@@ -89,11 +89,11 @@ public class CourseHome extends EntityHome<Course>
             {
                 if(getInstance().isPublished() == false)
                 {
-                    getEntityManager().createQuery("update Course c set c.published = true where c.id = :courseId").setParameter("courseId", getId()).executeUpdate();
-                    getEntityManager().flush();
+                	getInstance().setPublished(true);
+                	getInstance().setActive(true);
                 }
             }
-            if(Identity.instance().hasRole(Constants.ROLE_INSTRUCTOR))
+            if(Identity.instance().hasRole(Constants.ROLE_INSTRUCTOR) && !Identity.instance().hasRole(Constants.ROLE_ADMIN))
             {
                getInstance().setPublished(false);
                getInstance().setActive(false);

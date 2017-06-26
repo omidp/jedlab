@@ -177,3 +177,4 @@ block_stats AS (
    FROM block_stats bs
      LEFT JOIN curate_stats cs ON bs.page_id = cs.page_id 
      LEFT JOIN page_stats ps on bs.page_id = ps.page_id;
+    ----------------------------DONE 

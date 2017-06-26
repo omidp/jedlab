@@ -6,31 +6,39 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:jedlab="http://tasktops.com/ui">
-		
-		<s:fragment rendered="#{chapterHome.course.processInstanceId != null}">
-			<s:div id="waitForApproval"
-				styleClass="w3-panel w3-red w3-round-xlarge locale-direction w3-margin">
-				<p>
-					<h:outputText value="#{messages['Wait_For_Approval']}" />
-				</p>
-			</s:div>
-		</s:fragment>
-	
-		<s:fragment rendered="#{chapterHome.course.processInstanceId == null}">
-			<form id="upload" action="#{_ctx}/createChapter.upload" class="form w3-margin" method="POST" enctype="multipart/form-data">
-				<input type="hidden" name="courseId" value="#{courseId}" id="courseId"/>
-				<fieldset>
-					<legend>#{messages['Attributes']} #{messages['Chapter']} #{chapterHome.course.name}</legend>
-					
-					<s:decorate id="fieldName" template="/layout/simpleEdit.xhtml">
-									<ui:define name="label">#{messages['Chapter_Name']}</ui:define>
-									<h:inputText id="cname" value="#{chapterHome.instance.name}" styleClass="w3-input" maxlength="160" required="true"/>
-					</s:decorate>
-					
-					<s:decorate id="fieldDur" template="/layout/simpleEdit.xhtml">
-						<ui:define name="label">#{messages['Duration']} (mm:ss)</ui:define>
-						<h:inputText id="dur" value="#{chapterHome.duration}" styleClass="w3-input"  required="true" onchange="validateHhMm(this);"/>
-						<script>
+
+	<s:fragment rendered="#{chapterHome.course.processInstanceId != null}">
+		<s:div id="waitForApproval"
+			styleClass="w3-panel w3-red w3-round-xlarge locale-direction w3-margin">
+			<p>
+				<h:outputText value="#{messages['Wait_For_Approval']}" />
+			</p>
+		</s:div>
+	</s:fragment>
+
+	<s:fragment
+		rendered="#{chapterHome.course.processInstanceId == null and s:hasRole('Admin')}">
+		<h:form styleClass="form w3-margin">
+
+			<input type="hidden" name="courseId" value="#{courseId}"
+				id="courseId" />
+
+			<fieldset>
+				<legend>#{messages['Attributes']} #{messages['Chapter']}
+					#{chapterHome.course.name}</legend>
+
+				<s:decorate id="fieldName" template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Chapter_Name']}</ui:define>
+					<h:inputText id="cname" value="#{chapterHome.instance.name}"
+						styleClass="w3-input" maxlength="160" required="true" />
+				</s:decorate>
+
+				<s:decorate id="fieldDur" template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Duration']} (mm:ss)</ui:define>
+					<h:inputText id="dur" value="#{chapterHome.duration}"
+						styleClass="w3-input" required="true"
+						onchange="validateHhMm(this);" />
+					<script>
 						 function validateHhMm(inputField) {
 							 
 						        var isValid = /^\d{2}:([0-5][0-9])$/.test(inputField.value);
@@ -44,89 +52,140 @@
 						        return isValid;
 						    }
 						</script>
-					</s:decorate>
-					
-					<s:decorate id="fieldUpload" template="/layout/simpleEdit.xhtml" rendered="#{s:hasRole('Admin') == false}">
-						<ui:define name="label">#{messages['Chapter_Files']}</ui:define>
-						<ui:define name="desc">پسوندهای مجاز : webm / mp4 / mkv</ui:define>
-						<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="3000000" />
-						<div>
-							<label for="fileselect"></label>
-							<input type="file" id="fileselect" name="fileselect"  />
-							<div id="filedrag">#{messages['Drop_Files_Here']}</div>
-						</div>
-					</s:decorate>
-					<div id="uploadInfo"></div>
-					<div id="progress"></div>
-					
-					<s:decorate template="/layout/simpleEdit.xhtml" rendered="#{s:hasRole('Admin')}">
-						<ui:define name="label">#{messages['Chapter_Files']}</ui:define>
-						<h:inputText id="dur" value="#{chapterHome.instance.url}" styleClass="w3-input"  required="true" style="direction:ltr;"/>	
-					</s:decorate>
-					
-					
-				</fieldset>
-	
-				
-				<div id="submitbutton">
-					<button type="submit">Upload Files</button>
-					<s:button style="display:none;" view="/instructor/chapterEdit.xhtml" propagation="none" id="btnSelfAddress"></s:button>
-				</div>
-	
-				<h:commandButton id="save" value="#{messages['Save']}"
-					styleClass="btn btn-yellow" action="#{chapterHome.persist()}"
-					rendered="#{!chapterHome.managed and s:hasRole('Admin')}"
-					 />
-	
-				<h:commandButton id="update" value="#{messages['Update']}"
-					styleClass="btn btn-blue" action="#{chapterHome.update()}"
-					rendered="#{chapterHome.managed and s:hasRole('Admin')}" />
-				
-	
-			</form>
-		</s:fragment>
-		
-		<h:form styleClass="form w3-margin">
-			  
-			<s:div rendered="#{empty chapterQuery.resultList}" styleClass="w3-container w3-green w3-xxlarge locale-direction">
-				<h:outputText value="#{messages['No_Chapter']}" />
-			</s:div>
-			 
-			<h:dataTable value="#{chapterQuery.resultList}" var="_item"
-				rendered="#{not empty chapterQuery.resultList}" 
-				styleClass="ui celled striped table" dir="rtl">
-				
-				<h:column>
-					<f:facet name="header">#{messages['Chapter_Name']}</f:facet>
-					<h:outputText value="#{_item.name}" />
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">#{messages['Duration']}</f:facet>
-					<h:outputText value="#{_item.durationWithformat}" />
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">#{messages[' ']}</f:facet>
-					<s:link propagation="none" action="#{chapterHome.deleteById()}">
-						<i class="icon-bin w3-red" />
-						<f:param name="chapterId" value="#{_item.id}"></f:param>
-						<f:param name="courseId" value="#{courseId}"></f:param>
-					</s:link>
+				</s:decorate>
+
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Chapter_Files']}</ui:define>
+					<h:inputText id="dur" value="#{chapterHome.instance.url}"
+						styleClass="w3-input" required="true" style="direction:ltr;" />
+				</s:decorate>   
+
+			</fieldset> 
+
+
+			<h:commandButton id="save" value="#{messages['Save']}"
+				styleClass="btn btn-yellow" action="#{chapterHome.persist()}"
+				rendered="#{!chapterHome.managed and s:hasRole('Admin')}" />
+
+			<h:commandButton id="update" value="#{messages['Update']}"
+				styleClass="btn btn-blue" action="#{chapterHome.update()}"
+				rendered="#{chapterHome.managed and s:hasRole('Admin')}" />
+		</h:form>
+	</s:fragment>
+
+	<s:fragment
+		rendered="#{chapterHome.course.processInstanceId == null and not s:hasRole('Admin')}">
+		<form id="upload" action="#{_ctx}/createChapter.upload"
+			class="form w3-margin" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="courseId" value="#{courseId}"
+				id="courseId" />
+			<fieldset>
+				<legend>#{messages['Attributes']} #{messages['Chapter']}
+					#{chapterHome.course.name}</legend>
+
+				<s:decorate id="fieldName" template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Chapter_Name']}</ui:define>
+					<h:inputText id="cname" value="#{chapterHome.instance.name}"
+						styleClass="w3-input" maxlength="160" required="true" />
+				</s:decorate>
+
+				<s:decorate id="fieldDur" template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Duration']} (mm:ss)</ui:define>
+					<h:inputText id="dur" value="#{chapterHome.duration}"
+						styleClass="w3-input" required="true"
+						onchange="validateHhMm(this);" />
+					<script>
+						 function validateHhMm(inputField) {
+							 
+						        var isValid = /^\d{2}:([0-5][0-9])$/.test(inputField.value);
+
+						        if (isValid) {
+						            inputField.style.backgroundColor = '#bfa';
+						        } else {
+						            inputField.style.backgroundColor = '#fba';
+						        }
+
+						        return isValid;
+						    }
+						</script>
+				</s:decorate>
+
+				<s:decorate id="fieldUpload" template="/layout/simpleEdit.xhtml"
+					rendered="#{s:hasRole('Admin') == false}">
+					<ui:define name="label">#{messages['Chapter_Files']}</ui:define>
+					<ui:define name="desc">پسوندهای مجاز : webm / mp4 / mkv</ui:define>
+					<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE"
+						value="3000000" />
+					<div>
+						<label for="fileselect"></label> <input type="file"
+							id="fileselect" name="fileselect" />
+						<div id="filedrag">#{messages['Drop_Files_Here']}</div>
+					</div>
+				</s:decorate>
+				<div id="uploadInfo"></div>
+				<div id="progress"></div>
+
+
+
+
+			</fieldset>
+
+
+			<div id="submitbutton">
+				<button type="submit">Upload Files</button>
+				<s:button style="display:none;" view="/instructor/chapterEdit.xhtml"
+					propagation="none" id="btnSelfAddress"></s:button>
+			</div>
+
+
+
+
+		</form>
+		<script type="text/javascript" src="#{_ctx}/js/filedrag.js"></script>
+	</s:fragment>
+
+	<h:form styleClass="form w3-margin">
+
+		<s:div rendered="#{empty chapterQuery.resultList}"
+			styleClass="w3-container w3-green w3-xxlarge locale-direction">
+			<h:outputText value="#{messages['No_Chapter']}" />
+		</s:div>
+
+		<h:dataTable value="#{chapterQuery.resultList}" var="_item"
+			rendered="#{not empty chapterQuery.resultList}"
+			styleClass="ui celled striped table" dir="rtl">
+
+			<h:column>
+				<f:facet name="header">#{messages['Chapter_Name']}</f:facet>
+				<h:outputText value="#{_item.name}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">#{messages['Duration']}</f:facet>
+				<h:outputText value="#{_item.durationWithformat}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">#{messages[' ']}</f:facet>
+				<s:link propagation="none" action="#{chapterHome.deleteById()}">
+					<i class="icon-bin w3-red" />
+					<f:param name="chapterId" value="#{_item.id}"></f:param>
+					<f:param name="courseId" value="#{courseId}"></f:param>
+				</s:link>
 					#{' '}
 					
-								<s:link
-										propagation="none" includePageParams="false"
-										styleClass="clickableLink viewDownloadIcon" view="/seam/resource/api/chapters/download/owner/#{_item.id}/#{loginActionManager.currentUserId}">
-										<i class="icon-download2"></i>										
-								</s:link>
-				</h:column>
-			
-			
-			</h:dataTable>
-		
-		</h:form>
-		
-		<script type="text/javascript" src="#{_ctx}/js/filedrag.js"></script>
+				<s:link propagation="none" includePageParams="false"
+					styleClass="clickableLink viewDownloadIcon"
+					view="/seam/resource/api/chapters/download/owner/#{_item.id}/#{loginActionManager.currentUserId}">
+					<i class="icon-download2"></i>
+				</s:link>
+			</h:column>
+
+
+		</h:dataTable>
+
+	</h:form>
+
+
 
 </ui:composition>
