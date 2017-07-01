@@ -30,7 +30,7 @@
 							<div class="w3-display-bottomleft w3-container w3-text-black">
 								<h2>
 								  <h:outputText value="#{instructorHome.instructor.fullname}" rendered="#{not empty instructorHome.instructor.fullname}"/>
-								  <s:link value="#{messages['Edit']}" view="/member/userEdit.xhtml"
+								  <s:link value="#{messages['Edit']}" view="/instructor/userEdit.xhtml"
 								  	propagation="none"
 								  	includePageParams="false"  							  	
 								  	rendered="#{empty instructorHome.instructor.fullname}"/>	
@@ -50,6 +50,15 @@
 								<h:outputText value="#{instructorHome.instructor.username}" />
 							</p>
 							
+							<p>
+								
+								<s:button view="/instructor/incomeList.xhtml"
+									styleClass="btn btn-blue"
+									propagation="none"
+									includePageParams="false" 
+									value="#{messages['Income_List']}" ></s:button>
+								
+							</p>
 							
 							
 						</div>
@@ -99,7 +108,7 @@
 										  	<f:param name="courseId" value="#{_item.id}"></f:param>
 										  </s:link></h3>
 										  <s:link 
-										  	styleClass="clickableLink"
+										  	styleClass="ui basic blue left  label clickableLink"
 										  	propagation="none" 
 										  	includePageParams="false"
 										  	view="/instructor/chapterEdit.xhtml"
@@ -132,16 +141,18 @@
 	
 									  <s:link view="/instructor/courseEdit.xhtml" includePageParams="false" propagation="none">
 									  		<f:param name="courseId" value="#{_item.id}"></f:param>
-										  <s:graphicImage value="#{_item.image}" style="height:150px;"
-										  		styleClass="w3-right w3-circle"
+										  <s:graphicImage value="#{_item.image}"
+										  		styleClass="ui middle aligned tiny image w3-right"
+										  		style="margin-left:20px;margin-bottom:20px;"
 												rendered="#{_item.hasImage}">
-												<s:transformImageSize maintainRatio="true" height="150"></s:transformImageSize>
+												<s:transformImageSize width="150" height="150"></s:transformImageSize>
   										  </s:graphicImage>
 			
 										  <s:graphicImage value="/images/no_video_photo.png"
-										  	styleClass="w3-right w3-circle"
-												style="height:150px;" rendered="#{_item.hasImage == false}">
-												<s:transformImageSize maintainRatio="true" height="150"></s:transformImageSize>
+										  		styleClass="ui middle aligned tiny image w3-right"
+												style="margin-left:20px;margin-bottom:20px;" 
+												rendered="#{_item.hasImage == false}">
+												<s:transformImageSize width="150" height="150"></s:transformImageSize>
 										  </s:graphicImage>
 									  </s:link>
 									  <p>
