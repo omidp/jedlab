@@ -139,20 +139,37 @@
 						    	rendered="#{_item.hasImage}">
 						    		
 						    </s:graphicImage> 
+							 
+							<div class="row gutters auto"> 
+								
+								<div class="col"><h3><h:outputText value="#{messages['Block_Count']}" />#{' : '}</h3></div>
+								<div class="col"><h3> <h:outputText styleClass="ui orange circular label" 
+									value="#{_item.statistic.blockCount}" /></h3></div>
+							  							
+							</div>
 							
+							 
+							<div class="row gutters auto">
+								
+								<div class="col"><h3><h:outputText value="#{messages['View_Count']}" />#{' : '}</h3></div>
+								<div class="col"><h3> <h:outputText styleClass="ui orange circular label" 
+									value="#{_item.statistic.pageViewCountFormatted}" /></h3></div>
 							
-							<h3><h:outputText value="#{messages['Block_Count']}" /> #{' : '} <h:outputText styleClass="ui orange circular label" value="#{_item.statistic.blockCount}" />  </h3>
-							<h3><h:outputText value="#{messages['View_Count']}" /> #{' : '} <h:outputText styleClass="ui orange circular label" value="#{_item.statistic.pageViewCountFormatted}" />  </h3>
-							<h3><h:outputText value="#{messages['Curate_Count']}" /> #{' : '} <h:outputText styleClass="ui orange circular label" value="#{_item.statistic.curateCount}" />  </h3>
+							</div>
+							
+							<div class="row gutters auto">
+								
+								<div class="col"><h3><h:outputText value="#{messages['Curate_Count']}" />#{' : '}</h3></div>
+								<div class="col"><h3> <h:outputText styleClass="ui orange circular label" 
+									value="#{_item.statistic.curateCount}" /></h3></div>
+							
+							</div>
 							
 						</div>
 						
-						
- 
-
 
 					</div>
-
+ 
 
 				</div>
 
