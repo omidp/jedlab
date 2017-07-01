@@ -66,7 +66,7 @@ public class IncomeQuery extends PagingController<Invoice>
         }
         else
         {
-            criteria.addOrder(Order.desc("i.paid"));
+            criteria.addOrder(Order.desc("i.paid")).addOrder(Order.desc("c.id"));
         }
         resultList = criteria.list();
         return truncResultList(resultList);
