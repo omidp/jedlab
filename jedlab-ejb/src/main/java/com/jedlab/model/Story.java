@@ -221,5 +221,11 @@ public class Story extends BasePO
         }
         return title;
     }
+    
+    @Transient
+    public String getViewCountFormatted()
+    {
+        return StringUtil.formatViewCount(getViewCount());
+    }
 
 }

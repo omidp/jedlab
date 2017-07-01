@@ -27,6 +27,7 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.omidbiz.core.axon.internal.IgnoreElement;
 
 import com.jedlab.action.Constants;
+import com.jedlab.framework.StringUtil;
 
 @Table(name = "pages")
 @Entity
@@ -214,6 +215,12 @@ public class Page extends BasePO
     public boolean getHasImage()
     {
         return getImage() != null && getImage().length > 0;
+    }
+    
+    @Transient
+    public String getViewCountFormatted()
+    {
+        return StringUtil.formatViewCount(getViewCount());
     }
 
 }

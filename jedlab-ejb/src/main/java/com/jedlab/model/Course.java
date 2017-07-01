@@ -36,6 +36,7 @@ import org.jboss.seam.international.StatusMessage;
 import org.omidbiz.core.axon.internal.IgnoreElement;
 
 import com.jedlab.action.Constants;
+import com.jedlab.framework.StringUtil;
 
 @NamedQuery(name=Course.FIND_WITH_INSTRUCTOR_BY_ID, query="select c from Course c join fetch c.instructor i where c.id = :courseId")
 @Entity
@@ -441,6 +442,14 @@ public class Course extends BasePO
     public boolean isEditable()
     {
         return processInstanceId == null && !active;
+    }
+    
+    @Transient
+    public String getViewCountFormatted()
+    {
+        if(getViewCount() == null)
+            return "0";
+        return StringUtil.formatViewCount(getViewCount());
     }
 
 }

@@ -30,6 +30,7 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.omidbiz.core.axon.internal.IgnoreElement;
 
 import com.jedlab.action.Constants;
+import com.jedlab.framework.StringUtil;
 
 @Table(name = "page_statistic_view")
 @Entity
@@ -103,5 +104,13 @@ public class PageStatisticsView implements Serializable
     {
         this.createdDate = createdDate;
     }
+    
+    @Transient
+    public String getPageViewCountFormatted()
+    {
+        return StringUtil.formatViewCount(getPageViewCount());
+    }
+    
+    
 
 }

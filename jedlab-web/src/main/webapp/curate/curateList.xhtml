@@ -141,9 +141,9 @@
 						    </s:graphicImage> 
 							
 							
-							<h3><h:outputText value="#{messages['Block_Count']}" /> #{' : '} <h:outputText value="#{_item.statistic.blockCount}" />  </h3>
-							<h3><h:outputText value="#{messages['View_Count']}" /> #{' : '} <h:outputText value="#{_item.statistic.pageViewCount}" />  </h3>
-							<h3><h:outputText value="#{messages['Curate_Count']}" /> #{' : '} <h:outputText value="#{_item.statistic.curateCount}" />  </h3>
+							<h3><h:outputText value="#{messages['Block_Count']}" /> #{' : '} <h:outputText styleClass="ui orange circular label" value="#{_item.statistic.blockCount}" />  </h3>
+							<h3><h:outputText value="#{messages['View_Count']}" /> #{' : '} <h:outputText styleClass="ui orange circular label" value="#{_item.statistic.pageViewCountFormatted}" />  </h3>
+							<h3><h:outputText value="#{messages['Curate_Count']}" /> #{' : '} <h:outputText styleClass="ui orange circular label" value="#{_item.statistic.curateCount}" />  </h3>
 							
 						</div>
 						
