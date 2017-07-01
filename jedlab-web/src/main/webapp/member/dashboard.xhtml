@@ -18,7 +18,7 @@
 						<div class="w3-display-container">
 							<s:graphicImage value="#{userHome.userThumbnailImage}"
 								rendered="#{userHome.student.hasImage}" 
-								style="width:100%" alt="#{jedLab.currentUser.username} avatar"></s:graphicImage>
+								style="width:100%;height: 270px;" alt="#{jedLab.currentUser.username} avatar"></s:graphicImage>
 							<h:graphicImage value="/images/image-text.png" rendered="#{!userHome.student.hasImage}" style="width:100%"/>	
 							<div class="w3-display-bottomleft w3-container w3-text-black">
 								<h2>
@@ -104,7 +104,7 @@
 										<span class="w3-tag w3-teal w3-round">#{_item.chapterCount} #{messages['Chapter']}</span>
 									</h6>
 									<p>
-										<h:outputText value="#{_item.description}" />
+										<s:formattedText value="#{_item.description}"></s:formattedText>										
 									</p>
 									<hr />
 								</div>

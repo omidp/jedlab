@@ -10,25 +10,34 @@
 
 	<ui:define name="head">
 		<script type="text/javascript">
-			function addCmSection(itemId)
-			{
-				var idSection = "cmSection_"+itemId;
-				jQuery("#"+idSection).prepend(jQuery("#commentPanel").contents());
-				jQuery("#replyId").val(itemId);
-				jQuery("#btnCancel_"+itemId).show();
+		function addCmSection(itemId)
+		{
+			var idSection = "cmSection_"+itemId;
+			var lastSec = jQuery("#cmSectionId").val();
+			var cmPanelId = "#commentPanel";
+			if(lastSec != ''){
+				
+				cmPanelId = "#cmSection_"+lastSec;
+				jQuery("#btnCancel_"+lastSec).hide();
 			}
-			function cancelReply(itemId)
-			{
-				var idSection = "cmSection_"+itemId;
-				jQuery("#commentPanel").prepend(jQuery("#"+idSection).contents());
-				jQuery("#btnCancel_"+itemId).hide();
-			}
+			jQuery("#cmSectionId").val(itemId);
+			jQuery("#"+idSection).prepend(jQuery(cmPanelId).contents());
+			jQuery("#replyId").val(itemId);
+			jQuery("#btnCancel_"+itemId).show();
+		}
+		function cancelReply(itemId)
+		{
+			var idSection = "cmSection_"+itemId;
+			jQuery("#commentPanel").prepend(jQuery("#"+idSection).contents());
+			jQuery("#btnCancel_"+itemId).hide();
+			jQuery("#cmSectionId").val('');
+		}
 		</script>
 	</ui:define>
 
 	<ui:define name="body">
-
-		<div style="margin-top: 10px; margin-bottom: 10px; direction: rtl;">
+		<input type="hidden" id="cmSectionId" />
+ 		<div style="margin-top: 10px; margin-bottom: 10px; direction: rtl;">
 
 				<h:outputText  
 					value="#{messages['Login_For_Comment']}" rendered="#{!identity.loggedIn}" />

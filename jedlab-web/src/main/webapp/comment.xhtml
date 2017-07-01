@@ -13,7 +13,15 @@
 			function addCmSection(itemId)
 			{
 				var idSection = "cmSection_"+itemId;
-				jQuery("#"+idSection).prepend(jQuery("#commentPanel").contents());
+				var lastSec = jQuery("#cmSectionId").val();
+				var cmPanelId = "#commentPanel";
+				if(lastSec != ''){
+					
+					cmPanelId = "#cmSection_"+lastSec;
+					jQuery("#btnCancel_"+lastSec).hide();
+				}
+				jQuery("#cmSectionId").val(itemId);
+				jQuery("#"+idSection).prepend(jQuery(cmPanelId).contents());
 				jQuery("#replyId").val(itemId);
 				jQuery("#btnCancel_"+itemId).show();
 			}
@@ -22,6 +30,7 @@
 				var idSection = "cmSection_"+itemId;
 				jQuery("#commentPanel").prepend(jQuery("#"+idSection).contents());
 				jQuery("#btnCancel_"+itemId).hide();
+				jQuery("#cmSectionId").val('');
 			}
 			function redirectToLogin()
 			{
@@ -31,7 +40,7 @@
 	</ui:define>
 
 	<ui:define name="body">
-
+		<input type="hidden" id="cmSectionId" />
 		<div style="margin-top: 10px; margin-bottom: 10px; direction: rtl;">
 			<s:fragment rendered="#{!identity.loggedIn}">
 				<s:button value="#{messages['Login_For_Comment']}" rendered="false"
