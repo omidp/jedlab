@@ -14,6 +14,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -309,6 +311,18 @@ public class Member extends BasePO
         {
             throw new UnsupportedOperationException("image can not be found to convert to base64");
         }
+    }
+    
+    @PrePersist
+    public void prePrersist()
+    {
+        setEmail(getEmail().toLowerCase());
+    }
+    
+    @PreUpdate
+    public void preUpdate()
+    {
+        setEmail(getEmail().toLowerCase());
     }
 
 

@@ -201,6 +201,7 @@ public class RegisterAction implements Serializable
         }
         try
         {
+            user.setEmail(user.getEmail().toLowerCase());
             user.setActive(Boolean.FALSE);
             user.setActivationCode(RandomStringUtils.randomAlphanumeric(45));
             Student std = ReflectionUtil.cloneBean(user, Student.class);

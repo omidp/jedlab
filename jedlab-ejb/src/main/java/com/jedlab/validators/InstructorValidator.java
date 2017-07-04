@@ -30,7 +30,7 @@ public class InstructorValidator extends EntityController
         EntityManager em = getEntityManager();
         try
         {
-            em.createQuery("select i from Member i where i.username = :uname  or i.email = :email or i.mobileNo = :mno")
+            em.createQuery("select i from Member i where lower(i.username) = lower(:uname)  or lower(i.email) = lower(:email) or i.mobileNo = :mno")
             .setParameter("uname", param)
             .setParameter("mno", param)
             .setParameter("email", param).setMaxResults(1).getSingleResult();
