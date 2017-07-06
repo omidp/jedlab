@@ -48,7 +48,7 @@ public class CheckUsernameAvailibilityServlet extends HttpServlet
             EntityManager em = (EntityManager) Component.getInstance("entityManager");
             try
             {
-                em.createQuery("select m from Member m where m.username = :uname").setParameter("uname", username).setMaxResults(1)
+                em.createQuery("select m from Member m where lower(m.username) = lower(:uname)").setParameter("uname", username).setMaxResults(1)
                         .getSingleResult();
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }

@@ -25,6 +25,7 @@ import org.omidbiz.core.axon.AxonBuilder;
 
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CollectionUtil;
+import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.MultipartFileSender;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.exceptions.RequestException;
@@ -62,6 +63,18 @@ public class CourseSearchServlet extends HttpServlet
         criteria.add(dis);
         criteria.setMaxResults(10);
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        
+        if(Identity.instance().isLoggedIn())
+        {
+            if(Identity.instance().hasRole(Constants.ROLE_INSTRUCTOR) && !Identity.instance().hasRole(Constants.ROLE_ADMIN))
+            {
+                Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
+                if(uid == null)
+                    throw new ErrorPageExceptionHandler("user id is null");
+                criteria.add(Restrictions.eq("c.instructor.id", uid));
+            }
+        }
+        
         List<Course> courseList = criteria.list();
         if (CollectionUtil.isEmpty(courseList))
             return;
