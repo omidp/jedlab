@@ -173,6 +173,7 @@
 								<exclude>video.css</exclude>
 								<exclude>video.js</exclude>
 								<exclude>w2ui.js</exclude>
+								<exclude>soundmanager2-nodebug-jsmin.js</exclude>
 							</excludes>
 						</configuration>
 						<executions>
