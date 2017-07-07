@@ -40,9 +40,17 @@
 							  <s:graphicImage value="#{_item.image}"></s:graphicImage>
 							</s:div>
 							<p class="w3-text-blue">
-								<b>قسمت #{_status.index}</b>
+								
 							</p>
-							<p class="w3-text-blue"></p>   
+							<s:fragment rendered="#{s:hasRole('Admin')}">
+								<p class="w3-text-blue">
+									<s:link value="Podcast" propagation="none" styleClass="item"
+										rendered="#{s:hasRole('Admin')}"
+										view="/admin/podcastEdit.xhtml" includePageParams="false">
+										<f:param name="podcastId" value="#{_item.id}"></f:param>	
+									</s:link>
+								</p>   
+							</s:fragment>
 							<h3>#{_item.description}</h3>
 						</div>
 	

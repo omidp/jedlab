@@ -5082,3 +5082,11 @@ h3 {
 .red .req{
 	color: #F70E0E;	
 }
+
+.rtl-dir{
+	direction: rtl;
+}
+
+.ltr-dir{
+	direction: ltr;
+}
