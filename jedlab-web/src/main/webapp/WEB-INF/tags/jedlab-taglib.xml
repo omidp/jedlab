@@ -17,6 +17,11 @@
 	   <source>templates/storyCommentTag.xhtml</source>
 	</tag>
 	
+	<tag>
+	   <tag-name>sm</tag-name>
+	   <source>templates/soundManager.xhtml</source>
+	</tag>
+	
 	
 	
 </facelet-taglib>
