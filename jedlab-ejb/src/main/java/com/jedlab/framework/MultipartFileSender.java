@@ -38,6 +38,7 @@ public class MultipartFileSender
     HttpServletRequest request;
     HttpServletResponse response;
     Long expireHeader;
+    String contentTypeDefined;
 
     public MultipartFileSender()
     {
@@ -82,6 +83,12 @@ public class MultipartFileSender
         this.expireHeader = expireHeader;
         return this;
     }
+    
+    public MultipartFileSender with(String contentType)
+    {
+        this.contentTypeDefined = contentType;
+        return this;
+    }
 
     public void serveResource() throws Exception
     {
@@ -112,7 +119,7 @@ public class MultipartFileSender
                                                        // ZoneId.of(ZoneOffset.systemDefault().getId())).toEpochSecond(ZoneOffset.UTC);
                                                        // String contentType =
                                                        // "video/mp4";
-        String contentType = "application/octet-stream";
+        String contentType = contentTypeDefined != null ? contentTypeDefined : "application/octet-stream";
         response.setHeader("Content-Disposition", "inline");
         // If-None-Match header should contain "*" or ETag. If so, then return
         // 304.

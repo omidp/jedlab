@@ -84,7 +84,7 @@ public class PodcastPlayerServlet extends HttpServlet
         File file = new File(filePath);
         if (file.exists() == false)
             sendError(resp);
-        MultipartFileSender.fromFile(file).with(req).with(resp).serveResource();
+        MultipartFileSender.fromFile(file).with(req).with("audio/mp3").with(resp).serveResource();
 
     }
 
