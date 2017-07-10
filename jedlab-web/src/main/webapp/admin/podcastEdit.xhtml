@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<style>
+		</style>
+	</ui:define>
+
+	<ui:define name="body">
+
+		
+		<h:form styleClass="form w3-margin" enctype="multipart/form-data">
+
+			<input type="hidden" name="podcastId" value="#{podcastId}"
+				id="podcastId" />
+
+			<fieldset>
+				<legend>
+					<h:outputText value="#{podcastHome.instance.title}" rendered="#{podcastHome.managed}" />
+					<h:outputText value="#{messages['Add']}" rendered="#{!podcastHome.managed}" />
+					</legend>
+
+				<s:decorate id="fieldName" template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Title']}</ui:define>
+					<h:inputText id="cname" value="#{podcastHome.instance.title}"
+						styleClass="w3-input" maxlength="160" required="true" />
+				</s:decorate>
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['URL']}</ui:define>
+					<h:inputText id="cname" value="#{podcastHome.instance.url}"
+						styleClass="w3-input ltr-dir" maxlength="160" required="true" />
+				</s:decorate>
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Description']}</ui:define>
+					<h:inputText id="cname" value="#{podcastHome.instance.description}"
+						styleClass="w3-input" maxlength="160" required="true" />
+				</s:decorate>
+
+
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">#{messages['Image']}</ui:define>
+					<s:fileUpload id="file" data="#{podcastHome.uploadImage}"
+										 accept="images/*"
+										fileSize="#{podcastHome.fileSize}" />
+				</s:decorate>   
+
+			</fieldset> 
+
+
+			<h:commandButton id="save" value="#{messages['Save']}"
+				styleClass="btn btn-yellow" action="#{podcastHome.persist()}"
+				rendered="#{!podcastHome.managed and s:hasRole('Admin')}" />
+
+			<h:commandButton id="update" value="#{messages['Update']}"
+				styleClass="btn btn-blue" action="#{podcastHome.update()}"
+				rendered="#{podcastHome.managed and s:hasRole('Admin')}" />
+		</h:form>
+		
+		
+		<s:button propagation="none" view="/admin/dashboard.xhtml"
+			styleClass="btn btn-red w3-margin"
+			value="#{messages['Back']}"></s:button>
+
+
+
+	</ui:define>
+</ui:composition>

@@ -97,19 +97,14 @@
 				value="#{messages['Course_List']}">
 				<i class="icon-books"></i>
 			</s:link></li>
-		<li class="w3-hide-small"><s:link propagation="none"
-				includePageParams="false" view="/story/storyList.xhtml"
-				styleClass="w3-padding-menu-item w3-hover-white"
-				value="#{messages['JEDLog']}">
-				<i class="icon-pencil"></i> 
-			</s:link></li>	
+			
 			
 		<li class="w3-hide-small"><s:link propagation="none"
-				includePageParams="false" view="/curate/curateList.xhtml"
+				includePageParams="false" view="/podcast/podcastList.xhtml"
 				styleClass="w3-padding-menu-item w3-hover-white"
-				value="#{messages['JEDLink']}">
-				<i class="icon-price-tag"></i> 
-			</s:link></li>	
+				value="#{messages['JEDCast']}">
+				<i class="icon-mic"></i> 
+			</s:link></li>			
 			
 			
 		<li class="w3-hide-small w3-dropdown-hover">
@@ -131,6 +126,20 @@
 				
 				value="#{messages['Gist']}">
 				<i class="icon-file-text"></i>
+			</s:link>
+			
+			<s:link propagation="none"
+				includePageParams="false" view="/curate/curateList.xhtml"
+				
+				value="#{messages['JEDLink']}">
+				<i class="icon-price-tag"></i>
+			</s:link>
+			
+			<s:link propagation="none"
+				includePageParams="false" view="/story/storyList.xhtml"
+				
+				value="#{messages['JEDLog']}">
+				<i class="icon-pencil"></i>
 			</s:link>
 		
 		</div>
@@ -242,7 +251,12 @@
 					view="/curate/curateList.xhtml" styleClass="w3-padding-menu-item"
 					value="#{messages['JEDLink']}">
 					<i class="icon-price-tag"></i>
-				</s:link></li>	
+				</s:link></li>
+			<li><s:link propagation="none" includePageParams="false"
+					view="/podcast/podcastList.xhtml" styleClass="w3-padding-menu-item"
+					value="#{messages['JEDCast']}">
+					<i class="icon-mic"></i>
+				</s:link></li>		
 			<li>
 				<s:link propagation="none" 
 						rendered="#{identity.loggedIn}" action="#{identity.logout()}"
