@@ -31,7 +31,7 @@ public class Donate implements Serializable
         String url = facesContext.getApplication().getViewHandler().getActionURL(facesContext, Pages.getCurrentViewId());
         url = Pages.instance().encodeScheme(viewId, facesContext, url);
         url = url.substring(0, url.lastIndexOf("/") + 1);
-        String redirectUrl = url + "home.seam";
+        String redirectUrl = url + "thankyou.seam?p=donate";
         paymentVO = new PaymentVO(amount*10, Env.getMerchantId(), RandomStringUtils.randomAlphanumeric(12), redirectUrl);
     }
 

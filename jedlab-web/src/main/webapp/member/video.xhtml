@@ -175,14 +175,23 @@
                      else
                        myPlayer.src({"type":"video/mp4", "src":loc});
 
-                     jQuery("#vdLoader").removeClass("active");
+                    
 		
 				});
 
 			myPlayer.on("ended", function(){ 
 							dt();      
 					    
-					});				
+					});			
+			myPlayer.on("waiting", function ()
+					{
+					    this.addClass("vjs-custom-waiting");
+					});
+			myPlayer.on("playing", function ()
+					{
+					   this.removeClass("vjs-custom-waiting");
+					  jQuery("#vdLoader").removeClass("active");
+					});	
 
 				jQuery( window ).unload(function() {
 					  dt();
