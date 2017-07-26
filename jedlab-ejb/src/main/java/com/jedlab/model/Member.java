@@ -139,7 +139,7 @@ public class Member extends BasePO
 
     public boolean isApprovedMember()
     {
-        if (Constants.ROLE_INSTRUCTOR.equals(getDiscriminator()))
+        if (INSTRUCTOR_DISC.equals(getDiscriminator()))
         {
             return getApproved() != null && getApproved().booleanValue() == true;
         }
@@ -148,7 +148,7 @@ public class Member extends BasePO
     
     public boolean isInstructor()
     {
-        return Constants.ROLE_INSTRUCTOR.equals(getDiscriminator());
+        return INSTRUCTOR_DISC.equals(getDiscriminator());
     }
 
     public Boolean getApproved()
