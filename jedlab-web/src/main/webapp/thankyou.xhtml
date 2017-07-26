@@ -25,19 +25,30 @@
 
 				<div class="row centerContent">
 
-
-					<div class="column">
-						<div class="ui piled segment" id="content">
-							<h1>ممنون از اینکه سایت ما را برای آموزش انتخاب کردید</h1>
-							<p class="locale-direction">
-								ایمیلی به آدرس <b> <h:outputText value="#{user.email}"
-										style="font-size:14px;font-weight: bold;" />
-								</b> حاوی لینک فعال سازی ارسال شده است .
-							</p>
-							<p>لطفا به ایمیل خود مراجعه کنید هرزنامه را هم چک کنید</p>
+					<s:fragment rendered="#{empty param['p']}">
+						<div class="column">
+							<div class="ui piled segment" id="content">
+								<h1>ممنون از اینکه سایت ما را برای آموزش انتخاب کردید</h1>
+								<p class="locale-direction">
+									ایمیلی به آدرس <b> <h:outputText value="#{user.email}"
+											style="font-size:14px;font-weight: bold;" />
+									</b> حاوی لینک فعال سازی ارسال شده است .
+								</p>
+								<p>لطفا به ایمیل خود مراجعه کنید هرزنامه را هم چک کنید</p>
+							</div>
+	
 						</div>
-
-					</div>
+					</s:fragment>
+					
+					<s:fragment rendered="#{not empty param['p']}">
+						<div class="column">
+							<div class="ui piled segment" id="content">
+								<h1>از توجه شما متشکریم</h1>								
+							</div>
+	
+						</div>
+					</s:fragment>
+					
 
 				</div>
 			</div>
