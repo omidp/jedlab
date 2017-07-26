@@ -291,37 +291,54 @@ public class ChapterHome extends EntityHome<Chapter>
             Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
             if (uid == null)
                 throw new ErrorPageExceptionHandler("user not found");
-            try
+            //
+            if (Identity.instance().hasRole(Constants.ROLE_STUDENT) == false)
             {
-                Chapter c = (Chapter) getEntityManager()
-                        .createQuery(
-                                "select c from Chapter c where c.course.id = :courseId AND c.id IN (select mc.chapter.id from MemberCourse mc where mc.chapter.id = :chapterId AND mc.member.id = :memId)  ")
-                        .setParameter("courseId", courseId).setParameter("chapterId", chapterId).setParameter("memId", uid)
-                        .getSingleResult();
-                if (c != null)
-                {
-                    VideoToken vt = new VideoToken();
-                    vt.setChapter(c);
-                    vt.setCourseId(courseId);
-                    String t = RandomStringUtils.randomAlphanumeric(25);
-                    vt.setToken(t);
-                    vt.setMemberId(uid);
-                    getEntityManager().persist(vt);
-                    //
-                    getEntityManager()
-                            .createQuery(
-                                    "update MemberCourse mc set mc.viewed = true where mc.course.id = :courseId AND mc.member.id = :memId AND mc.chapter.id = :chapterId")
-                            .setParameter("courseId", courseId).setParameter("memId", uid).setParameter("chapterId", chapterId)
-                            .executeUpdate();
-                    //
-                    getEntityManager().flush();
-                    token = t;
-
-                }
+                VideoToken vt = new VideoToken();
+                vt.setChapter(getEntityManager().find(Chapter.class, chapterId));
+                vt.setCourseId(courseId);
+                String t = RandomStringUtils.randomAlphanumeric(25);
+                vt.setToken(t);
+                vt.setMemberId(uid);
+                getEntityManager().persist(vt);
+                getEntityManager().flush();
+                token = t;
             }
-            catch (NoResultException e)
+            else
             {
-                throw new ErrorPageExceptionHandler("course not found");
+
+                try
+                {
+                    Chapter c = (Chapter) getEntityManager()
+                            .createQuery(
+                                    "select c from Chapter c where c.course.id = :courseId AND c.id IN (select mc.chapter.id from MemberCourse mc where mc.chapter.id = :chapterId AND mc.member.id = :memId)  ")
+                            .setParameter("courseId", courseId).setParameter("chapterId", chapterId).setParameter("memId", uid)
+                            .getSingleResult();
+                    if (c != null)
+                    {
+                        VideoToken vt = new VideoToken();
+                        vt.setChapter(c);
+                        vt.setCourseId(courseId);
+                        String t = RandomStringUtils.randomAlphanumeric(25);
+                        vt.setToken(t);
+                        vt.setMemberId(uid);
+                        getEntityManager().persist(vt);
+                        //
+                        getEntityManager()
+                                .createQuery(
+                                        "update MemberCourse mc set mc.viewed = true where mc.course.id = :courseId AND mc.member.id = :memId AND mc.chapter.id = :chapterId")
+                                .setParameter("courseId", courseId).setParameter("memId", uid).setParameter("chapterId", chapterId)
+                                .executeUpdate();
+                        //
+                        getEntityManager().flush();
+                        token = t;
+
+                    }
+                }
+                catch (NoResultException e)
+                {
+                    throw new ErrorPageExceptionHandler("course not found");
+                }
             }
         }
         return token;

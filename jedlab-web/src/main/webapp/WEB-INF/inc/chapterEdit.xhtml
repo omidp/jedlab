@@ -179,6 +179,14 @@
 					view="/seam/resource/api/chapters/download/owner/#{_item.id}/#{loginActionManager.currentUserId}">
 					<i class="icon-download2"></i>
 				</s:link>
+				#{''}
+				<s:link										
+										propagation="none" includePageParams="false"
+										styleClass="clickableLink viewIcon" view="/instructor/video.xhtml">
+										<i class="icon-display"></i>
+										<f:param name="courseId" value="#{courseId}"></f:param>
+										<f:param name="chapterId" value="#{_item.id}"></f:param>
+								</s:link>
 			</h:column>
 
 

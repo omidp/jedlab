@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	login-required="true"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+	<rewrite pattern="/video/{courseId}/{chapterId}"/>
+
+	<param name="chapterId" value="#{chapterHome.chapterId}" />
+	<param name="courseId" value="#{chapterHome.course.id}" />
+	<param name="resolution" />
+	
+	
+	<action execute="#{chapterHome.load()}" />
+
+</page>

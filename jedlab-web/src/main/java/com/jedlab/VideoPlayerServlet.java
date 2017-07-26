@@ -118,7 +118,8 @@ public class VideoPlayerServlet extends HttpServlet
         {
             Criteria criteria = sess.createCriteria(VideoToken.class, "vt");
             criteria.createCriteria("vt.chapter", "chap", Criteria.LEFT_JOIN);
-            criteria.add(Restrictions.eq("vt.memberId", uid));
+            if(Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
+                criteria.add(Restrictions.eq("vt.memberId", uid));
             criteria.add(Restrictions.eq("vt.token", token));
             criteria.setMaxResults(1);
             vt = (VideoToken) criteria.uniqueResult();
