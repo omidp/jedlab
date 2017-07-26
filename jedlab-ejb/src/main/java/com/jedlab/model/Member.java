@@ -399,6 +399,8 @@ public class Member extends BasePO
     public void prePrersist()
     {
         setEmail(getEmail().toLowerCase());
+        if(isInstructor())
+            setApproved(false);
     }
 
     @PreUpdate

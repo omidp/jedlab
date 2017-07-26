@@ -162,7 +162,7 @@ public class UserHome extends HibernateEntityController
         if (StringUtil.isNotEmpty(idParam))
         {
             Member mem = (Member) getSession().get(Member.class, Long.parseLong(idParam));
-            if (mem.isActive())
+            if (mem.getApproved() != null && mem.getApproved())
                 mem.setApproved(Boolean.FALSE);
             else
                 mem.setApproved(Boolean.TRUE);
