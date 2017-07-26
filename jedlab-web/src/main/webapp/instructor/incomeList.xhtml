@@ -131,11 +131,12 @@
 				<div class="row centerContent">
 
 
-					<div class="column">
+					<div class="column"> 
 						<div class="ui piled segment" id="content">
-							<h1 class="title">هیچکس در دوره ی 
-							<h:outputText value="#{incomeQuery.course.name}" rendered="#{not empty incomeQuery.course.name}" />
-							شما ثبت نام نکرده</h1>
+							<h1 class="title w3-red">در دوره   
+							<h:outputText value="#{' '} #{incomeQuery.course.name} #{' '}" rendered="#{not empty incomeQuery.course.name}" />
+							غیر رایگان
+							شما ثبت نامی انجام نشده است </h1>
 							
 							<p>
 								

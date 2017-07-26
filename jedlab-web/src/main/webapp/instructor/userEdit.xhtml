@@ -224,6 +224,32 @@
 							<h:inputText value="#{instructorHome.instructor.lastName}" maxlength="50"
 								dir="ltr" style="direction:ltr;" styleClass="w3-input" />
 						</s:decorate>
+						
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['Mobile']}</ui:define>
+							<h:inputText value="#{instructorHome.instructor.mobileNo}" maxlength="50"
+								 styleClass="w3-input" />
+						</s:decorate>
+						
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['National_No']}</ui:define>
+							<h:inputText value="#{instructorHome.instructor.nationalNo}" maxlength="50"
+								 styleClass="w3-input" />
+						</s:decorate>
+						
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['Sheba_No']}</ui:define>
+							<h:inputText value="#{instructorHome.instructor.sheba}" maxlength="50"
+								 styleClass="w3-input" />
+							<ui:define name="desc">#{messages['Sheba_Example']}</ui:define>	 
+						</s:decorate>
+						
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['Postal_Code']}</ui:define>
+							<h:inputText value="#{instructorHome.instructor.postalCode}" maxlength="50"
+								 styleClass="w3-input" />
+								 
+						</s:decorate>
 
 						<s:decorate template="/layout/simpleEdit.xhtml">
 							<ui:define name="label">#{messages['Age']}</ui:define>

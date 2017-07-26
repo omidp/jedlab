@@ -154,5 +154,21 @@ public class UserHome extends HibernateEntityController
         getSession().flush();
         getSession().clear();
     }
+    
+    @Transactional
+    public void approveToggle()
+    {
+        String idParam = WebUtil.getParameterValue("memId");
+        if (StringUtil.isNotEmpty(idParam))
+        {
+            Member mem = (Member) getSession().get(Member.class, Long.parseLong(idParam));
+            if (mem.isActive())
+                mem.setApproved(Boolean.FALSE);
+            else
+                mem.setApproved(Boolean.TRUE);
+        }
+        getSession().flush();
+        getSession().clear();
+    }
 
 }

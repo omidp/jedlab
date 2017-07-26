@@ -424,6 +424,12 @@ public class Course extends BasePO
     {
         return getPrice() == null || getPrice().compareTo(BigDecimal.ZERO) == 0;
     }
+    
+    @Transient
+    public boolean isFreeForDownload()
+    {
+        return getDownloadPrice() == null || getDownloadPrice().intValue() == 0;
+    }
 
     @Transient
     public boolean isHasChapter()

@@ -34,7 +34,13 @@
 							<f:facet name="header">Action</f:facet>
 							<s:link value="#{_item.active ? 'deactive' : 'active'}"
 								action="#{userHome.activateToggle()}" propagation="none"
-								includePageParams="false">
+								>
+								<f:param name="memId" value="#{_item.id}"></f:param>
+							</s:link>
+							#{' '}
+							<s:link rendered="#{_item.instructor}" value="#{_item.approvedMember ? 'unapproved' : 'approved'}"
+								action="#{userHome.approveToggle()}" propagation="none"
+								>
 								<f:param name="memId" value="#{_item.id}"></f:param>
 							</s:link>
 						</h:column>

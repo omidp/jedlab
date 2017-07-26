@@ -230,6 +230,7 @@ public class CourseHome extends EntityHome<Course>
             Course course = getEntityManager().find(Course.class, courseId);
             if (course.isFree())
             {
+                boolean freeForDownload= course.isFreeForDownload();
                 List<Chapter> chapters = getEntityManager()
                         .createQuery(
                                 "select c from Chapter c  where c.course.id = :courseId AND c.id  NOT IN (select mc.chapter.id from MemberCourse mc where mc.course.id = c.course.id AND mc.member.id = :memId)")
@@ -245,6 +246,8 @@ public class CourseHome extends EntityHome<Course>
                         Member m = new Member();
                         m.setId(uid);
                         mc.setMember(m);
+                        if(freeForDownload)
+                            mc.setCanDownload(true);
                         getEntityManager().persist(mc);
                     }
                 }

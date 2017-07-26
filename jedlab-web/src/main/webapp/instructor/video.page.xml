@@ -3,7 +3,7 @@
 	login-required="true"
 	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
-	<rewrite pattern="/video/{courseId}/{chapterId}"/>
+	<rewrite pattern="/instructor/video/{courseId}/{chapterId}"/>
 
 	<param name="chapterId" value="#{chapterHome.chapterId}" />
 	<param name="courseId" value="#{chapterHome.course.id}" />

@@ -67,9 +67,9 @@ public class InstructorRegisterAction extends EntityController
                 getInstance().setImage(getUploadImage());
         try
         {
-            getEntityManager().createQuery("select m from Member m where lower(m.username) = lower(:uname)")
-                    .setParameter("uname", getInstance().getUsername()).setMaxResults(1).getSingleResult();
-            StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Username_Exists");
+            getEntityManager().createQuery("select m from Member m where lower(m.username) = lower(:uname) or lower(m.email) = lower(:email)")
+                    .setParameter("uname", getInstance().getUsername()).setParameter("email", getInstance().getEmail()).setMaxResults(1).getSingleResult();
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Username_Or_Email_Exists");
             return null;
         }
         catch (NoResultException e)

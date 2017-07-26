@@ -124,15 +124,33 @@ public class Member extends BasePO
     @Column(name = "approved")
     private Boolean approved;
 
+    @Column(name = "sheba")
+    private String sheba;
+
+    public String getSheba()
+    {
+        return sheba;
+    }
+
+    public void setSheba(String sheba)
+    {
+        this.sheba = sheba;
+    }
+
     public boolean isApprovedMember()
     {
-        if(Constants.ROLE_INSTRUCTOR.equals(getDiscriminator()))
+        if (Constants.ROLE_INSTRUCTOR.equals(getDiscriminator()))
         {
             return getApproved() != null && getApproved().booleanValue() == true;
         }
-        return true; 
+        return true;
     }
     
+    public boolean isInstructor()
+    {
+        return Constants.ROLE_INSTRUCTOR.equals(getDiscriminator());
+    }
+
     public Boolean getApproved()
     {
         return approved;

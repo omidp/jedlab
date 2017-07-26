@@ -11,9 +11,9 @@
 	
 	<begin-conversation join="true" flush-mode="manual"/>
 	
-	<action execute="#{userHome.load()}"/>
+	<action execute="#{instructorHome.load()}"/>
 	
-	<navigation from-action="#{userHome.update()}">
+	<navigation from-action="#{instructorHome.update()}">
 		<rule if-outcome="updated">
 			<end-conversation/>
 			<redirect view-id="/instructor/userEdit.xhtml"></redirect>

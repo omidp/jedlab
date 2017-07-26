@@ -40,6 +40,7 @@
 								<br />
 								<h:outputText value="#{messages['Free']}"
 									rendered="#{courseHome.instance.free}" />
+									
 								<s:fragment rendered="#{!courseHome.instance.free}">
 										<h:outputText value="#{courseHome.instance.price}"  converter="#{bigDecimalConverter}">
 										</h:outputText>
@@ -101,11 +102,13 @@
 							</s:div>
 							
 							<s:fragment rendered="#{identity.loggedIn and courseHome.instance.registered and courseHome.instance.free}">
-								<button type="button"
-									onclick="redirectToPaymentGateway();"																												
-									class="btn btn-green locale-font">
-									<h:outputText value="#{messages['Get_Download_Link']} #{courseHome.instance.downloadPrice} #{messages['Toman']}" />									
-								</button>
+								<s:fragment rendered="#{!courseHome.instance.freeForDownload}">
+									<button type="button"
+										onclick="redirectToPaymentGateway();"																												
+										class="btn btn-green locale-font">
+										<h:outputText value="#{messages['Get_Download_Link']} #{courseHome.instance.downloadPrice} #{messages['Toman']}" />									
+									</button>
+								</s:fragment>
 								<br />
 							</s:fragment>	
 							<s:fragment rendered="#{identity.loggedIn and courseHome.instance.registered}">

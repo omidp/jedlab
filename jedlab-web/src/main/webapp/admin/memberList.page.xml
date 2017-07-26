@@ -8,8 +8,13 @@
 
 	<navigation from-action="#{userHome.activateToggle()}">
 		<end-conversation />
-		<redirect view-id="/admin/memberList.xhtml"
-			include-page-params="false">
+		<redirect view-id="/admin/memberList.xhtml">
+		</redirect>
+	</navigation>
+	
+	<navigation from-action="#{userHome.approveToggle()}">
+		<end-conversation />
+		<redirect view-id="/admin/memberList.xhtml">
 		</redirect>
 	</navigation>
 
