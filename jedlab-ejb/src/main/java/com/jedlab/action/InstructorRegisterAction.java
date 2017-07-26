@@ -75,12 +75,23 @@ public class InstructorRegisterAction extends EntityController
         catch (NoResultException e)
         {
         }
-        //validation check bu database contraints
+        try
+        {
+            getEntityManager().createQuery("select m from Member m where lower(m.nationalNo) = lower(:nationalNo)")
+                    .setParameter("nationalNo", getInstance().getNationalNo()).setMaxResults(1).getSingleResult();
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Duplicate_National_No");
+            return null;
+        }
+        catch (NoResultException e)
+        {
+        }
         getInstance().setActive(Boolean.TRUE);
         getInstance().setActivationCode(null);
-        String passwordKey = PasswordHash.instance().generateSaltedHash(getInstance().getPassword(), getInstance().getUsername(), "md5");
+        String purePass = getInstance().getPassword();
+        String passwordKey = PasswordHash.instance().generateSaltedHash(purePass, getInstance().getUsername(), "md5");
         getInstance().setPassword(passwordKey);
         getEntityManager().persist(getInstance());
+        getEntityManager().flush();
         StatusMessages.instance().addFromResourceBundle("Register_Completed");
         Events.instance().raiseAsynchronousEvent(Constants.SEND_THANK_YOU_MAIL, getInstance());
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -91,10 +102,19 @@ public class InstructorRegisterAction extends EntityController
         Identity ident = Identity.instance();
         ident.addRole(Constants.ROLE_INSTRUCTOR);
         ident.getCredentials().setUsername(getInstance().getUsername());
-        ident.getCredentials().setPassword(CryptoUtil.encodeBase64(getInstance().getPassword()));
+        ident.getCredentials().setPassword(CryptoUtil.encodeBase64(purePass));
 //        ident.getCredentials().setPassword(getInstance().getPassword());
         ident.login();
         return "persisted";
+    }
+    
+    public void removeCaptcha()
+    {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpServletResponse res = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        Cookie c = CookieUtil.findCookieByName(req, "captchaRequired");
+        if(c != null)
+            CookieUtil.removeCookie(res, c);
     }
 
 }

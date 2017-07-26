@@ -13,5 +13,7 @@
 	<param name="firstResult" value="#{courseQuery.firstResult}"/>
 	<param name="pageNumber" value="#{courseQuery.pageNumber}"/>
 	
+	<param name="u" value="#{instructorHome.encodedUsername}"/>
+	
 	
 </page>

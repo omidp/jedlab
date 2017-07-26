@@ -45,6 +45,20 @@
 						rendered="#{empty courseHome.instance.resources}" />
 				</p>
 			</div>
+			
+			<div class="title">
+				<i class="dropdown icon"></i> #{messages['Instructor']}
+			</div>
+			<div class="content">
+				<p>
+					<h:outputText value="#{courseHome.instance.instructor.fullname}"
+						styleClass="w3-margin"
+						rendered="#{not empty courseHome.instance.instructor}" />						
+				</p>
+				<p>
+					<s:formattedText value="#{courseHome.instance.instructor.bio}" rendered="#{not empty courseHome.instance.instructor}"></s:formattedText>
+				</p>
+			</div>
 
 
 		</div>

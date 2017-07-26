@@ -297,7 +297,7 @@ public class Member extends BasePO
         else if (StringUtil.isNotEmpty(getLastName()))
             return getLastName();
         else
-            return "";
+            return getUsername();
     }
 
     public String getActivationCode()

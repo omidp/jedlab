@@ -4,6 +4,10 @@
 
 	
 	
-	
+	<action execute="#{registerAction.sendToDashboard()}"
+		/>
+		
+	<action execute="#{instructorRegisterAction.removeCaptcha()}"
+		/>
 	
 </page>

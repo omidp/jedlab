@@ -64,6 +64,41 @@
 								
 							</p>
 							
+							<p>
+								<s:fragment rendered="#{!instructorHome.instructor.approvedMember}">
+								<s:button action="#{donate.pay(5000)}" propagation="join" value="5000 #{messages['Toman']} #{messages['Member_Fee']}"
+									rendered="false"
+									styleClass="btn btn-cta signup-btn btn-block"></s:button>
+									
+													<s:fragment rendered="#{not empty donate.paymentVO}">
+								<h1>در حال پردازش و ارسال به صفحه بانک ، لطفا منتظر شوید</h1>
+					
+													<script>
+																	jQuery(document).ready(function(){
+													
+																		jQuery("#shkForm").submit();
+													
+																	});
+													</script>
+								<div style="display: none;">
+														<form method="post"
+															action="https://sep.shaparak.ir/Payment.aspx" id="shkForm">
+															<input name="Amount" id="Amount"
+																value="#{donate.paymentVO.amount}" /> <br /> <input
+																name="ResNum" id="ResNum" value="#{donate.paymentVO.resNum}" />
+															<br /> <input name="MID" id="MID"
+																value="#{donate.paymentVO.merchantId}" /> <br /> <input
+																name="RedirectURL" id="RedirectURL"
+																value="#{donate.paymentVO.redirectUrl}" />
+															<button type="submit">Submit</button>
+														</form>
+													</div>
+								</s:fragment>	
+								
+								</s:fragment>
+									
+							</p>
+							
 							
 						</div>
 						

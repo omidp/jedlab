@@ -4,28 +4,29 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import javax.persistence.EntityManager;
+
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.IOUtils;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.framework.HibernateEntityController;
 import org.jboss.seam.international.StatusMessage.Severity;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
 
-import com.jedlab.JedLab;
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CacheManager;
-import com.jedlab.framework.ReflectionUtil;
+import com.jedlab.framework.CryptoUtil;
+import com.jedlab.framework.ErrorPageExceptionHandler;
 import com.jedlab.framework.StringUtil;
-import com.jedlab.framework.WebUtil;
+import com.jedlab.framework.TxManager;
 import com.jedlab.model.Instructor;
 import com.jedlab.model.Member;
-import com.jedlab.model.Student;
 
 @Name("instructorHome")
 @Scope(ScopeType.CONVERSATION)
@@ -34,6 +35,9 @@ public class InstructorHome extends HibernateEntityController
 
     @Logger
     Log logger;
+    
+    @In
+    EntityManager entityManager;
 
     private Member user;
 
@@ -42,12 +46,38 @@ public class InstructorHome extends HibernateEntityController
     private byte[] uploadImage;
 
     private Integer fileSize;
+    
+    private String encodedUsername;
+    
+    
+
+    public String getEncodedUsername()
+    {
+        return encodedUsername;
+    }
+
+    public void setEncodedUsername(String encodedUsername)
+    {
+        this.encodedUsername = encodedUsername;
+    }
 
     public void load()
     {
         instructor = (Instructor) getSession().get(Instructor.class,
                 Long.parseLong(String.valueOf(getSessionContext().get(Constants.CURRENT_USER_ID))));
         user = instructor;
+        if(instructor == null)
+            throw new ErrorPageExceptionHandler("instructor can not be found");
+        if(StringUtil.isNotEmpty(getEncodedUsername()))
+        {
+            String uname = CryptoUtil.decodeBase64(getEncodedUsername());
+            if(instructor.getUsername().equals(uname))
+            {
+                TxManager.beginTransaction();
+                TxManager.joinTransaction(entityManager);
+                entityManager.createQuery("update Instructor i set i.approved = true where i.id = :id").setParameter("id", instructor.getId()).executeUpdate();
+            }
+        }
     }
 
     public byte[] getUploadImage()

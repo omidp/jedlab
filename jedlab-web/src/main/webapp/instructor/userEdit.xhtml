@@ -10,6 +10,20 @@
 	<ui:define name="head">
 		<script type="text/javascript" src="#{_ctx}/js/materialize.js"> </script>
 		<link href="#{_ctx}/css/materialize.css" rel="stylesheet" />
+		<style>
+			.terms-title {
+				color: #00adbc;
+			}
+			.wrap {
+			    margin: 0 auto;
+			    max-width: 100%;
+			    padding: 0 20px;
+			    position: relative;
+			    width: 50rem;
+			    overflow:auto; 
+			    text-align: justify;
+			}
+		</style>
 	</ui:define>
 
 	<ui:define name="body">
@@ -295,6 +309,17 @@
 					</h:form>
 
 				</div>
+			</jedlab:tabPanel>
+			
+			
+			
+			<jedlab:tabPanel title="#{messages['Contract']}">
+			
+				<ui:include src="/WEB-INF/inc/contract.xhtml">
+					<ui:param name="name" value="#{instructorHome.instructor.fullname}" />
+					<ui:param name="accepted" value="#{true}" />
+				</ui:include>
+			
 			</jedlab:tabPanel>
 
 		</jedlab:tabs>

@@ -178,3 +178,7 @@ block_stats AS (
      LEFT JOIN curate_stats cs ON bs.page_id = cs.page_id 
      LEFT JOIN page_stats ps on bs.page_id = ps.page_id;
     ----------------------------DONE 
+     
+     
+     update member set discriminator = 'I' where id = 31 and email_address = 'omidpourhadi@gmail.com';
+     update course set instructor_id =31;
