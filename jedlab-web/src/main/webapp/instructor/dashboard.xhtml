@@ -17,9 +17,9 @@
 	
 		<div class="w3-content w3-margin-top" style="max-width:1400px;">
 		
-			<div class="w3-panel w3-round w3-padding w3-red rtl-dir">
+			<s:div styleClass="w3-panel w3-round w3-padding w3-red rtl-dir" rendered="#{!instructorHome.instructor.approvedMember}">
 			  <p>#{messages['Not_Approved_Member']}</p>
-			</div>  
+			</s:div>  
 			  
 			<div class="w3-row-padding">
 				
