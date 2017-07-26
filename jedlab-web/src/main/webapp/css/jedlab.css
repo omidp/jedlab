@@ -2993,7 +2993,7 @@ span.desc {
     color: #c09501;
 }
 .alert-box {
-     position: absolute;
+     position: fixed;
     right: 0;
     top: 45px;
     width: 30%;

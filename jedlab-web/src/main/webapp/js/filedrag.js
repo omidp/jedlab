@@ -62,13 +62,13 @@
 			common.notification("all fields required", "errormsg");
 			return;
 		}
-		if (!((file.type == "video/mp4" || file.type == "video/webm" || file.type == "video/mkv")) || (file.size <= jqid("MAX_FILE_SIZE").value) == false) 
+		if (!((file.type == "video/mp4" || file.type == "video/mkv"))) 
 		{
-			common.notification("mp4/webm/mkv is supported", "errormsg");
+			common.notification("mp4/mkv is supported", "errormsg");
 			return;
 		}
 		var xhr = new XMLHttpRequest();
-		if (xhr.upload && ((file.type == "video/mp4" || file.type == "video/webm")) && file.size <= jqid("MAX_FILE_SIZE").value) {
+		if (xhr.upload && ((file.type == "video/mp4") || file.type == "video/mkv")) {
 			jqid("fieldUpload").style.display = "none";
 			// create progress bar
 			var o = jqid("progress");

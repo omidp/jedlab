@@ -32,6 +32,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.omidbiz.core.axon.internal.IgnoreElement;
 
+import com.jedlab.action.Constants;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.model.enums.Gender;
 import com.jedlab.model.enums.Privacy;
@@ -46,14 +47,14 @@ import com.jedlab.model.enums.Privacy;
 @AutoCreate
 public class Member extends BasePO
 {
-    
+
     public static final String INSTRUCTOR_DISC = "I";
     public static final String STUDENT_DISC = "S";
 
     @Column(name = "user_name")
     private String username;
 
-    @Column(name = "discriminator", insertable=false, updatable=false,nullable=false)
+    @Column(name = "discriminator", insertable = false, updatable = false, nullable = false)
     private String discriminator;
 
     @Column(name = "user_pass")
@@ -108,6 +109,69 @@ public class Member extends BasePO
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String bio;
+
+    @Column(name = "national_no")
+    private String nationalNo;
+
+    @Column(name = "postal_code")
+    private String postalCode;
+
+    @Column(name = "address")
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    private String address;
+
+    @Column(name = "approved")
+    private Boolean approved;
+
+    public boolean isApprovedMember()
+    {
+        if(Constants.ROLE_INSTRUCTOR.equals(getDiscriminator()))
+        {
+            return getApproved() != null && getApproved().booleanValue() == true;
+        }
+        return true; 
+    }
+    
+    public Boolean getApproved()
+    {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved)
+    {
+        this.approved = approved;
+    }
+
+    public String getAddress()
+    {
+        return address;
+    }
+
+    public void setAddress(String address)
+    {
+        this.address = address;
+    }
+
+    public String getPostalCode()
+    {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode)
+    {
+        this.postalCode = postalCode;
+    }
+
+    public String getNationalNo()
+    {
+        return nationalNo;
+    }
+
+    public void setNationalNo(String nationalNo)
+    {
+        this.nationalNo = nationalNo;
+    }
 
     public String getDiscriminator()
     {
@@ -295,7 +359,7 @@ public class Member extends BasePO
             return getUsername();
         return getEmail();
     }
-    
+
     @IgnoreElement
     @Transient
     public String getBase64Image()
@@ -312,18 +376,17 @@ public class Member extends BasePO
             throw new UnsupportedOperationException("image can not be found to convert to base64");
         }
     }
-    
+
     @PrePersist
     public void prePrersist()
     {
         setEmail(getEmail().toLowerCase());
     }
-    
+
     @PreUpdate
     public void preUpdate()
     {
         setEmail(getEmail().toLowerCase());
     }
-
 
 }

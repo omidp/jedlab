@@ -1,6 +1,7 @@
 package com.jedlab.action;
 
 import javax.faces.context.FacesContext;
+import javax.persistence.NoResultException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.framework.EntityController;
 import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.international.StatusMessage.Severity;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.PasswordHash;
 
@@ -63,6 +65,16 @@ public class InstructorRegisterAction extends EntityController
         if (getFileSize() != null)
             if (getFileSize() > 0 && getFileSize() < 107371)
                 getInstance().setImage(getUploadImage());
+        try
+        {
+            getEntityManager().createQuery("select m from Member m where lower(m.username) = lower(:uname)")
+                    .setParameter("uname", getInstance().getUsername()).setMaxResults(1).getSingleResult();
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Username_Exists");
+            return null;
+        }
+        catch (NoResultException e)
+        {
+        }
         //validation check bu database contraints
         getInstance().setActive(Boolean.TRUE);
         getInstance().setActivationCode(null);
@@ -80,6 +92,7 @@ public class InstructorRegisterAction extends EntityController
         ident.addRole(Constants.ROLE_INSTRUCTOR);
         ident.getCredentials().setUsername(getInstance().getUsername());
         ident.getCredentials().setPassword(CryptoUtil.encodeBase64(getInstance().getPassword()));
+//        ident.getCredentials().setPassword(getInstance().getPassword());
         ident.login();
         return "persisted";
     }

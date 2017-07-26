@@ -3,12 +3,7 @@
 	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
 	
-	<navigation from-action="#{instructorRegisterAction.register()}">		
-		<rule if-outcome="persisted">
-			<redirect view-id="/instructor/dashboard.xhtml" include-page-params="false">
-			</redirect>
-		</rule>
-	</navigation>
+	
 	
 	
 </page>

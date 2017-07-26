@@ -171,9 +171,7 @@ public class ChapterHome extends EntityHome<Chapter>
                 if (folder.exists() == false)
                     folder.mkdirs();
 
-                if ((getUploadItem().getFileName().endsWith(".mp4") 
-                        || getUploadItem().getFileName().endsWith(".webm") 
-                        || getUploadItem().getFileName().endsWith(".mkv")) == false)
+                if ((getUploadItem().getFileName().endsWith(".mp4") || getUploadItem().getFileName().endsWith(".mkv")) == false)
                     throw new ErrorPageExceptionHandler("invalid format");
 
                 String fname = getUploadItem().getFileName();
@@ -182,7 +180,16 @@ public class ChapterHome extends EntityHome<Chapter>
                     fname = fname.substring(0, fname.lastIndexOf("."));
                 }
                 String filePath = folderPath + Env.FILE_SEPARATOR + fname + "_" + getInstance().getSequence();
-                final Path path = Paths.get(filePath + ".mkv");
+                String fileAbsPath = filePath;
+                if (getUploadItem().getFileName().endsWith(".mkv"))
+                {
+                    fileAbsPath += ".mkv";
+                }
+                if (getUploadItem().getFileName().endsWith(".mp4"))
+                {
+                    fileAbsPath += ".mp4";
+                }
+                final Path path = Paths.get(fileAbsPath);
                 Files.write(path, getUploadItem().getData());
                 // File file = path.toFile();
                 getInstance().setUrl(filePath + ".mp4");
@@ -336,11 +343,12 @@ public class ChapterHome extends EntityHome<Chapter>
                 if (course.isOwner())
                 {
                     getEntityManager().createQuery("delete from MemberCourse mc where mc.chapter.id = :cid and mc.course.id = :courseId")
-                    .setParameter("cid", Long.parseLong(idParam)).setParameter("courseId", Long.parseLong(courseIdParam))
-                    .executeUpdate();
+                            .setParameter("cid", Long.parseLong(idParam)).setParameter("courseId", Long.parseLong(courseIdParam))
+                            .executeUpdate();
                     try
                     {
-                        Chapter c = (Chapter) getEntityManager().createQuery("select c from Chapter c where c.id = :cid and c.course.id = :courseId")
+                        Chapter c = (Chapter) getEntityManager()
+                                .createQuery("select c from Chapter c where c.id = :cid and c.course.id = :courseId")
                                 .setParameter("cid", Long.parseLong(idParam)).setParameter("courseId", Long.parseLong(courseIdParam))
                                 .getSingleResult();
                         Path path = Paths.get(c.getUrl());

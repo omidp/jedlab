@@ -1,0 +1,279 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jedlab="http://tasktops.com/ui"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<script type="text/javascript" src="#{_ctx}/js/materialize.js"> </script>
+		<link href="#{_ctx}/css/materialize.css" rel="stylesheet" />
+	</ui:define>
+
+	<ui:define name="body">
+
+
+		<jedlab:tabs>
+
+			<jedlab:tabPanel title="#{messages['General_Info']}">
+				<div
+					class="ui two column middle aligned very relaxed stackable grid w3-margin">
+
+					<div class="center aligned column locale-dir" id="profilePanel">
+
+						<h3 class="ui block header">#{messages['Profile_Information']}</h3>
+						<div class="ui borderless segment">
+							<div class="ui top right attached label">
+								<h:outputText value="#{jedLab.currentUser.username}" />
+							</div>
+							<div class="avatar-wrapper">
+								<div class="avatar"></div>
+							</div>
+
+							<h:form enctype="multipart/form-data" id="profileImageForm">
+								<div class="ui top left attached red label" id="delImage"
+									style="cursor: pointer;"
+									data-content="#{messages['Delete_Image']}">
+									<i class="icon-cancel-circle" />
+								</div>
+								<a id="imgLink" class="ui centered medium image"
+									style="cursor: pointer; margin-left: 15px; margin-bottom: 10px;">
+									<s:fragment rendered="#{!instructorHome.instructor.hasImage}">
+										<h:graphicImage value="/images/image-text.png" />
+
+									</s:fragment> <s:graphicImage value="#{instructorHome.instructor.image}"
+										rendered="#{instructorHome.instructor.hasImage}">
+										<s:transformImageSize height="164" width="164"></s:transformImageSize>
+									</s:graphicImage>
+
+								</a>
+								<a id="change-picture" style="cursor: pointer;font-size: 12px;color:#AD5353;direction:rtl;">#{messages['Change_Picture']}
+									(#{messages['File_Size_Info']})</a>
+								<div style="display: none;">
+									<s:fileUpload id="file" data="#{instructorHome.uploadImage}"
+										onchange="onUploaderChange();" accept="images/*"
+										fileSize="#{instructorHome.fileSize}" />
+									<h:commandButton action="#{instructorHome.update()}"
+										value="#{messages['Update']}" id="btnImageUpdate"
+										styleClass="ui primary button"></h:commandButton>
+								</div>
+							</h:form>
+
+							<h:form id="profileForm" styleClass="ui large form"
+								style="margin-top:12px;">
+
+								<s:decorate id="emailField" template="/layout/edit.xhtml">
+									<h:inputText value="#{instructorHome.user.email}" required="true"
+										disabled="true" />
+									<ui:define name="label">
+									#{messages['Email']}
+								</ui:define>
+								</s:decorate>
+
+
+								<div class="actionButtons">
+									<h:commandButton action="#{instructorHome.update()}"
+										value="#{messages['Update']}" id="btnUpdate"
+										styleClass="btn btn-blue">
+									</h:commandButton>
+								</div>
+							</h:form>
+
+						</div>
+					</div>
+
+					<div class="ui vertical divider"></div>
+
+					<div class="center aligned column locale-dir"
+						id="changePasswordPanel">
+
+						<h3 class="ui block header">#{messages['Change_Password']}</h3>
+						<div class="ui borderless segment">
+
+
+							<s:decorate id="currentPassField" template="/layout/edit.xhtml">
+								<h:inputSecret id="currentPassInp" required="true" />
+								<ui:define name="label">
+								#{messages['Current_Password']}
+							</ui:define>
+							</s:decorate>
+
+							<s:decorate id="NewPassField" template="/layout/edit.xhtml">
+								<h:inputSecret id="passInp" required="true" />
+								<ui:define name="label">
+								#{messages['New_Password']}
+							</ui:define>
+							</s:decorate>
+
+							<s:decorate id="RptNewPassField" template="/layout/edit.xhtml">
+								<h:inputSecret id="confirmPassInp" required="true" />
+								<ui:define name="label">
+								#{messages['Repeat']} #{' '} #{messages['New_Password']}
+							</ui:define>
+							</s:decorate>
+
+							<h:form id="changePasswdForm">
+								<h:inputHidden value="#{changePasswordAction.currentPassword}"
+									id="currentPass" required="true" />
+								<h:inputHidden value="#{changePasswordAction.password}"
+									id="pass" required="true" />
+								<h:inputHidden value="#{changePasswordAction.confirmPassword}"
+									id="confirmPass" required="true" />
+								<div class="actionButtons">
+									<h:commandButton
+										action="#{changePasswordAction.changePassword()}"
+										value="#{messages['Change_Password']}" id="btnChangePass"
+										styleClass="btn btn-blue">
+									</h:commandButton>
+								</div>
+							</h:form>
+
+						</div>
+
+					</div>
+				</div>
+				<script>
+		//<![CDATA[
+			jQuery(document).ready(function(){
+				
+				jQuery("#changePasswordPanel").find(":input[type='password']").on('focus', function(){					
+					jQuery(this).on('keypress', function(e){									
+						if (e.keyCode == 13) { 
+								jQuery("#changePasswdForm\\:btnChangePass").click();	
+						 } else return true;
+
+						});
+				});
+				jQuery("#profilePanel").find(":input[type='text']").on('focus', function(){					
+					document.forms['profileForm'].onkeypress = new Function("event", "{var keycode;if (window.event) keycode = window.event.keyCode;else if (event) keycode = event.which;else return true;if (keycode == 13) { document.getElementById('profileForm:btnUpdate').click();return false; } else return true; }");
+				});
+				jQuery("#changePasswdForm\\:btnChangePass").click(function(e){					
+					var v = isChangePassValid();
+					if(!v)
+					{
+						e.preventDefault();
+					}
+					else
+					{
+						jQuery("#changePasswdForm\\:currentPass").val(btoa(jQuery("#currentPassField\\:currentPassInp").val()));
+						jQuery("#changePasswdForm\\:pass").val(btoa(jQuery("#NewPassField\\:passInp").val()));
+						jQuery("#changePasswdForm\\:confirmPass").val(btoa(jQuery("#RptNewPassField\\:confirmPassInp").val()));
+						
+					}
+				});
+			});
+			function isChangePassValid()
+			{
+				var valid = true;
+				jQuery("#changePasswordPanel").find(":input[type='password']").each(function(){
+					var _self = jQuery(this);
+					if(_self.val() == '')
+					{
+						_self.addClass("required");
+						setTimeout(function(){_self.removeClass("required");}, 500);
+						valid = false;						
+					}
+				});
+				return valid;
+				
+			}
+			//]]>
+		</script>
+
+				<script>
+			jQuery(document).ready(function(){
+				Materialize.updateTextFields();
+				jQuery('#delImage').popup();
+				jQuery("#imgLink").click(function(){
+					jQuery("#profileImageForm\\:file").click();
+				});
+				var txt = common.initUploader(document.getElementById("profileImageForm:file"));
+				jQuery("#change-picture").html("#{messages['Select_Image']} (#{messages['File_Size_Info']})");
+				jQuery("#change-picture").click(function(){
+					jQuery("#profileImageForm\\:file").click();
+				});
+			});
+			function onUploaderChange()
+			{
+				var txt = common.initUploader(document.getElementById("profileImageForm:file"));
+				//jQuery("#imgDesc").html(txt);
+				jQuery("#profileImageForm\\:btnImageUpdate").click();
+			}
+			jQuery("#delImage").click(function(){
+				jQuery("#profileImageForm\\:btnImageUpdate").click();
+			});
+		</script>
+
+			</jedlab:tabPanel>
+
+			<jedlab:tabPanel title="#{messages['Profile_Detail']}">
+				<div style="margin: 50px; height: 100%;" class="locale-direction">
+					<h:form styleClass="form" id="formprofileDetail">
+
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['First_Name']}</ui:define>
+							<h:inputText value="#{instructorHome.instructor.firstName}"
+								styleClass="w3-input" maxlength="160" required="false" />
+						</s:decorate>
+
+
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['Last_Name']}</ui:define>
+							<h:inputText value="#{instructorHome.instructor.lastName}" maxlength="50"
+								dir="ltr" style="direction:ltr;" styleClass="w3-input" />
+						</s:decorate>
+
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['Age']}</ui:define>
+							<h:inputText value="#{instructorHome.instructor.age}"
+								styleClass="w3-input" maxlength="2" required="false" converter="javax.faces.Integer">
+								
+							</h:inputText>	
+						</s:decorate>
+
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['Gender']}</ui:define>
+							<div class="input-field col s12 m6">
+							<h:selectOneMenu value="#{instructorHome.instructor.gender}" styleClass="browser-default">
+								<s:selectItems value="#{genders}" var="_g" label="#{_g.label}" noSelectionLabel="-- #{messages['Please_Select']} --"></s:selectItems>
+								<s:convertEnum></s:convertEnum>
+							</h:selectOneMenu>	
+							</div>
+						</s:decorate>
+						
+						
+						<s:decorate template="/layout/simpleEdit.xhtml">
+							<ui:define name="label">#{messages['Privacy']}</ui:define>
+							<div class="input-field col s12 m6">
+							<h:selectOneMenu value="#{instructorHome.instructor.privacy}" styleClass="browser-default">
+								<s:selectItems value="#{privacies}" var="_p" label="#{_p.label}" noSelectionLabel="-- #{messages['Please_Select']} --"></s:selectItems>
+								<s:convertEnum></s:convertEnum>
+							</h:selectOneMenu>	
+							</div>
+						</s:decorate>
+
+
+						<div class="form-item">
+
+							<h:commandButton value="#{messages['Save']}" id="btnSave"
+								styleClass="btn btn-blue w3-margin"
+								action="#{instructorHome.update()}" > 
+
+							</h:commandButton>
+
+							
+						</div>
+
+					</h:form>
+
+				</div>
+			</jedlab:tabPanel>
+
+		</jedlab:tabs>
+
+
+
+	</ui:define>
+</ui:composition>

@@ -113,9 +113,9 @@
 				<s:decorate id="fieldUpload" template="/layout/simpleEdit.xhtml"
 					rendered="#{s:hasRole('Admin') == false}">
 					<ui:define name="label">#{messages['Chapter_Files']}</ui:define>
-					<ui:define name="desc">پسوندهای مجاز : webm / mp4 / mkv</ui:define>
+					<ui:define name="desc">پسوندهای مجاز : mp4 / mkv</ui:define>
 					<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE"
-						value="3000000" />
+						value="999999999" />
 					<div>
 						<label for="fileselect"></label> <input type="file"
 							id="fileselect" name="fileselect" />
@@ -145,9 +145,9 @@
 	</s:fragment>
 
 	<h:form styleClass="form w3-margin">
-
+		<hr />
 		<s:div rendered="#{empty chapterQuery.resultList}"
-			styleClass="w3-container w3-green w3-xxlarge locale-direction">
+			styleClass="w3-panel w3-green w3-round w3-padding locale-direction">
 			<h:outputText value="#{messages['No_Chapter']}" />
 		</s:div>
 

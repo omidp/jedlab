@@ -135,6 +135,38 @@
 									</div>
 									
 									<div class="field">
+										<s:decorate id="nationalNoField" template="/layout/edit.xhtml">
+											<ui:param name="required" value="#{true}" />
+											<ui:define name="prefix">
+												
+											</ui:define>
+											<h:inputText 
+												value="#{instructorRegisterAction.instance.nationalNo}" 												
+												id="nationaNo"
+												required="true"/>
+											<ui:define name="label">
+												#{messages['National_No']}
+											</ui:define>
+										</s:decorate>
+									</div>
+									
+									<div class="field">
+										<s:decorate id="postalCodeField" template="/layout/edit.xhtml">
+											
+											<ui:define name="prefix">
+												
+											</ui:define>
+											<h:inputText 
+												value="#{instructorRegisterAction.instance.postalCode}" 												
+												id="postalCode"
+												required="true"/>
+											<ui:define name="label">
+												#{messages['Postal_Code']}
+											</ui:define>
+										</s:decorate>
+									</div>
+									
+									<div class="field">
 										<s:decorate id="bioField" template="/layout/edit.xhtml">									
 											<ui:define name="prefix">
 												
@@ -151,6 +183,22 @@
 									</div>
 									
 									<div class="field">
+										<s:decorate id="addressField" template="/layout/edit.xhtml">									
+											<ui:define name="prefix">
+												
+											</ui:define>
+											<h:inputTextarea 
+												rows="6"
+												value="#{instructorRegisterAction.instance.address}"										
+												id="address"
+												/>
+											<ui:define name="label">
+												#{messages['Address']}
+											</ui:define>
+										</s:decorate>
+									</div>
+									
+									<div class="field">
 										<s:decorate id="imageField" template="/layout/edit.xhtml">									
 											<ui:define name="prefix">
 												
@@ -159,6 +207,7 @@
 												 accept="images/*"
 												fileSize="#{instructorRegisterAction.fileSize}" />
 											<ui:define name="label">
+											#{messages['Image']}
 											</ui:define>
 										</s:decorate>
 									</div>

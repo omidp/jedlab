@@ -35,59 +35,63 @@ public class FFMPEGCommandLine
 
     public void run()
     {
-        ByteArrayOutputStream out = null;
-        OutputStream os = null;
-        try
+        if (file.getName().endsWith(".mkv"))
         {
-            if (file.exists() == false)
+
+            ByteArrayOutputStream out = null;
+            OutputStream os = null;
+            try
             {
-                throw new IllegalAccessException("File not found");
-            }
-            String fileMp4 = file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf("."));
-            fileMp4 = fileMp4 + ".mp4";
-            //
-            CommandLine cmdLine = new CommandLine("ffmpeg");
-            Map map = new HashMap();
-            map.put("FILEPATH", file.getAbsolutePath());
-            map.put("OUTPUT", fileMp4);
-            if (Env.isDevMode())
-            {
-                for (int i = 0; i < dev_options.length; i++)
+                if (file.exists() == false)
                 {
-                    String cmdArg = dev_options[i];
-                    cmdLine.addArgument(cmdArg, true);
+                    throw new IllegalAccessException("File not found");
+                }
+                String fileMp4 = file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf("."));
+                fileMp4 = fileMp4 + ".mp4";
+                //
+                CommandLine cmdLine = new CommandLine("ffmpeg");
+                Map map = new HashMap();
+                map.put("FILEPATH", file.getAbsolutePath());
+                map.put("OUTPUT", fileMp4);
+                if (Env.isDevMode())
+                {
+                    for (int i = 0; i < dev_options.length; i++)
+                    {
+                        String cmdArg = dev_options[i];
+                        cmdLine.addArgument(cmdArg, true);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < options.length; i++)
+                    {
+                        String cmdArg = options[i];
+                        cmdLine.addArgument(cmdArg, true);
+                    }
+                }
+                cmdLine.setSubstitutionMap(map);
+                DefaultExecutor executor = new DefaultExecutor();
+                ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000);
+                FFMPEGResultHandler resultHandler = new FFMPEGResultHandler(watchdog);
+                out = new ByteArrayOutputStream();
+                os = new FileOutputStream(new File(Env.USER_HOME + File.separator + "video_convert_error.txt"));
+                PumpStreamHandler psh = new PumpStreamHandler(out, os);
+                executor.setStreamHandler(psh);
+                executor.execute(cmdLine, resultHandler);
+                // resultHandler.waitFor();
+                if (resultHandler.hasResult())
+                {
                 }
             }
-            else
+            catch (Exception e)
             {
-                for (int i = 0; i < options.length; i++)
-                {
-                    String cmdArg = options[i];
-                    cmdLine.addArgument(cmdArg, true);
-                }
+                e.printStackTrace();
             }
-            cmdLine.setSubstitutionMap(map);
-            DefaultExecutor executor = new DefaultExecutor();
-            ExecuteWatchdog watchdog = new ExecuteWatchdog(2 * 1000);
-            FFMPEGResultHandler resultHandler = new FFMPEGResultHandler(watchdog);
-            out = new ByteArrayOutputStream();
-            os = new FileOutputStream(new File(Env.USER_HOME + File.separator + "video_convert_error.txt"));
-            PumpStreamHandler psh = new PumpStreamHandler(out, os);
-            executor.setStreamHandler(psh);
-            executor.execute(cmdLine, resultHandler);
-            // resultHandler.waitFor();
-            if (resultHandler.hasResult())
+            finally
             {
+                IOUtils.closeQuietly(out);
+                IOUtils.closeQuietly(os);
             }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        finally
-        {
-            IOUtils.closeQuietly(out);
-            IOUtils.closeQuietly(os);
         }
     }
 

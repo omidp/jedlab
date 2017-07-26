@@ -66,13 +66,16 @@
 		
 			<s:link propagation="none" rendered="#{identity.loggedIn and s:hasRole('Student')}" 
 						styleClass="w3-padding-menu-item w3-hover-white" 
+						includePageParams="false"
 						view="/member/userEdit.xhtml"
 						value="#{loginActionManager.currentUsername} #{messages['Welcome']}">
 						<i class="icon-user-tie"></i>
 			</s:link>
 			
 			<s:link propagation="none" rendered="#{identity.loggedIn and !s:hasRole('Student')}" 
-						styleClass="w3-padding-menu-item w3-hover-white" 						
+						styleClass="w3-padding-menu-item w3-hover-white" 	
+						includePageParams="false"
+						view="/instructor/userEdit.xhtml"					
 						value="#{loginActionManager.currentUsername} #{messages['Welcome']}">
 						<i class="icon-user-tie"></i>
 			</s:link>
