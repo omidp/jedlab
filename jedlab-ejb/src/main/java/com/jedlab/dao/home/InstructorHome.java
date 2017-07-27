@@ -47,20 +47,6 @@ public class InstructorHome extends HibernateEntityController
 
     private Integer fileSize;
     
-    private String encodedUsername;
-    
-    
-
-    public String getEncodedUsername()
-    {
-        return encodedUsername;
-    }
-
-    public void setEncodedUsername(String encodedUsername)
-    {
-        this.encodedUsername = encodedUsername;
-    }
-
     public void load()
     {
         instructor = (Instructor) getSession().get(Instructor.class,
@@ -68,16 +54,7 @@ public class InstructorHome extends HibernateEntityController
         user = instructor;
         if(instructor == null)
             throw new ErrorPageExceptionHandler("instructor can not be found");
-        if(StringUtil.isNotEmpty(getEncodedUsername()))
-        {
-            String uname = CryptoUtil.decodeBase64(getEncodedUsername());
-            if(instructor.getUsername().equals(uname))
-            {
-                TxManager.beginTransaction();
-                TxManager.joinTransaction(entityManager);
-                entityManager.createQuery("update Instructor i set i.approved = true where i.id = :id").setParameter("id", instructor.getId()).executeUpdate();
-            }
-        }
+        
     }
 
     public byte[] getUploadImage()
