@@ -126,6 +126,21 @@ public class Member extends BasePO
 
     @Column(name = "sheba")
     private String sheba;
+    
+    @Column(name = "subscribe")
+    private Boolean subscribe;
+    
+    
+
+    public Boolean getSubscribe()
+    {
+        return subscribe;
+    }
+
+    public void setSubscribe(Boolean subscribe)
+    {
+        this.subscribe = subscribe;
+    }
 
     public String getSheba()
     {
@@ -401,6 +416,7 @@ public class Member extends BasePO
         setEmail(getEmail().toLowerCase());
         if(isInstructor())
             setApproved(false);
+        setSubscribe(true);
     }
 
     @PreUpdate

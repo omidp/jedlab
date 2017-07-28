@@ -270,7 +270,44 @@
 
 				</div>
 			</jedlab:tabPanel>
+			
+			
+			
+			<jedlab:tabPanel title="#{messages['Settings']}">
+				<div style="margin: 50px; height: 100%;" class="locale-direction">
+					
+					<h:form styleClass="form" id="settingsForm">
+						<div class="field">
+							<s:decorate id="subField" template="/layout/edit.xhtml">
+								<h:selectBooleanCheckbox id="subscribe" value="#{userHome.student.subscribe}"  dir="rtl"  />
+								<label for="settingsForm:subField:subscribe">
+	  											
+	  							</label>
+	  							<h:outputText value="#{messages['Unsubscribe']}" styleClass="w3-margin w3-text-khaki" style="position:absolute" /> 			 
+								<ui:define name="label">
+								</ui:define>
+							</s:decorate>
+						</div>
+						<br/>
+						<div class="form-item">
 
+							<h:commandButton value="#{messages['Update']}" id="btnSetSave"
+								styleClass="btn btn-blue w3-margin w3-padding"
+								action="#{userHome.update()}" > 
+
+							</h:commandButton>
+							#{' '}
+							
+							
+
+							
+						</div>
+						
+					</h:form>			
+				
+				</div>
+			</jedlab:tabPanel>
+			
 		</jedlab:tabs>
 
 

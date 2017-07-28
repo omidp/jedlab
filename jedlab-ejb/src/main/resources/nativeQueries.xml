@@ -4,4 +4,14 @@
  SELECT *
    FROM jbpm_variableinstance v WHERE v.process_id =?
 </jbpm>
+<framework queryName="deleteBuilder">
+<![CDATA[
+SELECT distinct on(tc.table_name) tc.table_name as "foreign_table", ccu.table_name as "main_table", ccu.column_name as "ref_column",
+kcu.column_name as "foreign_column", tc.constraint_type, tc.constraint_name
+FROM information_schema.constraint_column_usage ccu
+JOIN information_schema.table_constraints tc ON ccu.constraint_name = tc.constraint_name
+JOIN information_schema.key_column_usage kcu ON tc.constraint_name = kcu.constraint_name
+WHERE ccu.table_schema='public' AND ccu.table_name= ? AND tc.constraint_type = 'FOREIGN KEY' 
+]]>
+</framework>
 </nativeQueries>

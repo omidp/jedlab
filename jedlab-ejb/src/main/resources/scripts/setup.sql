@@ -182,3 +182,5 @@ block_stats AS (
      
      update member set discriminator = 'I' where id = 31 and email_address = 'omidpourhadi@gmail.com';
      update course set instructor_id =31;
+     ----------------------------DONE 
+     update member set subscribe = true;
