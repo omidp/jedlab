@@ -24,10 +24,12 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.international.StatusMessage;
+import org.jboss.seam.international.StatusMessage.Severity;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.security.Identity;
 
 import com.jedlab.JedLab;
+import com.jedlab.UploadItem;
 import com.jedlab.action.Constants;
 import com.jedlab.framework.CollectionUtil;
 import com.jedlab.framework.PageExceptionHandler;
@@ -49,6 +51,15 @@ public class CourseHome extends EntityHome<Course>
 {
 
     private final static Pattern p = Pattern.compile("-?\\d+");
+    
+    private UploadItem uploadItem = new UploadItem();
+    
+    
+
+    public UploadItem getUploadItem()
+    {
+        return uploadItem;
+    }
 
     public void setCourseId(Long id)
     {
@@ -97,6 +108,13 @@ public class CourseHome extends EntityHome<Course>
             {
                getInstance().setPublished(false);
                getInstance().setActive(false);
+            }
+        }
+        if(getUploadItem().getData() != null && getUploadItem().getData().length > 0)
+        {
+            if (getUploadItem().getFileSize() != null && getUploadItem().getFileSize() <= 107371)
+            {
+                getInstance().setImage(getUploadItem().getData());
             }
         }
     }

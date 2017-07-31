@@ -19,7 +19,7 @@
 			
 			<s:fragment rendered="#{courseHome.managed}">
 			<div style="width: 100%;margin: 0 auto;text-align: center;" class="w3-margin-top">
-					<s:graphicImage value="#{courseHome.instance.image}"
+					<s:graphicImage value="#{courseHome.instance.image}"						 
 						 styleClass="ui medium image" rendered="#{courseHome.instance.hasImage}">
 						<s:transformImageSize maintainRatio="true" height="250"></s:transformImageSize>
 					</s:graphicImage>
@@ -39,7 +39,8 @@
 					<fieldset>
 						<legend>#{messages['Image']} #{messages['Course']}</legend>
 			
-								<s:fileUpload id="file" data="#{courseHome.instance.image}"
+								<s:fileUpload id="file" data="#{courseHome.uploadItem.data}"
+									fileSize="#{courseHome.uploadItem.fileSize}"
 									accept="images/*" />
 							
 						
