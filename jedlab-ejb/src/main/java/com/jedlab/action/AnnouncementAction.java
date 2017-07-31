@@ -57,7 +57,7 @@ public class AnnouncementAction extends HibernateEntityController
             return null;
         
         //
-        List<Member> members = getSession().createQuery("select m from Member m where m.username is not null").list();
+        List<Member> members = getSession().createQuery("select m from Member m where m.username is not null and m.active = true and m.subscribe = true").list();
         //
         if (StringUtil.isNotEmpty(getSubject()))
         {

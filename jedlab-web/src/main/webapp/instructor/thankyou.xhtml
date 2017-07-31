@@ -1,0 +1,44 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<style>
+#content h1 {
+	color: #00aaab;
+	font-size: 36px;
+	font-weight: 600;
+	margin-bottom: 40px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div class="ui container">
+			<div
+				class="ui middle aligned equal width center aligned padded grid w3-margin">
+
+				<div class="row centerContent">
+
+						<div class="column">
+							<div class="ui piled segment" id="content">
+								<h1>ممنون از اینکه سایت جدلب را برای آموزش انتخاب کردید</h1>
+								<p class="locale-direction">
+									پرداخت شما با موفقیت انجام شد
+								</p>
+								
+							</div>
+	
+						</div>
+					
+
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

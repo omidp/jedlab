@@ -6,12 +6,14 @@
 	
 	<action execute="#{instructorHome.load()}"/>
 	
+	
 	<end-conversation />
 	
 	<param name="courseId" value="#{workflowAction.courseId}"/>
 	
 	<param name="firstResult" value="#{courseQuery.firstResult}"/>
 	<param name="pageNumber" value="#{courseQuery.pageNumber}"/>
+	
 	
 	
 </page>

@@ -10,16 +10,22 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.international.StatusMessage;
+
+@Name("nationalCodeValidator") 
+@BypassInterceptors 
+@org.jboss.seam.annotations.faces.Validator
 public class NationalCodeValidator implements Validator
 {
 
     @Override
     public void validate(FacesContext fc, UIComponent component, Object object) throws ValidatorException
     {
-        UIInput input = (UIInput) component;
-        String value = (String) input.getValue();
+        String value = (String) object;
         FacesMessage fcMsg = new FacesMessage();
-        fcMsg.setSummary("Invalid code");
+        fcMsg.setSummary(StatusMessage.getBundleMessage("Invalid_National_No", ""));
         if (value != null)
         {
             if (!isLengthTen(value))

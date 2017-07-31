@@ -64,6 +64,41 @@
 								
 							</p>
 							
+							<p>
+								<s:fragment rendered="#{!instructorHome.instructor.approvedMember}">
+									<s:button action="#{membershipAction.pay(5000)}" propagation="join" value="  #{messages['Pay']}  #{messages['Member_Fee']} "										
+										styleClass="btn btn-cta signup-btn btn-block"></s:button>
+									
+									<s:fragment rendered="#{not empty membershipAction.paymentVO}">
+				
+										<script>
+											jQuery(document).ready(function(){
+												    common.showLoading();
+													jQuery("#shkForm").submit();
+													
+											});
+										</script>
+										<div style="display: none;">
+											<form method="post"
+												action="https://sep.shaparak.ir/Payment.aspx" id="shkForm">
+												<input name="Amount" id="Amount"
+														value="#{membershipAction.paymentVO.amount}" /> <br /> 
+														<input
+														name="ResNum" id="ResNum" value="#{membershipAction.paymentVO.resNum}" />
+														<br /> 
+														<input name="MID" id="MID"
+															value="#{membershipAction.paymentVO.merchantId}" /> <br /> <input
+															name="RedirectURL" id="RedirectURL"
+															value="#{membershipAction.paymentVO.redirectUrl}" />
+															<button type="submit">Submit</button>
+											</form>
+										</div>
+									</s:fragment>	
+								
+								</s:fragment>
+									
+							</p>
+							
 							
 						</div>
 						
