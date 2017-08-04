@@ -234,6 +234,17 @@
 		<servlet-name>Podcast Player Servlet</servlet-name>
 		<servlet-class>com.jedlab.PodcastPlayerServlet</servlet-class>
 	</servlet>
+	
+	
+	<servlet-mapping>
+		<servlet-name>Free Player Servlet</servlet-name>
+		<url-pattern>/player/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Free Player Servlet</servlet-name>
+		<servlet-class>com.jedlab.FreePlayerServlet</servlet-class>
+	</servlet>
 
 	
 	
