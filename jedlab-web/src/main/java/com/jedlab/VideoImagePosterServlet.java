@@ -58,7 +58,7 @@ public class VideoImagePosterServlet extends HttpServlet
                 {
                     Thumbnails.of(bis).size(250, 250).toOutputStream(bos);
                     byte[] imageData = bos.toByteArray();
-                    resp.setContentType("image/xyz");
+                    resp.setContentType("image/png");
                     resp.setContentLength(imageData.length);
                     ServletOutputStream ouputStream = resp.getOutputStream();
                     ouputStream.write(imageData, 0, imageData.length);
