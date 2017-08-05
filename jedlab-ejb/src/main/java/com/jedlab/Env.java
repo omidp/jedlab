@@ -139,4 +139,9 @@ public final class Env
         return prop.getProperty("STORY_LOC");
     }
     
+    public static String getRepositoryLocation()
+    {
+        return prop.getProperty("REPOSITORY_LOC");
+    }
+    
 }
