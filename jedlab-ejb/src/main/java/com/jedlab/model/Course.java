@@ -38,7 +38,7 @@ import org.omidbiz.core.axon.internal.IgnoreElement;
 import com.jedlab.action.Constants;
 import com.jedlab.framework.StringUtil;
 
-@NamedQuery(name=Course.FIND_WITH_INSTRUCTOR_BY_ID, query="select c from Course c join fetch c.instructor i where c.id = :courseId")
+@NamedQuery(name = Course.FIND_WITH_INSTRUCTOR_BY_ID, query = "select c from Course c join fetch c.instructor i where c.id = :courseId")
 @Entity
 @Table(name = "course", schema = "public")
 // @Where(clause = " is_active = 'true' ")
@@ -46,7 +46,7 @@ public class Course extends BasePO
 {
 
     public static final String FIND_WITH_INSTRUCTOR_BY_ID = "course.findWithInstructor";
-    
+
     @Column(name = "name")
     private String name;
 
@@ -117,6 +117,9 @@ public class Course extends BasePO
     @Column(name = "download_price", columnDefinition = " bigint DEFAULT 0")
     private Integer downloadPrice;
 
+    @Column(name = "discount_code")
+    private String discountCode;
+
     @Transient
     private Long chapterCount;
 
@@ -132,7 +135,17 @@ public class Course extends BasePO
 
     @Column(name = "published")
     private boolean published;
-    
+
+    public String getDiscountCode()
+    {
+        return discountCode;
+    }
+
+    public void setDiscountCode(String discountCode)
+    {
+        this.discountCode = discountCode;
+    }
+
     @Transient
     public boolean isOwner()
     {
@@ -424,7 +437,7 @@ public class Course extends BasePO
     {
         return getPrice() == null || getPrice().compareTo(BigDecimal.ZERO) == 0;
     }
-    
+
     @Transient
     public boolean isFreeForDownload()
     {
@@ -443,19 +456,25 @@ public class Course extends BasePO
         setViewCount(new Long(0));
         setLanguage(Language.PERSIAN);
     }
-    
+
     @Transient
     public boolean isEditable()
     {
         return processInstanceId == null && !active;
     }
-    
+
     @Transient
     public String getViewCountFormatted()
     {
-        if(getViewCount() == null)
+        if (getViewCount() == null)
             return "0";
         return StringUtil.formatViewCount(getViewCount());
+    }
+    
+    @Transient
+    public boolean isHasDiscount()
+    {
+        return StringUtil.isNotEmpty(getDiscountCode());
     }
 
 }

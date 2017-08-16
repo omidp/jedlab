@@ -27,6 +27,7 @@ import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessage.Severity;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.util.RandomStringUtils;
 
 import com.jedlab.JedLab;
 import com.jedlab.UploadItem;
@@ -51,10 +52,20 @@ public class CourseHome extends EntityHome<Course>
 {
 
     private final static Pattern p = Pattern.compile("-?\\d+");
-    
+
     private UploadItem uploadItem = new UploadItem();
-    
-    
+
+    private boolean hasDiscount;
+
+    public boolean isHasDiscount()
+    {
+        return hasDiscount;
+    }
+
+    public void setHasDiscount(boolean hasDiscount)
+    {
+        this.hasDiscount = hasDiscount;
+    }
 
     public UploadItem getUploadItem()
     {
@@ -89,28 +100,36 @@ public class CourseHome extends EntityHome<Course>
             getEntityManager().createQuery("update Course c set c.viewCount = c.viewCount+1 where c.id = :courseId")
                     .setParameter("courseId", getCourseId()).executeUpdate();
             getEntityManager().flush();
-        }
+        }        
     }
 
     private void wire()
     {
-        if(isIdDefined())
+        if(getInstance().isHasDiscount() == false && isHasDiscount())
         {
-            if(Identity.instance().hasRole(Constants.ROLE_ADMIN))
+            getInstance().setDiscountCode(RandomStringUtils.randomAlphanumeric(15));
+        }
+        if(getInstance().isHasDiscount() && isHasDiscount() == false)
+        {
+            getInstance().setDiscountCode("");
+        }
+        if (isIdDefined())
+        {
+            if (Identity.instance().hasRole(Constants.ROLE_ADMIN))
             {
-                if(getInstance().isPublished() == false)
+                if (getInstance().isPublished() == false)
                 {
-                	getInstance().setPublished(true);
-                	getInstance().setActive(true);
+                    getInstance().setPublished(true);
+                    getInstance().setActive(true);
                 }
             }
-            if(Identity.instance().hasRole(Constants.ROLE_INSTRUCTOR) && !Identity.instance().hasRole(Constants.ROLE_ADMIN))
+            if (Identity.instance().hasRole(Constants.ROLE_INSTRUCTOR) && !Identity.instance().hasRole(Constants.ROLE_ADMIN))
             {
-               getInstance().setPublished(false);
-               getInstance().setActive(false);
+                getInstance().setPublished(false);
+                getInstance().setActive(false);
             }
         }
-        if(getUploadItem().getData() != null && getUploadItem().getData().length > 0)
+        if (getUploadItem().getData() != null && getUploadItem().getData().length > 0)
         {
             if (getUploadItem().getFileSize() != null && getUploadItem().getFileSize() <= 107371)
             {
@@ -139,6 +158,7 @@ public class CourseHome extends EntityHome<Course>
             Course course = (Course) getEntityManager()
                     .createQuery("select c from Course c LEFT OUTER JOIN c.chapters chapters where c.id = :courseId")
                     .setParameter("courseId", getId()).getSingleResult();
+            this.hasDiscount = course.isHasDiscount();
             try
             {
                 this.preview = (Preview) getEntityManager().createQuery("select p from Preview p where p.course.id = :courseId")
@@ -248,7 +268,7 @@ public class CourseHome extends EntityHome<Course>
             Course course = getEntityManager().find(Course.class, courseId);
             if (course.isFree())
             {
-                boolean freeForDownload= course.isFreeForDownload();
+                boolean freeForDownload = course.isFreeForDownload();
                 List<Chapter> chapters = getEntityManager()
                         .createQuery(
                                 "select c from Chapter c  where c.course.id = :courseId AND c.id  NOT IN (select mc.chapter.id from MemberCourse mc where mc.course.id = c.course.id AND mc.member.id = :memId)")
@@ -264,7 +284,7 @@ public class CourseHome extends EntityHome<Course>
                         Member m = new Member();
                         m.setId(uid);
                         mc.setMember(m);
-                        if(freeForDownload)
+                        if (freeForDownload)
                             mc.setCanDownload(true);
                         getEntityManager().persist(mc);
                     }

@@ -106,6 +106,12 @@
 								<ui:define name="desc">#{messages['Download_Desc']}</ui:define>
 					</s:decorate>
 					
+					<s:decorate template="/layout/simpleEdit.xhtml">
+								<ui:define name="label">#{messages['Has_Discount']}</ui:define>
+								<h:selectBooleanCheckbox value="#{courseHome.hasDiscount}" />
+								<ui:define name="desc">#{messages['Discount_Desc']}</ui:define>
+					</s:decorate>
+					
 					<s:decorate template="/layout/simpleEdit.xhtml" rendered="false">
 								<ui:define name="label">#{messages['Preview']} (http)</ui:define>
 								<h:inputText id="dlPrev" value="#{courseHome.preview.url}" style="direction:ltr;" styleClass="w3-input" >

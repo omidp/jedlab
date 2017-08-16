@@ -143,6 +143,7 @@
 									  <h3><s:link view="/instructor/courseEdit.xhtml" propagation="none" 
 									  		includePageParams="false"
 									  		style="text-color:#87CEEB"
+									  		styleClass="clickableLink"
 										  	value="#{_item.name}">
 										  	<f:param name="courseId" value="#{_item.id}"></f:param>
 										  </s:link></h3>
@@ -160,19 +161,32 @@
 									<div class="w3-container #{_item.active ? '' : 'w3-light-grey'}">
 									  <p>	   
 									  	<s:span styleClass="w3-right">
-										  <h:outputText value="#{messages['Active']}" rendered="#{_item.active}" />
-										  <h:outputText value="#{messages['Deactive']}" rendered="#{!_item.active}" styleClass="red" />
+										  										  
 									  	</s:span>
-										  <s:span styleClass="w3-left">
-										  	<h:outputText value="#{messages['Free']}"
-													rendered="#{_item.free}" />
-												<s:fragment rendered="#{!_item.free}">
+										  
+										  <div class="row" style="text-align: center;">
+										  	<div class="col">
+											  	<h:outputText value="#{messages['Active']}" rendered="#{_item.active}" />
+											  	<h:outputText value="#{messages['Deactive']}" rendered="#{!_item.active}" styleClass="red" />
+										  	</div>
+										  	<div class="col">
+										  		<h:outputText  value="#{messages['Discount_Code']} #{' '}" rendered="#{_item.hasDiscount}" />
+										  		<h:outputText style="font-weight: bold; " value="#{_item.discountCode}" rendered="#{_item.hasDiscount}" />
+										  	</div>
+										  	<div class="col">
+										  	<s:fragment rendered="#{!_item.free}">
 														<h:outputText value="#{_item.price}"  
 															converter="#{bigDecimalConverter}">
 														</h:outputText>
 														<h:outputText value="#{' '} #{messages['Toman']}" />
 												</s:fragment>
-										  </s:span>
+										  	<h:outputText value="#{messages['Free']}"
+													rendered="#{_item.free}" />
+										  	</div>
+										  </div>
+										  	
+												
+											
 										  	
 									  </p>  
 									  <div style="clear: both;"></div>

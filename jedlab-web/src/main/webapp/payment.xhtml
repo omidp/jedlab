@@ -42,14 +42,14 @@
 									<tbody>
 										<tr>
 											<td>
-												<h4 class="ui header">#{payment.paidInvoice.description}</h4>
+												<h4 class="ui header">#{payment.invoice.description}</h4>
 											</td>
 											<td>
-												<h:outputText value="#{payment.paidInvoice.paymentAmount}" converter="#{bigDecimalConverter}" />
+												<h:outputText value="#{payment.invoice.paymentAmount}" converter="#{bigDecimalConverter}" />
 												</td>
-											<td>#{payment.paidInvoice.resNo}</td>
+											<td>#{payment.invoice.resNo}</td>
 											<td><h:outputText
-													value="#{payment.paidInvoice.createdDate}"
+													value="#{payment.invoice.createdDate}"
 													converter="#{persianDateConverter}" /></td>
 										</tr>
 
@@ -61,15 +61,41 @@
 
 							<s:fragment rendered="#{!payment.paid}">
 
-								<p>در حال پردازش و ارسال به صفحه بانک ، لطفا منتظر شوید</p>
-
-								<script>
-												jQuery(document).ready(function(){
 								
-													jQuery("#shkForm").submit();
+								<s:fragment rendered="#{!payment.course.hasDiscount and !payment.postback}">
+									<h3>در حال پردازش و ارسال به صفحه بانک ، لطفا منتظر شوید</h3>
+									<script>
+													jQuery(document).ready(function(){
+									
+														jQuery("#shkForm").submit();
+									
+													});
+									</script>
+								</s:fragment>
 								
-												});
-								</script>
+								<s:fragment rendered="#{payment.course.hasDiscount}">
+									<h:form styleClass="form">
+									<input type="hidden" name="courseId" value="#{courseId}"/>
+									<s:decorate template="/layout/simpleEdit.xhtml">
+												<ui:define name="label">#{messages['Discount_Code']}</ui:define>
+												<h:inputText value="#{payment.discountCode}"
+													id="req" />													
+									</s:decorate>
+									<h:commandButton action="#{payment.checkDiscount()}"
+										styleClass="btn btn-green" 
+										value="#{messages['Go']}" />
+									</h:form>	
+								</s:fragment>
+								
+								<s:fragment rendered="#{payment.course.hasDiscount and not empty payment.discountOk}">
+									<script>
+													jQuery(document).ready(function(){
+									
+														jQuery("#shkForm").submit();
+									
+													});
+									</script>
+								</s:fragment>
 
 								<div style="display: none;">
 									<form method="post"

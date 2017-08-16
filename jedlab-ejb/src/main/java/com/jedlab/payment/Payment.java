@@ -16,6 +16,8 @@ import org.jboss.seam.util.RandomStringUtils;
 
 import com.jedlab.Env;
 import com.jedlab.action.Constants;
+import com.jedlab.framework.ErrorPageExceptionHandler;
+import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TxManager;
 import com.jedlab.model.Course;
 import com.jedlab.model.Invoice;
@@ -31,18 +33,51 @@ public class Payment extends EntityController
 
     private PaymentVO paymentVO;
 
-    private Invoice paidInvoice;
+    private Invoice invoice;
 
-    public Invoice getPaidInvoice()
+    private Course course;
+
+    private Boolean discountOk;
+
+    private String discountCode;
+
+    public Course getCourse()
     {
-        if (paidInvoice == null)
-            paidInvoice = new Invoice();
-        return paidInvoice;
+        if (course == null)
+            course = new Course();
+        return course;
+    }
+
+    public Boolean getDiscountOk()
+    {
+        return discountOk;
+    }
+
+    public void setDiscountOk(Boolean discountOk)
+    {
+        this.discountOk = discountOk;
+    }
+
+    public String getDiscountCode()
+    {
+        return discountCode;
+    }
+
+    public void setDiscountCode(String discountCode)
+    {
+        this.discountCode = discountCode;
+    }
+
+    public Invoice getInvoice()
+    {
+        if (invoice == null)
+            invoice = new Invoice();
+        return invoice;
     }
 
     public boolean isPaid()
     {
-        return getPaidInvoice().isPaid();
+        return getInvoice().isPaid();
     }
 
     public PaymentVO getPaymentVO()
@@ -66,12 +101,16 @@ public class Payment extends EntityController
         TxManager.beginTransaction();
         TxManager.joinTransaction(getEntityManager());
         Long uid = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
-        Course course = (Course) getEntityManager().createQuery("select c from Course c where c.id = :courseId")
-                .setParameter("courseId", getCourseId()).setMaxResults(1).getSingleResult();
-        Invoice invoice = findInvoice(uid, course);
-        // paid invoice is handled in UI
-        if (invoice.isPaid())
-            this.paidInvoice = invoice;
+        try
+        {
+            this.course = (Course) getEntityManager().createQuery("select c from Course c where c.id = :courseId")
+                    .setParameter("courseId", getCourseId()).setMaxResults(1).getSingleResult();
+        }
+        catch (NoResultException e)
+        {
+            throw new ErrorPageExceptionHandler("course not found");
+        }
+        this.invoice = findInvoice(uid, course);
         if (invoice.isPaid() == false)
         {
             invoice.setResNo(RandomStringUtils.randomNumeric(15));
@@ -93,8 +132,7 @@ public class Payment extends EntityController
             {
                 // update
                 getEntityManager().createQuery("update Invoice i set i.resNo = :resNo where i.id = :invoiceId")
-                .setParameter("resNo", invoice.getResNo()).setParameter("invoiceId", invoice.getId())
-                        .executeUpdate();
+                        .setParameter("resNo", invoice.getResNo()).setParameter("invoiceId", invoice.getId()).executeUpdate();
             }
             getEntityManager().flush();
 
@@ -104,8 +142,22 @@ public class Payment extends EntityController
             url = Pages.instance().encodeScheme(viewId, facesContext, url);
             url = url.substring(0, url.lastIndexOf("/") + 1);
             String redirectUrl = url + "paid.seam" + "?c=" + getCourseId();
-            paymentVO = new PaymentVO(invoice.getPaymentAmount().intValue() * 10, Env.getMerchantId(), invoice.getResNo(), redirectUrl);
+            int amt = invoice.getPaymentAmount().intValue() * 10;
+            this.discountOk = (Boolean) getConversationContext().get("discountOk");
+            if (this.discountOk != null && this.discountOk)
+                amt = amt / 2;
+            paymentVO = new PaymentVO(amt, Env.getMerchantId(), invoice.getResNo(), redirectUrl);
         }
+    }
+
+    public String checkDiscount()
+    {
+        if (StringUtil.isNotEmpty(getDiscountCode()))
+            this.discountOk = getDiscountCode().trim().equals(this.course.getDiscountCode());
+        else
+            this.discountOk = false;
+        getConversationContext().set("discountOk", discountOk);
+        return "checked";
     }
 
     private Invoice findInvoice(Long uid, Course course)
@@ -121,6 +173,11 @@ public class Payment extends EntityController
         {
         }
         return new Invoice();
+    }
+
+    public boolean isPostback()
+    {
+        return getFacesContext().getRenderKit().getResponseStateManager().isPostback(getFacesContext());
     }
 
 }

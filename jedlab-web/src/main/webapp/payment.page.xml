@@ -7,7 +7,16 @@
 
 	<param name="courseId" value="#{payment.courseId}" required="true"/>
 	
-	<action execute="#{payment.load()}"/>
+	<action execute="#{payment.load()}" on-postback="false"/>
+	
+	
+	<navigation from-action="#{payment.checkDiscount()}">	
+		<end-conversation />	
+		<rule if-outcome="checked">
+			<redirect view-id="/payment.xhtml">
+			</redirect>
+		</rule>
+	</navigation>
 	
 	
 
