@@ -370,7 +370,9 @@ public class ChapterHome extends EntityHome<Chapter>
                                 .getSingleResult();
                         Path path = Paths.get(c.getUrl());
                         Files.deleteIfExists(path);
-                        getEntityManager().remove(c);
+                        getEntityManager().createQuery("delete from Chapter c where c.id = :chapId").setParameter("chapId", c.getId())
+                                .executeUpdate();
+                        getEntityManager().flush();
                         getStatusMessages().addFromResourceBundle("Delete_Successful");
                     }
                     catch (NoResultException e)
