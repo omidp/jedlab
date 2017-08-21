@@ -184,3 +184,17 @@ block_stats AS (
      update course set instructor_id =31;
      ----------------------------DONE 
      update member set subscribe = true;
+     ----------------------------DONE 
+     
+  create or replace view total_income_view as 
+select sum(payment_amount) total_amount from (
+select 
+	case when c.discount_code is not null then
+	  cast((i.payment_amount/2) as numeric(16,2))
+	 else
+	   i.payment_amount
+	 end from invoice i
+left join course c on i.course_id = c.id
+where i.is_paid=true
+) as t   
+----------------------------DONE 

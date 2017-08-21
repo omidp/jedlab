@@ -40,6 +40,11 @@
 						</h:column>
 						
 						<h:column>
+							<f:facet name="header">Discount</f:facet>
+							<h:outputText value="#{_item.course.discountCode}" />
+						</h:column>
+						
+						<h:column>
 							<f:facet name="header">
 								<s:decorate template="/layout/sort.xhtml">
 									<ui:param name="entityList" value="#{adminInvoiceQuery}" />
