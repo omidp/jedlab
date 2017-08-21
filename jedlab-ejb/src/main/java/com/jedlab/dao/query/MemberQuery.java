@@ -19,7 +19,8 @@ public class MemberQuery extends PagingEntityQuery<Member>
 
     private static final String EJBQL = "select m from Member m ";
 
-    private static final String[] RESTRICTIONS = {};
+    private static final String[] RESTRICTIONS = {"lower(m.username) like concat('%', #{memberQuery.member.username})",
+        "lower(m.email) like concat('%', #{memberQuery.member.email})"};
 
     Member member = new Member();
 

@@ -4,6 +4,8 @@
 
 	<param name="firstResult" value="#{memberQuery.firstResult}" />
 	<param name="pageNumber" value="#{memberQuery.pageNumber}" />
+	
+	<param name="username" value="#{memberQuery.member.username}" />
 
 
 	<navigation from-action="#{userHome.activateToggle()}">

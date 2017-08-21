@@ -10,11 +10,17 @@
 		<div class="ui grid  w3-padding-top-48">
 
 			<div class="column">
-
-				<div class="ui header">
-					Total users :
-					<h:outputText value="#{memberQuery.resultCount}" />
-				</div>
+				<h:form>
+					<div class="ui header" style="float:left">
+						Total users :
+						<h:outputText value="#{memberQuery.resultCount}" />
+					</div>
+					<div  style="float:right">
+						<h:commandButton action="#{webContext.redirectIt()}" 
+							value="#{messages['Search']}" styleClass="btn btn-blue"/>
+						<h:inputText value="#{memberQuery.member.username}" id="username" />
+					</div>
+				</h:form>
 				<h:form>
 					<h:dataTable value="#{memberQuery.resultList}" var="_item"
 						styleClass="ui celled padded table" width="100%" dir="rtl">
