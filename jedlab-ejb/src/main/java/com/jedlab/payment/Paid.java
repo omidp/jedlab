@@ -137,6 +137,10 @@ public class Paid extends EntityController
                 double invoiceAmt = invoice.getPaymentAmount().doubleValue() * 10;
                 log.info("invoice amount : " + invoiceAmt);
                 log.info("bank amount : " + amt);
+                if(this.course.isHasDiscount())
+                {
+                    invoiceAmt = invoiceAmt/2;
+                }
                 if (invoiceAmt == amt)
                 {
                     // payment is ok
