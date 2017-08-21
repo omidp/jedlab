@@ -3,6 +3,7 @@ package com.jedlab.dao.home;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -417,6 +418,13 @@ public class CourseHome extends EntityHome<Course>
             }
         }
         return "updated";
+    }
+    
+    public List<Chapter> getChapterList()
+    {
+        List<Chapter> chapters = getInstance().getChapters();
+        Collections.sort(chapters);
+        return chapters;
     }
 
 }
