@@ -49,12 +49,12 @@ public class AdminInvoiceQuery extends PagingController<Invoice>
             paidAmount = BigDecimal.ZERO;
             try
             {
-                // paidAmount = (BigDecimal)
-                // getEntityManager().createQuery("select sum(i.paymentAmount) from Invoice i where i.paid = true ")
-                // .setMaxResults(1).getSingleResult();
-                paidAmount = (BigDecimal) getEntityManager()
-                        .createNativeQuery("select total_amount from total_income_view").setMaxResults(1)
-                        .getSingleResult();
+                 paidAmount = (BigDecimal)
+                 getEntityManager().createQuery("select sum(i.paymentAmount) from Invoice i where i.paid = true ")
+                 .setMaxResults(1).getSingleResult();
+//                paidAmount = (BigDecimal) getEntityManager()
+//                        .createNativeQuery("select total_amount from total_income_view").setMaxResults(1)
+//                        .getSingleResult();
             }
             catch (NoResultException e)
             {

@@ -79,14 +79,20 @@ public class Invoice extends BasePO
     private boolean paid;
 
     @Column(name = "used_discount")
-    private Boolean usedDiscount;
+    private boolean usedDiscount;
+    
+    @Transient
+    public boolean isHasDiscount()
+    {
+        return isUsedDiscount();
+    }
 
-    public Boolean getUsedDiscount()
+    public boolean isUsedDiscount()
     {
         return usedDiscount;
     }
 
-    public void setUsedDiscount(Boolean usedDiscount)
+    public void setUsedDiscount(boolean usedDiscount)
     {
         this.usedDiscount = usedDiscount;
     }
