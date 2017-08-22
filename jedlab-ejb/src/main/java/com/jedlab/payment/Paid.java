@@ -119,14 +119,14 @@ public class Paid extends EntityController
                             + " and course_id : " + String.valueOf(courseId));
                     throw new ErrorPageExceptionHandler(this.errorMessage);
                 }
+                if (uid == null)
+                    uid = invoice.getMember().getId();
                 if (this.courseId == null || uid == null)
                 {
                     log.info("purchase canceled because course not found with state " + state + " for user_id : " + uid
                             + " and course_id : " + String.valueOf(courseId));
                     throw new ErrorPageExceptionHandler(this.errorMessage);
                 }
-                if (uid == null)
-                    uid = invoice.getMember().getId();
                 this.course = (Course) getEntityManager().createQuery("select c from Course c where c.id = :courseId")
                         .setParameter("courseId", this.courseId).setMaxResults(1).getSingleResult();
                 //
@@ -136,11 +136,7 @@ public class Paid extends EntityController
                 double amt = pay.verifyTransaction(refNum, Env.getMerchantId());
                 double invoiceAmt = invoice.getPaymentAmount().doubleValue() * 10;
                 log.info("invoice amount : " + invoiceAmt);
-                log.info("bank amount : " + amt);
-                if(this.course.isHasDiscount())
-                {
-                    invoiceAmt = invoiceAmt/2;
-                }
+                log.info("bank amount : " + amt);                
                 if (invoiceAmt == amt)
                 {
                     // payment is ok

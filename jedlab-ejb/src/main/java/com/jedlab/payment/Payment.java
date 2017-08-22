@@ -125,14 +125,49 @@ public class Payment extends EntityController
                     invoice.setPaymentAmount(new BigDecimal(course.getDownloadPrice()));
                 else
                     invoice.setPaymentAmount(course.getPrice());
+                int amt = invoice.getPaymentAmount().intValue();
+                this.discountOk = (Boolean) getConversationContext().get("discountOk");
+                if (this.discountOk != null && this.discountOk)
+                {
+                    amt = amt / 2;
+                    invoice.setUsedDiscount(Boolean.TRUE);
+                }
+                else
+                {
+                    invoice.setUsedDiscount(Boolean.FALSE);
+                }
+                invoice.setPaymentAmount(new BigDecimal(amt));
                 getEntityManager().persist(invoice);
             }
 
             if (invoice.getId() != null)
             {
                 // update
-                getEntityManager().createQuery("update Invoice i set i.resNo = :resNo where i.id = :invoiceId")
-                        .setParameter("resNo", invoice.getResNo()).setParameter("invoiceId", invoice.getId()).executeUpdate();
+                int amt = invoice.getPaymentAmount().intValue();
+                if (course.isFree())
+                    amt = course.getDownloadPrice().intValue();
+                else
+                    amt = course.getPrice().intValue();
+                this.discountOk = (Boolean) getConversationContext().get("discountOk");
+                if (this.discountOk != null && this.discountOk)
+                {
+                    amt = amt / 2;
+                    getEntityManager().createQuery("update Invoice i set i.resNo = :resNo, i.paymentAmount = :amt, i.usedDiscount = true where i.id = :invoiceId")
+                            .setParameter("resNo", invoice.getResNo())
+                            .setParameter("amt", new BigDecimal(amt))
+                            .setParameter("invoiceId", invoice.getId())
+                            .executeUpdate();
+                    invoice.setPaymentAmount(new BigDecimal(amt));
+                    
+                }
+                else
+                {
+                    getEntityManager().createQuery("update Invoice i set i.resNo = :resNo, i.paymentAmount = :amt, i.usedDiscount = false where i.id = :invoiceId")
+                            .setParameter("resNo", invoice.getResNo())
+                            .setParameter("amt", new BigDecimal(amt))
+                            .setParameter("invoiceId", invoice.getId()).executeUpdate();
+                    invoice.setPaymentAmount(new BigDecimal(amt));
+                }
             }
             getEntityManager().flush();
 
@@ -142,11 +177,9 @@ public class Payment extends EntityController
             url = Pages.instance().encodeScheme(viewId, facesContext, url);
             url = url.substring(0, url.lastIndexOf("/") + 1);
             String redirectUrl = url + "paid.seam" + "?c=" + getCourseId();
-            int amt = invoice.getPaymentAmount().intValue() * 10;
-            this.discountOk = (Boolean) getConversationContext().get("discountOk");
-            if (this.discountOk != null && this.discountOk)
-                amt = amt / 2;
-            paymentVO = new PaymentVO(amt, Env.getMerchantId(), invoice.getResNo(), redirectUrl);
+            //Toman to RIAL
+            int bankAmt = invoice.getPaymentAmount().intValue() * 10;
+            paymentVO = new PaymentVO(bankAmt, Env.getMerchantId(), invoice.getResNo(), redirectUrl);
         }
     }
 

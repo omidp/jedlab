@@ -78,6 +78,19 @@ public class Invoice extends BasePO
     @Column(name = "is_paid", columnDefinition = "boolean DEFAULT false")
     private boolean paid;
 
+    @Column(name = "used_discount")
+    private Boolean usedDiscount;
+
+    public Boolean getUsedDiscount()
+    {
+        return usedDiscount;
+    }
+
+    public void setUsedDiscount(Boolean usedDiscount)
+    {
+        this.usedDiscount = usedDiscount;
+    }
+
     public String getRefNo()
     {
         return refNo;
