@@ -28,6 +28,7 @@ import com.jedlab.framework.StringUtil;
 
 @Table(name = "podcasts")
 @Entity
+@Deprecated
 public class Podcast extends BasePO
 {
 

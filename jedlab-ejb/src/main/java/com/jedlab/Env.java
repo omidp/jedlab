@@ -48,6 +48,10 @@ public final class Env
         try
         {
             stream = Env.class.getClassLoader().getResourceAsStream(Constants.CONFIG_FILE);
+            if(stream == null)
+                stream = Env.class.getResourceAsStream(Constants.CONFIG_FILE);
+            if(stream == null)
+                stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(Constants.CONFIG_FILE);
             prop.load(stream);
         }
         catch (IOException e)
