@@ -129,6 +129,8 @@ public class Paid extends EntityController
                 }
                 this.course = (Course) getEntityManager().createQuery("select c from Course c where c.id = :courseId")
                         .setParameter("courseId", this.courseId).setMaxResults(1).getSingleResult();
+                log.info("processing payment with state " + state + " for user_id : " + uid
+                        + " and course_id : " + String.valueOf(courseId));
                 //
                 SSLUtilities.trustAllHostnames();
                 SSLUtilities.trustAllHttpsCertificates();
@@ -173,6 +175,8 @@ public class Paid extends EntityController
                                 getEntityManager().persist(mc);
                             }
                         }
+                        log.info("purchase successfull with state " + state + " for user_id : " + uid
+                                + " and course_id : " + String.valueOf(courseId));     
                     }
                     getEntityManager().flush();
                     this.errorMessage = StatusMessage.getBundleMessage("Payment_Successful", "");
