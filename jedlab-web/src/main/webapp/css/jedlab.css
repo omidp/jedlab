@@ -5235,3 +5235,7 @@ h3 {
 	border-color: #a1a1a1;
 	box-shadow: 0 0 3px rgba(0, 0, 0, 0.3)
 }
+
+#vdLoader{
+	height: 35px;
+}
