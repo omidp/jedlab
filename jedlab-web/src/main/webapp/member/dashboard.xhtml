@@ -64,10 +64,14 @@
 					<br />
 				</div>
 				
+				<div class="w3-twothird locale-direction">
+					
+					<ui:include src="/WEB-INF/inc/buttonNav.xhtml" />
 				
+				</div>
 				
 				 
-				<div class="w3-twothird locale-direction">
+				<div class="w3-row locale-direction">
 					
 					<div class="w3-container w3-card-2 w3-white w3-margin-bottom">
 
@@ -126,7 +130,7 @@
 					<div class="w3-container w3-card-2 w3-white w3-margin-bottom">
 						<h2 class="w3-text-grey w3-padding-16">
 							<i class="icon-book w3-margin-left w3-xxlarge w3-text-teal"></i>
-							<h:outputText value="#{messages['Stories']}" rendered="#{not empty personalStoryQuery.resultList}" />
+							<h:outputText value="#{messages['Stories']} #{messages['Written']}" rendered="#{not empty personalStoryQuery.resultList}" />
 							<s:link propagation="none" includePageParams="false"
 								view="/story/storyList.xhtml" 
 								value="#{messages['Empty_Stories']}" rendered="#{empty personalStoryQuery.resultList}" /> 

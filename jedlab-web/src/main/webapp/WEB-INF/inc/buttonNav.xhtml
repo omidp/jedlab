@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:jedlab="http://tasktops.com/ui">
+
+	<div class="row blkcenterContent">
+		<s:link propagation="none" includePageParams="false"
+			view="/story/storyEdit.xhtml"
+			styleClass="lnk-create-option lnk-create">
+			<h2>#{messages['Article']}</h2>
+			<i class="flaticon icon-plus"></i>
+			<p>#{messages['Start_Writing']}</p>
+		</s:link>
+
+		<s:link propagation="none" includePageParams="false"
+			view="/member/gistEdit.xhtml"
+			styleClass="lnk-create-option lnk-create">
+			<h2>#{messages['Your_Code']}</h2>
+			<i class="flaticon icon-plus"></i>
+			<p>#{messages['Share']}</p>
+		</s:link>
+
+
+	</div>
+
+	<div class="row blkcenterContent">
+		<s:link propagation="none" includePageParams="false"
+			view="/curate/curateList.xhtml"
+			styleClass="lnk-create-option lnk-create">
+			<h2>#{messages['Your_Link']}</h2>
+			<i class="flaticon icon-plus"></i>
+			<p>#{messages['Share']}</p>
+		</s:link>
+
+		<s:link propagation="none" includePageParams="false"
+			view="/coders/questionList.xhtml"
+			styleClass="lnk-create-option lnk-create">
+			<h2>#{messages['Challenge']}</h2>
+			<i class="flaticon icon-plus"></i>
+			<p>#{messages['Solve']}</p>
+		</s:link>
+	</div>
+</ui:composition>

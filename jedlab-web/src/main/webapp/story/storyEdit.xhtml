@@ -106,7 +106,10 @@ shared void run() => newServer {
 				<div id="leftContent" style="display:none;">
 					<div id="helperContent" class="div-content"></div>
 				</div>
-				
+				<br />
+				<s:button propagation="none" includePageParams="false"
+					styleClass="btn btn-red btn-outline w3-margin"
+					view="/story/storyList.xhtml" value="#{messages['Back']}"></s:button>
 		
 		<script type="text/javascript" src="#{_ctx}/js/highlight.pack.js"></script>
 		<script>hljs.initHighlightingOnLoad();</script>
