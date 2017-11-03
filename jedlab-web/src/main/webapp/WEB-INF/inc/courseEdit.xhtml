@@ -112,7 +112,7 @@
 								<ui:define name="desc">#{messages['Discount_Desc']}</ui:define>
 					</s:decorate>
 					
-					<s:decorate template="/layout/simpleEdit.xhtml" rendered="false">
+					<s:decorate template="/layout/simpleEdit.xhtml">
 								<ui:define name="label">#{messages['Preview']} (http)</ui:define>
 								<h:inputText id="dlPrev" value="#{courseHome.preview.url}" style="direction:ltr;" styleClass="w3-input" >
 								</h:inputText>

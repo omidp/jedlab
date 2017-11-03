@@ -162,6 +162,19 @@
 			</jedlab:tabPanel>
 
 		</jedlab:tabs>
+		
+		<script>
+			jQuery(window).load(function(){
+
+				jQuery.each(jQuery("iframe"), function( index, value ) {
+					jQuery(value).attr("mozallowfullscreen", "true");
+					jQuery(value).attr("webkitallowfullscreen", "true");
+					jQuery(value).attr("allowfullscreen", "true");
+				});
+				
+				
+			});
+		</script>
 
 	</div>
 	
