@@ -14,4 +14,36 @@ JOIN information_schema.key_column_usage kcu ON tc.constraint_name = kcu.constra
 WHERE ccu.table_schema='public' AND ccu.table_name= ? AND tc.constraint_type = 'FOREIGN KEY' 
 ]]>
 </framework>
+<dashboard queryName="skill">
+<![CDATA[
+ WITH viewed_chapter_stats AS (
+         select count(*) AS total_count, member_id from member_course where is_view = true
+		group by member_id
+        ), code_stats AS (
+         SELECT member_id,
+            count(*) AS total_count
+           FROM gist
+          GROUP BY member_id
+        ), story_stats AS (
+         SELECT member_id,
+            count(*) AS total_count
+           FROM stories 
+          GROUP BY member_id
+        )
+ SELECT 
+   
+   COALESCE(rcs.total_count, 0) + COALESCE(cs.total_count, 0) +COALESCE(ss.total_count, 0) /
+    cast ( (SELECT 
+            count(*) AS total_count
+           FROM chapter) as numeric(5,3))  as calculated_skill,
+    m.id as member_id
+    
+   FROM member m 
+   left join viewed_chapter_stats rcs on m.id = rcs.member_id
+     LEFT JOIN code_stats cs ON m.id = cs.member_id
+     LEFT JOIN story_stats ss ON m.id = ss.member_id
+     where m.id=?
+]]>
+ 
+</dashboard>
 </nativeQueries>
