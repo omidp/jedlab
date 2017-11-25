@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
@@ -43,6 +44,7 @@ public class MemberCourseQuery extends PagingController<Course>
             criteria.setFirstResult(getFirstResult());
         if (getMaxResults() != null)
             criteria.setMaxResults(getMaxResults() + 1);
+        criteria.addOrder(Order.desc("c.createdDate"));
         resultList = criteria.list();
         addChpterCount(resultList);
         return truncResultList(resultList);

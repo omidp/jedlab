@@ -198,3 +198,35 @@ left join course c on i.course_id = c.id
 where i.is_paid=true
 ) as t   
 ----------------------------DONE 
+
+
+
+-----------------------
+
+CREATE OR REPLACE VIEW member_statistic_view AS 
+ WITH register_course_stats AS (
+         SELECT count(distinct course_id) AS total_count, member_id
+           FROM member_course 
+          GROUP BY member_id
+        ), code_stats AS (
+         SELECT member_id,
+            count(*) AS total_count
+           FROM gist
+          GROUP BY member_id
+        ), story_stats AS (
+         SELECT member_id,
+            count(*) AS total_count
+           FROM stories 
+          GROUP BY member_id
+        )
+ SELECT 
+    COALESCE(rcs.total_count, 0::bigint) AS course_count,
+    COALESCE(cs.total_count, 0::bigint) AS code_count,
+    COALESCE(ss.total_count, 0::bigint) AS story_count,
+    m.id as member_id
+   FROM member m 
+   left join register_course_stats rcs on m.id = rcs.member_id
+     LEFT JOIN code_stats cs ON m.id = cs.member_id
+     LEFT JOIN story_stats ss ON m.id = ss.member_id;
+
+

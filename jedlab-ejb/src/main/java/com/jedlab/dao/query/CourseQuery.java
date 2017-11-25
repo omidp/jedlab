@@ -163,5 +163,14 @@ public class CourseQuery extends PagingController<Course>
     {
         return course;
     }
+    
+    
+    public List<Course> getTop5()
+    {
+        List<Course> list = getResultList();
+        if(list.size() > 5)
+            return list.subList(0, 5);
+        return list;
+    }
 
 }

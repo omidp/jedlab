@@ -106,6 +106,11 @@ public class JedLab extends HibernateEntityController
     {
         return (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
     }
+    
+    public String getCurrentUsername()
+    {
+        return (String) getSessionContext().get(Constants.CURRENT_USER_NAME);
+    }
 
     public static JedLab instance()
     {

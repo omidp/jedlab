@@ -1,0 +1,142 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<!-- Sidebar/menu -->
+			<nav class="w3-sidebar w3-collapse w3-white w3-animate-right"
+				style="z-index: 3; width: 300px;right:0;" id="mySidebar">
+				<br/>
+				<div class="w3-container w3-row">
+					<div class="w3-col s4">
+						
+						<s:graphicImage value="#{userHome.userThumbnailImage}"
+								rendered="#{userHome.student.hasImage}"
+								style="width: 46px; height:42px"
+								styleClass="w3-circle w3-margin-right" 
+								alt="#{jedLab.currentUser.username} avatar"></s:graphicImage>
+								
+						<h:graphicImage value="/images/default-avatar.jpg"
+							styleClass="w3-circle w3-margin-right"  	
+							rendered="#{!userHome.student.hasImage}" style="width:46px; height:42px"/>	
+					
+						
+					</div>  
+					<div class="w3-col s8 w3-bar dir-rtl">
+						<span>#{messages['Welcome']},  
+							<strong> #{jedLab.currentUsername} </strong>
+						</span>
+						<br />
+						
+						<a href="#{_ctx}/member/userEdit.seam"
+							class="w3-bar-item w3-button">
+							<i class="fa fa-user"></i>
+						</a>
+						
+					</div>
+				</div>
+				<hr/>
+				
+				<div class="w3-bar-block dir-rtl">
+					<a href="#"
+						class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black w3-red"
+						onclick="w3_close()" title="close menu">
+						<i
+						class="fa fa-remove fa-fw"></i> #{messages['Close_Menu']}
+					</a>
+					
+					
+					
+					<s:link 
+								propagation="none"
+								includePageParams="false"
+								view="/member/memberCourseList.xhtml" 
+								styleClass="w3-bar-item w3-button w3-padding"
+								>
+						<i	class="icon-books"></i>
+						<h:outputText value="#{' '} #{messages['My_Courses']}" />
+					</s:link>
+					
+					
+					<s:link 
+								propagation="none"
+								includePageParams="false"
+								view="/story/storyList.xhtml" 
+								styleClass="w3-bar-item w3-button w3-padding"
+								>
+						<i	class="icon-pencil"></i>
+						<h:outputText value="#{' '} #{messages['My_Stories']}" />
+						<f:param name="author" value="#{jedLab.currentUsername}"></f:param>
+					</s:link>
+					
+					<s:link 
+								propagation="none"
+								includePageParams="false"
+								view="/gistList.xhtml" 
+								styleClass="w3-bar-item w3-button w3-padding"
+								>
+						<i	class="icon-file-text"></i>
+						<h:outputText value="#{' '} #{messages['My_Codes']}" />
+						<f:param name="author" value="#{jedLab.currentUsername}"></f:param>
+					</s:link>
+					
+					<s:link 
+								propagation="none"
+								includePageParams="false"
+								view="/curate/curateList.xhtml" 
+								styleClass="w3-bar-item w3-button w3-padding"
+								>
+						<i	class="icon-price-tag"></i>
+						<h:outputText value="#{' '} #{messages['My_Curates']}" />
+						<f:param name="mc" value="Y"></f:param>
+					</s:link>
+					
+					
+					<s:link 
+								propagation="none"
+								includePageParams="false"
+								view="/member/invoiceList.xhtml" 
+								styleClass="w3-bar-item w3-button w3-padding"
+								>
+						<i	class="fa fa-money fa-fw"></i>
+						<h:outputText value="#{' '} #{messages['Invoice_List']}" />
+					</s:link>
+					
+					
+					<br/>
+				</div>
+			</nav>
+			<!-- Overlay effect when opening sidebar on small screens -->
+			<div class="w3-overlay w3-hide-large w3-animate-opacity"
+				onclick="w3_close()" style="cursor: pointer" title="close side menu"
+				id="myOverlay"></div>
+				
+				
+				<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+        overlayBg.style.display = "none";
+    } else {
+        mySidebar.style.display = 'block';
+        overlayBg.style.display = "block";
+    }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+    overlayBg.style.display = "none";
+}
+</script>
+		
+</ui:composition>

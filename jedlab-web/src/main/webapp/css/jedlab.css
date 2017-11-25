@@ -276,7 +276,7 @@ a {
 .w3-table-all th {
     padding: 6px 8px;
     display: table-cell;
-    text-align: left;
+    /*text-align: left;*/
     vertical-align: top
 }
 .w3-table th:first-child,
@@ -5067,21 +5067,12 @@ h3 {
     float: none;
     outline: medium none;
     padding: 8px 16px;
-    text-align: left;
+    text-align: right;
     white-space: normal;
     width: 100%;
 }
 
-.w3-bar-block .w3-bar-item {
-    border: medium none;
-    display: block;
-    float: none;
-    outline: medium none;
-    padding: 8px 16px;
-    text-align: left;
-    white-space: normal;
-    width: 100%;
-}
+
 
 .red .req{
 	color: #F70E0E;	
@@ -5238,4 +5229,8 @@ h3 {
 
 #vdLoader{
 	height: 35px;
+}
+
+.dir-rtl{
+	direction: rtl;
 }

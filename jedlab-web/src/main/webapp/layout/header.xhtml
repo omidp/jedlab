@@ -62,26 +62,7 @@
 		</li>
 		</s:fragment>
 		
-		<li class="w3-hide-small">
-		
-			<s:link propagation="none" rendered="#{identity.loggedIn and s:hasRole('Student')}" 
-						styleClass="w3-padding-menu-item w3-hover-white" 
-						includePageParams="false"
-						view="/member/userEdit.xhtml"
-						value="#{loginActionManager.currentUsername} #{messages['Welcome']}">
-						<i class="icon-user-tie"></i>
-			</s:link>
 			
-			<s:link propagation="none" rendered="#{identity.loggedIn and !s:hasRole('Student')}" 
-						styleClass="w3-padding-menu-item w3-hover-white" 	
-						includePageParams="false"
-						view="/instructor/userEdit.xhtml"					
-						value="#{loginActionManager.currentUsername} #{messages['Welcome']}">
-						<i class="icon-user-tie"></i>
-			</s:link>
-			
-		
-		</li>	
 		
 		</s:fragment>	
 		
@@ -118,11 +99,7 @@
 		
 		<div class="w3-dropdown-content w3-white w3-card-4">
 			
-			<s:link propagation="none"
-				includePageParams="false" view="/coders/questionList.xhtml"				
-				value="#{messages['Java_Challenge']}">
-				<i class="icon-book"></i>
-			</s:link>
+			
 			
 			<s:link propagation="none"
 				includePageParams="false" view="/gistList.xhtml"

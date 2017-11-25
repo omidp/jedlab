@@ -48,6 +48,18 @@ public class GistQuery extends PagingController<Gist>
     private Long resultCount;
     private String searchPattern;
 
+    private String author;
+
+    public String getAuthor()
+    {
+        return author;
+    }
+
+    public void setAuthor(String author)
+    {
+        this.author = author;
+    }
+
     public GistQuery()
     {
         setMaxResults(10);
@@ -94,6 +106,7 @@ public class GistQuery extends PagingController<Gist>
                 fullTextQuery.setFirstResult(getFirstResult());
             if (getMaxResults() != null)
                 fullTextQuery.setMaxResults(getMaxResults() + 1);
+            
             resultList = fullTextQuery.getResultList();
             return truncResultList(resultList);
         }
@@ -139,6 +152,10 @@ public class GistQuery extends PagingController<Gist>
         {
             criteria.add(Restrictions.eq("privateGist", false));
         }
+        if(StringUtil.isNotEmpty(getAuthor()))
+        {
+            criteria.add(Restrictions.eq("m.username", getAuthor()));
+        }
     }
 
     private void refresh()
@@ -166,7 +183,7 @@ public class GistQuery extends PagingController<Gist>
         else
         {
             FullTextQuery fullTextQuery = entityManager.createFullTextQuery(getFullTextSearch(), Gist.class);
-            //fullTextQuery.setProjection("origContent", "description");
+            // fullTextQuery.setProjection("origContent", "description");
             resultCount = new Long(fullTextQuery.getResultSize());
         }
         return resultCount;

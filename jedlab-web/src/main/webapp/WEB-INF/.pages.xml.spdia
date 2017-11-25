@@ -5,8 +5,13 @@
    PATH="/member/dashboard.xhtml" TARGET="#xmember#xdashboard.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
   <output ID="/member/dashboard.xhtml" NAME="output1"
    PATH="/member/dashboard.xhtml" TARGET="#xmember#xdashboard.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
-  <output ID="/login.xhtml" NAME="output2" PATH="/login.xhtml"
-   TARGET="#xlogin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/admin/dashboard.xhtml" NAME="output2"
+   PATH="/admin/dashboard.xhtml" TARGET="#xadmin#xdashboard.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/instructor/dashboard.xhtml" NAME="output3"
+   PATH="/instructor/dashboard.xhtml"
+   TARGET="#xinstructor#xdashboard.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/home.xhtml" NAME="output4" PATH="/home.xhtml"
+   TARGET="#xhome.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
  </item>
  <item ID="#member#*" NAME="#xmember#x*" PATH="/member/*"
   SHAPE="728,17,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
@@ -102,4 +107,34 @@
   SHAPE="344,1313,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
  <item ID="#admin#*" NAME="#xadmin#x*" PATH="/admin/*"
   SHAPE="24,1417,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#terms.xhtml" NAME="#xterms.xhtml" PATH="/terms.xhtml"
+  SHAPE="664,425,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#aboutus.xhtml" NAME="#xaboutus.xhtml" PATH="/aboutus.xhtml"
+  SHAPE="984,425,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#partners.xhtml" NAME="#xpartners.xhtml"
+  PATH="/partners.xhtml" SHAPE="1304,425,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#rss.xhtml" NAME="#xrss.xhtml" PATH="/rss.xhtml"
+  SHAPE="1624,425,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#privacy.xhtml" NAME="#xprivacy.xhtml" PATH="/privacy.xhtml"
+  SHAPE="984,529,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#recoverActLink.xhtml" NAME="#xrecoverActLink.xhtml"
+  PATH="/recoverActLink.xhtml" SHAPE="1304,529,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#resetPassword.xhtml" NAME="#xresetPassword.xhtml"
+  PATH="/resetPassword.xhtml" SHAPE="1624,529,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#recoverPassword.xhtml" NAME="#xrecoverPassword.xhtml"
+  PATH="/recoverPassword.xhtml" SHAPE="664,633,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item ID="#instructor#*" NAME="#xinstructor#x*" PATH="/instructor/*"
+  SHAPE="792,529,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xhome.xhtml" PATH="/home.xhtml" SHAPE="472,633,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xadmin#xdashboard.xhtml" PATH="/admin/dashboard.xhtml"
+  SHAPE="472,321,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/admin/*" NAME="output" PATH="/admin/*"
+   TARGET="#xadmin#x*" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item NAME="#xinstructor#xdashboard.xhtml"
+  PATH="/instructor/dashboard.xhtml" SHAPE="472,529,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/instructor/*" NAME="output" PATH="/instructor/*"
+   TARGET="#xinstructor#x*" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
 </diagram>
