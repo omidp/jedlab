@@ -26,6 +26,7 @@ import com.jedlab.model.Question;
 
 @Name("questionQuery")
 @Scope(ScopeType.CONVERSATION)
+@Deprecated
 public class QuestionQuery extends PagingController<Question>
 {
 

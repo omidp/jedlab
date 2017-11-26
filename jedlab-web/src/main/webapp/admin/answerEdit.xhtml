@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="body">
+
+		<h:form>
+			<input type="hidden" name="courseId" value="#{courseId}"/>
+			<fieldset>
+				<legend></legend>
+			
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">#{messages['Course']}</ui:define>
+				<h:outputText value="#{courseQuestionHome.course.name}" />
+			</s:decorate>
+			
+			
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">#{messages['Question_Title']}</ui:define>
+				<h:inputText value="#{courseQuestionHome.instance.title}" required="true"/>
+			</s:decorate>
+			
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">#{messages['Question_Description']}</ui:define>
+				<h:inputText value="#{courseQuestionHome.instance.description}" />
+			</s:decorate>
+			
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">#{messages['Question_Type']}</ui:define>
+				<h:selectOneMenu value="#{courseQuestionHome.instance.questionType}">
+					<s:selectItems value="#{questionTypes}" var="_item" label="#{_item}"></s:selectItems>
+					<s:convertEnum></s:convertEnum>
+				</h:selectOneMenu>
+			</s:decorate>
+			</fieldset>
+			
+			
+			<h:commandButton action="#{courseQuestionHome.persist()}" rendered="#{!courseQuestionHome.managed}" value="Save" />
+			<h:commandButton action="#{courseQuestionHome.update()}" rendered="#{courseQuestionHome.managed}" value="Update" />
+		
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

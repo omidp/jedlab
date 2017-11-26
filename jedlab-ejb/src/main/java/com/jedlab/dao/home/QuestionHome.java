@@ -9,6 +9,7 @@ import com.jedlab.model.Question;
 
 @Name("questionHome")
 @Scope(ScopeType.CONVERSATION)
+@Deprecated
 public class QuestionHome extends EntityHome<Question>
 {
 

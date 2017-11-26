@@ -123,7 +123,8 @@ public class CourseQuery extends PagingController<Course>
             criteria.add(Restrictions.eq("active", true));
         if(Identity.instance().hasRole(Constants.ROLE_INSTRUCTOR))
         {
-            criteria.add(Restrictions.eq("instructor.id", JedLab.instance().getCurrentUserId()));
+            if(Identity.instance().hasRole(Constants.ROLE_ADMIN) == false)
+                criteria.add(Restrictions.eq("instructor.id", JedLab.instance().getCurrentUserId()));
         }
         if(StringUtil.isNotEmpty(getCourse().getName()))
             criteria.add(Restrictions.ilike("name", getCourse().getName(), MatchMode.ANYWHERE));

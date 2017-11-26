@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+
+	<begin-conversation join="true" flush-mode="manual"/>
+	
+	<action execute="#{answerHome.load()}"/>
+
+	
+	<param name="questionId"  value="#{answerHome.questionId}" required="true"/>
+	
+	<navigation from-action="#{answerHome.persist()}">
+		<rule if-outcome="persisted">
+			<end-conversation/>
+			<redirect view-id="/admin/courseQuestionList.xhtml">
+				<param name="courseId" value="#{courseId}"/>
+			</redirect>
+		</rule>
+	</navigation>
+	
+	<navigation from-action="#{answerHome.update()}">
+		<rule if-outcome="update">
+			<end-conversation/>
+			<redirect view-id="/admin/courseQuestionList.xhtml">
+				<param name="courseId" value="#{courseId}"/>
+				<param name="questionId" value="#{questionId}"/>
+			</redirect>
+		</rule>
+	</navigation>
+   
+</page>

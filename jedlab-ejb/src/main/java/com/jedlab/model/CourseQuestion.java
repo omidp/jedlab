@@ -1,37 +1,30 @@
 package com.jedlab.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
-import org.jboss.seam.contexts.Contexts;
-import org.ocpsoft.prettytime.PrettyTime;
 
-import com.jedlab.action.Constants;
-import com.jedlab.framework.CollectionUtil;
+import com.jedlab.model.enums.QuestionType;
 
-@Table(name = "question")
+@Table(name = "course_questions")
 @Entity
-@Deprecated
-public class Question extends BasePO
+public class CourseQuestion extends BasePO
 {
 
     @Column(name = "created_date", updatable = false, insertable = false, columnDefinition = " timestamp with time zone DEFAULT now()")
@@ -46,53 +39,25 @@ public class Question extends BasePO
     @Column(name = "description", nullable = false)
     @Lob
     @Type(type = "org.hibernate.type.TextType")
-    @NotNull
-    @Length(min = 2)
+    @NotNull    
     private String description;
 
-    @Column(name = "points")
-    private double points;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
-    @Column(name = "attempt_count")
-    private int attemptCount;
+    @Column(name = "question_type")
+    @Enumerated(EnumType.STRING)
+    private QuestionType questionType;
 
-    @Column(name = "is_active")
-    private boolean active;
-
-    @Transient
-    private long userCount;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
-    private List<TestCase> testcases = new ArrayList<>(0);
-
-    public boolean isActive()
+    public QuestionType getQuestionType()
     {
-        return active;
+        return questionType;
     }
 
-    public void setActive(boolean active)
+    public void setQuestionType(QuestionType questionType)
     {
-        this.active = active;
-    }
-
-    public List<TestCase> getTestcases()
-    {
-        return testcases;
-    }
-
-    public void setTestcases(List<TestCase> testcases)
-    {
-        this.testcases = testcases;
-    }
-
-    public long getUserCount()
-    {
-        return userCount;
-    }
-
-    public void setUserCount(long userCount)
-    {
-        this.userCount = userCount;
+        this.questionType = questionType;
     }
 
     public Date getCreatedDate()
@@ -125,24 +90,20 @@ public class Question extends BasePO
         this.description = description;
     }
 
-    public double getPoints()
+    public Course getCourse()
     {
-        return points;
+        return course;
     }
 
-    public void setPoints(double points)
+    public void setCourse(Course course)
     {
-        this.points = points;
+        this.course = course;
     }
 
-    public int getAttemptCount()
+    @PrePersist
+    public void prePersist()
     {
-        return attemptCount;
-    }
-
-    public void setAttemptCount(int attemptCount)
-    {
-        this.attemptCount = attemptCount;
+        setCreatedDate(new Date());
     }
 
 }

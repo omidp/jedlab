@@ -25,6 +25,7 @@ import com.jedlab.model.Course.Level;
 import com.jedlab.model.Member;
 import com.jedlab.model.enums.Gender;
 import com.jedlab.model.enums.Privacy;
+import com.jedlab.model.enums.QuestionType;
 
 @Name("jedLab")
 @Scope(ScopeType.CONVERSATION)
@@ -46,6 +47,12 @@ public class JedLab extends HibernateEntityController
     public Level[] courseLevels()
     {
         return Level.values();
+    }
+    
+    @Factory("questionTypes")
+    public QuestionType[] questionTypes()
+    {
+        return QuestionType.values();
     }
 
     @Factory("courseLangs")
