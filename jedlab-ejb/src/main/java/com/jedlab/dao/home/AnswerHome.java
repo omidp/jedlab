@@ -66,6 +66,17 @@ public class AnswerHome extends EntityHome<AnswerEntity>
         if (getQuestionId() == null || getQuestion() == null)
             throw new PageExceptionHandler("course can not be null");
         getInstance().setQuestion(getQuestion());
+        Integer seq = 0;
+        try
+        {
+            seq = (Integer) getEntityManager()
+                    .createQuery("select a.sequence from AnswerEntity a where a.question.id = :qId order by a.createdDate desc")
+                    .setParameter("qId", getQuestionId()).setMaxResults(1).getSingleResult();
+        }
+        catch (Exception e)
+        {
+        }
+        getInstance().setSequence(seq + 10);
     }
 
     @Override

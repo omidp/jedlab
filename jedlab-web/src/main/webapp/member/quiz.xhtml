@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/dialog.xhtml">
+
+	<ui:define name="body">
+		<div class="rtl-dir">
+			<h:form styleClass="form">
+
+				<input type="hidden" value="#{courseId}" name="courseId" />
+				<input type="hidden" value="#{sequence}" name="sequence" />
+
+				<s:fragment rendered="#{quizAction.lastQuestionPassedSuccesful}">
+					
+					
+						<s:div styleClass="w3-panel w3-margin w3-padding w3-rightbar w3-border-sand w3-sand"  rendered="#{quizAction.answerAll}">
+							<p>خیلی خوبه ، به تمام سوالات پاسخ درست دادید</p>
+						</s:div>
+						<s:div styleClass="w3-panel w3-margin w3-padding w3-rightbar w3-border-orange w3-orange" rendered="#{quizAction.goodLevel}">
+							<p>خیلی خوبه ، به بیش از نیمی از سوالات پاسخ درست دادید</p>
+						</s:div>
+						<s:div styleClass="w3-panel w3-margin w3-padding w3-rightbar w3-border-red w3-red"  rendered="#{quizAction.badLevel}">
+							<p>متاسفانه به خیلی از سوالات نتوانستید پاسخ درست دهید ، پیشنهاد می کنیم مجددا دوره را ببینید</p>
+						</s:div>
+					
+					<hr />
+					<div class="w3-margin">
+						<c:forEach items="#{quizAction.memberAnswers}" var="_item">
+							
+							<div class="row auto w3-margin-bottom " style="color: #{_item.correct ? '#009933' : '#F44336'}">
+							<h:graphicImage value="/images/true.png" rendered="#{_item.correct}" styleClass="w3-circle w3-padding-left"/>
+								<h:graphicImage value="/images/false.png" rendered="#{!_item.correct}" styleClass="w3-circle w3-padding-left"/>
+								<h:outputText value="#{messages['Question']} #{' '}" />
+								<h:outputText value="#{_item.question.sequence / 10}" 
+									rendered="#{not empty _item.question.sequence}">
+									<f:convertNumber maxFractionDigits="0" />
+								</h:outputText>
+								<h:outputText value="#{' '} : #{' '}" />
+								<br />
+								<h:outputText styleClass="w3-margin-right" value="#{_item.question.title}" />
+							</div>
+							<hr />
+							
+						</c:forEach>
+					</div>
+					
+					<h:commandButton action="#{quizAction.startOver()}" onclick="common.showLoading();" value="#{messages['Start_Over']}" styleClass="btn btn-blue w3-margin"/>
+					
+				</s:fragment>
+
+
+				<s:fragment rendered="#{!quizAction.lastQuestionPassedSuccesful}">
+					<c:set var="_q" value="#{quizAction.question}" />
+
+
+
+					<div class="w3-container">
+						<p style="font-weight: 800">
+							<h:outputText 
+								value="#{messages['Total']} #{' '} #{messages['Questions']} : #{' '}" />
+							<s:span>#{quizAction.questionCount}</s:span>
+						</p>
+					</div>
+
+					<hr />
+
+					<div class="w3-margin">
+						<div class="row auto w3-margin-bottom">
+							<h:outputText value="#{messages['Question']} #{' '}" />
+							<h:outputText value="#{_q.sequence / 10}"
+								rendered="#{not empty _q.sequence}">
+								<f:convertNumber maxFractionDigits="0" />
+							</h:outputText>
+							<h:outputText value="#{' '} : #{' '}" />
+							<br />
+							<h:outputText styleClass="w3-margin-right" value="#{_q.title}" />
+						</div>
+
+						<c:forEach items="#{quizAction.answers}" var="_a">
+							<div class="row align-right auto form-item">
+
+								<c:if test="#{_q.singleQuestion}">
+									<input type="radio" name="ma" value="#{_a.value}"
+										style="margin: 4px;" />
+								</c:if>
+								<c:if test="#{_q.multipleQuestion}">
+									<input type="checkbox" name="ma" value="#{_a.value}"
+										style="margin: 4px;" />
+								</c:if>
+								<label>#{' '} #{_a.value}</label>
+
+							</div>
+						</c:forEach>
+					</div>
+
+
+					<h:commandButton action="#{quizAction.done()}"
+						onclick="common.showLoading();" value="#{messages['Next']}"
+						styleClass="btn yellow w3-margin" />
+				</s:fragment>
+
+				<script>
+	jQuery(document).ready(function(){
+		jQuery("body").addClass("w3-light-grey");
+		jQuery(".wrapper.w3-padding-top-48").removeClass("w3-padding-top-48");
+	});
+</script>
+
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

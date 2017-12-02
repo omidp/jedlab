@@ -8,38 +8,32 @@
 	<ui:define name="body">
 
 		<h:form>
-			<input type="hidden" name="courseId" value="#{courseId}"/>
+			<input type="hidden" name="questionId" value="#{questionId}"/>
 			<fieldset>
 				<legend></legend>
 			
 			<s:decorate template="/layout/edit.xhtml">
 				<ui:define name="label">#{messages['Course']}</ui:define>
-				<h:outputText value="#{courseQuestionHome.course.name}" />
+				<h:outputText value="#{answerHome.question.course.name}" />
 			</s:decorate>
 			
 			
 			<s:decorate template="/layout/edit.xhtml">
-				<ui:define name="label">#{messages['Question_Title']}</ui:define>
-				<h:inputText value="#{courseQuestionHome.instance.title}" required="true"/>
+				<ui:define name="label">#{messages['Value']}</ui:define>
+				<h:inputText value="#{answerHome.instance.value}" required="true"/>
 			</s:decorate>
 			
 			<s:decorate template="/layout/edit.xhtml">
-				<ui:define name="label">#{messages['Question_Description']}</ui:define>
-				<h:inputText value="#{courseQuestionHome.instance.description}" />
+				<ui:define name="label">#{messages['Is_Correct']}</ui:define>
+				<h:selectBooleanCheckbox value="#{answerHome.instance.correct}" />
 			</s:decorate>
 			
-			<s:decorate template="/layout/edit.xhtml">
-				<ui:define name="label">#{messages['Question_Type']}</ui:define>
-				<h:selectOneMenu value="#{courseQuestionHome.instance.questionType}">
-					<s:selectItems value="#{questionTypes}" var="_item" label="#{_item}"></s:selectItems>
-					<s:convertEnum></s:convertEnum>
-				</h:selectOneMenu>
-			</s:decorate>
+			
 			</fieldset>
 			
 			
-			<h:commandButton action="#{courseQuestionHome.persist()}" rendered="#{!courseQuestionHome.managed}" value="Save" />
-			<h:commandButton action="#{courseQuestionHome.update()}" rendered="#{courseQuestionHome.managed}" value="Update" />
+			<h:commandButton action="#{answerHome.persist()}" rendered="#{!answerHome.managed}" value="Save" />
+			<h:commandButton action="#{answerHome.update()}" rendered="#{answerHome.managed}" value="Update" />
 		
 		</h:form>
 		

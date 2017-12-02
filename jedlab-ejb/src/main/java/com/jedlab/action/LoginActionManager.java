@@ -57,7 +57,7 @@ public class LoginActionManager extends EntityController
             currentUserName = Identity.instance().getCredentials().getUsername();
          if(currentUserName != null)   
              revokeOtherTokens(currentUserName);
-        // CacheManager.removeAllSeamkaRegion();
+         CacheManager.remove(Constants.CURRENT_USER);
     }
     
     @Observer(value = {Identity.EVENT_LOGIN_SUCCESSFUL, Identity.EVENT_ALREADY_LOGGED_IN})

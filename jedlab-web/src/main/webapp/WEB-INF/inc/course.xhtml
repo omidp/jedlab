@@ -160,6 +160,14 @@
 				link="#{_ctx}/comment.seam?courseId=#{courseId}">
 
 			</jedlab:tabPanel>
+			
+			
+			<jedlab:tabPanel title="#{messages['Quiz']}" useIframe="true"
+				join="false" includePageParams="false"
+				rendered="#{identity.loggedIn}"
+				link="#{_ctx}/member/quiz.seam?courseId=#{courseId}">
+
+			</jedlab:tabPanel>
 
 		</jedlab:tabs>
 		

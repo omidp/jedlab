@@ -56,9 +56,19 @@ public class CourseQuestionHome extends EntityHome<CourseQuestion>
         if (getCourseId() == null || getCourse() == null)
             throw new PageExceptionHandler("course can not be null");
         getInstance().setCourse(getCourse());
+        Integer seq = 0;
+        try
+        {
+            seq = (Integer) getEntityManager()
+                    .createQuery("select cq.sequence from CourseQuestion cq where cq.course.id = :courseId order by cq.createdDate desc")
+                    .setParameter("courseId", getCourseId()).setMaxResults(1).getSingleResult();
+        }
+        catch (Exception e)
+        {
+        }
+        getInstance().setSequence(seq + 10);
     }
-    
-    
+
     @Override
     protected CourseQuestion createInstance()
     {
@@ -76,15 +86,14 @@ public class CourseQuestionHome extends EntityHome<CourseQuestion>
     {
         return isIdDefined() ? getInstance() : null;
     }
-    
-    
+
     @Override
     public String persist()
     {
         wire();
         return super.persist();
     }
-    
+
     @Override
     public String update()
     {
