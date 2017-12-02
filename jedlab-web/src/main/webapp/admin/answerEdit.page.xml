@@ -15,7 +15,7 @@
 		<rule if-outcome="persisted">
 			<end-conversation/>
 			<redirect view-id="/admin/courseQuestionList.xhtml">
-				<param name="courseId" value="#{courseId}"/>
+				<param name="questionId" value="#{answerHome.questionId}"/>
 			</redirect>
 		</rule>
 	</navigation>
@@ -24,8 +24,7 @@
 		<rule if-outcome="update">
 			<end-conversation/>
 			<redirect view-id="/admin/courseQuestionList.xhtml">
-				<param name="courseId" value="#{courseId}"/>
-				<param name="questionId" value="#{questionId}"/>
+				<param name="questionId" value="#{answerHome.questionId}"/>				
 			</redirect>
 		</rule>
 	</navigation>

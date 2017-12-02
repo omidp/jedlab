@@ -7,24 +7,27 @@
 
 	<ui:define name="body">
 
+		<div class="w3-margin rtl-dir">
+
 		<h:form>
 			<input type="hidden" name="questionId" value="#{questionId}"/>
+			<input type="hidden" name="courseId" value="#{courseId}"/>
 			<fieldset>
-				<legend></legend>
+				<legend><h:outputText value="#{answerHome.question.course.name}" /></legend>
 			
-			<s:decorate template="/layout/edit.xhtml">
-				<ui:define name="label">#{messages['Course']}</ui:define>
-				<h:outputText value="#{answerHome.question.course.name}" />
+			<s:decorate template="/layout/simpleEdit.xhtml">
+				<ui:define name="label">#{messages['Question']}</ui:define>
+				<h:outputText value="#{answerHome.question.title}" />
 			</s:decorate>
 			
 			
-			<s:decorate template="/layout/edit.xhtml">
-				<ui:define name="label">#{messages['Value']}</ui:define>
+			<s:decorate template="/layout/simpleEdit.xhtml">
+				<ui:define name="label">#{messages['Answer']}</ui:define>
 				<h:inputText value="#{answerHome.instance.value}" required="true"/>
 			</s:decorate>
 			
-			<s:decorate template="/layout/edit.xhtml">
-				<ui:define name="label">#{messages['Is_Correct']}</ui:define>
+			<s:decorate template="/layout/simpleEdit.xhtml">
+				<ui:define name="label">#{messages['Is_Correct_Answer']}</ui:define>
 				<h:selectBooleanCheckbox value="#{answerHome.instance.correct}" />
 			</s:decorate>
 			
@@ -32,10 +35,53 @@
 			</fieldset>
 			
 			
-			<h:commandButton action="#{answerHome.persist()}" rendered="#{!answerHome.managed}" value="Save" />
-			<h:commandButton action="#{answerHome.update()}" rendered="#{answerHome.managed}" value="Update" />
-		
+			<h:commandButton action="#{answerHome.persist()}" rendered="#{!answerHome.managed}" value="Save" styleClass="btn w3-margin" />
+			<h:commandButton action="#{answerHome.update()}" rendered="#{answerHome.managed}" value="Update" styleClass="btn w3-margin"/>
+			<s:button view="/admin/courseQuestionList.xhtml" 
+				value="#{messages['Page']} #{' '} #{messages['List']}" 
+				 propagation="none" styleClass="btn btn-yellow w3-margin">
+				<f:param name="questionId" value="#{questionId}"></f:param>
+			</s:button>
 		</h:form>
+		
+		<br />
+		
+		<h:dataTable rendered="#{not empty answerHome.question.answers}"
+			styleClass="ui celled table" 
+			value="#{answerHome.question.answers}" var="_item">
+			
+			<h:column>
+				<f:facet name="header">جواب</f:facet>
+				<s:link value="#{_item.value}" propagation="none" view="/admin/answerEdit.xhtml">					
+					<f:param name="questionId" value="#{_item.question.id}"></f:param>
+					<f:param name="answerId" value="#{_item.id}"></f:param>
+				</s:link>
+			</h:column>
+			
+			 
+			<h:column>
+				<f:facet name="header">نوع سوال</f:facet>
+				<h:outputText value="#{_item.question.questionType}" />
+			</h:column>
+			
+			
+			<h:column>
+				<f:facet name="header">صحیح است</f:facet>
+				<h:outputText value="#{_item.correct}" />
+			</h:column> 
+			
+			
+			<h:column>
+				<f:facet name="header">Action</f:facet>
+				<s:link value="Remove Answer" propagation="none" action="#{answerHome.remove()}">
+					<f:param name="answerId" value="#{_item.id}"></f:param>
+				</s:link>
+				
+			</h:column>
+		
+		</h:dataTable>
+		</div>
+		
 		
 	</ui:define>
 </ui:composition>

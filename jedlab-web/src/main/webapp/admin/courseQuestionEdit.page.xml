@@ -15,8 +15,8 @@
 	<navigation from-action="#{courseQuestionHome.persist()}">
 		<rule if-outcome="persisted">
 			<end-conversation/>
-			<redirect view-id="/admin/courseQuestionEdit.xhtml">
-				<param name="courseId" value="#{courseId}"/>
+			<redirect view-id="/admin/answerEdit.xhtml">
+				<param name="questionId" value="#{courseQuestionHome.instance.id}"/>
 			</redirect>
 		</rule>
 	</navigation>
@@ -24,9 +24,17 @@
 	<navigation from-action="#{courseQuestionHome.update()}">
 		<rule if-outcome="update">
 			<end-conversation/>
-			<redirect view-id="/admin/courseQuestionEdit.xhtml">
+			<redirect view-id="/admin/answerEdit.xhtml">
+				<param name="questionId" value="#{courseQuestionHome.instance.id}"/>
+			</redirect>
+		</rule>
+	</navigation>
+	
+	<navigation from-action="#{courseQuestionHome.remove()}">
+		<rule if-outcome="removed">
+			<end-conversation/>
+			<redirect view-id="/admin/courseQuestionList.xhtml">
 				<param name="courseId" value="#{courseId}"/>
-				<param name="questionId" value="#{questionId}"/>
 			</redirect>
 		</rule>
 	</navigation>

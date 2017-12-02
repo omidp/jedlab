@@ -6,29 +6,26 @@
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="body">
-
-		<h:form>
+		<div class="rtl-dir w3-margin">
+		<h:form styleClass="forms">
 			<input type="hidden" name="courseId" value="#{courseId}"/>
 			<fieldset>
-				<legend></legend>
+				<legend><h:outputText value="#{courseQuestionHome.course.name}" /></legend>
 			
-			<s:decorate template="/layout/edit.xhtml">
-				<ui:define name="label">#{messages['Course']}</ui:define>
-				<h:outputText value="#{courseQuestionHome.course.name}" />
+			  
+			
+			
+			<s:decorate template="/layout/simpleEdit.xhtml"> 
+				<ui:define name="label">#{messages['Question_Title']}</ui:define>  
+				<h:inputText value="#{courseQuestionHome.instance.title}" required="true" styleClass="w3-input"/>
 			</s:decorate>
 			
-			
-			<s:decorate template="/layout/edit.xhtml">
-				<ui:define name="label">#{messages['Question_Title']}</ui:define>
-				<h:inputText value="#{courseQuestionHome.instance.title}" required="true"/>
-			</s:decorate>
-			
-			<s:decorate template="/layout/edit.xhtml">
+			<s:decorate template="/layout/simpleEdit.xhtml">
 				<ui:define name="label">#{messages['Question_Description']}</ui:define>
-				<h:inputText value="#{courseQuestionHome.instance.description}" />
+				<h:inputText value="#{courseQuestionHome.instance.description}" styleClass="w3-input"/>
 			</s:decorate>
 			
-			<s:decorate template="/layout/edit.xhtml">
+			<s:decorate template="/layout/simpleEdit.xhtml">
 				<ui:define name="label">#{messages['Question_Type']}</ui:define>
 				<h:selectOneMenu value="#{courseQuestionHome.instance.questionType}">
 					<s:selectItems value="#{questionTypes}" var="_item" label="#{_item}"></s:selectItems>
@@ -38,8 +35,9 @@
 			</fieldset>
 			
 			 
-			<h:commandButton action="#{courseQuestionHome.persist()}" rendered="#{!courseQuestionHome.managed}" value="Save" />
-			<h:commandButton action="#{courseQuestionHome.update()}" rendered="#{courseQuestionHome.managed}" value="Update" />
+			<h:commandButton action="#{courseQuestionHome.persist()}" rendered="#{!courseQuestionHome.managed}" value="Save" styleClass="btn w3-margin"/>
+			<h:commandButton action="#{courseQuestionHome.update()}" rendered="#{courseQuestionHome.managed}" value="Update" styleClass="btn w3-margin"/>
+			<h:commandButton action="#{courseQuestionHome.remove()}" rendered="#{courseQuestionHome.managed}" value="Delete" styleClass="btn w3-margin"/>
 			
 			<s:button view="/admin/courseQuestionList.xhtml" 
 				value="#{messages['Page']} #{' '} #{messages['List']}" 
@@ -48,6 +46,8 @@
 			</s:button>
 		
 		</h:form>
+		
+		</div>
 		
 	</ui:define>
 </ui:composition>

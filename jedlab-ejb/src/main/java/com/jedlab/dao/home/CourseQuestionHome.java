@@ -48,7 +48,8 @@ public class CourseQuestionHome extends EntityHome<CourseQuestion>
 
     public void load()
     {
-        this.course = getEntityManager().find(Course.class, getCourseId());
+        if(getCourseId() != null)
+            this.course = getEntityManager().find(Course.class, getCourseId());
     }
 
     private void wire()

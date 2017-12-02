@@ -7,33 +7,52 @@
 
 	<ui:define name="body">
 		
-		<div class="w3-margin">
+		<div class="w3-margin rtl-dir">
+		
+		<s:div styleClass="ui header" rendered="#{not empty courseId}">
+			<h:outputText value="#{messages['Question_List']}" />
+			#{' '}
+			<h:outputText value="#{courseQuestionHome.course.name}" />
+		</s:div>
+		
+		<br />
+		<s:button value="#{messages['Create']} #{' '} #{messages['Question']} " rendered="#{not empty courseId}" 
+			view="/admin/courseQuestionEdit.xhtml" propagation="none">
+			<f:param name="courseId" value="#{courseId}"></f:param>
+		</s:button>
+		<br />
 		
 		<h:dataTable
 			styleClass="ui celled table" 
+			rendered="#{not empty courseQuestionQuery.resultList}"
 			value="#{courseQuestionQuery.resultList}" var="_item">
-			
+			 
 			<h:column>
-				<f:facet name="header">Title</f:facet>
-				<s:link value="#{_item.title}" propagation="none" view="/admin/courseQuestionEdit.xhtml">
+				<f:facet name="header">نام دوره</f:facet>
+				<s:link  propagation="none" view="/admin/courseQuestionList.xhtml" includePageParams="false" styleClass="w3-text-blue">
+					<h:outputText value="#{_item.course.name}" />
+					<f:param name="courseId" value="#{_item.course.id}"></f:param>
+				</s:link>	
+			</h:column>
+			
+			 
+			<h:column>
+				<f:facet name="header">سوال</f:facet>
+				<s:link value="#{_item.title}" propagation="none" view="/admin/courseQuestionEdit.xhtml" styleClass="w3-text-blue">
 					<f:param name="courseId" value="#{_item.course.id}"></f:param>
 					<f:param name="questionId" value="#{_item.id}"></f:param>
 				</s:link>
 			</h:column>
 			
-			<h:column>
-				<f:facet name="header">Course Name</f:facet>
-				<h:outputText value="#{_item.course.name}" />
-			</h:column> 
 			
 			
 			<h:column>
 				<f:facet name="header">Action</f:facet>
-				<s:link value="Add answer" propagation="none" view="/admin/answerEdit.xhtml">
+				<s:link value="Add Answer" propagation="none" view="/admin/answerEdit.xhtml" includePageParams="false">
 					<f:param name="questionId" value="#{_item.id}"></f:param>
-				</s:link>
-				#{' '}
-				<s:link value="answer list" propagation="none" view="/admin/answerList.xhtml">
+				</s:link> 
+				#{' - '}
+				<s:link value="لیست جواب ها" propagation="none" view="/admin/answerList.xhtml" includePageParams="false">
 					<f:param name="questionId" value="#{_item.id}"></f:param>
 				</s:link>
 			</h:column>

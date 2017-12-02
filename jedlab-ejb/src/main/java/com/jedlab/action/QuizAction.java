@@ -92,6 +92,10 @@ public class QuizAction extends HibernateEntityController
             Criteria criteria = getSession().createCriteria(MemberAnswerEntity.class, "ma");
             criteria.createCriteria("ma.question", "q", Criteria.LEFT_JOIN);
             criteria.add(Restrictions.eq("ma.member.id", JedLab.instance().getCurrentUserId()));
+            DetachedCriteria dc = DetachedCriteria.forClass(CourseQuestion.class, "cq");
+            dc.add(Restrictions.eq("cq.course.id", getCourseId()));
+            dc.setProjection(Projections.id());
+            criteria.add(Subqueries.propertyIn("ma.question.id", dc));  
             memberAnswers = criteria.list();
         }
         return memberAnswers;
@@ -162,10 +166,7 @@ public class QuizAction extends HibernateEntityController
     public void load()
     {
         // agar tedad javab ha ba soalat barabar bood test tamoom shode
-        Criteria c = getSession().createCriteria(MemberAnswerEntity.class, "ma");
-        c.add(Restrictions.eq("ma.member.id", JedLab.instance().getCurrentUserId()));
-        c.setProjection(Projections.rowCount());
-        Long countMemberAnswer = (Long) c.uniqueResult();
+        Long countMemberAnswer = getMemberCorrectAnswer();
         if (countMemberAnswer > 0 && getQuestionCount().longValue() == countMemberAnswer.longValue())
         {
             lastQuestionPassedSuccesful = true;
@@ -190,8 +191,8 @@ public class QuizAction extends HibernateEntityController
                 // hich soali javab nadade avalin soal ro peyda kon
                 Criteria criteria = getSession().createCriteria(CourseQuestion.class, "cq");
                 criteria.add(Restrictions.eq("cq.course.id", getCourseId()));
-                criteria.addOrder(Order.desc("cq.createdDate"));
-                criteria.addOrder(Order.desc("cq.sequence"));
+                criteria.addOrder(Order.asc("cq.createdDate"));
+                criteria.addOrder(Order.asc("cq.sequence"));
                 criteria.setMaxResults(1);
                 this.question = (CourseQuestion) criteria.uniqueResult();
                 if(this.question == null)

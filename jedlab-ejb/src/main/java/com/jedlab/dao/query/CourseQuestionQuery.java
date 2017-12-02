@@ -17,7 +17,7 @@ public class CourseQuestionQuery extends PagingEntityQuery<CourseQuestion>
 
     public static final String EJBQL = "select cq from CourseQuestion cq left join fetch cq.course c";
 
-    private static final String[] RESTRICTIONS = { "c.id = #{courseQuestionQuery.course.id}",
+    private static final String[] RESTRICTIONS = { "c.id = #{courseQuestionQuery.course.id}","cq.id = #{courseQuestionQuery.question.id}",
              };
 
     public CourseQuestionQuery()
@@ -34,6 +34,15 @@ public class CourseQuestionQuery extends PagingEntityQuery<CourseQuestion>
     {
         return course;
     }
+    
+    private CourseQuestion question = new CourseQuestion();
+
+    public CourseQuestion getQuestion()
+    {
+        return question;
+    }
+    
+    
     
     
 

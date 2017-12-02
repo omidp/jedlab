@@ -4,5 +4,10 @@
 
 	
 	<param name="courseId" value="#{courseQuestionQuery.course.id}"/>
+	<param name="courseId" value="#{courseQuestionHome.courseId}"/>
+	
+	<param name="questionId" value="#{courseQuestionQuery.question.id}"/>
+	
+	<action execute="#{courseQuestionHome.load()}"/>
 	
 </page>

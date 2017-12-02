@@ -6,13 +6,17 @@
 	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
 
 	<ui:define name="body">
-
-		<h:dataTable
+		
+		<div class="w3-margin rtl-dir"> 
+		
+		<div class="ui header">لیست جواب های #{' '} #{courseQuestionHome.instance.title} #{' '} </div>
+		<br />
+		<h:dataTable 
 			styleClass="ui celled table" 
 			value="#{courseQuestionHome.instance.answers}" var="_item">
 			
 			<h:column>
-				<f:facet name="header">Title</f:facet>
+				<f:facet name="header">جواب</f:facet>
 				<s:link value="#{_item.value}" propagation="none" view="/admin/answerEdit.xhtml">					
 					<f:param name="questionId" value="#{_item.question.id}"></f:param>
 					<f:param name="answerId" value="#{_item.id}"></f:param>
@@ -20,8 +24,19 @@
 			</h:column>
 			
 			<h:column>
-				<f:facet name="header">Question Name</f:facet>
+				<f:facet name="header">نام سوال</f:facet>
 				<h:outputText value="#{_item.question.title}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">نوع سوال</f:facet>
+				<h:outputText value="#{_item.question.questionType}" />
+			</h:column>
+			
+			
+			<h:column>
+				<f:facet name="header">جواب درست</f:facet>
+				<h:outputText value="#{_item.correct}" />
 			</h:column> 
 			
 			
@@ -35,11 +50,14 @@
 		
 		</h:dataTable>
 		
+		</div>
 		
-		<s:button view="/admin/courseList.xhtml" 
+		
+		<s:button view="/admin/courseQuestionList.xhtml" 
 				value="#{messages['Page']} #{' '} #{messages['List']}" 
 				 propagation="none" styleClass="btn btn-yellow w3-margin">
-			</s:button>
+			<f:param name="questionId" value="#{questionId}"></f:param>	 
+		</s:button>
 		
 		
 	</ui:define>
