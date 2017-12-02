@@ -7,9 +7,11 @@
 
 	<ui:define name="body">
 		
+		<div class="w3-margin">
 		
-		
-		<h:dataTable value="#{courseQuestionQuery.resultList}" var="_item">
+		<h:dataTable
+			styleClass="ui celled table" 
+			value="#{courseQuestionQuery.resultList}" var="_item">
 			
 			<h:column>
 				<f:facet name="header">Title</f:facet>
@@ -22,7 +24,7 @@
 			<h:column>
 				<f:facet name="header">Course Name</f:facet>
 				<h:outputText value="#{_item.course.name}" />
-			</h:column>
+			</h:column> 
 			
 			
 			<h:column>
@@ -30,9 +32,15 @@
 				<s:link value="Add answer" propagation="none" view="/admin/answerEdit.xhtml">
 					<f:param name="questionId" value="#{_item.id}"></f:param>
 				</s:link>
+				#{' '}
+				<s:link value="answer list" propagation="none" view="/admin/answerList.xhtml">
+					<f:param name="questionId" value="#{_item.id}"></f:param>
+				</s:link>
 			</h:column>
 		
 		</h:dataTable>
+		
+		</div>
 		
 		
 		

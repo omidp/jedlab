@@ -9,6 +9,8 @@ import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.framework.EntityHome;
 
 import com.jedlab.framework.PageExceptionHandler;
+import com.jedlab.framework.WebContext;
+import com.jedlab.framework.WebUtil;
 import com.jedlab.model.AnswerEntity;
 import com.jedlab.model.Course;
 import com.jedlab.model.CourseQuestion;
@@ -53,7 +55,8 @@ public class AnswerHome extends EntityHome<AnswerEntity>
     {
         try
         {
-            this.question = (CourseQuestion) getEntityManager().createQuery("select cq from CourseQuestion cq left join fetch cq.course c where cq.id = :id")
+            this.question = (CourseQuestion) getEntityManager()
+                    .createQuery("select cq from CourseQuestion cq left join fetch cq.course c where cq.id = :id")
                     .setParameter("id", getQuestionId()).setMaxResults(1).getSingleResult();
         }
         catch (NoResultException e)
@@ -109,6 +112,17 @@ public class AnswerHome extends EntityHome<AnswerEntity>
     {
         wire();
         return super.update();
+    }
+
+    @Override
+    public String remove()
+    {
+        String idParam = WebUtil.getParameterValue("answerId");
+        getEntityManager().createQuery("delete from AnswerEntity ae where ae.id = :id").setParameter("id", Long.parseLong(idParam))
+                .executeUpdate();
+        getEntityManager().flush();
+        WebContext.instance().redirectIt(false, true);
+        return "removed";
     }
 
 }

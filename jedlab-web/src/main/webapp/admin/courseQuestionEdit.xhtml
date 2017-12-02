@@ -37,9 +37,15 @@
 			</s:decorate>
 			</fieldset>
 			
-			
+			 
 			<h:commandButton action="#{courseQuestionHome.persist()}" rendered="#{!courseQuestionHome.managed}" value="Save" />
 			<h:commandButton action="#{courseQuestionHome.update()}" rendered="#{courseQuestionHome.managed}" value="Update" />
+			
+			<s:button view="/admin/courseQuestionList.xhtml" 
+				value="#{messages['Page']} #{' '} #{messages['List']}" 
+				 propagation="none" styleClass="btn btn-yellow w3-margin">
+				<f:param name="courseId" value="#{courseId}"></f:param>
+			</s:button>
 		
 		</h:form>
 		

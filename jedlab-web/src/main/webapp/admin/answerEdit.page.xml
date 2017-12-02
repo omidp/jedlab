@@ -8,7 +8,7 @@
 	
 	<action execute="#{answerHome.load()}"/>
 
-	
+	<param name="answerId" value="#{answerHome.answerId}"/>
 	<param name="questionId"  value="#{answerHome.questionId}" required="true"/>
 	
 	<navigation from-action="#{answerHome.persist()}">

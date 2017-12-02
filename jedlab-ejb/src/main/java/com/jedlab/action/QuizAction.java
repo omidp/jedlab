@@ -2,6 +2,7 @@ package com.jedlab.action;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,10 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.framework.EntityController;
 import org.jboss.seam.framework.HibernateEntityController;
+import org.jboss.seam.international.StatusMessage.Severity;
 import org.jboss.seam.web.Parameters;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -53,6 +57,15 @@ public class QuizAction extends HibernateEntityController
     private Long questionCount;
 
     private boolean lastQuestionPassedSuccesful;
+    
+    private boolean courseHasQuestion = true;
+    
+    
+
+    public boolean isCourseHasQuestion()
+    {
+        return courseHasQuestion;
+    }
 
     public Long getMemberCorrectAnswer()
     {
@@ -162,14 +175,14 @@ public class QuizAction extends HibernateEntityController
             // akharin soali ke taraf javab dade chist
             CourseQuestion currentQuestion = (CourseQuestion) getSession()
                     .createQuery(
-                            "select mae.question from  MemberAnswerEntity mae where mae.member.id = :memId order by mae.createdDate desc")
-                    .setParameter("memId", JedLab.instance().getCurrentUserId()).setMaxResults(1).uniqueResult();
+                            "select mae.question from  MemberAnswerEntity mae where mae.member.id = :memId and mae.question.id in (select q.id from CourseQuestion q where q.course.id = :courseId) order by mae.createdDate desc")
+                    .setParameter("memId", JedLab.instance().getCurrentUserId()).setParameter("courseId", getCourseId()).setMaxResults(1).uniqueResult();
             if (currentQuestion != null)
             {
 
                 this.question = (CourseQuestion) getSession()
-                        .createQuery("select q from  CourseQuestion q where  q.sequence = :seq order by q.createdDate desc")
-                        .setParameter("seq", currentQuestion.getSequence() + 10).setMaxResults(1).uniqueResult();
+                        .createQuery("select q from  CourseQuestion q where q.course.id = :courseId and  q.sequence = :seq order by q.createdDate desc")
+                        .setParameter("seq", currentQuestion.getSequence() + 10).setParameter("courseId", getCourseId()).setMaxResults(1).uniqueResult();
             }
             else
             {
@@ -177,10 +190,12 @@ public class QuizAction extends HibernateEntityController
                 // hich soali javab nadade avalin soal ro peyda kon
                 Criteria criteria = getSession().createCriteria(CourseQuestion.class, "cq");
                 criteria.add(Restrictions.eq("cq.course.id", getCourseId()));
-                criteria.add(Restrictions.eq("cq.sequence", getSequence()));
                 criteria.addOrder(Order.desc("cq.createdDate"));
+                criteria.addOrder(Order.desc("cq.sequence"));
                 criteria.setMaxResults(1);
                 this.question = (CourseQuestion) criteria.uniqueResult();
+                if(this.question == null)
+                    courseHasQuestion = false;
             }
             //
             if (this.question != null)
@@ -190,8 +205,8 @@ public class QuizAction extends HibernateEntityController
             }
             else
             {
-                lastQuestionPassedSuccesful = true;
-
+                if(courseHasQuestion)
+                    lastQuestionPassedSuccesful = true;
             }
         }
     }
@@ -253,6 +268,16 @@ public class QuizAction extends HibernateEntityController
     @Transactional
     public String startOver()
     {
+        CourseQuestion currentQuestion = (CourseQuestion) getSession()
+                .createQuery(
+                        "select mae.question from  MemberAnswerEntity mae where mae.member.id = :memId and mae.question.id in (select q.id from CourseQuestion q where q.course.id = :courseId) order by mae.createdDate asc")
+                .setParameter("memId", JedLab.instance().getCurrentUserId()).setParameter("courseId", getCourseId()).setMaxResults(1).uniqueResult();
+        Period p = new Period(currentQuestion.getCreatedDate().getTime(), new Date().getTime(), PeriodType.hours());
+        if(p.getHours() <= 5)
+        {
+            getStatusMessages().addFromResourceBundle(Severity.WARN,"Try_Later");
+            return null;
+        }
         Query query = getSession().createQuery("delete from MemberAnswerEntity me where me.member.id = :memId and me.question.id in (select cq.id from CourseQuestion cq where cq.course.id = :courseId)");
         query.setParameter("memId", JedLab.instance().getCurrentUserId());
         query.setParameter("courseId", getCourseId());
