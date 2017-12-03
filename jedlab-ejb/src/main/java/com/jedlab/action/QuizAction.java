@@ -184,6 +184,20 @@ public class QuizAction extends HibernateEntityController
                 this.question = (CourseQuestion) getSession()
                         .createQuery("select q from  CourseQuestion q where q.course.id = :courseId and  q.sequence = :seq order by q.createdDate desc")
                         .setParameter("seq", currentQuestion.getSequence() + 10).setParameter("courseId", getCourseId()).setMaxResults(1).uniqueResult();
+                //TODO:handle in database with trigger when sequence order is distorted
+                if(this.question == null)
+                {
+                    int cnt=1;
+                    int seq = currentQuestion.getSequence() + 10;
+                    while(this.question == null && cnt != getQuestionCount().intValue())
+                    {
+                        seq+=10;
+                        this.question = (CourseQuestion) getSession()
+                                .createQuery("select q from  CourseQuestion q where q.course.id = :courseId and  q.sequence = :seq order by q.createdDate desc")
+                                .setParameter("seq", seq).setParameter("courseId", getCourseId()).setMaxResults(1).uniqueResult();
+                        cnt++;
+                    }
+                }
             }
             else
             {
