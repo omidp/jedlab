@@ -229,4 +229,25 @@ CREATE OR REPLACE VIEW member_statistic_view AS
      LEFT JOIN code_stats cs ON m.id = cs.member_id
      LEFT JOIN story_stats ss ON m.id = ss.member_id;
 
-
+     ---------------
+CREATE OR REPLACE FUNCTION reorder_sequence()
+  RETURNS VOID AS
+$BODY$
+	declare 		
+		rec record;
+	begin	
+		FOR rec in (SELECT i.id, i.created_date, i.c_sequence,
+       ROW_NUMBER() OVER(
+    PARTITION BY i.course_id
+    ORDER BY i.created_date
+) as row_num
+  FROM course_questions i)
+		LOOP
+			update course_questions set c_sequence = (rec.row_num * 10) where id = rec.id;
+		END LOOP;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE;
+ select reorder_sequence();
+ 
+ ----------------------------DONE 
