@@ -95,6 +95,14 @@
 										<h:outputText value="#{messages['Story_Read_More']}" /> #{' '} <h:outputText value=" ..." />
 										<f:param name="uuid" value="#{_item.uuid}"></f:param>
 								</s:link>	
+								#{' '}
+								<s:link propagation="none" includePageParams="false"
+										view="/story/storyEdit.xhtml" styleClass="ui basic blue label w3-margin clickableLink"
+										rendered="#{_item.owner}"										
+										>
+										<h:outputText value="#{messages['Edit']}" /> #{' '} <h:outputText value=" ..." />
+										<f:param name="storyId" value="#{_item.id}"></f:param>
+								</s:link>
 							</p>
 							
 						</div>

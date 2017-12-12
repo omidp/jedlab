@@ -14,9 +14,11 @@
 	width: 100%;
 	height: 100%;
 }
-.content-area h1{
-	font-family:Vazir-Light !important;
+
+.content-area h1 {
+	font-family: Vazir-Light !important;
 }
+
 .div-content {
 	direction: rtl;
 	font-family: SansPro, Yekan, Vazir-Light, Tahoma;
@@ -30,79 +32,133 @@ code {
 	direction: ltr !important;
 }
 
-.rtl-dir{
-	direction:rtl;
-	text-align:justify;
-}
-.ltr-dir{
-	direction:ltr;
-	text-align:left;
+.rtl-dir {
+	direction: rtl;
+	text-align: justify;
 }
 
-strong, b{
+.ltr-dir {
+	direction: ltr;
+	text-align: left;
+}
+
+strong, b {
 	color: #d2691e;
 }
-p{
+
+p {
 	text-align: justify !important;
-	 line-height: 2;
+	line-height: 2;
 }
+
 div.mdBody a {
-	color:#163D77;
+	color: #163D77;
 }
-</style>  
+</style>
 
-	<meta property="og:site_name" content="JEDLab" />
-	<meta name="twitter:site" content="JEDLab" />
-	<meta property="og:title" content="#{storyHome.instance.title}" />
-	<meta property="og:locale" content="fa_IR" />
-	<meta property="og:type" content="website" />
-	<meta property="og:description"
-	content="جدلب یک بستر آموزش های ویدیویی تخصصی فارسی آنلاین برای جاوا است" />
-	<meta property="og:url" content="http://www.jedlab.ir/jedlog/story/#{storyHome.instance.uuid}" />
-	<s:fragment rendered="#{!storyHome.instance.hasImage}">
-		<meta property="og:image" content="http://jedlab.ir/images/logo.png" />
-	</s:fragment>
-	
-	</ui:define>  
+		<meta property="og:site_name" content="JEDLab" />
+		<meta name="twitter:site" content="JEDLab" />
+		<meta property="og:title" content="#{storyHome.instance.title}" />
+		<meta property="og:locale" content="fa_IR" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description"
+			content="جدلب یک بستر آموزش های ویدیویی تخصصی فارسی آنلاین برای جاوا است" />
+		<meta property="og:url"
+			content="http://www.jedlab.ir/jedlog/story/#{storyHome.instance.uuid}" />
+		<s:fragment rendered="#{!storyHome.instance.hasImage}">
+			<meta property="og:image" content="http://jedlab.ir/images/logo.png" />
+		</s:fragment>
 
-	<ui:define name="body">  
-	
+	</ui:define>
+
+	<ui:define name="body">
+
 		<div
 			class="w3-margin ui text container w3-justify content-area locale-direction">
-			  
-			  
-			 <div class="w3-row w3-panel w3-border-bottom w3-border-green">
-			  <div class="w3-col m4  w3-center"><p>#{messages['Pub_Date']} #{' : '} <jedlab:dateLabel value="#{storyHome.instance.createdDate}"></jedlab:dateLabel></p></div>
-			  <div class="w3-col m4  w3-center"><p> 
-				  	<s:fragment rendered="#{identity.loggedIn and storyBookmarkQuery.resultCount == 0}">
-					  <s:link styleClass="item" action="#{storyHome.bookmark()}">
-					  	<f:param name="storyId" value="#{storyHome.instance.id}"></f:param>
-					    <i class="icon-star-empty"></i>
-					    <h:outputText value="#{messages['Favourite']}" />
-					  </s:link>
-				  </s:fragment>
-				  
-				  <s:fragment rendered="#{identity.loggedIn and storyBookmarkQuery.resultCount > 0}">
-					  <s:link styleClass="item" action="#{storyHome.unbookmark()}">
-					  	<f:param name="storyId" value="#{storyHome.instance.id}"></f:param>
-					    <i class="icon-star-full"></i>
-					    <h:outputText value="#{messages['Favourite']}" />
-					  </s:link>
-				  </s:fragment> 
-			  	</p>
-			  </div>
-			  <div class="w3-col m4  w3-center"><p>#{messages['Writer']} #{' : '} #{storyHome.instance.member.username}</p></div>
+
+
+			<div class="ui segment" id="menuHolder">
+
+
+				<div class="left ui rail" style="">   
+					<div class="ui sticky" 
+						style="width: 272px ! important; height: 262.683px ! important; left: -2px;top:50px;padding-bottom: 50px;">
+						<h3 class="ui header"></h3>
+							
+							<s:div styleClass="ui label w3-margin-bottom"
+								rendered="#{identity.loggedIn and storyBookmarkQuery.resultCount == 0}">
+								<s:link styleClass="item" action="#{storyHome.bookmark()}">
+									<f:param name="storyId" value="#{storyHome.instance.id}"></f:param>
+									<i class="icon-star-empty"></i>
+									<div class="detail" style="display:inline">
+										  	<h:outputText value="#{storyHome.bookmarkCount}" />
+									</div>									
+								</s:link>
+							</s:div>
+
+							<s:div styleClass="ui label w3-margin-bottom"
+								rendered="#{identity.loggedIn and storyBookmarkQuery.resultCount > 0}">
+								<s:link styleClass="item" action="#{storyHome.unbookmark()}">
+									<f:param name="storyId" value="#{storyHome.instance.id}"></f:param>
+									<i class="icon-star-full"></i>
+									<div class="detail" style="display:inline">
+										  	<h:outputText value="#{storyHome.bookmarkCount}" />
+									</div>									
+								</s:link>
+							</s:div>
+						<br />
+						<div class="ui label w3-margin-bottom">
+										  <i class="icon-eye"></i>
+										  <div class="detail">
+										  	<h:outputText value="#{storyHome.instance.viewCountFormatted}" />
+										  </div>
+						</div>	
+					</div>
+
+				</div>
+
+
+				<div class="w3-row w3-panel w3-border-bottom w3-border-green">
+					<h1>
+						<h:outputText value="#{storyHome.instance.title}"
+							rendered="#{!storyHome.instance.owner}" />
+						<s:link value="#{storyHome.instance.title}"
+							view="/story/storyEdit.xhtml" propagation="none"
+							styleClass="w3-text-blue" rendered="#{storyHome.instance.owner}">
+							<f:param name="storyId" value="#{storyHome.instance.id}"></f:param>
+						</s:link>
+					</h1>
+				</div>
+				<div class="w3-row w3-panel w3-border-bottom w3-border-green">
+					<div class="w3-col m4  w3-center">
+						<p>
+							#{messages['Pub_Date']} #{' : '}
+							<jedlab:dateLabel value="#{storyHome.instance.createdDate}"></jedlab:dateLabel>
+						</p>
+					</div>
+					<div class="w3-col m4  w3-center">
+						<p>
+							
+						</p>
+					</div>
+					<div class="w3-col m4  w3-center">
+						<p>#{messages['Writer']} #{' : '}
+							#{storyHome.instance.member.username}</p>
+					</div>
+				</div>
+
+				<div class="mdBody">
+					<h:outputText value="#{storyHome.htmlResult}" escape="false" />
+				</div>
+
 			</div>
-			
-			<div class="mdBody">
-				<h:outputText value="#{storyHome.htmlResult}" escape="false" />
-			</div>
-			
+
+
 		</div>
-		
-		
-	
-	<script>
+
+
+
+		<script>
 	jQuery(document).ready(function(){		
 		jQuery('span.rtl-dir').each(function(i, block) {						
 			jQuery(this).parent().addClass('rtl-dir');
@@ -113,28 +169,35 @@ div.mdBody a {
 		jQuery('div.mdBody img').each(function(i, block) {			 			
 			jQuery(this).parent().addClass('ui centered big image');
 		});
+
+		jQuery('.ui.sticky')
+		  .sticky({
+		    context: '#menuHolder',
+		    pushing: true
+		  });
 		
 	});
 	</script>
-	
-	<script type="text/javascript" src="#{_ctx}/js/highlight.pack.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+
+		<script type="text/javascript" src="#{_ctx}/js/highlight.pack.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+			<jedlab:tabs scrollWidth="100%" keepState="true"
+				rendered="#{storyHome.instance.commentEnabled}">
+
+				<jedlab:tabPanel
+					title="#{messages['Comment']} ( #{storyCommentQuery.resultCount} )"
+					useIframe="true" join="false" includePageParams="false"
+					link="#{_ctx}/story/comment.seam?storyId=#{storyHome.instance.id}">
+
+				</jedlab:tabPanel>
+
+			</jedlab:tabs>
+
 		
-		
-	<div style="padding: 5px; margin: 5px;margin-bottom: 65px;" class="ui text container">
 
-		<jedlab:tabs scrollWidth="100%" keepState="true" rendered="#{storyHome.instance.commentEnabled}">
-
-			<jedlab:tabPanel title="#{messages['Comment']} ( #{storyCommentQuery.resultCount} )" useIframe="true"
-				join="false" includePageParams="false"
-				link="#{_ctx}/story/comment.seam?storyId=#{storyHome.instance.id}">
-
-			</jedlab:tabPanel>
-
-		</jedlab:tabs>
-
-	</div>	
-		
 
 	</ui:define>
 </ui:composition>

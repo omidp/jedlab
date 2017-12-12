@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -121,9 +122,10 @@ public class StoryHome extends EntityHome<Story>
     {
         TxManager.beginTransaction();
         TxManager.joinTransaction(getEntityManager());
-        getEntityManager().createQuery("update Story s set s.viewCount = (s.viewCount+1)  where s.uuid = :uuid").setParameter("uuid", getUuid()).executeUpdate();        
+        getEntityManager().createQuery("update Story s set s.viewCount = (s.viewCount+1)  where s.uuid = :uuid")
+                .setParameter("uuid", getUuid()).executeUpdate();
     }
-    
+
     public void load()
     {
         Story story = null;
@@ -136,9 +138,9 @@ public class StoryHome extends EntityHome<Story>
         {
             story = (Story) hibernateSession.createCriteria(Story.class, "s").add(Restrictions.idEq(getStoryId()))
                     .createCriteria("member", "m", Criteria.LEFT_JOIN).uniqueResult();
-            if(story == null)
+            if (story == null)
                 throw new EntityNotFoundException("story not found");
-            if(story.isOwner() == false)
+            if (story.isOwner() == false)
                 throw new ErrorPageExceptionHandler("invalid owner");
         }
         if (story != null)
@@ -181,7 +183,8 @@ public class StoryHome extends EntityHome<Story>
     }
 
     @Transactional
-    public Long publishContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException, SAXException, TikaException
+    public Long publishContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException,
+            SAXException, TikaException
     {
         Story story = createStory(storyId, storyTitle);
         story.setCommentEnabled(commentEnabled);
@@ -196,7 +199,8 @@ public class StoryHome extends EntityHome<Story>
     }
 
     @Transactional
-    public Long draftContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException, SAXException, TikaException
+    public Long draftContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException, SAXException,
+            TikaException
     {
         Story story = createStory(storyId, storyTitle);
         story.setCommentEnabled(commentEnabled);
@@ -226,7 +230,7 @@ public class StoryHome extends EntityHome<Story>
     private void saveContent(Long uid, String mdcontent, Story story) throws IOException, SAXException, TikaException
     {
         Path fpath = null;
-        if(StringUtil.isEmpty(story.getFilePath()))
+        if (StringUtil.isEmpty(story.getFilePath()))
         {
             String storyLocation = Env.getStoryLocation() + uid + Env.FILE_SEPARATOR + RandomStringUtils.randomNumeric(5);
             Path path = Paths.get(storyLocation);
@@ -242,14 +246,13 @@ public class StoryHome extends EntityHome<Story>
             Files.deleteIfExists(fpath);
             Files.createFile(fpath);
         }
-        HtmlMarkdownHolder holder = (HtmlMarkdownHolder) ServletLifecycle.getServletContext().getAttribute(
-                HtmlMarkdownProcessor.MARKDOWN);
+        HtmlMarkdownHolder holder = (HtmlMarkdownHolder) ServletLifecycle.getServletContext().getAttribute(HtmlMarkdownProcessor.MARKDOWN);
         Node node = holder.getParser().parse(StringUtil.escapeJavascript(mdcontent));
         String render = holder.getRenderer().render(node);
         ContentParser cp = HtmlContentParser.instance();
         cp.parse(render);
         String content = cp.handler().toString();
-        if(content.length() > 400)
+        if (content.length() > 400)
             story.setContent(content.substring(0, 400));
         else
             story.setContent(content);
@@ -307,11 +310,12 @@ public class StoryHome extends EntityHome<Story>
             setId(Long.parseLong(sidParam));
         else
             return "removed";
-        getEntityManager().createQuery("delete from StoryBookmark sb where sb.story.id = :stId").setParameter("stId", getId()).executeUpdate();
-        super.remove();        
+        getEntityManager().createQuery("delete from StoryBookmark sb where sb.story.id = :stId").setParameter("stId", getId())
+                .executeUpdate();
+        super.remove();
         return "removed";
     }
-    
+
     @Transactional
     public String removeByOwner()
     {
@@ -320,11 +324,35 @@ public class StoryHome extends EntityHome<Story>
             setId(Long.parseLong(sidParam));
         else
             return "removed";
-        if(getInstance().isOwner() == false)
+        if (getInstance().isOwner() == false)
             throw new ErrorPageExceptionHandler("invalid owner");
-        getEntityManager().createQuery("delete from StoryBookmark sb where sb.story.id = :stId").setParameter("stId", getId()).executeUpdate();
-        super.remove();        
+        getEntityManager().createQuery("delete from StoryBookmark sb where sb.story.id = :stId").setParameter("stId", getId())
+                .executeUpdate();
+        super.remove();
         return "removed";
+    }
+
+    private Long bookmarkCount;
+
+    public Long getBookmarkCount()
+    {
+        if (bookmarkCount == null)
+        {
+            if (getInstance().getId() != null)
+            {
+                try
+                {
+                    bookmarkCount = (Long) getEntityManager()
+                            .createQuery("select count(sb) from StoryBookmark sb where sb.story.id = :storyId")
+                            .setParameter("storyId", getInstance().getId()).getSingleResult();
+                }
+                catch (NoResultException e)
+                {
+                    bookmarkCount = 0L;
+                }
+            }
+        }
+        return bookmarkCount;
     }
 
     @Transactional
@@ -370,9 +398,9 @@ public class StoryHome extends EntityHome<Story>
             WebContext.instance().redirectIt(true, false, params);
         }
     }
-    
+
     private String currentView;
-    
+
     public String getCurrentView()
     {
         if (currentView != null)
