@@ -53,6 +53,12 @@
 				        <input type="hidden" name="cmEnabled" id="cmEnabled"/>				        
 				        <label>#{messages['Comment_Enabled']}</label>
 				    </div>
+				    
+				    <div class="form-item">
+				    	<input placeholder="#{messages['Price']}" type="text" style="width: 100%" id="storyPrice" maxlength="80"
+				        	value="#{storyHome.instance.price}" 
+				        	name="storyPrice"/>
+				    </div>
 				
 				
 					
@@ -212,6 +218,7 @@ function mdDraft()
 				mdcontent: jQuery(".mdcontent").val(),
 				storyId: jQuery("#storyId").val(),
 				storyTitle : jQuery("#storyTitle").val(),
+				storyPrice : jQuery("#storyPrice").val(),
 				cmEnabled : jQuery("#cmEnabled").val()
 			},
 		function(data, status){	
@@ -240,6 +247,7 @@ function mdPublish()
 				mdcontent: jQuery(".mdcontent").val(),
 				storyId: jQuery("#storyId").val(),
 				storyTitle : jQuery("#storyTitle").val(),
+				storyPrice : jQuery("#storyPrice").val(),
 				cmEnabled : jQuery("#cmEnabled").val()
 			},
 		function(data, status){

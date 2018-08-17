@@ -150,6 +150,17 @@ div.mdBody a {
 				<div class="mdBody">
 					<h:outputText value="#{storyHome.htmlResult}" escape="false" />
 				</div>
+				
+				<s:div styleClass="ui label" rendered="#{!storyHome.instance.free and !sotyHome.storyInvoice.paid and !storyHome.instance.owner}">
+								<s:button value="#{messages['Pay_To_Read']}"
+									propagation="none" type="button" includePageParams="false"
+									action="/storyPayment.xhtml"
+									onclick="common.showLoading();"									
+									styleClass="btn btn-green locale-font">
+									<f:param name="uuid" value="#{storyHome.instance.uuid}"></f:param>
+								</s:button>
+								
+				</s:div>
 
 			</div>
 

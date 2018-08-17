@@ -1,5 +1,6 @@
 package com.jedlab.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,6 +77,19 @@ public class Story extends BasePO
 
     @Column(name = "view_count", nullable = false, columnDefinition = " bigint DEFAULT 0 ")
     private long viewCount;
+
+    @Column(name = "price")
+    private BigDecimal price;
+
+    public BigDecimal getPrice()
+    {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price)
+    {
+        this.price = price;
+    }
 
     public long getViewCount()
     {
@@ -221,11 +235,17 @@ public class Story extends BasePO
         }
         return title;
     }
-    
+
     @Transient
     public String getViewCountFormatted()
     {
         return StringUtil.formatViewCount(getViewCount());
+    }
+    
+    @Transient
+    public boolean isFree()
+    {
+        return getPrice() == null || getPrice().longValue() == 0;
     }
 
 }

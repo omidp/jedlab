@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<style>
+.title {
+	color: #00adbc;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div class="ui container">
+			<div
+				class="ui middle aligned equal width center aligned padded grid w3-margin">
+
+				<div class="row centerContent">
+
+
+					<div class="column">
+						<div class="ui piled segment" id="content">
+
+							<s:fragment rendered="#{storyPayment.paid}">
+							<p class="title">
+								شما قبلا این هزینه را پرداخت کرده اید
+								</p>
+								<table class="ui table" dir="rtl">
+									<thead>
+										<tr>
+											<th>#{messages['Description']}</th>
+											<th>#{messages['Amount']} (#{messages['Toman']})</th>
+											<th>#{messages['Res_No']}</th>
+											<th>#{messages['Date']}</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<h4 class="ui header">#{storyPayment.invoice.description}</h4>
+											</td>
+											<td>
+												<h:outputText value="#{storyPayment.invoice.paymentAmount}" converter="#{bigDecimalConverter}" />
+												</td>
+											<td>#{storyPayment.invoice.resNo}</td>
+											<td><h:outputText
+													value="#{storyPayment.invoice.createdDate}"
+													converter="#{persianDateConverter}" /></td>
+										</tr>
+
+									</tbody>
+								</table>
+
+
+							</s:fragment>
+
+							<s:fragment rendered="#{!storyPayment.paid}">
+
+								
+								<s:fragment rendered="#{!storyPayment.postback}">
+									<h3>در حال پردازش و ارسال به صفحه بانک ، لطفا منتظر شوید</h3>
+									<script>
+													jQuery(document).ready(function(){
+									
+														jQuery("#shkForm").submit();
+									
+													});
+									</script>
+								</s:fragment>
+								
+								
+								
+								
+
+								<div style="display: none;">
+									<form method="post"
+										action="https://sep.shaparak.ir/Payment.aspx" id="shkForm">
+										<input name="Amount" id="Amount"
+											value="#{storyPayment.paymentVO.amount}" /> <br /> <input
+											name="ResNum" id="ResNum" value="#{storyPayment.paymentVO.resNum}" />
+										<br /> <input name="MID" id="MID"
+											value="#{storyPayment.paymentVO.merchantId}" /> <br /> <input
+											name="RedirectURL" id="RedirectURL"
+											value="#{storyPayment.paymentVO.redirectUrl}" />
+										<button type="submit">Submit</button>
+									</form>
+								</div>
+
+							</s:fragment>
+
+
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+	</ui:define>
+
+</ui:composition>

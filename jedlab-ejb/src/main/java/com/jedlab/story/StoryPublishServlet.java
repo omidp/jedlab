@@ -37,13 +37,14 @@ public class StoryPublishServlet extends HttpServlet
                 String mdcontent = req.getParameter("mdcontent");
                 String storyId = req.getParameter("storyId");
                 String storyTitle = req.getParameter("storyTitle");
-                String cmEnabled = req.getParameter("cmEnabled");
+                String storyPrice = req.getParameter("storyPrice");
+                String cmEnabled = req.getParameter("cmEnabled");                
                 if (StringUtil.isNotEmpty(storyTitle) && StringUtil.isNotEmpty(mdcontent))
                 {
                     boolean commentEnabled = StringUtil.isNotEmpty(cmEnabled) && "Y".equals(cmEnabled);
                     PrintWriter out = resp.getWriter();
                     resp.setContentType("text/plain;charset=utf-8");
-                    Long id = StoryHome.instance().publishContent(mdcontent, storyId, storyTitle, commentEnabled);
+                    Long id = StoryHome.instance().publishContent(mdcontent, storyId, storyTitle, commentEnabled, storyPrice);
                     out.print(id);
                     out.flush();
                 }

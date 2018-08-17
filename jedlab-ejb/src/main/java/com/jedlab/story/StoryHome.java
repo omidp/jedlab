@@ -1,6 +1,7 @@
 package com.jedlab.story;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,8 +36,10 @@ import org.jboss.seam.persistence.PersistenceContexts;
 import org.xml.sax.SAXException;
 
 import com.jedlab.Env;
+import com.jedlab.JedLab;
 import com.jedlab.action.Constants;
 import com.jedlab.framework.ErrorPageExceptionHandler;
+import com.jedlab.framework.RegexUtil;
 import com.jedlab.framework.StringUtil;
 import com.jedlab.framework.TxManager;
 import com.jedlab.framework.WebContext;
@@ -45,6 +48,7 @@ import com.jedlab.model.Member;
 import com.jedlab.model.Story;
 import com.jedlab.model.StoryBookmark;
 import com.jedlab.model.StoryBookmarkId;
+import com.jedlab.model.StoryInvoice;
 import com.jedlab.story.HtmlMarkdownProcessor.HtmlMarkdownHolder;
 import com.jedlab.tika.parser.HtmlContentParser;
 import com.jedlab.tika.parser.HtmlContentParser.ContentParser;
@@ -66,6 +70,15 @@ public class StoryHome extends EntityHome<Story>
     private Integer fileSize;
 
     private String uuid;
+
+    private StoryInvoice storyInvoice;
+
+    public StoryInvoice getStoryInvoice()
+    {
+        if (storyInvoice == null)
+            storyInvoice = new StoryInvoice();
+        return storyInvoice;
+    }
 
     public String getUuid()
     {
@@ -146,20 +159,43 @@ public class StoryHome extends EntityHome<Story>
         if (story != null)
         {
             setInstance(story);
-            HtmlMarkdownHolder holder = (HtmlMarkdownHolder) ServletLifecycle.getServletContext().getAttribute(
-                    HtmlMarkdownProcessor.MARKDOWN);
-            try
+            //
+            if (getInstance().isOwner() == false && getInstance().isFree() == false)
             {
-                Path path = Paths.get(story.getFilePath());
-                String content = new String(Files.readAllBytes(path));
-                this.markdownContent = content;
-                Node node = holder.getParser().parse(StringUtil.escapeJavascript(content));
-                this.htmlResult = holder.getRenderer().render(node);
+                storyInvoice = (StoryInvoice) hibernateSession.createCriteria(StoryInvoice.class, "si")
+                        .add(Restrictions.eq("member.id", JedLab.instance().getCurrentUserId()))
+                        .add(Restrictions.eq("story.id", getInstance().getId())).uniqueResult();
+                if (storyInvoice != null && storyInvoice.isPaid())
+                {
+                    storyMarkdown(story);
+                }
+                else
+                {
+                    this.markdownContent = story.getContent();
+                    this.htmlResult = story.getContent();
+                }
             }
-            catch (IOException e)
+            else
             {
-                getLog().info("IOEXCEPTION");
+                storyMarkdown(story);
             }
+        }
+    }
+
+    private void storyMarkdown(Story story)
+    {
+        HtmlMarkdownHolder holder = (HtmlMarkdownHolder) ServletLifecycle.getServletContext().getAttribute(HtmlMarkdownProcessor.MARKDOWN);
+        try
+        {
+            Path path = Paths.get(story.getFilePath());
+            String content = new String(Files.readAllBytes(path));
+            this.markdownContent = content;
+            Node node = holder.getParser().parse(StringUtil.escapeJavascript(content));
+            this.htmlResult = holder.getRenderer().render(node);
+        }
+        catch (IOException e)
+        {
+            getLog().info("IOEXCEPTION");
         }
     }
 
@@ -183,11 +219,13 @@ public class StoryHome extends EntityHome<Story>
     }
 
     @Transactional
-    public Long publishContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException,
-            SAXException, TikaException
+    public Long publishContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled, String price)
+            throws IOException, SAXException, TikaException
     {
         Story story = createStory(storyId, storyTitle);
         story.setCommentEnabled(commentEnabled);
+        if (StringUtil.isNotEmpty(price) && RegexUtil.ONLYDIGITS.matcher(price).matches())
+            story.setPrice(new BigDecimal(price));
         Long uid = (Long) Contexts.getSessionContext().get(Constants.CURRENT_USER_ID);
         saveContent(uid, mdcontent, story);
         if (story.isNew())
@@ -199,8 +237,8 @@ public class StoryHome extends EntityHome<Story>
     }
 
     @Transactional
-    public Long draftContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled) throws IOException, SAXException,
-            TikaException
+    public Long draftContent(String mdcontent, String storyId, String storyTitle, boolean commentEnabled)
+            throws IOException, SAXException, TikaException
     {
         Story story = createStory(storyId, storyTitle);
         story.setCommentEnabled(commentEnabled);
