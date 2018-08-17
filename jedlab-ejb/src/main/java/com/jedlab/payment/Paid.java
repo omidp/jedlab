@@ -218,7 +218,6 @@ public class Paid extends EntityController
         {
             String dlMsg = interpolate(StatusMessage.getBundleMessage("Paid_Link_Email_Content", ""), course.getName());
             content.append(dlMsg).append("<br />");
-            ;
         }
         String t = StatusMessage.getBundleMessage("Thank_You_Paid", "");
         content.append(t);

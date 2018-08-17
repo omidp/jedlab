@@ -152,7 +152,7 @@ public class StoryPaid extends EntityController
                    
                     this.errorMessage = StatusMessage.getBundleMessage("Payment_Successful", "");
                     StatusMessages.instance().addFromResourceBundle("Payment_Successful");
-                    Events.instance().raiseAsynchronousEvent("sendStoryPaymentEmail", this.story, invoice, invoice.getMember());
+                    Events.instance().raiseAsynchronousEvent("sendStoryPaymentEmail", invoice, invoice.getMember());
                     Map<String, Object> params = new HashMap<String, Object>();
                     params.put("uuid", this.uuid);
                     FacesManager.instance().redirect("/story/story.seam", params, false, false);
@@ -178,13 +178,13 @@ public class StoryPaid extends EntityController
     }
 
     @Observer("sendStoryPaymentEmail")
-    public void sendPaymentEmail(Story story, Invoice invoice, Member member)
+    public void sendStoryPaymentEmail(Invoice invoice, Member member)
     {
         getConversationContext().set("username", member.getUsername());
         StringBuilder content = new StringBuilder();
         String thankYou = interpolate(StatusMessage.getBundleMessage("Paid_Thank_You", ""), invoice.getResNo(), invoice.getPaymentAmount()
                 .doubleValue());
-       
+        content.append(thankYou).append("<br />");
         String t = StatusMessage.getBundleMessage("Thank_You_Paid", "");
         content.append(t);
         getConversationContext().set("content", content.toString());
