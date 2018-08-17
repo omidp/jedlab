@@ -151,8 +151,9 @@ div.mdBody a {
 					<h:outputText value="#{storyHome.htmlResult}" escape="false" />
 				</div>
 				
-				<s:div styleClass="ui label" rendered="#{!storyHome.instance.free and !sotyHome.storyInvoice.paid and !storyHome.instance.owner}">
-								<s:button value="#{messages['Pay_To_Read']}"
+				<ui:fragment rendered="#{!storyHome.storyInvoice.paid}">
+				<s:div styleClass="ui label" rendered="#{!storyHome.instance.free and !storyHome.instance.owner}">
+								<s:button value="#{messages['Pay_To_Read']}"									
 									propagation="none" type="button" includePageParams="false"
 									action="/storyPayment.xhtml"
 									onclick="common.showLoading();"									
@@ -161,6 +162,7 @@ div.mdBody a {
 								</s:button>
 								
 				</s:div>
+				</ui:fragment>
 
 			</div>
 
