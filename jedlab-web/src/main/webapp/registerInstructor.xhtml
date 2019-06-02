@@ -217,27 +217,12 @@
 									
 									<div class="field">
 	  									<s:decorate id="rField" template="/layout/edit.xhtml">
-	  										<input type="checkbox" id="agreement" dir="rtl" name="agreement" />
-	  										<label for="agreement">
+	  										<h:selectBooleanCheckbox value="#{instructorRegisterAction.agreement}" dir="rtl" id="agreement"/>	   										
+	  										<label for="instructorForm:rField:agreement">
 	  											
 	  										</label>
 	  										<s:link value="#{messages['Contract_Agreement']}" propagation="none" styleClass="w3-margin w3-text-khaki" style="position:absolute" includePageParams="false" view="/contract.xhtml" target="_blank"></s:link>
-	  										<script>
-												jQuery(document).ready(function(){
-													jQuery("#agreement").on("change", function(){
-														var chk = jQuery(this).attr('checked');														
-														if(chk == 'checked')
-															jQuery("#fakeBtn").removeAttr('disabled');
-														else
-															jQuery("#fakeBtn").attr('disabled', 'disabled');
-													});			
-													jQuery("#fakeBtn").click(function(){
-														var chk = jQuery("#agreement").attr('checked');														
-														if(chk == 'checked')
-															jQuery("#instructorForm\\:btnRegister").click();
-													});										
-												});
-	  										</script>
+	  										
 	  																					 
 											<ui:define name="label">
 											</ui:define>
@@ -247,10 +232,9 @@
 								</fieldset>
 								
 								
-								<button class="btn btn-blue pointer" id="fakeBtn" disabled="disabled">#{messages['Registeration_Label']}</button>
-								<h:commandButton id="btnRegister" style="display:none"
+								<h:commandButton id="btnRegister"
 									action="#{instructorRegisterAction.register()}" 									
-									styleClass="btn btn-blue"
+									styleClass="btn btn-blue pointer"
 									value="#{messages['Registeration_Label']}" />
 	
 	
@@ -317,7 +301,7 @@
 		</h:form>
 <script type="text/javascript">
 			jQuery(document).ready(function(){
-				Materialize.updateTextFields();
+			//Materialize.updateTextFields();
 			});
 			
 		</script>

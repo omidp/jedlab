@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jedlab="http://tasktops.com/ui"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	<c:set var="_ctx" value="#{request.contextPath}" />
+	<html>
+<head>
+<script type="text/javascript" src="#{_ctx}/js/jquery.js"> </script>
+<link href="#{_ctx}/css/semantic.rtl.min.css" rel="stylesheet" />
+<link href="#{_ctx}/ui.styles.css" rel="stylesheet" />
+<link href="#{_ctx}/css/icon.css" rel="stylesheet" />
+<link href="#{_ctx}/css/jedlab.css" rel="stylesheet" />
+
+
+</head>
+<body>
+
+	<div class="w3-sidebar w3-bar-block w3-card-2 w3-animate-left" style="display:none" id="leftMenu">
+  <button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close </button>
+  <a href="#" class="w3-bar-item w3-button">Link 1</a>
+  <a href="#" class="w3-bar-item w3-button">Link 2</a>
+  <a href="#" class="w3-bar-item w3-button">Link 3</a>
+</div>
+
+<div class="w3-sidebar w3-bar-block w3-card-2 w3-animate-right" style="display:none;right:0;" id="rightMenu">
+  <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close </button>
+  <a href="#" class="w3-bar-item w3-button">Link 1</a>
+  <a href="#" class="w3-bar-item w3-button">Link 2</a>
+  <a href="#" class="w3-bar-item w3-button">Link 3</a>
+</div>
+
+<div class="w3-teal">
+  <button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMenu()">dsfsd</button>
+  <button class="w3-button w3-teal w3-xlarge w3-right" onclick="openRightMenu()">as</button>
+  <div class="w3-container">
+    <h1>My Page</h1>
+  </div>
+</div>
+
+<div class="w3-container">
+<p>In this example, we demonstrate how to use two side navigations.</p>
+<p>We have created two "menu" buttons: one to open the side navigation from the left and one to open it from the right.</p>
+</div>
+     
+<script>
+function openLeftMenu() {
+    document.getElementById("leftMenu").style.display = "block";
+}
+function closeLeftMenu() {
+    document.getElementById("leftMenu").style.display = "none";
+}
+
+function openRightMenu() {
+    document.getElementById("rightMenu").style.display = "block";
+}
+function closeRightMenu() {
+    document.getElementById("rightMenu").style.display = "none";
+}
+</script>
+</body>
+	</html>
+
+</ui:composition>

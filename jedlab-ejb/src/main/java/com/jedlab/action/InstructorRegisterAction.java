@@ -34,6 +34,18 @@ public class InstructorRegisterAction extends EntityController
 
     private Integer fileSize;
 
+    private boolean agreement;
+
+    public boolean isAgreement()
+    {
+        return agreement;
+    }
+
+    public void setAgreement(boolean agreement)
+    {
+        this.agreement = agreement;
+    }
+
     public Integer getFileSize()
     {
         return fileSize;
@@ -62,13 +74,20 @@ public class InstructorRegisterAction extends EntityController
     @Transactional
     public String register()
     {
+        if(isAgreement() == false)
+        {
+            StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Accept_Agreement");
+            return null;
+        }
         if (getFileSize() != null)
             if (getFileSize() > 0 && getFileSize() < 107371)
                 getInstance().setImage(getUploadImage());
         try
         {
-            getEntityManager().createQuery("select m from Member m where lower(m.username) = lower(:uname) or lower(m.email) = lower(:email)")
-                    .setParameter("uname", getInstance().getUsername()).setParameter("email", getInstance().getEmail()).setMaxResults(1).getSingleResult();
+            getEntityManager()
+                    .createQuery("select m from Member m where lower(m.username) = lower(:uname) or lower(m.email) = lower(:email)")
+                    .setParameter("uname", getInstance().getUsername()).setParameter("email", getInstance().getEmail()).setMaxResults(1)
+                    .getSingleResult();
             StatusMessages.instance().addFromResourceBundle(Severity.ERROR, "Username_Or_Email_Exists");
             return null;
         }
@@ -97,23 +116,23 @@ public class InstructorRegisterAction extends EntityController
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpServletResponse res = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         Cookie c = CookieUtil.findCookieByName(req, "captchaRequired");
-        if(c != null)
+        if (c != null)
             CookieUtil.removeCookie(res, c);
         Identity ident = Identity.instance();
         ident.addRole(Constants.ROLE_INSTRUCTOR);
         ident.getCredentials().setUsername(getInstance().getUsername());
         ident.getCredentials().setPassword(CryptoUtil.encodeBase64(purePass));
-//        ident.getCredentials().setPassword(getInstance().getPassword());
+        // ident.getCredentials().setPassword(getInstance().getPassword());
         ident.login();
         return "persisted";
     }
-    
+
     public void removeCaptcha()
     {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpServletResponse res = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         Cookie c = CookieUtil.findCookieByName(req, "captchaRequired");
-        if(c != null)
+        if (c != null)
             CookieUtil.removeCookie(res, c);
     }
 

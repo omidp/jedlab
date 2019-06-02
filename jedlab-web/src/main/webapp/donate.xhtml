@@ -19,25 +19,35 @@
 			جدلب یک سایت آموزشیه که به هیچ سازمانی وابسته نیست و میخواد به شما کمک کنه تا برنامه نویسی یاد بگیرید . 
 			</p>
 			<p>
-			ما تازه شروع کردیم و قراره یه عالمه محتوای آموزشی شامل فیلم و بلاگ و پادکست تولید کنیم.
+			 قراره یه عالمه محتوای آموزشی شامل فیلم و بلاگ و پادکست تولید کنیم.
 			</p>
 			<p>
-			ممنون که علاقه مند به حمایت مالی هستید ، فقط کافیه روی یکی از دکمه های زیر کلیک کنید
+			جدلب در حال تعطیل شدنه و کمک مالی شما میتونه جلوی این موضوع رو بگیره.
 			</p>
 			<p>
-			درسته که حمایت مالی شما برای ما انگیزه ی بیشتر و دلگرمی ایجاد می کنه اما دلگرمی های دیگه ای هم وجود داره 
+			 تاکنون 
+			 <h:outputText value="#{donate.totalDonateAmount}" />
+			 واریز شده است
 			<br />
-			می تونید به دوستانتون در مورد این سایت بگید یا با یک ایمیل تشکر ما رو خوشحال کنید
+			
 			</p>
 			<s:fragment rendered="#{empty donate.paymentVO}">
-			<div class="row gutters auto">
-			    <div class="col">
-			    	<s:button action="#{donate.pay(10000)}" propagation="join" value="10000 #{messages['Toman']}" styleClass="btn btn-cta signup-btn btn-block"></s:button>
-			    </div>
-			    <div class="col"><s:button action="#{donate.pay(50000)}" propagation="join" value="50000 #{messages['Toman']}" styleClass="btn btn-cta signup-btn btn-block"></s:button></div>
-			    <div class="col"><s:button action="#{donate.pay(100000)}" propagation="join" value="100000 #{messages['Toman']}" styleClass="btn btn-cta signup-btn btn-block"></s:button></div>
-			    <div class="col"><s:button action="#{donate.pay(200000)}" propagation="join" value="200000 #{messages['Toman']}" styleClass="btn btn-cta signup-btn btn-block"></s:button></div>
-			</div>
+			<h:form>
+			<s:decorate template="/layout/simpleEdit.xhtml">
+				<ui:define name="label">شماره کارت</ui:define>
+				<h:inputText value="#{donate.instance.cardNo}" />
+				<ui:define name="desc">در صورتیکه کمپین به مبلغ مورد نظر نرسد و جدلب تعطیل شود پول به این شماره کارت برگشت داده خواهد شد.</ui:define>
+			</s:decorate>
+			
+			<s:decorate template="/layout/simpleEdit.xhtml">
+				<ui:define name="label">مبلغ (تومان)</ui:define>
+				<h:inputText value="#{donate.instance.amount}" required="true" converterId="javax.faces.Long"/>
+				<ui:define name="desc">حداقل پنجاه هزار تومان</ui:define>				
+			</s:decorate>
+			
+			<h:commandButton action="#{donate.pay()}"  value="ارسال" styleClass="btn w3-margin" />
+			
+			</h:form>
 			</s:fragment>
 			<s:fragment rendered="#{not empty donate.paymentVO}">
 			<h1>در حال پردازش و ارسال به صفحه بانک ، لطفا منتظر شوید</h1>

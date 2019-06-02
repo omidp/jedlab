@@ -95,9 +95,9 @@
 	</event>
 	
 	
-	<!--  <mail:mail-session host="mailtrap.io" port="2525" username="5c2004fb6d747b" password="c2cfab3fb3d9c0"  /> -->
-	 <mail:mail-session host="smtp.mailgun.org" port="2525" username="postmaster@jedlab.ir" password="3a6743d8bf86926761e103d86858bdbe"  />  
-	
+	 <!--  <mail:mail-session host="smtp.mailtrap.io" port="2525" username="5c2004fb6d747b" password="c2cfab3fb3d9c0"  /> --> 
+	 <!-- <mail:mail-session host="smtp.mailgun.org" port="2525" username="postmaster@jedlab.ir" password="3a6743d8bf86926761e103d86858bdbe"  /> -->  
+	 <mail:mail-session host="smtp.elasticemail.com" port="2525" username="vata2999@yahoo.com" password="74f3a2eb-f500-4d17-b65c-794858404120" tls="false" ssl="2525" />
 	
 	<bpm:jbpm>
 		<bpm:process-definitions>			
