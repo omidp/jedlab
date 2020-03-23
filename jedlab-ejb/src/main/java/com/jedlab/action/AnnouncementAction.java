@@ -63,8 +63,7 @@ public class AnnouncementAction extends HibernateEntityController
         {
             for (Member m : members)
             {
-                if("rasool.malekinejad@gmail.com".equals(m.getEmail()) == false)
-                    Events.instance().raiseAsynchronousEvent(Constants.SEND_MAIL_ANNOUNCEMENT, getSubject(), m, getContent());
+                Events.instance().raiseAsynchronousEvent(Constants.SEND_MAIL_ANNOUNCEMENT, getSubject(), m, getContent());
             }
         }
 
