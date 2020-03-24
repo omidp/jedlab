@@ -36,6 +36,8 @@ public class DashboardAction extends EntityController
             if (CollectionUtil.isNotEmpty(qResult))
             {
                 BigDecimal bd = (BigDecimal) qResult.iterator().next().get("calculated_skill");
+                if(bd.doubleValue() > 100)
+                    bd = new BigDecimal(100);
                 DecimalFormat df = new DecimalFormat("###.##");
                 skillPercent = df.format(bd.doubleValue());
             }
