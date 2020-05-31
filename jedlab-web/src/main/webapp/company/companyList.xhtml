@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:omidp="http://omidbiz.com/omidp"
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+
+		<link href="#{_ctx}/css/w3-theme-blue-grey.css" rel="stylesheet" />
+		<style type="text/css">
+.ui.cards {
+	margin: 0 !important
+}
+</style>
+
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div style="margin-top: 20px; margin-right: 10px"
+			>
+
+
+
+			<div class="w3-container w3-content">
+			
+				<c:forEach items="#{companyQuery.resultList}" var="_item" begin="0"
+					end="#{companyQuery.resultList.size()}" step="1" varStatus="_status">
+					
+					
+					<div class="w3-half w3-container "
+					style="margin-top: 20px; float: right">
+
+					<div class="w3-card4 w3-border">
+
+						<div class="w3-container w3-light-grey">
+
+
+							<s:graphicImage styleClass="w3-right w3-circle " style="margin-left:3px;margin-top:10px"
+								height="40" width="40" value="#{_item.logoData}"
+								rendered="#{_item.logoImageExists}"></s:graphicImage>
+
+							<s:graphicImage styleClass="w3-right w3-circle" style="margin-left:3px;margin-top:10px"
+								height="40" width="40" value="/images/default-avatar.jpg"
+								rendered="#{!_item.logoImageExists}"></s:graphicImage>
+
+							<div class="w3-right">
+
+								<h3>
+									<h:outputText value="#{_item.name}" />
+								</h3>
+								<p>
+									<span> 
+									</span> #{_item.founded}
+
+								</p>
+								<br />
+								 
+							</div>
+
+						</div>
+  
+						<div class="w3-container w3-margin content-height">
+							 
+						        
+						   
+							
+							
+							<p><h:outputText value="#{_item.description}" />#{' '}
+								<s:link propagation="none" includePageParams="false"
+										view="/company/company.xhtml" styleClass="ui basic blue label w3-margin clickableLink"
+										alt="#{_item.name}"
+										>
+										<h:outputText value="#{messages['Story_Read_More']}" /> #{' '} <h:outputText value=" ..." />
+										<f:param name="slug" value="#{_item.companySlug}"></f:param>
+								</s:link>	
+								#{' '}
+								
+							</p>
+							
+						</div>
+						
+						<div class="w3-container">
+							<hr />
+							<div class="ui label w3-margin-bottom">
+										  <i class="icon-eye"></i>
+										  <div class="detail">
+										  	<h:outputText value="#{_item.viewCountFormatted}" />
+										  </div>
+							</div>
+						</div>
+
+
+
+					</div>
+
+
+				</div>
+					
+				</c:forEach>	
+			
+
+
+				
+
+
+			</div>
+
+
+		</div>
+
+		<script>
+			
+		</script>
+		
+		
+		
+	</ui:define>
+</ui:composition>

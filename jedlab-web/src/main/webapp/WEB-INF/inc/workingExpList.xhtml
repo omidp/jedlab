@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core">
+	
+	
+	<div style="min-height: 250px;">
+		
+		<s:fragment rendered="#{empty workingExpQuery.resultList}">
+			<div class="locale-direction w3-padding intro-doc">
+				<h:outputText value="تجربه کاری برای این شرکت ثبت نشده" />
+			</div>
+		</s:fragment>
+		
+		<s:button view="/member/company/workingExpEdit.xhtml" value="ثبت تجربه" includePageParams="false" propagation="none">
+			<f:param name="s" value="#{companyHome.instance.companySlug}"></f:param>
+		</s:button>
+		
+		<c:forEach items="#{workingExpQuery.resultList}" var="_item" begin="0"
+					end="#{workingExpQuery.resultList.size()}" step="1" varStatus="_status">
+			
+			<div class="w3-card">
+				<div class="w3-container"></div>				
+				<div class="w3-container">
+					<h:outputText value="#{_item.description}" />
+				</div>
+				<div class="w3-container"></div>
+			</div>		
+					
+		</c:forEach>			
+
+		
+	</div>
+
+</ui:composition>

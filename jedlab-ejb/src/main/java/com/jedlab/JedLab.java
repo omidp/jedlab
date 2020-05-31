@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.framework.HibernateEntityController;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.security.Identity;
 import org.omidbiz.core.axon.Axon;
 import org.omidbiz.core.axon.filters.RecursionControlFilter;
 import org.omidbiz.core.axon.hibernate.AxonBuilder;
@@ -111,7 +112,9 @@ public class JedLab extends HibernateEntityController
     
     public Long getCurrentUserId()
     {
-        return (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
+        Long currentId = (Long) getSessionContext().get(Constants.CURRENT_USER_ID);
+//        currentId = Identity.instance().get
+        return currentId;
     }
     
     public String getCurrentUsername()

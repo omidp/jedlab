@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	login-required="false"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+	
+	
+	
+	<description>
+		ثبت تجربه کاری
+	</description>
+	
+	<begin-conversation join="true" flush-mode="manual"/>
+	
+	<param name="s" value="#{workingExpHome.companySlug}"/>
+	
+	<param name="id" value="#{workingExpHome.workExpId}" required="false"/>
+	
+	<action execute="#{workingExpHome.load()}"/>
+	
+	<navigation from-action="#{workingExpHome.update()}">
+		<rule if-outcome="updated">
+			<end-conversation/>
+			<redirect view-id="/gistList.xhtml"></redirect>
+		</rule>
+	</navigation>
+	
+	<navigation from-action="#{workingExpHome.persist()}">
+		<rule if-outcome="persisted">
+			<end-conversation/>
+			<redirect view-id="/gistList.xhtml"></redirect>
+		</rule>
+	</navigation>
+	
+	<navigation from-action="#{workingExpHome.remove()}">
+		<rule if-outcome="removed">
+			<end-conversation/>
+			<redirect view-id="/gistList.xhtml"></redirect>
+		</rule>
+	</navigation>
+
+</page>

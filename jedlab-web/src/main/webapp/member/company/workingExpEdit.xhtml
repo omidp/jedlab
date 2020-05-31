@@ -1,0 +1,173 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		
+	</ui:define>
+
+	<ui:define name="body">
+		
+	
+		<div style="margin: 50px; height: 100%;" class="locale-direction">
+		
+			<h:outputText value="#{workingExpHome.company.name}" />
+			
+		
+		
+			<h:form styleClass="form" id="formCode">
+
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">ایا 
+					<b><h:outputText value="#{workingExpHome.company.name}" /></b>
+					را به دوستان خود پیشنهاد میدهید ؟
+					</ui:define>
+					<h:selectOneMenu value="">
+
+					</h:selectOneMenu>
+				</s:decorate>
+				امتیاز
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					تعادل کار و زندگی
+					</ui:define>
+					<h:selectOneMenu value="">
+
+					</h:selectOneMenu>
+				</s:decorate>
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					حقوق و مزایا
+					</ui:define>
+					<h:selectOneMenu value="">
+
+					</h:selectOneMenu>
+				</s:decorate>
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					امنیت شغلی
+					</ui:define>
+					<h:selectOneMenu value="">
+
+					</h:selectOneMenu>
+				</s:decorate>
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					مدیریت
+					</ui:define>
+					<h:selectOneMenu value="">
+
+					</h:selectOneMenu>
+				</s:decorate>
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					فرهنگ
+					</ui:define>
+					<h:selectOneMenu value="">
+
+					</h:selectOneMenu>
+				</s:decorate>
+				
+				تجربه شما در مورد این شرکت
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					عنوان
+					</ui:define>
+					
+				</s:decorate>
+				
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					تجربه کاری
+					</ui:define>
+					
+				</s:decorate>
+				
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					نکات مثبت
+					</ui:define>
+					
+				</s:decorate>
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					نکات منفی
+					</ui:define>
+					
+				</s:decorate>
+				
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					شغل شما نمایش داده شود
+					</ui:define>
+					
+				</s:decorate>
+				
+				
+				حقوق
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					درآمد شما چقدر بوده
+					</ui:define>
+					
+				</s:decorate>
+				
+				
+				بازه زمانی همکاری
+				
+				<s:decorate template="/layout/simpleEdit.xhtml">
+					<ui:define name="label">
+					تاریخ شروع
+					</ui:define>
+					
+				</s:decorate>
+				
+
+ 
+				قوانین را مطالعه کرده و می پذیرم
+
+
+				<div class="form-item">
+
+					<h:commandButton value="#{messages['Save']}" id="btnSave"
+						styleClass="btn btn-blue w3-margin" action="#{workingExpHome.persist()}"
+						rendered="#{!workingExpHome.managed}">
+						
+					</h:commandButton>	
+
+					<h:commandButton value="#{messages['Update']}"
+						styleClass="btn btn-yellow w3-margin" action="#{workingExpHome.update()}"
+						rendered="#{workingExpHome.managed}" />
+						
+						
+					<h:commandButton value="#{messages['Remove']}"
+						styleClass="btn btn-red w3-margin" action="#{workingExpHome.remove()}"
+						rendered="#{workingExpHome.managed}" />	
+						
+				  <s:button propagation="none" includePageParams="false"
+					styleClass="btn btn-red btn-outline w3-margin"
+					view="/gistList.xhtml" value="#{messages['Back']}"></s:button>
+
+				</div>
+
+			</h:form>
+
+		</div>
+		
+		
+
+	</ui:define>
+</ui:composition>

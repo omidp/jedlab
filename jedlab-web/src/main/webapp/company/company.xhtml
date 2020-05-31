@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:jedlab="http://tasktops.com/ui"
+	xmlns:c="http://java.sun.com/jstl/core" template="/layout/layout.xhtml">
+
+	<ui:define name="head">
+		<style>
+		   .intro-doc{
+		   padding: 10px 0 20px;
+    font-size: 14px;
+    line-height: 30px;
+    text-align: justify;
+		   }
+		</style>
+
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="ui divided items locale-direction">
+				<div class="item">
+					<div class="image">
+						<s:graphicImage value="#{companyHome.instance.logoData}"
+							style="height:150px;" rendered="#{companyHome.instance.logoImageExists}">
+							<s:transformImageSize maintainRatio="true" height="150"></s:transformImageSize>
+						</s:graphicImage>
+
+						<s:graphicImage value="/images/no_video_photo.png"
+							style="height:150px;"
+							rendered="#{companyHome.instance.logoImageExists == false}">
+							<s:transformImageSize maintainRatio="true" height="150"></s:transformImageSize>
+						</s:graphicImage>
+					</div>
+					<div class="content">
+						<a class="header">#{companyHome.instance.name}</a>
+						<div class="meta">
+							<span class="cinema"> 
+							</span>
+						</div>
+						<div class="description">
+							<p>
+								#{messages['Founded_Date']} :
+								<h:outputText value="#{companyHome.instance.founded}"
+									 />
+								<br /> 
+									
+								
+							</p>
+						</div>
+						<div class="extra">
+							
+							
+							
+							
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<div style="padding: 5px; margin: 5px;margin-bottom: 65px;">
+
+		<jedlab:tabs scrollWidth="100%" keepState="true">
+
+			<jedlab:tabPanel title="تجربه های کاری">
+				<ui:include src="/WEB-INF/inc/workingExpList.xhtml" />
+			</jedlab:tabPanel>
+			
+			
+			<jedlab:tabPanel title="#{messages['Introduction']}" 				
+				join="false" includePageParams="false"				
+				>
+				<div class="locale-direction w3-padding intro-doc">
+					<h:outputText value="#{companyHome.instance.fullDescription}" />
+				</div>
+			</jedlab:tabPanel>
+			
+			
+
+			
+
+		</jedlab:tabs>
+		
+	
+
+	</div>
+
+
+	</ui:define>
+</ui:composition>
